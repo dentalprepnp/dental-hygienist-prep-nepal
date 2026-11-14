@@ -50,7 +50,7 @@
   const $ = s => root.querySelector(s);
   function panel(name){root.querySelectorAll(".op-panel").forEach(p=>p.classList.add("hidden"));$("#op"+name[0].toUpperCase()+name.slice(1)).classList.remove("hidden");}
   root.querySelectorAll("[data-op]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.op);if(b.dataset.op==="practice")renderPractice()}));
-  function bilingual(q){const mode=$("#opLanguage").value;return `<h3>${q[0]}</h3>${mode==="en"?"":`<p class="translation">${q[1]}</p>`}`;}
+  function bilingual(q){const mode=$("#opLanguage").value;return `${mode==="ne"?"":`<h3>${q[0]}</h3>`}${mode==="en"?"":`<p class="translation">${q[1]}</p>`}`;}
   function renderPractice(){
     const q=questions[practiceIndex], chosen=answers[practiceIndex];
     $("#opCount").textContent=`${practiceIndex+1} / ${questions.length}`;
