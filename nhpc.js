@@ -87,7 +87,7 @@
  function finishNhpcMock(auto){
   if(mockDone)return;mockDone=true;clearInterval(mockClock);mockClock=null;
   const score=mockSet.reduce((sum,item,i)=>sum+(mockPicked[i]===item.q[3]?1:0),0);
-  window.DHPNProgress?.recordMock?.("NHPC – Dental Hygienist",score,50);
+  window.DHPNProgress?.recordMock?.("NHPC – Dental Hygienist",score,50);renderNhpcProgress();
   mockRoot.innerHTML=`<div class="result"><p>NHPC FULL MOCK COMPLETED</p><strong>${score}/50</strong><b>${score*2}%</b><p>${auto?"समय सकिएपछि परीक्षा स्वतः बुझाइयो।":"तपाईंको परीक्षा बुझाइयो।"} ${50-Object.keys(mockPicked).length} प्रश्न अनुत्तरित थिए।</p><p>${score>=40?"धेरै राम्रो प्रयास!":score>=25?"राम्रो प्रयास। कमजोर विषयहरू पुनः अध्ययन गर्नुहोस्।":"नोट्स पढेर फेरि अभ्यास गर्नुहोस्।"}</p><button class="primary" id="nhpcShowReview">उत्तर समीक्षा गर्नुहोस्</button> <button class="secondary" id="nhpcRetake">फेरि परीक्षा दिनुहोस्</button></div><div id="nhpcFullReview"></div>`;
   mockRoot.querySelector("#nhpcShowReview").addEventListener("click",()=>{mockRoot.querySelector("#nhpcFullReview").innerHTML=mockSet.map((item,i)=>{const q=item.q,ans=mockPicked[i];return `<article class="note"><p class="eyebrow">${i+1}. ${item.topic}</p><h3>${q[0]}</h3><p class="translation">${q[1]}</p><p>तपाईंको उत्तर: <b>${ans===undefined?"उत्तर नदिएको":q[2][ans]}</b></p><p>सही उत्तर: <b>${q[2][q[3]]}</b></p><p>${q[4]}</p><p class="np">${q[5]}</p><span class="pill">${ans===q[3]?"सही":"गलत / अनुत्तरित"}</span></article>`}).join("")});
   mockRoot.querySelector("#nhpcRetake").addEventListener("click",beginNhpcMock);
