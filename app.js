@@ -66,7 +66,30 @@ window.DHPNProgress.recordMCQ=function(moduleName,q,selected){
  rows.push({module:moduleName,question:q[0],nepali:q[1],selected:q[2][selected],correctAnswer:q[2][q[3]],explanation:q[4],explanationNp:q[5],isCorrect:correct,date:new Date().toISOString()});
  localStorage.setItem(MCQ_HISTORY_KEY,JSON.stringify(rows.slice(-500)));
  renderMCQDashboard();
+ renderDailyStudyGoal();
 };
+const STUDY_GOAL_KEY="dhpn-study-goal";
+function readDailyGoal(){const n=Number(localStorage.getItem(STUDY_GOAL_KEY));return Number.isFinite(n)&&n>=1?Math.min(500,Math.floor(n)):20}
+function localDateKey(value){const d=new Date(value);if(Number.isNaN(d.getTime()))return "";return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function renderDailyStudyGoal(){
+ const rows=readMCQHistory(),today=localDateKey(new Date()),dates=new Set(rows.map(r=>localDateKey(r.date)).filter(Boolean));
+ const todayCount=rows.filter(r=>localDateKey(r.date)===today).length,goal=readDailyGoal();
+ let streak=0,check=new Date();check.setHours(0,0,0,0);
+ if(!dates.has(today))check.setDate(check.getDate()-1);
+ while(dates.has(localDateKey(check))){streak++;check.setDate(check.getDate()-1)}
+ const input=$("#dailyGoalInput"),count=$("#todayMCQCount"),status=$("#dailyGoalStatus"),streakEl=$("#studyStreak"),bar=$("#dailyGoalBar"),message=$("#dailyGoalMessage");
+ if(input)input.value=goal;
+ if(count)count.textContent=todayCount;
+ if(status)status.textContent=todayCount+" / "+goal;
+ if(streakEl)streakEl.textContent=streak+" दिन";
+ if(bar)bar.style.width=Math.min(100,Math.round(todayCount/goal*100))+"%";
+ if(message)message.textContent=todayCount>=goal?"🎉 आजको लक्ष्य पूरा भयो! अभ्यास जारी राख्नुहोस्।":(streak?("राम्रो! तपाईंको अध्ययन streak "+streak+" दिन छ। आज अझै "+(goal-todayCount)+" MCQ अभ्यास गर्नुहोस्।"):("आजको लक्ष्य पूरा गर्न अझै "+(goal-todayCount)+" MCQ अभ्यास गर्नुहोस्।"));
+}
+const saveGoalButton=$("#saveDailyGoal");
+if(saveGoalButton)saveGoalButton.addEventListener("click",()=>{
+ const input=$("#dailyGoalInput"),value=Math.max(1,Math.min(500,Math.floor(Number(input.value)||20)));
+ localStorage.setItem(STUDY_GOAL_KEY,String(value));renderDailyStudyGoal();
+});
 function renderMCQDashboard(){
  const rows=readMCQHistory(),wrong=rows.filter(r=>!r.isCorrect);
  $("#mcqAttemptCount").textContent=rows.length;
@@ -145,7 +168,7 @@ function finishMock(){
   $("#againMock").addEventListener("click",()=>{ $("#mockIntro").classList.remove("hidden");$("#mockArea").innerHTML="";});
   $("#mockIntro").classList.remove("hidden");
 }
-updateStats();renderDashboard();renderExamTrackProgress();renderStudentProfile();renderMCQDashboard();renderNotes();
+updateStats();renderDashboard();renderExamTrackProgress();renderStudentProfile();renderMCQDashboard();renderDailyStudyGoal();renderNotes();
 if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").classList.remove("hidden")});
 $("#installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$("#installBtn").classList.add("hidden")});
