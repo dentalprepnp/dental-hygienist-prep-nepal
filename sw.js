@@ -1,5 +1,5 @@
-const CACHE="dhpn-v8";
-const ASSETS=["./","./index.html","./styles.css","./app.js","./manifest.webmanifest","./icon.svg","./oral-pathology.js","./dental-materials.js","./oral-anatomy.js","./dental-public-health.js","./dental-radiology.js","./dental-pharmacy.js","./dental-ethics.js"];
+const CACHE="dhpn-v9";
+const ASSETS=["./","./index.html","./styles.css","./app.js","./manifest.webmanifest","./icon.svg","./oral-pathology.js","./dental-materials.js","./oral-anatomy.js","./dental-public-health.js","./dental-radiology.js","./dental-pharmacy.js","./dental-ethics.js","./food-nutrition.js"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
 self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;e.respondWith(caches.match(e.request).then(cached=>cached||fetch(e.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return response}).catch(()=>caches.match("./index.html"))))});
