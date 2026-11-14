@@ -27,6 +27,7 @@
  let mockSet=[],mockAt=0,mockPicked={},mockClock=null,mockSeconds=3600,mockDone=false;
  const shuffleItems=a=>[...a].sort(()=>Math.random()-.5);
  function openNhpcMock(){
+  clearInterval(mockClock);mockClock=null;
   mockRoot.classList.remove("hidden");
   document.getElementById("nhpcCloseMock")?.classList.remove("hidden");
   document.getElementById("nhpcMcqArea")?.classList.add("hidden");
