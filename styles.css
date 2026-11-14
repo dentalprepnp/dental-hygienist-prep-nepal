@@ -367,3 +367,8 @@ footer a:hover{text-decoration:underline}
 .dha-detail-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .dha-topic-detail .np{line-height:1.7}
 [data-theme="dark"] .dha-topic-card.active{background:#183448}
+
+/* Topic-wise DHA MCQ filters */
+.dha-mcq-filters{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 16px}
+.dha-mcq-filters .smallbtn{font-size:11px;white-space:normal;max-width:100%}
+.dha-mcq-filters .smallbtn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
