@@ -103,6 +103,7 @@ function renderWeaknessAnalysis(){
  }).join("");
 }
 function renderMCQDashboard(){
+ renderWeaknessAnalysis();
  const rows=readMCQHistory(),wrong=rows.filter(r=>!r.isCorrect);
  $("#mcqAttemptCount").textContent=rows.length;
  $("#mcqCorrectRate").textContent=(rows.length?Math.round(rows.filter(r=>r.isCorrect).length/rows.length*100):0)+"%";
