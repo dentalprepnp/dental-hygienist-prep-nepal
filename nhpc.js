@@ -19,6 +19,6 @@
   root.querySelector("#nhpcFilters").addEventListener("click",e=>{const b=e.target.closest("[data-topic]");if(!b)return;topic=b.dataset.topic;index=0;root.querySelectorAll("[data-topic]").forEach(x=>x.classList.toggle("active",x===b));render()});
   render();
  }
- document.getElementById("nhpcStartMcq")?.addEventListener("click",()=>{root.classList.remove("hidden");show();root.scrollIntoView({behavior:"smooth",block:"start"})});
- document.getElementById("nhpcCloseMcq")?.addEventListener("click",()=>{root.classList.add("hidden")});
+ document.getElementById("nhpcStartMcq")?.addEventListener("click",()=>{root.classList.remove("hidden");document.getElementById("nhpcCloseMcq")?.classList.remove("hidden");show();root.scrollIntoView({behavior:"smooth",block:"start"})});
+ document.getElementById("nhpcCloseMcq")?.addEventListener("click",()=>{root.classList.add("hidden");document.getElementById("nhpcCloseMcq")?.classList.add("hidden")});
 })();
