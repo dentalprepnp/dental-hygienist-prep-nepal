@@ -202,3 +202,78 @@ footer{max-width:980px;margin:auto}
   .track-card .track-icon{width:34px;height:34px}
   .topbar strong{font-size:13px}
 }
+
+
+/* Clearer color accents and stronger text contrast */
+:root{
+  --muted:#526879;
+  --blue:#086b9b;
+  --green:#087b58;
+  --accent-violet:#6854b8;
+  --accent-amber:#a86408;
+}
+.eyebrow{color:#086b9b}
+.pill,.subject-number{background:#e2f3fc;color:#07577f;border:1px solid #c5e5f5}
+.primary,.smallbtn,.install{background:linear-gradient(135deg,#075985,#087eae);box-shadow:0 4px 11px #07598522}
+.secondary{background:#e2f3fc;color:#07577f;border:1px solid #c5e5f5}
+.tab.active{background:linear-gradient(135deg,#0c3554,#087eae);box-shadow:0 3px 9px #07598522}
+.stats div:nth-child(1){border-top:3px solid #1686bd}
+.stats div:nth-child(2){border-top:3px solid #15966c}
+.stats div:nth-child(3){border-top:3px solid #8067c7}
+.stats strong{color:#075985}
+.feature-card:nth-child(1) .feature-icon{background:#e4f3fc;color:#075985}
+.feature-card:nth-child(2) .feature-icon{background:#e5f7ef;color:#08734f}
+.feature-card:nth-child(3) .feature-icon{background:#f0ebff;color:#6049a8}
+.subject-card:nth-child(3n+1) .subject-number{background:#e4f3fc;color:#075985}
+.subject-card:nth-child(3n+2) .subject-number{background:#e5f7ef;color:#08734f}
+.subject-card:nth-child(3n) .subject-number{background:#f0ebff;color:#6049a8}
+.subject-card:hover{background:#f6fbff;border-color:#80bfdf}
+.note{border-left:4px solid #1686bd}
+.note:nth-child(3n+2){border-left-color:#15966c}
+.note:nth-child(3n){border-left-color:#8067c7}
+.note h3{color:#075985}
+.question{border-top:3px solid #1686bd}
+.question h3{color:#153b55}
+.option:hover:not(:disabled){border-color:#1686bd;background:#f0f9fe}
+.option.correct{border-color:#36a77d;background:#e5f7ef;color:#075b43;font-weight:600}
+.option.wrong{border-color:#d8756e;background:#fff0ef;color:#842a25}
+.result{border-top:4px solid #1686bd}
+.result strong{color:#0877a8}
+.goal-track span{background:linear-gradient(90deg,#0b8a69,#42b883)}
+.exam-progress-card:nth-child(1){border-top:3px solid #1686bd}
+.exam-progress-card:nth-child(2){border-top:3px solid #15966c}
+.exam-progress-card:nth-child(3){border-top:3px solid #8067c7}
+.track-nhpc{background:linear-gradient(145deg,#eaf5ff,#fff);border-color:#c4dff1}
+.track-dha{background:linear-gradient(145deg,#e8f8f0,#fff);border-color:#c3e5d2}
+.track-loksewa{background:linear-gradient(145deg,#fff3df,#fff);border-color:#ecd5ad}
+.track-nhpc .track-action{color:#075985}
+.track-dha .track-action{color:#08734f}
+.track-loksewa .track-action{color:#9a5a08}
+.dha-facts>div:nth-child(1){border-top:3px solid #1686bd}
+.dha-facts>div:nth-child(2){border-top:3px solid #15966c}
+.dha-facts>div:nth-child(3){border-top:3px solid #8067c7}
+.dha-facts>div:nth-child(4){border-top:3px solid #d18a24}
+.profile-greeting{background:#e5f7ef;border-radius:9px;padding:8px 10px;display:inline-block}
+.notice{color:#17435b}
+.notice strong{color:#075985}
+footer a{color:#086b9b;font-weight:600;text-decoration:none}
+footer a:hover{text-decoration:underline}
+:root[data-theme="dark"]{
+  --muted:#bfd0dd;
+  --blue:#67c5f5;
+}
+:root[data-theme="dark"] .subject-card:hover{background:#1b3446;border-color:#4b8caf}
+:root[data-theme="dark"] .note{border-left-color:#55b8f2}
+:root[data-theme="dark"] .note:nth-child(3n+2){border-left-color:#42c49a}
+:root[data-theme="dark"] .note:nth-child(3n){border-left-color:#a695f0}
+:root[data-theme="dark"] .note h3,:root[data-theme="dark"] .question h3{color:#8bd5ff}
+:root[data-theme="dark"] .pill,:root[data-theme="dark"] .subject-number{background:#1b4058;color:#a8e0ff;border-color:#315c76}
+:root[data-theme="dark"] .secondary{background:#1b4058;color:#c3eaff;border-color:#315c76}
+:root[data-theme="dark"] .profile-greeting{background:#174537;color:#b8f2dc}
+:root[data-theme="dark"] .notice{background:#17364a;color:#e0f1fb}
+:root[data-theme="dark"] .notice strong{color:#8bd5ff}
+:root[data-theme="dark"] .track-nhpc{background:linear-gradient(145deg,#18354b,#152635);border-color:#315c76}
+:root[data-theme="dark"] .track-dha{background:linear-gradient(145deg,#183b32,#152635);border-color:#315d50}
+:root[data-theme="dark"] .track-loksewa{background:linear-gradient(145deg,#40321f,#152635);border-color:#66502e}
+:root[data-theme="dark"] .option:hover:not(:disabled){background:#1b4058;border-color:#55b8f2}
+:root[data-theme="dark"] footer a{color:#8bd5ff}
