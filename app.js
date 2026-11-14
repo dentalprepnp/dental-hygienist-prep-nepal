@@ -34,6 +34,24 @@ function renderDashboard(){
 const progressModuleNames={mockView:"Basic Periodontology",oralPathView:"Oral Pathology and Microbiology",dentalMaterialsView:"Dental Materials, Instruments and Assisting",oralAnatomyView:"Oral Anatomy and Physiology",dentalPublicHealthView:"Dental Public Health and Community Dentistry",dentalRadiologyView:"Dental Radiography and Photography",dentalPharmacyView:"Dental Pharmacy",dentalEthicsView:"Dental Ethics and Practice Management",foodNutritionView:"Food and Nutrition",epidemiologyView:"Epidemiology and Community Diagnosis"};
 const progressObserver=new MutationObserver(records=>{records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType!==1)return;const results=[];if(node.matches&&node.matches(".result"))results.push(node);if(node.querySelectorAll)results.push(...node.querySelectorAll(".result"));results.forEach(result=>{if(result.dataset.progressSaved)return;const view=result.closest(".view"),name=view&&progressModuleNames[view.id];const match=(result.querySelector("strong")?.textContent||"").match(/(\d+)\s*\/\s*10/);if(name&&match){result.dataset.progressSaved="true";window.DHPNProgress.recordMock(name,Number(match[1]),10)}})}) )});
 progressObserver.observe(document.body,{childList:true,subtree:true});
+const MCQ_HISTORY_KEY="dhpn-mcq-history";
+function readMCQHistory(){try{return JSON.parse(localStorage.getItem(MCQ_HISTORY_KEY)||"[]")}catch(e){return []}}
+window.DHPNProgress=window.DHPNProgress||{};
+window.DHPNProgress.recordMCQ=function(moduleName,q,selected){
+ const rows=readMCQHistory(),correct=selected===q[3];
+ rows.push({module:moduleName,question:q[0],nepali:q[1],selected:q[2][selected],correctAnswer:q[2][q[3]],explanation:q[4],explanationNp:q[5],isCorrect:correct,date:new Date().toISOString()});
+ localStorage.setItem(MCQ_HISTORY_KEY,JSON.stringify(rows.slice(-500)));
+ renderMCQDashboard();
+};
+function renderMCQDashboard(){
+ const rows=readMCQHistory(),wrong=rows.filter(r=>!r.isCorrect);
+ $("#mcqAttemptCount").textContent=rows.length;
+ $("#mcqCorrectRate").textContent=(rows.length?Math.round(rows.filter(r=>r.isCorrect).length/rows.length*100):0)+"%";
+ $("#wrongQuestionCount").textContent=wrong.length;
+ const box=$("#wrongQuestionList");
+ if(!wrong.length){box.innerHTML='<p class="muted">अहिलेसम्म गलत उत्तर छैन। MCQ अभ्यास गरेपछि यहाँ गलत प्रश्नहरू देखिन्छन्।</p>';return}
+ box.innerHTML=wrong.slice(-12).reverse().map(r=>'<article class="wrong-item"><b>'+r.module+'</b><p>'+r.question+'</p><small>तपाईंको उत्तर: '+r.selected+' | सही उत्तर: '+r.correctAnswer+'</small><p class="wrong-explain">'+r.explanation+' '+r.explanationNp+'</p></article>').join("");
+}
 function showTab(tab){
   $$(".view").forEach(v=>v.classList.add("hidden"));
   $("#"+tab+"View").classList.remove("hidden");
@@ -71,7 +89,7 @@ function renderPractice(){
 }
 function answerPractice(choice){
   if(practiceAnswered[practiceIndex]!==undefined)return;
-  practiceAnswered[practiceIndex]=choice;saved.attempted++;if(choice===QUESTIONS[practiceIndex][3])saved.correct++;persist();renderPractice();
+  practiceAnswered[practiceIndex]=choice;saved.attempted++;if(choice===QUESTIONS[practiceIndex][3])saved.correct++;window.DHPNProgress.recordMCQ("Basic Periodontology",QUESTIONS[practiceIndex],choice);persist();renderPractice();
 }
 $("#languageMode").addEventListener("change",renderPractice);
 function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
@@ -96,7 +114,7 @@ function finishMock(){
   $("#againMock").addEventListener("click",()=>{ $("#mockIntro").classList.remove("hidden");$("#mockArea").innerHTML="";});
   $("#mockIntro").classList.remove("hidden");
 }
-updateStats();renderDashboard();renderNotes();
+updateStats();renderDashboard();renderMCQDashboard();renderNotes();
 if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").classList.remove("hidden")});
 $("#installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$("#installBtn").classList.add("hidden")});
