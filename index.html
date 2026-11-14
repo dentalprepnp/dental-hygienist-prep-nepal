@@ -38,6 +38,22 @@
     </div>
   </section>
 
+  <section class="profile-card" aria-label="Student profile">
+    <div class="section-head"><div><p class="eyebrow">STUDENT PROFILE</p><h2>विद्यार्थी प्रोफाइल</h2></div><span class="pill">Personal Learning</span></div>
+    <form id="studentProfileForm" class="profile-form">
+      <label for="studentName">तपाईंको नाम</label>
+      <input id="studentName" name="studentName" type="text" maxlength="50" placeholder="आफ्नो नाम लेख्नुहोस्">
+      <label for="targetExam">मुख्य तयारी परीक्षा</label>
+      <select id="targetExam" name="targetExam">
+        <option value="NHPC">NHPC License Exam</option>
+        <option value="DHA">DHA – Dubai</option>
+        <option value="Loksewa">Loksewa Exam</option>
+      </select>
+      <button class="smallbtn" type="submit">प्रोफाइल सुरक्षित गर्नुहोस्</button>
+      <p id="profileGreeting" class="profile-greeting" aria-live="polite">आफ्नो प्रोफाइल सेट गर्नुहोस्।</p>
+    </form>
+  </section>
+
   <section class="stats" aria-label="Your progress">
     <div><strong id="attempted">0</strong><span>Attempted</span></div>
     <div><strong id="accuracy">0%</strong><span>Accuracy</span></div>
@@ -50,6 +66,10 @@
       <div><strong id="mockAttempts">0</strong><span>Mock Tests</span></div>
       <div><strong id="mockAverage">0%</strong><span>Average Score</span></div>
       <div><strong id="mockBest">0%</strong><span>Best Score</span></div>
+    </div>
+    <div class="exam-progress-wrap">
+      <h3>परीक्षा अनुसार प्रगति</h3>
+      <div id="examTrackProgress" class="exam-progress-grid"></div>
     </div>
     <div class="dashboard-list" id="moduleProgress"><p class="muted">अहिलेसम्म Mock Test रेकर्ड छैन। कुनै विषयको Mock Test पूरा गरेपछि यहाँ विवरण देखिन्छ।</p></div>
     <div class="mcq-progress">
