@@ -277,3 +277,15 @@ footer a:hover{text-decoration:underline}
 :root[data-theme="dark"] .track-loksewa{background:linear-gradient(145deg,#40321f,#152635);border-color:#66502e}
 :root[data-theme="dark"] .option:hover:not(:disabled){background:#1b4058;border-color:#55b8f2}
 :root[data-theme="dark"] footer a{color:#8bd5ff}
+
+
+/* Fast subject selection: keep the full subject library near the top and compact on phones */
+.subject-directory{margin:14px 0 18px;padding:16px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-soft)}
+.subject-directory .section-head{margin-bottom:8px}
+.subject-directory .muted{margin:6px 0 10px}
+.subject-search{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit;margin:5px 0 12px}
+.subject-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.subject-card{min-height:104px}
+@media(max-width:700px){.subject-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.subject-card{min-height:104px;padding:12px}.subject-card b{font-size:12px;padding-right:24px}.subject-card small{font-size:10px}.subject-number{right:8px;top:8px}}
+@media(max-width:390px){.subject-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.subject-card{min-height:112px;padding:10px}.subject-card b{font-size:11px}}
+:root[data-theme="dark"] .subject-directory{background:#152635;border-color:var(--line)}
