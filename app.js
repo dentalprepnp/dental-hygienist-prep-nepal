@@ -21,6 +21,30 @@ window.DHPNProgress={
     renderDashboard();
   }
 };
+const PROFILE_KEY="dhpn-student-profile";
+function readStudentProfile(){try{return JSON.parse(localStorage.getItem(PROFILE_KEY)||"{}")}catch(e){return {}}}
+function renderStudentProfile(){
+ const p=readStudentProfile(),name=$("#studentName"),target=$("#targetExam"),greeting=$("#profileGreeting");
+ if(name)name.value=p.name||"";
+ if(target)target.value=p.target||"NHPC";
+ if(greeting)greeting.textContent=p.name?("नमस्ते, "+p.name+"! तपाईंको मुख्य लक्ष्य: "+(p.target||"NHPC")+"।"):"आफ्नो प्रोफाइल सेट गर्नुहोस्।";
+}
+function renderExamTrackProgress(){
+ const rows=readMockHistory(),groups={NHPC:[],DHA:[],Loksewa:[]};
+ rows.forEach(r=>{
+  const n=(r.module||"").toLowerCase();
+  if(n.includes("dha"))groups.DHA.push(r);
+  else if(n.includes("loksewa"))groups.Loksewa.push(r);
+  else groups.NHPC.push(r);
+ });
+ const labels={NHPC:"NHPC License Exam",DHA:"DHA – Dubai",Loksewa:"Loksewa Exam"};
+ const box=$("#examTrackProgress");
+ if(!box)return;
+ box.innerHTML=Object.keys(groups).map(k=>{
+  const list=groups[k],avg=list.length?Math.round(list.reduce((s,r)=>s+r.percent,0)/list.length):0,best=list.length?Math.max(...list.map(r=>r.percent)):0;
+  return '<article class="exam-progress-card"><b>'+labels[k]+'</b><strong>'+list.length+'</strong><small>Mock attempts</small><div class="exam-progress-meta"><span>Average '+avg+'%</span><span>Best '+best+'%</span></div></article>';
+ }).join("");
+}
 function renderDashboard(){
   const rows=readMockHistory(),attempts=rows.length;
   $("#mockAttempts").textContent=attempts;
@@ -52,6 +76,13 @@ function renderMCQDashboard(){
  if(!wrong.length){box.innerHTML='<p class="muted">अहिलेसम्म गलत उत्तर छैन। MCQ अभ्यास गरेपछि यहाँ गलत प्रश्नहरू देखिन्छन्।</p>';return}
  box.innerHTML=wrong.slice(-12).reverse().map(r=>'<article class="wrong-item"><b>'+r.module+'</b><p>'+r.question+'</p><small>तपाईंको उत्तर: '+r.selected+' | सही उत्तर: '+r.correctAnswer+'</small><p class="wrong-explain">'+r.explanation+' '+r.explanationNp+'</p></article>').join("");
 }
+const profileForm=$("#studentProfileForm");
+if(profileForm)profileForm.addEventListener("submit",e=>{
+ e.preventDefault();
+ const profile={name:$("#studentName").value.trim().slice(0,50),target:$("#targetExam").value};
+ localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));
+ renderStudentProfile();
+});
 function showTab(tab){
   $$(".view").forEach(v=>v.classList.add("hidden"));
   $("#"+tab+"View").classList.remove("hidden");
@@ -114,7 +145,7 @@ function finishMock(){
   $("#againMock").addEventListener("click",()=>{ $("#mockIntro").classList.remove("hidden");$("#mockArea").innerHTML="";});
   $("#mockIntro").classList.remove("hidden");
 }
-updateStats();renderDashboard();renderMCQDashboard();renderNotes();
+updateStats();renderDashboard();renderExamTrackProgress();renderStudentProfile();renderMCQDashboard();renderNotes();
 if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").classList.remove("hidden")});
 $("#installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$("#installBtn").classList.add("hidden")});
