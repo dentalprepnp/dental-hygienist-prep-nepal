@@ -322,3 +322,14 @@ footer a:hover{text-decoration:underline}
 :root[data-theme="dark"] .search-toggle{background:#1b4058;color:#b9edff;border-color:#315c76}
 :root[data-theme="dark"] .topbar-search .subject-search{background:#10202d;color:var(--ink);border-color:#287b9b}
 @media(max-width:520px){.topbar{gap:6px}.brandmark{width:38px;height:38px}.topbar strong{font-size:11px}.topbar small{font-size:9px}.search-toggle{width:33px;height:33px}.theme-toggle{width:34px;height:34px;margin-left:0}}
+
+
+/* Small centered subject search field */
+.search-center{width:140px;height:36px;margin:10px auto 0;display:flex;align-items:center;gap:5px;padding:0 9px;background:linear-gradient(120deg,#e2f5ff,#edf0ff);border:1px solid #8bc9e5;border-radius:20px;box-shadow:0 3px 10px #07598512}
+.search-center span{font-size:20px;line-height:1;color:#075985;flex:0 0 auto}
+.search-center input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#142b3b;font:inherit;font-size:11px;padding:5px 0}
+.search-center input::placeholder{color:#527184;opacity:1}
+.search-center:focus-within{border-color:#0284c7;box-shadow:0 0 0 3px #0284c720}
+:root[data-theme="dark"] .search-center{background:linear-gradient(120deg,#123c50,#252b4b);border-color:#287b9b}
+:root[data-theme="dark"] .search-center span,:root[data-theme="dark"] .search-center input{color:#d8f3ff}
+:root[data-theme="dark"] .search-center input::placeholder{color:#b6cedc}
