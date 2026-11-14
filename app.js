@@ -20,7 +20,20 @@ function showTab(tab){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 $$("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
-$$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
+$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
+const subjectSearch=$("#subjectSearch");
+if(subjectSearch){
+  subjectSearch.addEventListener("input",()=>{
+    const term=subjectSearch.value.trim().toLowerCase();
+    let visible=0;
+    $("#subjectGrid .subject-card").forEach(card=>{
+      const match=card.dataset.subject.toLowerCase().includes(term)||card.textContent.toLowerCase().includes(term);
+      card.classList.toggle("hidden",!match);
+      if(match)visible++;
+    });
+    $("#noSubjects").classList.toggle("hidden",visible!==0);
+  });
+}
 function renderNotes(){
   $("#notesList").innerHTML=NOTES.map(n=>`<article class="note"><h3>${n[0]}</h3><p>${n[1]}</p><p class="np">${n[2]}</p></article>`).join("");
 }
