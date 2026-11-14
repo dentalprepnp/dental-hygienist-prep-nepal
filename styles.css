@@ -117,3 +117,18 @@
 .exam-progress-meta{display:flex;flex-wrap:wrap;gap:5px 10px;font-size:10px;color:var(--muted);margin-top:8px}
 @media(max-width:520px){.profile-card{padding:12px}.exam-progress-grid{grid-template-columns:1fr}.exam-progress-card{display:grid;grid-template-columns:1fr auto;align-items:center}.exam-progress-card b{min-height:0}.exam-progress-card>strong{grid-column:2;grid-row:1}.exam-progress-card>small,.exam-progress-meta{grid-column:1/-1}}
 :root[data-theme="dark"] .profile-card{background:#152635;border-color:var(--line)}
+
+/* Daily study goal and streak */
+.study-goal{border-top:1px solid var(--line);margin-top:16px;padding-top:15px}
+.study-goal h3{font-size:16px;margin:0}
+.goal-setting{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+.goal-setting label{font-size:12px;font-weight:700;color:var(--muted)}
+.goal-setting input{width:82px;padding:9px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit}
+.goal-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.goal-stats>div{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:10px 6px;text-align:center}
+.goal-stats strong,.goal-stats span{display:block}
+.goal-stats strong{font-size:20px;color:var(--blue)}
+.goal-stats span{font-size:10px;color:var(--muted)}
+.goal-track{height:9px;background:var(--line);border-radius:20px;overflow:hidden;margin-top:12px}
+.goal-track span{display:block;width:0;height:100%;background:var(--green);border-radius:20px;transition:width .2s}
+.goal-message{font-size:12px;color:var(--muted);margin:8px 0 0}
