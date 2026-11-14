@@ -354,3 +354,16 @@ footer a:hover{text-decoration:underline}
 .dha-study-steps{padding-left:22px;margin:10px 0 18px;color:var(--ink);font-size:13px}
 .dha-study-steps li{padding:7px 0 7px 4px}
 .dha-study-steps li::marker{color:var(--blue);font-weight:800}
+
+/* Clickable DHA competency study cards */
+.dha-topic-grid{margin-top:12px}
+.dha-topic-card{font:inherit;text-align:left;cursor:pointer;color:var(--text);width:100%;transition:border-color .15s,transform .15s}
+.dha-topic-card span{display:block;color:var(--blue);font-size:11px;font-weight:700;margin-top:8px}
+.dha-topic-card.active{border-color:var(--blue);background:#eef7fc}
+.dha-topic-detail{margin:16px 0;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.dha-topic-detail h3{margin:0}
+.dha-topic-detail h4{margin:16px 0 7px}
+.dha-topic-detail li{margin:7px 0;line-height:1.55}
+.dha-detail-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.dha-topic-detail .np{line-height:1.7}
+[data-theme="dark"] .dha-topic-card.active{background:#183448}
