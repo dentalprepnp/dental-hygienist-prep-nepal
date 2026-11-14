@@ -40,6 +40,7 @@
  ];
  let practice=0,answered={},mock=[],mi=0,ma={},timer=null,left=600;
  root.innerHTML=`
+ <button class="module-back" type="button" data-back-subjects>← सबै विषयहरूमा फर्कनुहोस्</button>
  <div class="exam-heading"><span class="track-icon">🌍</span><div><p class="eyebrow">DUBAI HEALTH AUTHORITY • ALLIED HEALTH</p><h2>DHA – Dental Hygienist</h2><p class="muted">CBT preparation • Exam code DEN5141</p></div></div>
  <div class="dha-facts"><div><b>150</b><small>Questions</small></div><div><b>3 Hours</b><small>Official duration</small></div><div><b>55%</b><small>Official pass score</small></div><div><b>MCQ</b><small>Exam format</small></div></div>
  <div class="notice"><b>महत्त्वपूर्ण:</b><p>यो अभ्यास मोड्युल हो। तलको १० प्रश्नको mock test वास्तविक DHA को १५० प्रश्न/३ घण्टाको परीक्षा होइन। DHA ले परीक्षा ढाँचा वा पास अंक परिवर्तन गर्न सक्छ; आवेदनअघि हालको निर्देशिका जाँच्नुहोस्।</p></div>
