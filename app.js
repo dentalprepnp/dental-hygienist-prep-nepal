@@ -120,12 +120,22 @@ if(profileForm)profileForm.addEventListener("submit",e=>{
  renderStudentProfile();
 });
 function showTab(tab){
-  $$(".view").forEach(v=>v.classList.add("hidden"));
-  $("#"+tab+"View").classList.remove("hidden");
-  $$(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  $(".view").forEach(v=>v.classList.add("hidden"));
+  const target=$("#"+tab+"View");
+  if(!target)return;
+  target.classList.remove("hidden");
+  $(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
-  window.scrollTo({top:0,behavior:"smooth"});
+  // Reset the document scroll position whenever a subject/view opens.
+  document.documentElement.scrollTop=0;
+  document.body.scrollTop=0;
+  window.scrollTo(0,0);
+  requestAnimationFrame(()=>{
+    document.documentElement.scrollTop=0;
+    document.body.scrollTop=0;
+    window.scrollTo(0,0);
+  });
 }
 $("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
 document.addEventListener("click",e=>{const back=e.target.closest("[data-back-subjects]");if(!back)return;showTab("home");const directory=document.querySelector(".subject-directory");if(directory)directory.scrollIntoView({behavior:"smooth",block:"start"});});
