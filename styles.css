@@ -97,3 +97,23 @@
 :root[data-theme="dark"] .feedback{background:#1b3446;color:var(--ink)}
 :root[data-theme="dark"] .feedback.good{background:#174537;color:#b8f2dc}
 :root[data-theme="dark"] .feedback.bad{background:#482a2a;color:#ffd2ce}
+
+
+/* Student profile and exam-specific progress */
+.profile-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin:16px 0}
+.profile-form{display:grid;gap:8px;max-width:440px}
+.profile-form label{font-size:12px;font-weight:700;color:var(--muted);margin-top:4px}
+.profile-form input,.profile-form select{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px;background:var(--bg);color:var(--ink);font:inherit}
+.profile-form button{justify-self:start;margin-top:6px}
+.profile-greeting{font-size:12px;color:var(--blue);font-weight:700;margin:4px 0 0}
+.exam-progress-wrap{margin:18px 0}
+.exam-progress-wrap h3{font-size:15px;margin:0 0 10px}
+.exam-progress-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.exam-progress-card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}
+.exam-progress-card b,.exam-progress-card small{display:block}
+.exam-progress-card b{font-size:12px;min-height:36px}
+.exam-progress-card>strong{display:block;font-size:24px;color:var(--blue);margin-top:5px}
+.exam-progress-card>small{font-size:10px;color:var(--muted)}
+.exam-progress-meta{display:flex;flex-wrap:wrap;gap:5px 10px;font-size:10px;color:var(--muted);margin-top:8px}
+@media(max-width:520px){.profile-card{padding:12px}.exam-progress-grid{grid-template-columns:1fr}.exam-progress-card{display:grid;grid-template-columns:1fr auto;align-items:center}.exam-progress-card b{min-height:0}.exam-progress-card>strong{grid-column:2;grid-row:1}.exam-progress-card>small,.exam-progress-meta{grid-column:1/-1}}
+:root[data-theme="dark"] .profile-card{background:#152635;border-color:var(--line)}
