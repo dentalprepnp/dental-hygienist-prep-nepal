@@ -349,3 +349,8 @@ footer a:hover{text-decoration:underline}
 @media(max-width:520px){.exam-view{padding:13px}.topic-grid{grid-template-columns:1fr}}
 :root[data-theme="dark"] .exam-view{background:#152635;border-color:var(--line)}
 :root[data-theme="dark"] .topic-card{background:#1b3446;border-color:var(--line)}
+
+
+.dha-study-steps{padding-left:22px;margin:10px 0 18px;color:var(--ink);font-size:13px}
+.dha-study-steps li{padding:7px 0 7px 4px}
+.dha-study-steps li::marker{color:var(--blue);font-weight:800}
