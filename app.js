@@ -90,6 +90,18 @@ if(saveGoalButton)saveGoalButton.addEventListener("click",()=>{
  const input=$("#dailyGoalInput"),value=Math.max(1,Math.min(500,Math.floor(Number(input.value)||20)));
  localStorage.setItem(STUDY_GOAL_KEY,String(value));renderDailyStudyGoal();
 });
+function renderWeaknessAnalysis(){
+ const rows=readMCQHistory(),groups={};
+ rows.forEach(r=>{const name=r.module||"Other";if(!groups[name])groups[name]={total:0,correct:0};groups[name].total++;if(r.isCorrect)groups[name].correct++});
+ const box=$("#weaknessAnalysis");if(!box)return;
+ const items=Object.keys(groups).map(name=>({name,...groups[name],rate:Math.round(groups[name].correct/groups[name].total*100)})).sort((a,b)=>a.rate-b.rate||b.total-a.total);
+ if(!items.length){box.innerHTML='<p class="muted">MCQ अभ्यास गरेपछि विषयगत नतिजा देखिन्छ।</p>';return}
+ box.innerHTML=items.map(item=>{
+  const status=item.total<3?"थोरै अभ्यास":item.rate<60?"कमजोर पक्ष":item.rate<80?"थप अभ्यास":"राम्रो";
+  const cls=item.total<3?"sample":item.rate<60?"weak":item.rate<80?"moderate":"strong";
+  return '<article class="weakness-row"><div class="weakness-top"><b>'+item.name+'</b><span class="weakness-tag '+cls+'">'+status+'</span></div><div class="weakness-meta"><span>'+item.correct+'/'+item.total+' सही</span><strong>'+item.rate+'%</strong></div><div class="weakness-track"><span class="'+cls+'" style="width:'+item.rate+'%"></span></div></article>';
+ }).join("");
+}
 function renderMCQDashboard(){
  const rows=readMCQHistory(),wrong=rows.filter(r=>!r.isCorrect);
  $("#mcqAttemptCount").textContent=rows.length;
