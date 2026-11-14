@@ -141,6 +141,15 @@ $("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)
 document.addEventListener("click",e=>{const back=e.target.closest("[data-back-subjects]");if(!back)return;showTab("home");const directory=document.querySelector(".subject-directory");if(directory)directory.scrollIntoView({behavior:"smooth",block:"start"});});
 $$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
 const subjectSearch=$("#subjectSearch");
+const subjectSearchWrap=document.querySelector(".topbar-search");
+const subjectSearchToggle=$("#subjectSearchToggle");
+if(subjectSearchToggle&&subjectSearchWrap){
+  subjectSearchToggle.addEventListener("click",()=>{
+    const opened=subjectSearchWrap.classList.toggle("search-open");
+    if(opened&&subjectSearch)subjectSearch.focus();
+    if(!opened&&subjectSearch){subjectSearch.value="";subjectSearch.dispatchEvent(new Event("input"));}
+  });
+}
 if(subjectSearch){
   subjectSearch.addEventListener("input",()=>{
     const term=subjectSearch.value.trim().toLowerCase();
