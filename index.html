@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#075985">
+  <meta name="description" content="Free bilingual Dental Hygienist license preparation practice for Nepal.">
+  <title>Dental Hygienist Prep Nepal</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brandmark">D<span>+</span></div>
+  <div><strong>Dental Hygienist Prep Nepal</strong><small>Learn • Practice • Improve</small></div>
+  <button id="installBtn" class="install hidden" type="button">Install</button>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow">FREE LICENSE EXAM PRACTICE</p>
+    <h1>तयारी आजैदेखि सुरु गरौँ।</h1>
+    <p>Dental Hygienist License तयारीका लागि English MCQ र नेपाली व्याख्या।</p>
+    <div class="hero-actions">
+      <button class="primary" data-go="practice">Start Practice</button>
+      <button class="secondary" data-go="notes">Study Notes</button>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="Your progress">
+    <div><strong id="attempted">0</strong><span>Attempted</span></div>
+    <div><strong id="accuracy">0%</strong><span>Accuracy</span></div>
+    <div><strong id="best">0%</strong><span>Best score</span></div>
+  </section>
+
+  <nav class="tabs" aria-label="Main navigation">
+    <button class="tab active" data-tab="home">Home</button>
+    <button class="tab" data-tab="notes">Notes</button>
+    <button class="tab" data-tab="practice">MCQ Practice</button>
+    <button class="tab" data-tab="mock">Mock Test</button>
+  </nav>
+
+  <section id="homeView" class="view">
+    <div class="section-head"><div><p class="eyebrow">FIRST SUBJECT</p><h2>Basic Periodontology</h2></div><span class="pill">Module 01</span></div>
+    <p class="muted">Periodontium, gingiva, plaque, calculus, gingivitis, periodontitis, periodontal examination and prevention.</p>
+    <div class="feature-grid">
+      <button class="feature-card" data-go="notes"><span class="feature-icon">📘</span><b>Study Notes</b><small>छोटो र बुझिने नोट्स</small></button>
+      <button class="feature-card" data-go="practice"><span class="feature-icon">📝</span><b>Practice MCQs</b><small>प्रश्न अभ्यास गर्नुहोस्</small></button>
+      <button class="feature-card" data-go="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small>समय मिलाएर परीक्षा</small></button>
+    </div>
+    <div class="notice"><b>Study reminder</b><p>पहिले concept बुझ्नुहोस्, त्यसपछि MCQ अभ्यास गर्नुहोस्। गलत भएका प्रश्न फेरि दोहोर्‍याउनुहोस्।</p></div>
+    <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो। आधिकारिक NHPC पाठ्यक्रम, सूचना वा प्रश्नपत्रको विकल्प होइन।</p>
+  </section>
+
+  <section id="notesView" class="view hidden">
+    <p class="eyebrow">QUICK REVISION</p><h2>Periodontology Notes</h2>
+    <div id="notesList" class="notes-list"></div>
+  </section>
+
+  <section id="practiceView" class="view hidden">
+    <div class="section-head"><div><p class="eyebrow">QUESTION BANK</p><h2>MCQ Practice</h2></div><span class="pill" id="practiceCount">20 Questions</span></div>
+    <div class="toolbar"><label for="languageMode">Question language</label><select id="languageMode"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
+    <div id="quizArea"></div>
+  </section>
+
+  <section id="mockView" class="view hidden">
+    <p class="eyebrow">EXAM SIMULATION</p><h2>Periodontology Mock Test</h2>
+    <p class="muted">१० प्रश्न • १० मिनेट • प्रत्येक प्रश्नको १ अंक</p>
+    <div id="mockIntro" class="notice"><p>Mock Test सुरु गरेपछि समय गणना हुन्छ। अन्त्यमा स्कोर र उत्तर समीक्षा देखाइनेछ।</p><button id="startMock" class="primary">Start 10-question test</button></div>
+    <div id="mockArea"></div>
+  </section>
+</main>
+
+<footer><b>Dental Hygienist Prep Nepal</b><span>Made for learning in Nepal 🇳🇵</span><small>Educational practice only • Verify current official syllabus</small></footer>
+<script src="app.js"></script>
+</body>
+</html>

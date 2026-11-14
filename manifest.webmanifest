@@ -1,0 +1,18 @@
+{
+  "name": "Dental Hygienist Prep Nepal",
+  "short_name": "DH Prep Nepal",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f7fa",
+  "theme_color": "#075985",
+  "description": "Free bilingual Dental Hygienist license exam practice.",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
