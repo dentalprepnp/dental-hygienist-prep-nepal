@@ -41,3 +41,24 @@
 .wrong-item p{font-size:12px;margin:5px 0}
 .wrong-item small{font-size:10px;color:#9b352e}
 .wrong-explain{color:var(--muted)}
+
+/* Multi-exam preparation hub */
+.exam-tracks{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin:16px 0}
+.track-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.track-card{display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;min-height:155px;border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff;color:var(--ink)}
+.track-card b{font-size:13px;line-height:1.35}
+.track-card small{font-size:11px;color:var(--muted);line-height:1.45}
+.track-icon{font-size:25px;line-height:1.2}
+.track-action{font-size:11px;font-weight:800;color:var(--blue);margin-top:auto}
+.track-dha{background:#f3fbf7;border-color:#cfe9db}
+.track-loksewa{background:#fff9f0;border-color:#f0dfc5}
+.exam-view{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}
+.exam-heading{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.exam-heading h2{margin:0 0 3px}
+.exam-heading .track-icon{width:48px;height:48px;display:grid;place-items:center;background:#eef6fb;border-radius:14px}
+.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0 18px}
+.topic-card{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fbfdfe}
+.topic-card b,.topic-card small{display:block}
+.topic-card b{font-size:12px;line-height:1.4}
+.topic-card small{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.45}
+@media(max-width:620px){.track-grid{grid-template-columns:1fr}.track-card{min-height:110px}.topic-grid{grid-template-columns:1fr}.exam-view{padding:13px}.exam-tracks{padding:12px}}
