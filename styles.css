@@ -333,3 +333,19 @@ footer a:hover{text-decoration:underline}
 :root[data-theme="dark"] .search-center{background:linear-gradient(120deg,#123c50,#252b4b);border-color:#287b9b}
 :root[data-theme="dark"] .search-center span,:root[data-theme="dark"] .search-center input{color:#d8f3ff}
 :root[data-theme="dark"] .search-center input::placeholder{color:#b6cedc}
+
+
+/* Exam track detail views */
+.exam-view{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0 22px}
+.exam-heading{display:flex;align-items:flex-start;gap:13px;margin:8px 0 16px}
+.exam-heading h2{margin:0 0 5px;font-size:21px}
+.exam-heading .track-icon{font-size:30px;line-height:1.2}
+.exam-view h3{font-size:16px;margin:18px 0 10px}
+.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.topic-card{background:#f5f9fc;border:1px solid var(--line);border-radius:13px;padding:13px}
+.topic-card b,.topic-card small{display:block}
+.topic-card b{font-size:12px;color:var(--navy)}
+.topic-card small{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+@media(max-width:520px){.exam-view{padding:13px}.topic-grid{grid-template-columns:1fr}}
+:root[data-theme="dark"] .exam-view{background:#152635;border-color:var(--line)}
+:root[data-theme="dark"] .topic-card{background:#1b3446;border-color:var(--line)}
