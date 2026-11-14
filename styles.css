@@ -62,3 +62,14 @@
 .topic-card b{font-size:12px;line-height:1.4}
 .topic-card small{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.45}
 @media(max-width:620px){.track-grid{grid-template-columns:1fr}.track-card{min-height:110px}.topic-grid{grid-template-columns:1fr}.exam-view{padding:13px}.exam-tracks{padding:12px}}
+
+/* DHA study module */
+.dha-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}
+.dha-facts>div{background:#f0f7fa;border:1px solid #dcebf1;border-radius:12px;padding:12px 8px;text-align:center}
+.dha-facts b,.dha-facts small{display:block}
+.dha-facts b{font-size:19px;color:var(--blue)}
+.dha-facts small{font-size:10px;color:var(--muted);margin-top:3px}
+.dha-panel{margin-top:15px}
+.dha-panel h3{margin:8px 0 12px}
+.dha-actions{margin-top:14px}
+@media(max-width:520px){.dha-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
