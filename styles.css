@@ -31,3 +31,13 @@
 .progress-scores strong{color:var(--blue);font-size:16px}
 .dashboard-note{font-size:10px;color:var(--muted);margin:12px 0 0}
 @media(max-width:520px){.dashboard{padding:12px}.progress-row{padding:9px}.progress-row b{font-size:11px}}
+
+/* MCQ history and revision list */
+.mcq-progress{border-top:1px solid var(--line);margin-top:15px;padding-top:14px}
+.mcq-progress h3{font-size:16px;margin:0}
+.mcq-summary{margin-top:9px}
+.wrong-item{border:1px solid #f0d2cf;background:#fffafa;border-radius:11px;padding:11px;margin:8px 0}
+.wrong-item>b{font-size:10px;color:var(--blue)}
+.wrong-item p{font-size:12px;margin:5px 0}
+.wrong-item small{font-size:10px;color:#9b352e}
+.wrong-explain{color:var(--muted)}
