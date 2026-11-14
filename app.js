@@ -138,6 +138,13 @@ function showTab(tab){
   });
 }
 $("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+document.addEventListener("click",e=>{
+  const back=e.target.closest("[data-back-exams]");
+  if(!back)return;
+  showTab("home");
+  const tracks=document.querySelector(".exam-tracks");
+  if(tracks)tracks.scrollIntoView({behavior:"smooth",block:"start"});
+});
 document.addEventListener("click",e=>{const back=e.target.closest("[data-back-subjects]");if(!back)return;showTab("home");const directory=document.querySelector(".subject-directory");if(directory)directory.scrollIntoView({behavior:"smooth",block:"start"});});
 $$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
 const subjectSearch=$("#subjectSearch");
