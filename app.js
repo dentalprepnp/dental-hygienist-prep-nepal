@@ -11,6 +11,29 @@ function updateStats(){
   $("#accuracy").textContent=(saved.attempted?Math.round(saved.correct/saved.attempted*100):0)+"%";
   $("#best").textContent=saved.best+"%";
 }
+const MOCK_HISTORY_KEY="dhpn-mock-history";
+function readMockHistory(){try{return JSON.parse(localStorage.getItem(MOCK_HISTORY_KEY)||"[]")}catch(e){return []}}
+window.DHPNProgress={
+  recordMock(moduleName,score,total){
+    const rows=readMockHistory();
+    rows.push({module:moduleName,score,total,percent:Math.round(score/total*100),date:new Date().toISOString()});
+    localStorage.setItem(MOCK_HISTORY_KEY,JSON.stringify(rows.slice(-200)));
+    renderDashboard();
+  }
+};
+function renderDashboard(){
+  const rows=readMockHistory(),attempts=rows.length;
+  $("#mockAttempts").textContent=attempts;
+  $("#mockAverage").textContent=(attempts?Math.round(rows.reduce((s,r)=>s+r.percent,0)/attempts):0)+"%";
+  $("#mockBest").textContent=(attempts?Math.max(...rows.map(r=>r.percent)):0)+"%";
+  const grouped={};rows.forEach(r=>{if(!grouped[r.module])grouped[r.module]=[];grouped[r.module].push(r)});
+  const list=$("#moduleProgress");
+  if(!attempts){list.innerHTML='<p class="muted">अहिलेसम्म Mock Test रेकर्ड छैन। कुनै विषयको Mock Test पूरा गरेपछि यहाँ विवरण देखिन्छ।</p>';return}
+  list.innerHTML=Object.keys(grouped).map(name=>{const h=grouped[name],last=h[h.length-1],best=Math.max(...h.map(x=>x.percent));return '<article class="progress-row"><div><b>'+name+'</b><small>'+h.length+' attempt(s) • पछिल्लो: '+new Date(last.date).toLocaleDateString()+'</small></div><div class="progress-scores"><strong>'+last.percent+'%</strong><small>Best '+best+'%</small></div></article>'}).join("");
+}
+const progressModuleNames={mockView:"Basic Periodontology",oralPathView:"Oral Pathology and Microbiology",dentalMaterialsView:"Dental Materials, Instruments and Assisting",oralAnatomyView:"Oral Anatomy and Physiology",dentalPublicHealthView:"Dental Public Health and Community Dentistry",dentalRadiologyView:"Dental Radiography and Photography",dentalPharmacyView:"Dental Pharmacy",dentalEthicsView:"Dental Ethics and Practice Management",foodNutritionView:"Food and Nutrition",epidemiologyView:"Epidemiology and Community Diagnosis"};
+const progressObserver=new MutationObserver(records=>{records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType!==1)return;const results=[];if(node.matches&&node.matches(".result"))results.push(node);if(node.querySelectorAll)results.push(...node.querySelectorAll(".result"));results.forEach(result=>{if(result.dataset.progressSaved)return;const view=result.closest(".view"),name=view&&progressModuleNames[view.id];const match=(result.querySelector("strong")?.textContent||"").match(/(\d+)\s*\/\s*10/);if(name&&match){result.dataset.progressSaved="true";window.DHPNProgress.recordMock(name,Number(match[1]),10)}})}) )});
+progressObserver.observe(document.body,{childList:true,subtree:true});
 function showTab(tab){
   $$(".view").forEach(v=>v.classList.add("hidden"));
   $("#"+tab+"View").classList.remove("hidden");
@@ -73,7 +96,7 @@ function finishMock(){
   $("#againMock").addEventListener("click",()=>{ $("#mockIntro").classList.remove("hidden");$("#mockArea").innerHTML="";});
   $("#mockIntro").classList.remove("hidden");
 }
-updateStats();renderNotes();
+updateStats();renderDashboard();renderNotes();
 if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").classList.remove("hidden")});
 $("#installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$("#installBtn").classList.add("hidden")});
