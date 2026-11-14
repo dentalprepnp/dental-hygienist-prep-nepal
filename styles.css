@@ -152,3 +152,53 @@
 .weakness-track span.weak{background:#c84b43}
 .weakness-track span.moderate{background:#d69a22}
 :root[data-theme="dark"] .weakness-row{background:#10202d}
+
+
+/* Home dashboard: refined professional visual system */
+:root{--shadow-soft:0 10px 28px rgba(12,53,84,.07);--radius-card:18px}
+main{max-width:980px}
+.topbar{padding-left:max(18px,calc((100vw - 980px)/2));padding-right:max(18px,calc((100vw - 980px)/2));border-bottom:1px solid #e8eef3}
+.brandmark{width:44px;height:44px;border-radius:14px;box-shadow:0 4px 12px #07598520}
+.topbar strong{font-size:15px;letter-spacing:-.2px}
+.topbar small{letter-spacing:.2px}
+.hero{position:relative;overflow:hidden;min-height:218px;padding:34px 30px;border-radius:24px;box-shadow:var(--shadow-soft)}
+.hero:after{content:"✚";position:absolute;right:42px;top:22px;font-size:145px;line-height:1;color:#ffffff12;font-weight:800;pointer-events:none}
+.hero h1{max-width:620px;letter-spacing:-.8px}
+.hero>p:not(.eyebrow){max-width:620px;font-size:15px}
+.hero-actions{position:relative;z-index:1}
+.hero .primary,.hero .secondary{padding:12px 18px;box-shadow:0 4px 12px #002b441c}
+.exam-tracks,.profile-card,.dashboard{border-radius:20px;box-shadow:var(--shadow-soft);padding:19px}
+.section-head h2{letter-spacing:-.3px}
+.track-card{border-radius:16px;min-height:165px;padding:16px;transition:transform .18s ease,box-shadow .18s ease}
+.track-card:hover,.feature-card:hover{transform:translateY(-3px);box-shadow:0 10px 22px #0c355414}
+.track-nhpc{background:linear-gradient(145deg,#f2f9ff,#fff);border-color:#cfe3f1}
+.track-dha{background:linear-gradient(145deg,#effaf5,#fff);border-color:#cce9da}
+.track-loksewa{background:linear-gradient(145deg,#fff8ed,#fff);border-color:#f0dfc5}
+.track-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#ffffffb8}
+.track-card b{font-size:14px}
+.track-card small{font-size:11px}
+.feature-card{border-radius:16px;padding:17px;transition:transform .18s ease,box-shadow .18s ease}
+.feature-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:#eaf6fc}
+.subject-card{border-radius:16px;min-height:120px;padding:17px;box-shadow:0 3px 12px #0c355407}
+.subject-card b{font-size:13px}
+.subject-number{border-radius:9px}
+.profile-card{background:linear-gradient(150deg,#fff,#f8fcff)}
+.dashboard{background:linear-gradient(150deg,#fff,#fbfdff)}
+.stats div{border-radius:16px;box-shadow:0 3px 12px #0c355407}
+.progress-summary>div{border:1px solid #e5eef4}
+.notice{border-radius:16px}
+.tabs{scrollbar-width:thin}
+.tab{transition:background .15s ease,color .15s ease}
+footer{max-width:980px;margin:auto}
+:root[data-theme="dark"] .topbar{border-bottom-color:var(--line)}
+:root[data-theme="dark"] .track-nhpc,:root[data-theme="dark"] .profile-card,:root[data-theme="dark"] .dashboard{background:#152635}
+:root[data-theme="dark"] .track-icon,:root[data-theme="dark"] .feature-icon{background:#1b3446}
+:root[data-theme="dark"] .progress-summary>div{border-color:var(--line)}
+@media(max-width:620px){
+  .hero{padding:25px 20px;min-height:0}
+  .hero:after{right:8px;top:30px;font-size:100px}
+  .exam-tracks,.profile-card,.dashboard{padding:13px;border-radius:17px}
+  .track-card{min-height:116px;padding:13px}
+  .track-card .track-icon{width:34px;height:34px}
+  .topbar strong{font-size:13px}
+}
