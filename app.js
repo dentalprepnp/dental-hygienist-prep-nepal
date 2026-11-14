@@ -128,7 +128,7 @@ function showTab(tab){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 $$("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
-$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
+$$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
 const subjectSearch=$("#subjectSearch");
 if(subjectSearch){
   subjectSearch.addEventListener("input",()=>{
