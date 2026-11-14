@@ -118,3 +118,19 @@ updateStats();renderDashboard();renderMCQDashboard();renderNotes();
 if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").classList.remove("hidden")});
 $("#installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$("#installBtn").classList.add("hidden")});
+
+
+// Light/Dark theme preference
+(function(){
+ const root=document.documentElement,button=document.getElementById("themeToggle");
+ let theme="light";
+ try{theme=localStorage.getItem("dhpn-theme")||"light"}catch(e){}
+ function applyTheme(value){
+  theme=value==="dark"?"dark":"light";
+  root.setAttribute("data-theme",theme);
+  if(button){button.textContent=theme==="dark"?"☀️":"🌙";button.title=theme==="dark"?"Switch to light theme":"Switch to dark theme";button.setAttribute("aria-label",button.title)}
+  try{localStorage.setItem("dhpn-theme",theme)}catch(e){}
+ }
+ applyTheme(theme);
+ if(button)button.addEventListener("click",()=>applyTheme(theme==="dark"?"light":"dark"));
+})();
