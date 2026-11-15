@@ -120,11 +120,11 @@ if(profileForm)profileForm.addEventListener("submit",e=>{
  renderStudentProfile();
 });
 function showTab(tab){
-  $(".view").forEach(v=>v.classList.add("hidden"));
+  $$(".view").forEach(v=>v.classList.add("hidden"));
   const target=$("#"+tab+"View");
   if(!target)return;
   target.classList.remove("hidden");
-  $(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  $$(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
   // Reset the document scroll position whenever a subject/view opens.
@@ -137,7 +137,7 @@ function showTab(tab){
     window.scrollTo(0,0);
   });
 }
-$("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+$$("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
 document.addEventListener("click",e=>{
   const back=e.target.closest("[data-back-exams]");
   if(!back)return;
@@ -152,7 +152,7 @@ if(subjectSearch){
   subjectSearch.addEventListener("input",()=>{
     const term=subjectSearch.value.trim().toLowerCase();
     let visible=0;
-    $("#subjectGrid .subject-card").forEach(card=>{
+    $$("#subjectGrid .subject-card").forEach(card=>{
       const match=card.dataset.subject.toLowerCase().includes(term)||card.textContent.toLowerCase().includes(term);
       card.classList.toggle("hidden",!match);
       if(match)visible++;
