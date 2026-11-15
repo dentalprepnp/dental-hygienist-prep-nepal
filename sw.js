@@ -1,5 +1,5 @@
-const CACHE="dhpn-v85";
-const ASSETS=["./","./index.html","./about.html","./privacy.html","./styles.css","./app.js","./manifest.webmanifest","./icon.svg","./oral-pathology.js","./dental-materials.js","./oral-anatomy.js","./dental-public-health.js","./dental-radiology.js","./dental-pharmacy.js","./dental-ethics.js","./food-nutrition.js","./epidemiology-community.js","./dha.js","./nhpc.js","./ha-general-medicine.js","./mlt.js","./radiography.js","./physiotherapy.js"];
+const CACHE="dhpn-v86";
+const ASSETS=["./","./index.html","./about.html","./privacy.html","./styles.css","./app.js","./manifest.webmanifest","./icon.svg","./oral-pathology.js","./dental-materials.js","./oral-anatomy.js","./dental-public-health.js","./dental-radiology.js","./dental-pharmacy.js","./dental-ethics.js","./food-nutrition.js","./epidemiology-community.js","./dha.js","./nhpc.js","./ha-general-medicine.js","./mlt.js","./radiography.js","./physiotherapy.js","./ophthalmic-science.js"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;e.respondWith(caches.match(e.request).then(cached=>cached||fetch(e.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return response}).catch(()=>caches.match("./index.html"))))});
