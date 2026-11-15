@@ -31,8 +31,9 @@
 
 
   <section class="exam-tracks" aria-label="Choose exam preparation">
-    <div class="section-head"><div><p class="eyebrow">CHOOSE YOUR EXAM</p><h2>आफ्नो परीक्षा छान्नुहोस्</h2></div><span class="pill">6 Exam Tracks</span></div>
+    <div class="section-head"><div><p class="eyebrow">CHOOSE YOUR EXAM</p><h2>आफ्नो परीक्षा छान्नुहोस्</h2></div><span class="pill">8 Exam Tracks</span></div>
     <div class="track-grid">
+      <button class="track-card track-ophthalmic" data-tab="ophthalmic"><span class="track-icon">👁️</span><b>PCL Ophthalmic Science / Ophthalmic Technique</b><small>NHPC • Ophthalmic Assistant License Preparation</small><span class="track-action">Open Ophthalmic Science Preparation →</span></button>
       <button class="track-card track-physiotherapy" data-tab="physiotherapy"><span class="track-icon">🧑‍⚕️</span><b>Certificate in Physiotherapy (PCL/CPT)</b><small>NHPC • Physiotherapy License Preparation</small><span class="track-action">Open Physiotherapy Preparation →</span></button>
       <button class="track-card track-radiography" data-tab="radiography"><span class="track-icon">🩻</span><b>PCL Radiography / X-Ray Technology</b><small>NHPC • Radiographer License Preparation</small><span class="track-action">Open Radiography Preparation →</span></button>
       <button class="track-card track-mlt" data-tab="mlt"><span class="track-icon">🧪</span><b>PCL Medical Laboratory Technology (MLT)</b><small>NHPC • CMLT / DMLT License Preparation</small><span class="track-action">Open MLT Preparation →</span></button>
@@ -157,6 +158,14 @@
     <div class="notice"><b>आधिकारिक syllabus अनुसार अध्ययन</b><p>NHPC को PCL Radiography/Diploma in X-Ray Technology Licensing Syllabus 2021 को विषयगत भारअनुसार यो section तयार गरिएको हो। सामग्री स्वतन्त्र अभ्यासका लागि हो, आधिकारिक प्रश्नपत्र होइन।</p></div>
     <div id="radiographyContent" class="ha-content"></div>
     <p class="disclaimer">Radiation protection, contrast administration र patient care मा हालका राष्ट्रिय नियम, institutional SOP र आफ्नो professional scope पालना गर्नुहोस्।</p>
+  </section>
+
+  <section id="ophthalmicView" class="view hidden exam-view">
+    <button class="module-back" type="button" data-back-exams>← परीक्षा छनोटमा फर्कनुहोस्</button>
+    <div class="exam-heading"><span class="track-icon">👁️</span><div><p class="eyebrow">PCL OPHTHALMIC SCIENCE • DIPLOMA IN OPHTHALMIC TECHNIQUE</p><h2>NHPC – Ophthalmic Science License Preparation</h2><p class="muted">विस्तृत Notes • MCQ • Timed Practice • Full Syllabus Mock</p></div></div>
+    <div class="notice"><b>आधिकारिक syllabus अनुसार अध्ययन</b><p>यो खण्ड NHPC को उपलब्ध PCL in Ophthalmic Science / Diploma in Ophthalmic Technique Licensing Syllabus 2021 का १३ विषयगत क्षेत्र र तिनको भारअनुसार तयार गरिएको हो। B.Sc. Optometry वा अन्य उच्च तहको पाठ्यक्रम मिसाइएको छैन।</p></div>
+    <div id="ophthalmicContent" class="ha-content"></div>
+    <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो, आधिकारिक NHPC प्रश्नपत्र होइन। औषधि, जाँच र शल्यक्रियामा आफ्नो professional scope, बिरामीको सहमति र संस्थाको SOP पालना गर्नुहोस्।</p>
   </section>
 
   <section id="physiotherapyView" class="view hidden exam-view">
@@ -320,6 +329,7 @@
 <script src="mlt.js"></script>
 <script src="radiography.js"></script>
 <script src="physiotherapy.js"></script>
+<script src="ophthalmic-science.js"></script>
 <script>
 /* Direct fallback navigation for the Physiotherapy track. */
 document.addEventListener("click",function(event){
