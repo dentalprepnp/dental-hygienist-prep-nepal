@@ -33,6 +33,7 @@
   <section class="exam-tracks" aria-label="Choose exam preparation">
     <div class="section-head"><div><p class="eyebrow">CHOOSE YOUR EXAM</p><h2>आफ्नो परीक्षा छान्नुहोस्</h2></div><span class="pill">3 Exam Tracks</span></div>
     <div class="track-grid">
+      <button class="track-card track-mlt" data-tab="mlt"><span class="track-icon">🧪</span><b>PCL Medical Laboratory Technology (MLT)</b><small>NHPC • CMLT / DMLT License Preparation</small><span class="track-action">Open MLT Preparation →</span></button>
       <button class="track-card track-ha" data-tab="ha"><span class="track-icon">🩺</span><b>PCL General Medicine (HA)</b><small>NHPC Health Assistant License Preparation</small><span class="track-action">Open HA Preparation →</span></button>
       <button class="track-card track-nhpc" data-tab="nhpc"><span class="track-icon">🇳🇵</span><b>NHPC License Exam</b><small>नेपालको Dental Hygienist लाइसेन्स तयारी</small><span class="track-action">Open NHPC →</span></button>
       <button class="track-card track-dha" data-tab="dha"><span class="track-icon">🌍</span><b>DHA Exam – Dubai</b><small>Dubai Health Authority • Dental Hygienist</small><span class="track-action">Open DHA →</span></button>
@@ -139,6 +140,14 @@
     <div id="haContent" class="ha-content"></div>
     <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो, आधिकारिक NHPC प्रश्नपत्र होइन। औषधि तथा उपचारसम्बन्धी निर्णयमा हालको राष्ट्रिय निर्देशिका र आफ्नो professional scope पालना गर्नुहोस्।</p>
   </section>
+  <section id="mltView" class="view hidden exam-view">
+    <button class="module-back" type="button" data-back-exams>← परीक्षा छनोटमा फर्कनुहोस्</button>
+    <div class="exam-heading"><span class="track-icon">🧪</span><div><p class="eyebrow">PCL MEDICAL LABORATORY TECHNOLOGY • CMLT / DMLT</p><h2>NHPC – MLT License Preparation</h2><p class="muted">विस्तृत Notes • MCQ • Timed Practice • Full Syllabus Mock</p></div></div>
+    <div class="notice"><b>आधिकारिक syllabus अनुसार अध्ययन</b><p>NHPC Certificate in Medical Laboratory Technology Licensing Syllabus 2021 को विषयगत भार प्रयोग गरिएको छ। यो स्वतन्त्र अभ्यास सामग्री हो, आधिकारिक प्रश्नपत्र होइन।</p></div>
+    <div id="mltContent" class="ha-content"></div>
+    <p class="disclaimer">औषधि, नमुना संकलन र प्रयोगशाला प्रक्रियामा आफ्नो संस्थाको SOP तथा हालका राष्ट्रिय निर्देशिका पालना गर्नुहोस्।</p>
+  </section>
+
 
   <section id="nhpcView" class="view hidden exam-view">
     <button class="module-back" type="button" data-back-exams>← परीक्षा छनोटमा फर्कनुहोस्</button>
@@ -277,5 +286,6 @@
 <script src="dha.js"></script>
 <script src="nhpc.js"></script>
 <script src="ha-general-medicine.js"></script>
+<script src="mlt.js"></script>
 </body>
 </html>
