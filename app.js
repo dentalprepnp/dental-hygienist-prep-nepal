@@ -145,12 +145,18 @@ document.addEventListener("click",e=>{const back=e.target.closest("[data-back-su
 $$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
 const subjectSearch=$("#subjectSearch");
 const searchResults=$("#searchResults");
+function openSearchResult(result){
+  if(!result)return;
+  const destination=result.dataset.go||result.dataset.tab;
+  if(!destination)return;
+  showTab(destination);
+  searchResults.classList.add("hidden");
+  subjectSearch.blur();
+}
 if(searchResults){
   searchResults.addEventListener("click",e=>{
     const result=e.target.closest(".search-result");
-    if(!result)return;
-    showTab(result.dataset.go||result.dataset.tab);
-    searchResults.classList.add("hidden");
+    if(result)openSearchResult(result);
   });
 }
 if(subjectSearch&&searchResults){
@@ -158,12 +164,14 @@ if(subjectSearch&&searchResults){
     const term=subjectSearch.value.trim().toLocaleLowerCase();
     searchResults.innerHTML="";
     if(!term){searchResults.classList.add("hidden");return;}
+    const subjectCards=$$("#subjectGrid .subject-card");
+    const trackCards=$$(".track-grid .track-card");
     const matches=[
-      ...$("#subjectGrid .subject-card").map(card=>({name:card.querySelector("b")?.textContent||card.dataset.subject,type:"विषय",action:"go",value:card.dataset.go,haystack:(card.dataset.subject+" "+card.textContent).toLocaleLowerCase()})),
-      ...$(".track-grid .track-card").map(card=>({name:card.querySelector("b")?.textContent||"",type:"परीक्षा तयारी",action:"tab",value:card.dataset.tab,haystack:card.textContent.toLocaleLowerCase()}))
-    ].filter(item=>item.haystack.includes(term));
+      ...subjectCards.map(card=>({name:card.querySelector("b")?.textContent||card.dataset.subject||"",type:"विषय",action:"go",value:card.dataset.go,haystack:((card.dataset.subject||"")+" "+card.textContent).toLocaleLowerCase()})),
+      ...trackCards.map(card=>({name:card.querySelector("b")?.textContent||"",type:"परीक्षा तयारी",action:"tab",value:card.dataset.tab,haystack:card.textContent.toLocaleLowerCase()}))
+    ].filter(item=>item.value&&item.haystack.includes(term));
     if(!matches.length){
-      searchResults.innerHTML='<p class="search-empty">मिल्दो विषय वा परीक्षा भेटिएन। अर्को शब्द लेख्नुहोस्।</p>';
+      searchResults.innerHTML='<p class="search-empty">मिल्दो विषय वा परीक्षा भेटिएन। अर्को शब्द खोज्नुहोस्।</p>';
     }else{
       matches.slice(0,12).forEach(item=>{
         const button=document.createElement("button");
@@ -172,10 +180,20 @@ if(subjectSearch&&searchResults){
         button.dataset[item.action==="go"?"go":"tab"]=item.value;
         const title=document.createElement("b");title.textContent=item.name;
         const kind=document.createElement("small");kind.textContent=item.type;
-        button.append(title,kind);searchResults.append(button);
+        button.append(title,kind);
+        searchResults.append(button);
       });
     }
     searchResults.classList.remove("hidden");
+  });
+  subjectSearch.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){
+      e.preventDefault();
+      const first=searchResults.querySelector(".search-result");
+      if(first)openSearchResult(first);
+    }else if(e.key==="Escape"){
+      searchResults.classList.add("hidden");
+    }
   });
 }
 function renderNotes(){
