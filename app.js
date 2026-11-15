@@ -159,6 +159,18 @@ if(searchResults){
     if(result)openSearchResult(result);
   });
 }
+const searchSubmit=$("#searchSubmit");
+function submitSubjectSearch(){
+  if(!subjectSearch)return;
+  const term=subjectSearch.value.trim();
+  if(!term){subjectSearch.focus();return;}
+  const first=searchResults&&searchResults.querySelector(".search-result");
+  if(first){openSearchResult(first);return;}
+  subjectSearch.dispatchEvent(new Event("input",{bubbles:true}));
+  const next=searchResults&&searchResults.querySelector(".search-result");
+  if(next)openSearchResult(next);
+}
+if(searchSubmit)searchSubmit.addEventListener("click",submitSubjectSearch);
 if(subjectSearch&&searchResults){
   subjectSearch.addEventListener("input",()=>{
     const term=subjectSearch.value.trim().toLocaleLowerCase();
@@ -186,6 +198,7 @@ if(subjectSearch&&searchResults){
     }
     searchResults.classList.remove("hidden");
   });
+  subjectSearch.addEventListener("search",()=>{subjectSearch.dispatchEvent(new Event("input",{bubbles:true}));});
   subjectSearch.addEventListener("keydown",e=>{
     if(e.key==="Enter"){
       e.preventDefault();
