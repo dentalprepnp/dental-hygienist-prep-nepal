@@ -420,3 +420,8 @@ footer a:hover{text-decoration:underline}
 
 .track-physiotherapy{background:linear-gradient(135deg,#e8f4ff,#f0fbf5);border-color:#a8cde4}
 :root[data-theme="dark"] .track-physiotherapy{background:linear-gradient(135deg,#18384b,#173b35);border-color:#467a91}
+
+
+.track-ophthalmic{background:linear-gradient(135deg,#f0eaff,#eaf6ff);border-color:#c7b8ed}
+.track-ophthalmic .track-action{color:#6041a6}
+:root[data-theme="dark"] .track-ophthalmic{background:linear-gradient(135deg,#30264b,#1b3446);border-color:#6f5a9b}
