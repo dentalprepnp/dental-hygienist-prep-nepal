@@ -127,14 +127,10 @@ function showTab(tab){
   $$(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
-  // Reset the document scroll position whenever a subject/view opens.
-  document.documentElement.scrollTop=0;
-  document.body.scrollTop=0;
-  window.scrollTo(0,0);
+  // Bring the selected view itself to the top immediately.
+  target.scrollIntoView({behavior:"auto",block:"start"});
   requestAnimationFrame(()=>{
-    document.documentElement.scrollTop=0;
-    document.body.scrollTop=0;
-    window.scrollTo(0,0);
+    target.scrollIntoView({behavior:"auto",block:"start"});
   });
 }
 $$("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
