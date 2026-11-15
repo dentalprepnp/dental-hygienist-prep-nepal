@@ -145,6 +145,14 @@ document.addEventListener("click",e=>{const back=e.target.closest("[data-back-su
 $$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
 const subjectSearch=$("#subjectSearch");
 const searchResults=$("#searchResults");
+if(searchResults){
+  searchResults.addEventListener("click",e=>{
+    const result=e.target.closest(".search-result");
+    if(!result)return;
+    showTab(result.dataset.go||result.dataset.tab);
+    searchResults.classList.add("hidden");
+  });
+}
 if(subjectSearch&&searchResults){
   subjectSearch.addEventListener("input",()=>{
     const term=subjectSearch.value.trim().toLocaleLowerCase();
