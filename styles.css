@@ -411,3 +411,6 @@ footer a:hover{text-decoration:underline}
 :root[data-theme="dark"] .track-ha{background:linear-gradient(135deg,#153d35,#1b3446);border-color:#397c69}
 :root[data-theme="dark"] .ha-options button.selected{background:#183b50}
 @media(max-width:520px){.ha-actions{gap:7px}.ha-actions button{font-size:11px;padding:11px 7px}.ha-topic-list article>div{align-items:flex-start}.ha-kpis b{font-size:19px}}
+
+.track-mlt{background:linear-gradient(135deg,#e8f7f4,#edf5ff);border-color:#a9d9cf}
+:root[data-theme="dark"] .track-mlt{background:linear-gradient(135deg,#153d35,#1b3446);border-color:#397c69}
