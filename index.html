@@ -320,5 +320,17 @@
 <script src="mlt.js"></script>
 <script src="radiography.js"></script>
 <script src="physiotherapy.js"></script>
+<script>
+/* Direct fallback navigation for the Physiotherapy track. */
+document.addEventListener("click",function(event){
+  var card=event.target.closest('.track-card[data-tab="physiotherapy"]');
+  if(!card)return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  document.querySelectorAll(".view").forEach(function(view){view.classList.add("hidden");});
+  var page=document.getElementById("physiotherapyView");
+  if(page){page.classList.remove("hidden");page.scrollIntoView({behavior:"auto",block:"start"});}
+},true);
+</script>
 </body>
 </html>
