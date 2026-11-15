@@ -417,3 +417,6 @@ footer a:hover{text-decoration:underline}
 
 .track-radiography{background:linear-gradient(135deg,#fff2e7,#eef6ff);border-color:#e8c5a6}
 :root[data-theme="dark"] .track-radiography{background:linear-gradient(135deg,#493323,#1b3446);border-color:#9c704b}
+
+.track-physiotherapy{background:linear-gradient(135deg,#e8f4ff,#f0fbf5);border-color:#a8cde4}
+:root[data-theme="dark"] .track-physiotherapy{background:linear-gradient(135deg,#18384b,#173b35);border-color:#467a91}
