@@ -33,6 +33,7 @@
   <section class="exam-tracks" aria-label="Choose exam preparation">
     <div class="section-head"><div><p class="eyebrow">CHOOSE YOUR EXAM</p><h2>आफ्नो परीक्षा छान्नुहोस्</h2></div><span class="pill">3 Exam Tracks</span></div>
     <div class="track-grid">
+      <button class="track-card track-ha" data-tab="ha"><span class="track-icon">🩺</span><b>PCL General Medicine (HA)</b><small>NHPC Health Assistant License Preparation</small><span class="track-action">Open HA Preparation →</span></button>
       <button class="track-card track-nhpc" data-tab="nhpc"><span class="track-icon">🇳🇵</span><b>NHPC License Exam</b><small>नेपालको Dental Hygienist लाइसेन्स तयारी</small><span class="track-action">Open NHPC →</span></button>
       <button class="track-card track-dha" data-tab="dha"><span class="track-icon">🌍</span><b>DHA Exam – Dubai</b><small>Dubai Health Authority • Dental Hygienist</small><span class="track-action">Open DHA →</span></button>
       <button class="track-card track-loksewa" data-tab="loksewa"><span class="track-icon">🏛️</span><b>Loksewa Exam</b><small>Dental Hygienist • नेपाल</small><span class="track-action">Open Loksewa →</span></button>
@@ -130,6 +131,14 @@
     <button class="tab" data-tab="foodNutrition">Food and Nutrition</button>
     <button class="tab" data-tab="epidemiology">Epidemiology and Community Diagnosis</button>
   </nav>
+
+  <section id="haView" class="view hidden exam-view">
+    <button class="module-back" type="button" data-back-exams>← परीक्षा छनोटमा फर्कनुहोस्</button>
+    <div class="exam-heading"><span class="track-icon">🩺</span><div><p class="eyebrow">PCL GENERAL MEDICINE • HEALTH ASSISTANT</p><h2>NHPC – HA License Preparation</h2><p class="muted">विस्तृत Notes • MCQ • Timed Practice • Full Syllabus Mock</p></div></div>
+    <div class="notice"><b>आधिकारिक syllabus अनुसार अध्ययन</b><p>NHPC को उपलब्ध 2021 HA licensing syllabus को विषयगत भार प्रयोग गरिएको छ। CTEVT को PCL General Medicine curriculum 2024 मा संशोधित छ; शैक्षिक पाठ्यक्रम र NHPC licensing syllabus अलग उद्देश्यका कागजात हुन्।</p></div>
+    <div id="haContent" class="ha-content"></div>
+    <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो, आधिकारिक NHPC प्रश्नपत्र होइन। औषधि तथा उपचारसम्बन्धी निर्णयमा हालको राष्ट्रिय निर्देशिका र आफ्नो professional scope पालना गर्नुहोस्।</p>
+  </section>
 
   <section id="nhpcView" class="view hidden exam-view">
     <button class="module-back" type="button" data-back-exams>← परीक्षा छनोटमा फर्कनुहोस्</button>
@@ -267,5 +276,6 @@
 <script src="epidemiology-community.js"></script>
 <script src="dha.js"></script>
 <script src="nhpc.js"></script>
+<script src="ha-general-medicine.js"></script>
 </body>
 </html>
