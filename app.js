@@ -133,7 +133,7 @@ function showTab(tab){
     target.scrollIntoView({behavior:"auto",block:"start"});
   });
 }
-$$("[data-tab]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+document.addEventListener("click",e=>{const tabButton=e.target.closest("[data-tab]");if(!tabButton)return;showTab(tabButton.dataset.tab);});
 document.addEventListener("click",e=>{
   const back=e.target.closest("[data-back-exams]");
   if(!back)return;
