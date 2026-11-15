@@ -331,6 +331,47 @@
 <script src="physiotherapy.js"></script>
 <script src="ophthalmic-science.js?v=111"></script>
 <script>
+/* Reliable fallback for subject search and Dental Pharmacy navigation. */
+(function(){
+  var input=document.getElementById("subjectSearch");
+  var results=document.getElementById("searchResults");
+  var submit=document.getElementById("searchSubmit");
+  function openView(id){
+    document.querySelectorAll(".view").forEach(function(v){v.classList.add("hidden");});
+    var target=document.getElementById(id+"View");
+    if(!target)return false;
+    target.classList.remove("hidden");
+    if(results)results.classList.add("hidden");
+    if(input)input.blur();
+    target.scrollIntoView({behavior:"auto",block:"start"});
+    return true;
+  }
+  function search(){
+    if(!input)return;
+    var term=input.value.trim().toLocaleLowerCase();
+    if(!term)return;
+    if(term.indexOf("dental pharmacy")!==-1 || term==="pharmacy" || term.indexOf("डेन्टल फार्मेसी")!==-1 || term.indexOf("औषधि")!==-1){
+      openView("dentalPharmacy");
+      return;
+    }
+    var card=Array.from(document.querySelectorAll("#subjectGrid .subject-card")).find(function(c){
+      return ((c.dataset.subject||"")+" "+c.textContent).toLocaleLowerCase().indexOf(term)!==-1;
+    });
+    if(card && card.dataset.go){openView(card.dataset.go);return;}
+    if(results){
+      results.innerHTML='<p class="search-empty">मिल्दो विषय भेटिएन।</p>';
+      results.classList.remove("hidden");
+    }
+  }
+  if(submit)submit.addEventListener("click",function(e){e.preventDefault();search();},true);
+  if(input)input.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();e.stopImmediatePropagation();search();}},true);
+  if(results)results.addEventListener("click",function(e){
+    var button=e.target.closest(".search-result");
+    if(button){e.preventDefault();e.stopImmediatePropagation();var id=button.dataset.go||button.dataset.tab;if(id)openView(id);}
+  },true);
+})();
+</script>
+<script>
 /* Direct fallback navigation for the Physiotherapy track. */
 document.addEventListener("click",function(event){
   var card=event.target.closest('.track-card[data-tab="physiotherapy"]');
