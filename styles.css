@@ -378,3 +378,36 @@ footer a:hover{text-decoration:underline}
 
 /* NHPC student progress and detailed notes */
 .nhpc-progress-panel{background:var(--surface,#fff);border:1px solid var(--line);border-radius:16px;padding:16px;margin:18px 0}.nhpc-progress-panel h3{margin:0 0 10px}.progress-mini-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.progress-mini-grid article{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px;text-align:center}.progress-mini-grid small{display:block;color:var(--muted);font-size:11px}.progress-mini-grid strong{display:block;font-size:23px;color:var(--blue)}.clinical-point{margin-top:10px;padding:11px;border-left:3px solid var(--blue);background:#eaf5fb;border-radius:7px;font-size:13px}.np{font-family:"Noto Sans Devanagari",sans-serif}.dha-mcq-filters button{margin:3px}.dha-mcq-filters button.active{background:var(--navy);color:#fff}@media(max-width:520px){.progress-mini-grid{gap:5px}.progress-mini-grid article{padding:8px 4px}.progress-mini-grid strong{font-size:19px}}
+
+
+/* PCL General Medicine (HA) module */
+.track-ha{border-color:#86b8a5;background:linear-gradient(135deg,#e9f8f1,#f4fbff)}
+.track-ha .track-action{color:#08744d}
+.ha-content{margin-top:14px}
+.ha-overview{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+.ha-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.ha-kpis>div{background:var(--white);border:1px solid var(--line);border-radius:11px;padding:10px;text-align:center}
+.ha-kpis b,.ha-kpis small{display:block}.ha-kpis b{font-size:22px;color:var(--blue)}.ha-kpis small{font-size:10px;color:var(--muted)}
+.ha-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0 18px}
+.ha-actions button,.ha-nav button{border:1px solid var(--line);background:var(--white);color:var(--ink);border-radius:12px;padding:13px 10px;font-weight:750;cursor:pointer}
+.ha-actions button:hover,.ha-nav button:hover{border-color:var(--blue);background:var(--bg)}
+.ha-topic-list{display:grid;gap:9px;margin:10px 0 18px}
+.ha-topic-list article,.ha-note,.ha-question,.ha-review{background:var(--white);border:1px solid var(--line);border-radius:13px;padding:13px;margin:9px 0}
+.ha-topic-list article>div{display:flex;justify-content:space-between;gap:10px;align-items:center}.ha-topic-list article strong{color:var(--blue);white-space:nowrap}
+.ha-topic-list p,.ha-note p,.ha-review p{font-size:12px;line-height:1.65;margin:7px 0}
+.ha-note h4{font-size:14px;color:var(--blue);margin:0 0 8px}
+.ha-test-head{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:12px;font-weight:800}
+.ha-test-head b{font-size:19px;color:var(--blue);font-variant-numeric:tabular-nums}
+.ha-progress{height:7px;background:var(--line);border-radius:20px;overflow:hidden;margin:12px 0}.ha-progress span{display:block;height:100%;background:var(--blue)}
+.ha-question h3{font-size:16px;line-height:1.5}.ha-question>small{font-size:10px;color:var(--blue);font-weight:800;text-transform:uppercase}
+.ha-options{display:grid;gap:8px;margin-top:13px}
+.ha-options button{width:100%;text-align:left;padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-size:12px;cursor:pointer}
+.ha-options button.selected{border-color:var(--blue);background:#e5f3fb;box-shadow:inset 0 0 0 1px var(--blue)}
+.ha-nav{display:flex;justify-content:space-between;gap:10px;margin:12px 0}.ha-nav button{min-width:112px}
+.ha-explain{padding:11px;background:var(--bg);border-radius:10px;margin-top:12px;font-size:12px;line-height:1.6}
+.ha-result{text-align:center;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:15px}
+.ha-score{font-size:38px;font-weight:850;color:var(--blue);margin:8px}
+.ha-review .correct{color:#08744d;font-weight:800}.ha-review .incorrect{color:#bd3b36;font-weight:800}
+:root[data-theme="dark"] .track-ha{background:linear-gradient(135deg,#153d35,#1b3446);border-color:#397c69}
+:root[data-theme="dark"] .ha-options button.selected{background:#183b50}
+@media(max-width:520px){.ha-actions{gap:7px}.ha-actions button{font-size:11px;padding:11px 7px}.ha-topic-list article>div{align-items:flex-start}.ha-kpis b{font-size:19px}}
