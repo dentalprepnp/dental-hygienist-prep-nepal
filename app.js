@@ -133,7 +133,7 @@ function showTab(tab){
     target.scrollIntoView({behavior:"auto",block:"start"});
   });
 }
-document.addEventListener("click",e=>{const tabButton=e.target.closest("[data-tab]");if(!tabButton)return;showTab(tabButton.dataset.tab);});
+document.addEventListener("click",e=>{const tabButton=e.target.closest(".track-card[data-tab]");if(!tabButton)return;e.preventDefault();showTab(tabButton.dataset.tab);},true);
 document.addEventListener("click",e=>{
   const back=e.target.closest("[data-back-exams]");
   if(!back)return;
