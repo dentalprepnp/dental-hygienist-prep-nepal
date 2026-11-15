@@ -3,6 +3,7 @@
    Timers are practice settings, not official NHPC exam specifications. */
 (()=>{
  const root=document.getElementById("physiotherapyContent");if(!root||root.dataset.ready==="1")return;root.dataset.ready="1";
+ try {
  const topics=[
  ["Section 1 — Applied Anatomy, Physiology, Pathology & Pharmacology","25%","Musculoskeletal, nervous, dermatological and cardiorespiratory anatomy; muscle and nerve physiology; cardiovascular, respiratory, reproductive and lymphatic physiology; tumour, ganglion, inflammation, wound, ulcer, common infections; NSAIDs, PPI, multivitamins, calcium and ointments.","हाडजोर्नी, स्नायु, छाला, मुटु–फोक्सोको बनावट र कार्य; सूजन, घाउ, अल्सर, संक्रमण तथा syllabus मा उल्लेखित औषधि।"],
  ["Section 2 — Electrotherapy, Therapeutic Exercise, Assessment & Biomechanics","25%","SWD, MWD, TENS, LASER, IFT, moist heat, paraffin wax, traction, IRR, UVR, ultrasound; ROM, stretching, strengthening, re-education, coordination, massage, posture, ergonomics, goniometer, MMT, transfers, wheelchair and biomechanics.","Electrotherapy; ROM, stretching, strengthening, coordination, massage, posture, ergonomics, goniometer, MMT, transfer, wheelchair र biomechanics।"],
@@ -258,4 +259,16 @@
  function finish(auto){stop();const score=st.list.reduce((n,q,i)=>n+(st.answers[i]===q[3]?1:0),0);st.mode="result";root.innerHTML=header()+'<div class="ha-result"><h3>'+(auto?"समय समाप्त — ":"")+'अभ्यासको नतिजा</h3><div class="ha-score">'+score+'/'+st.list.length+'</div><p>'+Math.round(score/st.list.length*100)+'% सही उत्तर</p><p>यो अभ्यास नतिजा हो, आधिकारिक NHPC score होइन।</p></div><h3>Answer Review</h3>'+st.list.map((q,i)=>'<article class="ha-review"><b>'+(i+1)+'. '+esc(q[0])+'</b><p class="'+(st.answers[i]===q[3]?"correct":"incorrect")+'">Your answer: '+(st.answers[i]===undefined?"Not answered":esc(q[2][st.answers[i]]))+' | Correct: '+esc(q[2][q[3]])+'</p><p>'+esc(q[4])+'</p><p class="np">'+esc(q[5])+'</p></article>').join("");try{window.DHPNProgress?.recordMock?.({track:"physiotherapy",score:score,total:st.list.length})}catch(e){}}
  root.addEventListener("click",e=>{const m=e.target.closest("[data-mode]");if(m){const v=m.dataset.mode;if(v==="notes")showNotes();else if(v==="practice")practice();else if(v==="timed"||v==="mock")begin(v);else overview();return}const a=e.target.closest("[data-practice]");if(a){const z=a.dataset.practice.split(":").map(Number),q=Q[z[0]],box=root.querySelector("#pex"+z[0]);box.innerHTML='<div class="ha-explain"><b>'+(z[1]===q[3]?"Correct!":"Correct answer: "+esc(q[2][q[3]]))+'</b><p>'+esc(q[4])+'</p><p class="np">'+esc(q[5])+'</p></div>';return}const ans=e.target.closest("[data-answer]");if(ans){st.answers[st.i]=Number(ans.dataset.answer);question();return}if(e.target.closest("[data-prev]")){st.i=Math.max(0,st.i-1);question();return}if(e.target.closest("[data-next]")){if(st.i===st.list.length-1)finish(false);else{st.i++;question()}}});
  overview();
+ } catch(error) {
+  root.dataset.ready="error";
+  root.innerHTML='<div class="notice"><b>Physiotherapy सामग्री लोड गर्दा समस्या आयो।</b><p>यो त्रुटि पहिचान गर्न तलको विवरण उपयोगी हुन्छ।</p></div>';
+  const detail=document.createElement("pre");
+  detail.style.whiteSpace="pre-wrap";
+  detail.style.padding="12px";
+  detail.style.background="#fff1f0";
+  detail.style.color="#8b1e1e";
+  detail.textContent=String(error && (error.stack || error.message) || error);
+  root.appendChild(detail);
+  console.error("Physiotherapy module error:",error);
+ }
 })();
