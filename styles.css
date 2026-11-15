@@ -414,3 +414,6 @@ footer a:hover{text-decoration:underline}
 
 .track-mlt{background:linear-gradient(135deg,#e8f7f4,#edf5ff);border-color:#a9d9cf}
 :root[data-theme="dark"] .track-mlt{background:linear-gradient(135deg,#153d35,#1b3446);border-color:#397c69}
+
+.track-radiography{background:linear-gradient(135deg,#fff2e7,#eef6ff);border-color:#e8c5a6}
+:root[data-theme="dark"] .track-radiography{background:linear-gradient(135deg,#493323,#1b3446);border-color:#9c704b}
