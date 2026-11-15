@@ -425,3 +425,15 @@ footer a:hover{text-decoration:underline}
 .track-ophthalmic{background:linear-gradient(135deg,#f0eaff,#eaf6ff);border-color:#c7b8ed}
 .track-ophthalmic .track-action{color:#6041a6}
 :root[data-theme="dark"] .track-ophthalmic{background:linear-gradient(135deg,#30264b,#1b3446);border-color:#6f5a9b}
+
+/* Search results: left-aligned icon and instant subject/exam suggestions */
+.search-wrap{width:min(100% - 32px,560px);margin:12px auto 0;position:relative;z-index:8}
+.search-center{width:100%;height:44px;margin:0;display:flex;flex-direction:row;direction:ltr;justify-content:flex-start;gap:10px;padding:0 14px;border-radius:14px}
+.search-center span{order:0;display:block;font-size:23px;flex:0 0 22px;text-align:left}
+.search-center input{order:1;flex:1;width:100%;min-width:0;text-align:left;font-size:14px;padding:8px 0}
+.search-results{display:grid;gap:6px;max-height: min(55vh,360px);overflow:auto;padding:9px;margin-top:6px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 28px #0c355420}
+.search-result{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#f8fbfd;color:var(--ink);text-align:left}
+.search-result b{font-size:13px}.search-result small,.search-empty{font-size:11px;color:var(--muted)}
+.search-empty{padding:8px;margin:0}
+:root[data-theme="dark"] .search-results{background:#152635;border-color:var(--line)}
+:root[data-theme="dark"] .search-result{background:#10202d;border-color:var(--line);color:var(--ink)}
