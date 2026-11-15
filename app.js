@@ -160,15 +160,33 @@ if(searchResults){
   });
 }
 const searchSubmit=$("#searchSubmit");
-function submitSubjectSearch(){
-  if(!subjectSearch)return;
+function resolveDirectSearchDestination(term){
+  const q=term.toLocaleLowerCase().replace(/[^a-z0-9\u0900-\u097f]+/g," ").trim();
+  if(q.includes("dental pharmacy")||q==="pharmacy"||q.includes("डेन्टल फार्मेसी")||q.includes("औषधि"))return "dentalPharmacy";
+  return "";
+}
+function navigateSearchTerm(){
+  if(!subjectSearch)return false;
   const term=subjectSearch.value.trim();
-  if(!term){subjectSearch.focus();return;}
+  if(!term)return false;
+  const direct=resolveDirectSearchDestination(term);
+  if(direct){
+    showTab(direct);
+    if(searchResults)searchResults.classList.add("hidden");
+    subjectSearch.blur();
+    return true;
+  }
   const first=searchResults&&searchResults.querySelector(".search-result");
-  if(first){openSearchResult(first);return;}
+  if(first){openSearchResult(first);return true;}
   subjectSearch.dispatchEvent(new Event("input",{bubbles:true}));
   const next=searchResults&&searchResults.querySelector(".search-result");
-  if(next)openSearchResult(next);
+  if(next){openSearchResult(next);return true;}
+  return false;
+}
+function submitSubjectSearch(){
+  if(!subjectSearch)return;
+  if(!subjectSearch.value.trim()){subjectSearch.focus();return;}
+  navigateSearchTerm();
 }
 if(searchSubmit)searchSubmit.addEventListener("click",submitSubjectSearch);
 if(subjectSearch&&searchResults){
@@ -202,8 +220,7 @@ if(subjectSearch&&searchResults){
   subjectSearch.addEventListener("keydown",e=>{
     if(e.key==="Enter"){
       e.preventDefault();
-      const first=searchResults.querySelector(".search-result");
-      if(first)openSearchResult(first);
+      navigateSearchTerm();
     }else if(e.key==="Escape"){
       searchResults.classList.add("hidden");
     }
