@@ -2,7 +2,7 @@
    Original bilingual study material. Initial bank; expand in reviewed batches toward 500+.
    Timers are practice settings, not official NHPC exam specifications. */
 (()=>{
- const root=document.getElementById("physiotherapyView");if(!root||root.dataset.ready==="1")return;root.dataset.ready="1";
+ const root=document.getElementById("physiotherapyContent");if(!root||root.dataset.ready==="1")return;root.dataset.ready="1";
  const topics=[
  ["Section 1 — Applied Anatomy, Physiology, Pathology & Pharmacology","25%","Musculoskeletal, nervous, dermatological and cardiorespiratory anatomy; muscle and nerve physiology; cardiovascular, respiratory, reproductive and lymphatic physiology; tumour, ganglion, inflammation, wound, ulcer, common infections; NSAIDs, PPI, multivitamins, calcium and ointments.","हाडजोर्नी, स्नायु, छाला, मुटु–फोक्सोको बनावट र कार्य; सूजन, घाउ, अल्सर, संक्रमण तथा syllabus मा उल्लेखित औषधि।"],
  ["Section 2 — Electrotherapy, Therapeutic Exercise, Assessment & Biomechanics","25%","SWD, MWD, TENS, LASER, IFT, moist heat, paraffin wax, traction, IRR, UVR, ultrasound; ROM, stretching, strengthening, re-education, coordination, massage, posture, ergonomics, goniometer, MMT, transfers, wheelchair and biomechanics.","Electrotherapy; ROM, stretching, strengthening, coordination, massage, posture, ergonomics, goniometer, MMT, transfer, wheelchair र biomechanics।"],
