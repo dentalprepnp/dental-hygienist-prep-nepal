@@ -144,16 +144,30 @@ document.addEventListener("click",e=>{
 document.addEventListener("click",e=>{const back=e.target.closest("[data-back-subjects]");if(!back)return;showTab("home");const directory=document.querySelector(".subject-directory");if(directory)directory.scrollIntoView({behavior:"smooth",block:"start"});});
 $$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
 const subjectSearch=$("#subjectSearch");
-if(subjectSearch){
+const searchResults=$("#searchResults");
+if(subjectSearch&&searchResults){
   subjectSearch.addEventListener("input",()=>{
-    const term=subjectSearch.value.trim().toLowerCase();
-    let visible=0;
-    $$("#subjectGrid .subject-card").forEach(card=>{
-      const match=card.dataset.subject.toLowerCase().includes(term)||card.textContent.toLowerCase().includes(term);
-      card.classList.toggle("hidden",!match);
-      if(match)visible++;
-    });
-    $("#noSubjects").classList.toggle("hidden",visible!==0);
+    const term=subjectSearch.value.trim().toLocaleLowerCase();
+    searchResults.innerHTML="";
+    if(!term){searchResults.classList.add("hidden");return;}
+    const matches=[
+      ...$("#subjectGrid .subject-card").map(card=>({name:card.querySelector("b")?.textContent||card.dataset.subject,type:"विषय",action:"go",value:card.dataset.go,haystack:(card.dataset.subject+" "+card.textContent).toLocaleLowerCase()})),
+      ...$(".track-grid .track-card").map(card=>({name:card.querySelector("b")?.textContent||"",type:"परीक्षा तयारी",action:"tab",value:card.dataset.tab,haystack:card.textContent.toLocaleLowerCase()}))
+    ].filter(item=>item.haystack.includes(term));
+    if(!matches.length){
+      searchResults.innerHTML='<p class="search-empty">मिल्दो विषय वा परीक्षा भेटिएन। अर्को शब्द लेख्नुहोस्।</p>';
+    }else{
+      matches.slice(0,12).forEach(item=>{
+        const button=document.createElement("button");
+        button.type="button";
+        button.className="search-result";
+        button.dataset[item.action==="go"?"go":"tab"]=item.value;
+        const title=document.createElement("b");title.textContent=item.name;
+        const kind=document.createElement("small");kind.textContent=item.type;
+        button.append(title,kind);searchResults.append(button);
+      });
+    }
+    searchResults.classList.remove("hidden");
   });
 }
 function renderNotes(){
