@@ -1,4 +1,4 @@
-const CACHE="dhpn-v84";
+const CACHE="dhpn-v85";
 const ASSETS=["./","./index.html","./about.html","./privacy.html","./styles.css","./app.js","./manifest.webmanifest","./icon.svg","./oral-pathology.js","./dental-materials.js","./oral-anatomy.js","./dental-public-health.js","./dental-radiology.js","./dental-pharmacy.js","./dental-ethics.js","./food-nutrition.js","./epidemiology-community.js","./dha.js","./nhpc.js","./ha-general-medicine.js","./mlt.js","./radiography.js","./physiotherapy.js"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
