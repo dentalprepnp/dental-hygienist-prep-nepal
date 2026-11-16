@@ -106,9 +106,9 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   box.innerHTML=`<div class="progress-mini-grid"><article><small>Mock Attempts</small><strong>${rows.length}</strong></article><article><small>Average Score</small><strong>${avg}%</strong></article><article><small>Best Score</small><strong>${best}%</strong></article></div><p class="muted">${last?"पछिल्लो अभ्यास: "+last.percent+"% • "+new Date(last.date).toLocaleDateString():"अहिलेसम्म NHPC Mock Test को नतिजा छैन। पहिलो परीक्षा दिएपछि यहाँ प्रगति देखिन्छ।"}</p>`;
  }
  renderNhpcProgress();
- // NHPC full-length practice mock: 50 questions, 60 minutes (independent practice format).
+ // NHPC mock options: 50, 100, 150, or the complete available question bank.
  const mockRoot=document.getElementById("nhpcFullMock");
- let mockSet=[],mockAt=0,mockPicked={},mockClock=null,mockSeconds=3600,mockDone=false;
+ let mockSet=[],mockAt=0,mockPicked={},mockClock=null,mockSeconds=3600,mockDone=false,mockTarget=50;
  const shuffleItems=a=>[...a].sort(()=>Math.random()-.5);
  function openNhpcMock(){
   clearInterval(mockClock);mockClock=null;
@@ -116,38 +116,45 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   document.getElementById("nhpcCloseMock")?.classList.remove("hidden");
   document.getElementById("nhpcMcqArea")?.classList.add("hidden");
   document.getElementById("nhpcCloseMcq")?.classList.add("hidden");
-  mockRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">NHPC EXAM SIMULATION</p><h3>Full Mock Test</h3></div><span class="pill">50 Questions • ${mockBank.length}+ Pool</span></div>
-   <div class="notice"><b>परीक्षा अभ्यासका नियम</b><p>५० प्रश्न • ६० मिनेट • प्रत्येक प्रश्न १ अंक। उत्तर अन्तिममा मात्र जाँचिन्छ। यो अभ्यासका लागि बनाइएको नमुना ढाँचा हो, NHPC को आधिकारिक परीक्षा ढाँचा होइन।</p></div>
-   <button class="primary" id="nhpcBeginFull">परीक्षा सुरु गर्नुहोस्</button>`;
+  const total=mockBank.length;
+  mockRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">PCL IN DENTAL HYGIENE • NHPC</p><h3>Mock Test छान्नुहोस्</h3></div><span class="pill">${total} प्रश्न उपलब्ध</span></div>
+   <div class="notice"><b>आफ्नो परीक्षा अभ्यास छान्नुहोस्</b><p>प्रत्येक प्रश्न १ अंक। प्रश्नहरू उपलब्ध question bank बाट random रूपमा छानिन्छन् र सही उत्तरको स्थान पनि परिवर्तन हुन्छ।</p></div>
+   <div class="feature-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+    <button class="feature-card" data-mock-size="50"><b>Mini Mock</b><strong>५० प्रश्न</strong><small>६० मिनेट</small></button>
+    <button class="feature-card" data-mock-size="100"><b>Standard Mock</b><strong>१०० प्रश्न</strong><small>१२० मिनेट</small></button>
+    <button class="feature-card" data-mock-size="150"><b>Advanced Mock</b><strong>१५० प्रश्न</strong><small>१८० मिनेट</small></button>
+    <button class="feature-card" data-mock-size="all"><b>Full Question Bank</b><strong>${total} प्रश्न</strong><small>${Math.ceil(total*1.2)} मिनेट</small></button>
+   </div>
+   <p class="muted">समय प्रति प्रश्न १.२ मिनेटका आधारमा राखिएको छ। यो अभ्यासको नमुना ढाँचा हो, NHPC को आधिकारिक परीक्षा ढाँचा होइन।</p>`;
   mockRoot.scrollIntoView({behavior:"smooth",block:"start"});
-  document.getElementById("nhpcBeginFull").addEventListener("click",beginNhpcMock);
+  mockRoot.querySelectorAll("[data-mock-size]").forEach(b=>b.addEventListener("click",()=>{mockTarget=b.dataset.mockSize==="all"?total:Number(b.dataset.mockSize);beginNhpcMock()}));
  }
  function beginNhpcMock(){
-  clearInterval(mockClock);mockSet=shuffleItems(mockBank).slice(0,Math.min(50,mockBank.length));mockAt=0;mockPicked={};mockSeconds=3600;mockDone=false;drawNhpcMock();
+  clearInterval(mockClock);mockSet=shuffleItems(mockBank).slice(0,Math.min(mockTarget,mockBank.length));mockAt=0;mockPicked={};mockSeconds=Math.ceil(mockSet.length*72);mockDone=false;drawNhpcMock();
   mockClock=setInterval(()=>{mockSeconds--;const t=mockRoot.querySelector("#nhpcFullTimer");if(t)t.textContent=fmtNhpcTime();if(mockSeconds<=0)finishNhpcMock(true)},1000);
  }
  function fmtNhpcTime(){return Math.floor(mockSeconds/60)+":"+String(mockSeconds%60).padStart(2,"0")}
  function drawNhpcMock(){
-  const item=mockSet[mockAt],q=item.q,selected=mockPicked[mockAt];
-  mockRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">NHPC FULL MOCK TEST</p><h3>प्रश्न ${mockAt+1} / 50</h3></div><span class="timer" id="nhpcFullTimer">${fmtNhpcTime()}</span></div>
-   <div class="mock-progress"><span style="width:${Object.keys(mockPicked).length/50*100}%"></span></div>
+  const total=mockSet.length,item=mockSet[mockAt],q=item.q,selected=mockPicked[mockAt];
+  mockRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">PCL DENTAL HYGIENE MOCK TEST</p><h3>प्रश्न ${mockAt+1} / ${total}</h3></div><span class="timer" id="nhpcFullTimer">${fmtNhpcTime()}</span></div>
+   <div class="mock-progress"><span style="width:${Object.keys(mockPicked).length/total*100}%"></span></div>
    <div class="mock-nav" aria-label="Question navigation">${mockSet.map((_,i)=>`<button type="button" class="${i===mockAt?"current":""} ${mockPicked[i]!==undefined?"answered":""}" data-jump="${i}">${i+1}</button>`).join("")}</div>
    <article class="question"><div class="qtop"><span>${item.topic}</span><span>${selected===undefined?"उत्तर छान्नुहोस्":"उत्तर सुरक्षित भयो"}</span></div><h3>${q[0]}</h3><p class="translation">${q[1]}</p><div class="options">${q[2].map((o,i)=>`<button type="button" class="option ${selected===i?"selected":""}" data-full-answer="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div>
-   <div class="nextrow"><button class="smallbtn" id="nhpcFullPrev" ${mockAt===0?"disabled":""}>अघिल्लो</button><span class="muted">${Object.keys(mockPicked).length}/50 उत्तर</span><button class="smallbtn" id="nhpcFullNext">${mockAt===49?"परीक्षा बुझाउनुहोस्":"अर्को"}</button></div></article>
+   <div class="nextrow"><button class="smallbtn" id="nhpcFullPrev" ${mockAt===0?"disabled":""}>अघिल्लो</button><span class="muted">${Object.keys(mockPicked).length}/${total} उत्तर</span><button class="smallbtn" id="nhpcFullNext">${mockAt===total-1?"परीक्षा बुझाउनुहोस्":"अर्को"}</button></div></article>
    <div class="nextrow"><button class="secondary" id="nhpcFullSubmit">अहिले नै परीक्षा बुझाउनुहोस्</button></div>`;
   mockRoot.querySelectorAll("[data-full-answer]").forEach(b=>b.addEventListener("click",()=>{mockPicked[mockAt]=Number(b.dataset.fullAnswer);drawNhpcMock()}));
   mockRoot.querySelectorAll("[data-jump]").forEach(b=>b.addEventListener("click",()=>{mockAt=Number(b.dataset.jump);drawNhpcMock()}));
   mockRoot.querySelector("#nhpcFullPrev").addEventListener("click",()=>{mockAt=Math.max(0,mockAt-1);drawNhpcMock()});
-  mockRoot.querySelector("#nhpcFullNext").addEventListener("click",()=>{if(mockAt===49)finishNhpcMock(false);else{mockAt++;drawNhpcMock()}});
+  mockRoot.querySelector("#nhpcFullNext").addEventListener("click",()=>{if(mockAt===total-1)finishNhpcMock(false);else{mockAt++;drawNhpcMock()}});
   mockRoot.querySelector("#nhpcFullSubmit").addEventListener("click",()=>{if(confirm("परीक्षा बुझाउने हो? बाँकी अनुत्तरित प्रश्न गलत मानिनेछन्।"))finishNhpcMock(false)});
  }
  function finishNhpcMock(auto){
   if(mockDone)return;mockDone=true;clearInterval(mockClock);mockClock=null;
-  const score=mockSet.reduce((sum,item,i)=>sum+(mockPicked[i]===item.q[3]?1:0),0);
-  window.DHPNProgress?.recordMock?.("NHPC – Dental Hygienist",score,50);renderNhpcProgress();
-  mockRoot.innerHTML=`<div class="result"><p>NHPC FULL MOCK COMPLETED</p><strong>${score}/50</strong><b>${score*2}%</b><p>${auto?"समय सकिएपछि परीक्षा स्वतः बुझाइयो।":"तपाईंको परीक्षा बुझाइयो।"} ${50-Object.keys(mockPicked).length} प्रश्न अनुत्तरित थिए।</p><p>${score>=40?"धेरै राम्रो प्रयास!":score>=25?"राम्रो प्रयास। कमजोर विषयहरू पुनः अध्ययन गर्नुहोस्।":"नोट्स पढेर फेरि अभ्यास गर्नुहोस्।"}</p><button class="primary" id="nhpcShowReview">उत्तर समीक्षा गर्नुहोस्</button> <button class="secondary" id="nhpcRetake">फेरि परीक्षा दिनुहोस्</button></div><div id="nhpcFullReview"></div>`;
+  const total=mockSet.length,answered=Object.keys(mockPicked).length,score=mockSet.reduce((sum,item,i)=>sum+(mockPicked[i]===item.q[3]?1:0),0),percent=Math.round(score/total*100);
+  window.DHPNProgress?.recordMock?.("PCL in Dental Hygiene",score,total);renderNhpcProgress();
+  mockRoot.innerHTML=`<div class="result"><p>PCL IN DENTAL HYGIENE MOCK COMPLETED</p><strong>${score}/${total}</strong><b>${percent}%</b><p>${auto?"समय सकिएपछि परीक्षा स्वतः बुझाइयो।":"तपाईंको परीक्षा बुझाइयो।"} ${total-answered} प्रश्न अनुत्तरित थिए।</p><p>${percent>=80?"धेरै राम्रो प्रयास!":percent>=50?"राम्रो प्रयास। कमजोर विषयहरू पुनः अध्ययन गर्नुहोस्।":"नोट्स पढेर फेरि अभ्यास गर्नुहोस्।"}</p><button class="primary" id="nhpcShowReview">उत्तर समीक्षा गर्नुहोस्</button> <button class="secondary" id="nhpcRetake">फेरि परीक्षा दिनुहोस्</button></div><div id="nhpcFullReview"></div>`;
   mockRoot.querySelector("#nhpcShowReview").addEventListener("click",()=>{mockRoot.querySelector("#nhpcFullReview").innerHTML=mockSet.map((item,i)=>{const q=item.q,ans=mockPicked[i];return `<article class="note"><p class="eyebrow">${i+1}. ${item.topic}</p><h3>${q[0]}</h3><p class="translation">${q[1]}</p><p>तपाईंको उत्तर: <b>${ans===undefined?"उत्तर नदिएको":q[2][ans]}</b></p><p>सही उत्तर: <b>${q[2][q[3]]}</b></p><p>${q[4]}</p><p class="np">${q[5]}</p><span class="pill">${ans===q[3]?"सही":"गलत / अनुत्तरित"}</span></article>`}).join("")});
-  mockRoot.querySelector("#nhpcRetake").addEventListener("click",beginNhpcMock);
+  mockRoot.querySelector("#nhpcRetake").addEventListener("click",openNhpcMock);
  }
  document.getElementById("nhpcStartFullMock")?.addEventListener("click",openNhpcMock);
  document.getElementById("nhpcCloseMock")?.addEventListener("click",()=>{clearInterval(mockClock);mockClock=null;mockRoot.classList.add("hidden");document.getElementById("nhpcCloseMock")?.classList.add("hidden")});
