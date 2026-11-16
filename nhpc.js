@@ -95,4 +95,6 @@
  document.getElementById("nhpcStartFullMock")?.addEventListener("click",openNhpcMock);
  document.getElementById("nhpcCloseMock")?.addEventListener("click",()=>{clearInterval(mockClock);mockClock=null;mockRoot.classList.add("hidden");document.getElementById("nhpcCloseMock")?.classList.add("hidden")});
 
+
+  if (window.DHPNRandomizeQuestionBank) window.DHPNRandomizeQuestionBank(bank);
 })();
