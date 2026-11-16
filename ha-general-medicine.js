@@ -205,4 +205,6 @@
   if(b.dataset.haPracticePrev!==undefined){state.index=Math.max(0,state.index-1);renderPracticeQ();}
  });
  menu();
+
+  if (window.DHPNRandomizeQuestionBank) window.DHPNRandomizeQuestionBank(Q);
 })();
