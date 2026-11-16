@@ -52,8 +52,7 @@ returns setof public.memberships
 language plpgsql
 security definer
 set search_path = public
-as $
-declare
+as $$1declare
   v_user_id uuid := auth.uid();
 begin
   if v_user_id is null then
