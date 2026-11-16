@@ -499,16 +499,26 @@
  results.addEventListener("click",e=>{var b=e.target.closest("[data-open-view]");if(b){e.preventDefault();e.stopImmediatePropagation();open(b.dataset.openView);}},true);
 })();</script>
 <script>
-/* Direct fallback navigation for the Physiotherapy track. */
-document.addEventListener("click",function(event){
-  var card=event.target.closest('.track-card[data-tab="physiotherapy"]');
-  if(!card)return;
-  event.preventDefault();
-  event.stopImmediatePropagation();
-  document.querySelectorAll(".view").forEach(function(view){view.classList.add("hidden");});
-  var page=document.getElementById("physiotherapyView");
-  if(page){page.classList.remove("hidden");page.scrollIntoView({behavior:"auto",block:"start"});}
-},true);
+/* Reliable fallback navigation for every faculty/programme card. */
+(function(){
+  function openView(name){
+    var target=document.getElementById(name+"View");
+    if(!target){console.warn("Dental Prep Nepal: missing view",name+"View");return false;}
+    document.querySelectorAll(".view").forEach(function(view){view.classList.add("hidden");});
+    target.classList.remove("hidden");
+    document.body.classList.toggle("study-screen-open",name!=="home");
+    document.querySelectorAll(".tab").forEach(function(tab){tab.classList.toggle("active",tab.dataset.tab===name);});
+    window.scrollTo({top:0,left:0,behavior:"auto"});
+    requestAnimationFrame(function(){target.scrollIntoView({behavior:"auto",block:"start"});});
+    return true;
+  }
+  document.addEventListener("click",function(event){
+    var card=event.target.closest(".track-card[data-tab]");
+    if(card){event.preventDefault();event.stopImmediatePropagation();openView(card.dataset.tab);return;}
+    var back=event.target.closest("[data-back-exams]");
+    if(back){event.preventDefault();event.stopImmediatePropagation();openView("home");requestAnimationFrame(function(){var directory=document.querySelector(".exam-tracks");if(directory)directory.scrollIntoView({behavior:"auto",block:"start"});});}
+  },true);
+})();
 </script>
 <script>
 (function(){var cta=document.getElementById("membershipLoginCta");if(!cta)return;cta.addEventListener("click",function(){var a=document.getElementById("accountPanel");if(a){a.scrollIntoView({behavior:"smooth",block:"start"});var e=document.getElementById("accountEmail");if(e)e.focus({preventScroll:true});}});})();
