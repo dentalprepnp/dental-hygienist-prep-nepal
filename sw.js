@@ -1,4 +1,4 @@
-const CACHE="dhpn-v160-radiotherapy-q1-30";
+const CACHE="dhpn-v161-bsc-anesthesia-physiology";
 const ASSETS=["./","./index.html","./about.html","./privacy.html","./styles.css","./app.js?v=147","./progress-sync.js","./membership.js?v=6","./manifest.webmanifest","./icon.svg","./oral-pathology.js?v=146","./dental-materials.js?v=146","./oral-anatomy.js?v=146","./dental-public-health.js?v=146","./dental-radiology.js?v=146","./dental-pharmacy.js?v=148","./dental-ethics.js?v=146","./food-nutrition.js?v=146","./epidemiology-community.js?v=146","./dha.js?v=146","./nhpc.js?v=146","./ha-general-medicine.js?v=146","./mlt.js?v=146","./bsc-anesthesia.js?v=147","./radiotherapy.js?v=1","./radiography.js?v=146","./physiotherapy.js?v=146","./ophthalmic-science.js?v=146"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
