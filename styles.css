@@ -715,3 +715,7 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 :root[data-theme="dark"] .subject-welcome{background:linear-gradient(135deg,#17394d,#1b3040);border-color:#31566b}
 :root[data-theme="dark"] .subject-welcome p:last-child,:root[data-theme="dark"] .study-tip{color:#bdd2df}
 :root[data-theme="dark"] .study-tip{background:#1a3445}
+
+/* Keep the learning screen uncluttered: use the subject directory and subject hub cards only. */
+.tabs{display:none!important}
+.hero-actions{display:none!important}
