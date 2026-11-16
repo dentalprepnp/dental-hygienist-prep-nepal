@@ -52,7 +52,7 @@ returns setof public.memberships
 language plpgsql
 security definer
 set search_path = public
-as $
+as $$
 declare
   v_user_id uuid := auth.uid();
 begin
@@ -68,7 +68,7 @@ begin
     );
   return query select * from public.memberships where user_id = v_user_id;
 end;
-$;
+$$;
 
 revoke all on function public.refresh_membership_status() from public, anon;
 grant execute on function public.refresh_membership_status() to authenticated;
