@@ -1,4 +1,4 @@
-const CACHE="dhpn-v221-safe-pwa-updates";
+const CACHE="dhpn-v222-safe-pwa-updates";
 const ASSETS=["./","./index.html","./about.html","./privacy.html","./styles.css","./app.js?v=153","./progress-sync.js","./membership.js?v=6","./manifest.webmanifest","./icon.svg","./oral-pathology.js?v=146","./dental-materials.js?v=146","./oral-anatomy.js?v=146","./dental-public-health.js?v=146","./dental-radiology.js?v=146","./dental-pharmacy.js?v=148","./dental-ethics.js?v=146","./food-nutrition.js?v=146","./epidemiology-community.js?v=146","./dha.js?v=146","./nhpc.js?v=165","./ha-general-medicine.js?v=146","./mlt.js?v=147","./bsc-anesthesia.js?v=147","./radiotherapy.js?v=8","./ott.js?v=19","./radiography.js?v=146","./physiotherapy.js?v=146","./ophthalmic-science.js?v=146"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
 self.addEventListener("message",e=>{if(e.data&&e.data.type==="SKIP_WAITING")self.skipWaiting()});
