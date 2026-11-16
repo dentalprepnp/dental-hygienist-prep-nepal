@@ -506,3 +506,41 @@ footer a:hover{text-decoration:underline}
 .trial-consent-label input{margin-top:4px;flex:0 0 auto}
 #startTrialButton{width:100%;padding:12px 16px;border:0;border-radius:10px;background:var(--primary,#1769aa);color:#fff;font-weight:700}
 #startTrialButton:disabled{opacity:.45;cursor:not-allowed}
+
+
+/* Colorful membership plans and transparent checkout preview */
+.membership-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.membership-plan-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;text-align:left;padding:13px;border:1px solid transparent;border-radius:14px;color:#173247;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+.membership-plan-card:hover{transform:translateY(-2px);box-shadow:0 7px 18px #0c35541a}
+.membership-plan-card.selected{border:2px solid currentColor;box-shadow:0 0 0 3px #07598518}
+.membership-plan-card strong{font-size:14px}
+.membership-plan-card b{font-size:20px;line-height:1.3}
+.membership-plan-card small{font-size:11px;opacity:.8}
+.membership-plan-card .plan-badge{font-size:10px;font-weight:800;padding:3px 7px;border-radius:20px;background:#ffffffa8}
+.membership-plan-card .plan-select{font-size:11px;font-weight:800;margin-top:5px}
+.plan-blue{background:#e8f2ff;border-color:#c5dcff;color:#1756a9}
+.plan-green{background:#e7f7ec;border-color:#bce8ca;color:#16743a}
+.plan-orange{background:#fff2d9;border-color:#f4d8a4;color:#a65b00}
+.plan-purple{background:#f1eafe;border-color:#d9c5f5;color:#7136a8}
+.membership-checkout{margin-top:13px;padding:15px;border:1px solid var(--line);border-radius:14px;background:#f8fbfd;color:var(--ink)}
+.checkout-heading{display:flex;justify-content:space-between;align-items:center}
+.checkout-heading h3{margin:0;font-size:17px}
+.checkout-lock{font-size:23px}
+.checkout-summary{display:grid;gap:0;margin:12px 0;border:1px solid var(--line);border-radius:11px;background:#fff}
+.checkout-summary>div{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-bottom:1px solid var(--line);font-size:12px}
+.checkout-summary>div:last-child{border-bottom:0}
+.checkout-summary span{color:var(--muted)}
+.checkout-summary strong{text-align:right}
+.checkout-summary .checkout-total{background:#edf7ff;border-radius:0 0 11px 11px}
+.checkout-summary .checkout-total strong{font-size:18px;color:#075985}
+.checkout-pending{padding:12px;border:1px solid #f1d9a8;border-radius:11px;background:#fff8e9;color:#704b08;font-size:12px}
+.checkout-pending p{margin:5px 0 0;line-height:1.5}
+.checkout-pay-button,.checkout-back-button{width:100%;margin-top:10px;padding:11px 12px;border-radius:10px;font:inherit;font-size:12px;font-weight:800}
+.checkout-pay-button{border:0;background:#94a3b8;color:#fff;cursor:not-allowed}
+.checkout-back-button{border:1px solid var(--line);background:#fff;color:var(--blue)}
+:root[data-theme="dark"] .membership-plan-card{filter:brightness(.88)}
+:root[data-theme="dark"] .membership-checkout{background:#10202d;border-color:var(--line)}
+:root[data-theme="dark"] .checkout-summary{background:#152635;border-color:var(--line)}
+:root[data-theme="dark"] .checkout-summary .checkout-total{background:#173b54}
+:root[data-theme="dark"] .checkout-back-button{background:#152635;border-color:var(--line)}
+@media(max-width:380px){.membership-plan-card{padding:10px}.membership-plan-card b{font-size:18px}}
