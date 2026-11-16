@@ -1,12 +1,12 @@
 {
-  "name": "Dental Hygienist Prep Nepal",
-  "short_name": "DH Prep Nepal",
+  "name": "PCL in Dental Hygiene – Dental Prep Nepal",
+  "short_name": "PCL Dental Hygiene",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f3f7fa",
   "theme_color": "#075985",
-  "description": "Free bilingual Dental Hygienist license exam practice.",
+  "description": "Bilingual PCL in Dental Hygiene NHPC licensing exam preparation.",
   "icons": [
     {
       "src": "icon.svg",
