@@ -544,3 +544,122 @@ footer a:hover{text-decoration:underline}
 :root[data-theme="dark"] .checkout-summary .checkout-total{background:#173b54}
 :root[data-theme="dark"] .checkout-back-button{background:#152635;border-color:var(--line)}
 @media(max-width:380px){.membership-plan-card{padding:10px}.membership-plan-card b{font-size:18px}}
+
+
+
+/* Dental Prep Nepal — professional visual refresh */
+:root{
+ --navy:#123b5d;--blue:#0876a8;--cyan:#e8f6fc;--teal:#0d9488;
+ --ink:#173247;--muted:#657d8d;--bg:#f4f8fb;--white:#fff;
+ --line:#dce8ef;--shadow-soft:0 8px 24px rgba(15,55,82,.07);
+}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,#f7fbfd 0%,#f1f6fa 100%);line-height:1.6}
+.topbar{height:72px;backdrop-filter:blur(14px);background:rgba(255,255,255,.94);border-bottom:1px solid #e7eef3;box-shadow:0 5px 20px rgba(12,53,84,.06)}
+.brandmark{width:44px;height:44px;border-radius:14px;box-shadow:0 5px 14px rgba(7,89,133,.16)}
+.topbar strong{font-size:15px;letter-spacing:-.2px;color:#123b5d}
+.topbar small{font-size:11px;letter-spacing:.25px}
+main{max-width:1040px;padding:26px 20px 52px}
+.hero{position:relative;overflow:hidden;padding:clamp(26px,5vw,44px);border:1px solid rgba(255,255,255,.18);border-radius:26px;background:linear-gradient(120deg,#103b5d 0%,#0876a8 62%,#0d9488 120%);box-shadow:0 16px 36px rgba(7,89,133,.18)}
+.hero:after{content:"";position:absolute;width:230px;height:230px;border:1px solid rgba(255,255,255,.14);border-radius:50%;right:-85px;top:-95px;box-shadow:0 0 0 28px rgba(255,255,255,.035),0 0 0 58px rgba(255,255,255,.025);pointer-events:none}
+.hero h1{max-width:650px;font-size:clamp(27px,5vw,42px);letter-spacing:-.7px}
+.hero p:not(.eyebrow){max-width:620px;font-size:15px;line-height:1.8}
+.primary,.secondary,.smallbtn{min-height:44px;border-radius:12px;padding:11px 17px;transition:transform .16s ease,box-shadow .16s ease,background .16s ease}
+.primary{background:linear-gradient(135deg,#0876a8,#075985);box-shadow:0 5px 12px rgba(7,89,133,.16)}
+.secondary{border:1px solid #cde4ef;background:#edf8fc;color:#075985}
+.primary:hover,.secondary:hover,.smallbtn:hover{transform:translateY(-1px)}
+.section-head{margin-bottom:8px}
+.section-head h2{font-size:clamp(19px,3vw,23px);letter-spacing:-.3px;color:var(--navy)}
+.eyebrow{letter-spacing:1.35px}
+.exam-tracks,.subject-directory,.profile-card,.dashboard,.exam-view,.account-panel,.signed-in-panel,.membership-panel{border-radius:20px;box-shadow:var(--shadow-soft)}
+.exam-tracks,.subject-directory{padding:20px;background:rgba(255,255,255,.92);border:1px solid #e1ebf1}
+.track-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.track-card{position:relative;min-height:166px;padding:16px;border-radius:17px;border:1px solid #e0eaf0;background:linear-gradient(160deg,#fff,#f8fbfd);box-shadow:0 3px 12px rgba(15,55,82,.035);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.track-card:hover,.subject-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(15,55,82,.10);border-color:#9acde0}
+.track-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:#eaf6fb;font-size:22px}
+.track-card b{font-size:13px;line-height:1.5}
+.track-card small{font-size:11px;line-height:1.55}
+.track-action{color:#0876a8;font-size:11px}
+.subject-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.subject-card{position:relative;min-height:112px;padding:16px 16px 15px 62px;border:1px solid #e0eaf0;border-radius:16px;background:linear-gradient(145deg,#fff,#f8fbfd);color:var(--ink);text-align:left;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.subject-number{position:absolute;left:15px;top:16px;display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#e5f4fb;color:#0876a8;font-size:12px;font-weight:800}
+.subject-card b{display:block;font-size:13px;line-height:1.45}
+.subject-card small{display:block;margin-top:5px;color:var(--muted);font-size:11px;line-height:1.45}
+.pill{background:#e5f5fa;color:#0876a8;border:1px solid #d3ebf4;padding:5px 11px}
+.search-center{border-radius:15px;box-shadow:0 5px 18px rgba(7,89,133,.07)}
+.search-center button{background:linear-gradient(135deg,#0876a8,#075985);border-radius:11px;min-height:38px}
+.account-panel,.signed-in-panel{max-width:1000px;border-color:#e1ebf1}
+.account-panel{padding:21px}
+.account-form input,.profile-form input,.profile-form select{min-height:46px;border-radius:12px;border-color:#d8e5ec;background:#fbfdfe}
+.account-form input:focus,.profile-form input:focus,.profile-form select:focus{outline:3px solid rgba(8,118,168,.14);border-color:#48a4c7}
+.membership-panel{background:linear-gradient(145deg,#fff,#f0f9fd 75%,#e9f8f6);border-color:#cce5ef}
+.membership-plan-card{min-height:150px;padding:15px;border-radius:16px;box-shadow:0 4px 12px rgba(15,55,82,.05)}
+.membership-plan-card b{font-size:22px}
+.membership-plan-card .plan-select{padding-top:7px;border-top:1px solid rgba(20,50,70,.12);width:100%}
+.profile-card,.dashboard{padding:20px;border:1px solid #e1ebf1;background:#fff}
+.stats{gap:12px}
+.stats div{border-radius:16px;padding:16px 10px;box-shadow:0 4px 14px rgba(15,55,82,.045)}
+.stats strong{font-size:26px}
+footer{margin-top:30px;padding:26px 18px;background:#103b5d;color:#e8f5fb;text-align:center}
+footer span,footer small{color:#c3dce9}
+.footer-links a{color:#e8f5fb}
+button:focus-visible,a:focus-visible{outline:3px solid #38a6d4;outline-offset:3px}
+@media(max-width:760px){
+ main{padding:18px 13px 36px}
+ .track-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .track-card{min-height:155px}
+ .exam-tracks,.subject-directory{padding:15px}
+}
+@media(max-width:520px){
+ .topbar{height:64px;padding:0 12px;gap:9px}
+ .brandmark{width:39px;height:39px}
+ .topbar strong{font-size:13px}
+ .topbar small{font-size:10px}
+ .theme-toggle{width:37px;height:37px;margin-left:auto}
+ .install{padding:8px 10px;font-size:11px}
+ main{padding:14px 11px 30px}
+ .hero{padding:25px 19px;border-radius:21px}
+ .hero h1{font-size:29px}
+ .hero p:not(.eyebrow){font-size:13px}
+ .hero-actions{display:grid;grid-template-columns:1fr 1fr}
+ .hero-actions button{padding:11px 8px;font-size:12px}
+ .track-grid{grid-template-columns:1fr 1fr;gap:9px}
+ .track-card{min-height:158px;padding:12px;gap:6px;border-radius:14px}
+ .track-icon{width:36px;height:36px;font-size:19px}
+ .track-card b{font-size:11px}
+ .track-card small{font-size:10px}
+ .track-action{font-size:10px;line-height:1.35}
+ .subject-grid{grid-template-columns:1fr;gap:9px}
+ .subject-card{min-height:88px;padding:13px 12px 12px 56px;border-radius:14px}
+ .subject-number{left:12px;top:14px;width:32px;height:32px}
+ .subject-card b{font-size:12px}
+ .search-wrap{width:calc(100% - 22px)}
+ .account-panel,.signed-in-panel,.membership-panel,.profile-card,.dashboard{margin:11px;padding:14px;border-radius:16px}
+ .membership-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .membership-plan-card{min-height:140px;padding:12px}
+ .stats{gap:7px}
+ .stats div{padding:12px 5px}
+ .stats strong{font-size:22px}
+ .stats span{font-size:10px}
+ .section-head{align-items:flex-start}
+ .section-head h2{font-size:19px}
+ .pill{font-size:10px}
+ footer{padding:22px 14px}
+}
+@media(max-width:360px){
+ .track-card{min-height:166px}
+ .hero-actions{grid-template-columns:1fr}
+ .section-head{flex-wrap:wrap}
+}
+:root[data-theme="dark"] body{background:linear-gradient(180deg,#0d1924,#101f2c)}
+:root[data-theme="dark"] .topbar{background:rgba(21,38,53,.96);border-color:#294253}
+:root[data-theme="dark"] .topbar strong{color:#e7f0f7}
+:root[data-theme="dark"] .exam-tracks,:root[data-theme="dark"] .subject-directory,:root[data-theme="dark"] .profile-card,:root[data-theme="dark"] .dashboard{background:#152635;border-color:#294253}
+:root[data-theme="dark"] .track-card,:root[data-theme="dark"] .subject-card{background:linear-gradient(145deg,#172d3d,#152635);border-color:#294253;color:#e7f0f7}
+:root[data-theme="dark"] .track-icon,:root[data-theme="dark"] .subject-number{background:#1d4055;color:#8ed7f4}
+:root[data-theme="dark"] .membership-panel{background:linear-gradient(145deg,#152635,#173344);border-color:#315c76}
+:root[data-theme="dark"] .membership-plan-grid .membership-plan-card{color:#d9effb}
+:root[data-theme="dark"] .account-form input,:root[data-theme="dark"] .profile-form input,:root[data-theme="dark"] .profile-form select{background:#10202d;border-color:#315c76;color:#e7f0f7}
+:root[data-theme="dark"] .stats div{background:#152635;border-color:#294253}
+:root[data-theme="dark"] footer{background:#091521}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
