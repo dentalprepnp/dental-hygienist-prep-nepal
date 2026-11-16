@@ -72,4 +72,6 @@
   }
   function finishMock(){clearInterval(timer);const score=mockSet.reduce((s,q,i)=>s+(mockAnswers[i]===q[3]?1:0),0);
     window.DHPNProgress.recordMock("Oral Pathology and Microbiology",score,mock.length);$("#opMockArea").innerHTML=`<div class="result"><p>MOCK TEST COMPLETED</p><strong>${score}/10</strong><b>${Math.round(score/mock.length*100)}%</b><p>${score>=8?"Excellent effort!":score>=5?"Good attempt. Review the notes.":"Keep practising and revise the notes."}</p><button class="primary" id="opReview">Review answers</button> <button class="secondary" id="opAgain">Try again</button></div><div id="opReviewList"></div>`;$("#opReview").addEventListener("click",()=>{$("#opReviewList").innerHTML=mockSet.map((q,i)=>`<article class="note"><h3>${i+1}. ${q[0]}</h3><p>Your answer: ${mockAnswers[i]===undefined?"Not answered":q[2][mockAnswers[i]]}</p><p><b>Correct: ${q[2][q[3]]}</b></p><p>${q[4]} ${q[5]}</p></article>`).join("")});$("#opAgain").addEventListener("click",()=>{$("#opMockIntro").classList.remove("hidden");$("#opMockArea").innerHTML=""})}
+
+  if (window.DHPNRandomizeQuestionBank) window.DHPNRandomizeQuestionBank(questions);
 })();
