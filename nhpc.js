@@ -37,6 +37,15 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   seenQuestionStems.add(stem);uniqueQuestions.push(item);
  });
  bank.length=0;bank.push(...uniqueQuestions);
+ // Randomize answer option positions once per app session while preserving the correct answer index.
+ bank.forEach(item=>{
+  const options=item.q?.[2],correct=item.q?.[3];
+  if(!Array.isArray(options)||!Number.isInteger(correct))return;
+  const pairs=options.map((value,index)=>({value,isCorrect:index===correct}));
+  for(let i=pairs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pairs[i],pairs[j]]=[pairs[j],pairs[i]];}
+  item.q[2]=pairs.map(pair=>pair.value);
+  item.q[3]=pairs.findIndex(pair=>pair.isCorrect);
+ });
  const mcqBank=bank;
  const mockBank=bank;
  const root=document.getElementById("nhpcMcqArea");
