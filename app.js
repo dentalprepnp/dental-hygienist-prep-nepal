@@ -399,8 +399,6 @@ if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   navigator.serviceWorker.addEventListener("controllerchange",()=>{
     if(!reloadAfterUpdate)return;
     reloadAfterUpdate=false;
-    if(sessionStorage.getItem("dhpn-update-reloaded")==="1")return;
-    sessionStorage.setItem("dhpn-update-reloaded","1");
     location.reload();
   });
   navigator.serviceWorker.register("./sw.js").then(reg=>{
