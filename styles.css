@@ -683,3 +683,15 @@ button:focus-visible,a:focus-visible{outline:3px solid #38a6d4;outline-offset:3p
 :root[data-theme="dark"] .public-membership-bottom{background:#1b4055;color:#d8eff9}
 @media(max-width:650px){.public-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
 @media(max-width:520px){.public-membership{padding:15px;margin:14px 0;border-radius:18px}.public-membership-heading h2{font-size:19px}.public-plan{padding:13px 8px}.public-plan strong{font-size:19px}.public-membership-bottom{align-items:stretch;flex-direction:column}.public-membership-bottom .primary{width:100%}}
+
+/* Focus mode: hide the home dashboard and all other subject directories while a study screen is open. */
+body.study-screen-open .hero,
+body.study-screen-open .public-membership,
+body.study-screen-open .exam-tracks,
+body.study-screen-open .nhpc-directory,
+body.study-screen-open .subject-directory,
+body.study-screen-open .profile-card,
+body.study-screen-open .search-wrap{display:none!important}
+.subject-landing{min-height:65vh}
+.subject-landing .module-back,.view>.module-back{margin-bottom:16px}
+.view{scroll-margin-top:10px}
