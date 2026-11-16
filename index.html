@@ -64,13 +64,14 @@
     <p class="membership-gateway">Premium Membership का लागि सुरक्षित Payment Gateway जडान हुँदैछ। Payment Server बाट प्रमाणित भएपछि मात्र Premium खुल्नेछ।</p>
     <div class="membership-plans" aria-label="Premium membership durations">
       <b>Premium Membership अवधि</b>
-      <div class="membership-plan-grid">
-        <article><strong>30 दिन</strong><small>1 महिना</small></article>
-        <article><strong>90 दिन</strong><small>3 महिना</small></article>
-        <article><strong>180 दिन</strong><small>6 महिना</small></article>
-        <article><strong>365 दिन</strong><small>1 वर्ष</small></article>
+      <div class="membership-plan-grid" id="membershipPlanGrid">
+        <button class="membership-plan-card plan-blue" type="button" data-plan-code="premium_30"><span class="plan-badge">सुरुवाती योजना</span><strong>१ महिना</strong><b>रु. ५००</b><small>३० दिन Premium</small><span class="plan-select">Select Plan →</span></button>
+        <button class="membership-plan-card plan-green" type="button" data-plan-code="premium_90"><span class="plan-badge">लोकप्रिय</span><strong>३ महिना</strong><b>रु. १,०००</b><small>९० दिन Premium</small><span class="plan-select">Select Plan →</span></button>
+        <button class="membership-plan-card plan-orange" type="button" data-plan-code="premium_180"><span class="plan-badge">उत्तम बचत</span><strong>६ महिना</strong><b>रु. १,५००</b><small>१८० दिन Premium</small><span class="plan-select">Select Plan →</span></button>
+        <button class="membership-plan-card plan-purple" type="button" data-plan-code="premium_365"><span class="plan-badge">सबैभन्दा बचत</span><strong>१ वर्ष</strong><b>रु. २,०००</b><small>३६५ दिन Premium</small><span class="plan-select">Select Plan →</span></button>
       </div>
-      <p class="membership-gateway">मूल्य र Payment विकल्प Merchant स्वीकृति तथा शुल्क निश्चित भएपछि देखाइनेछ।</p>
+      <div id="membershipCheckout" class="membership-checkout hidden" aria-live="polite"></div>
+      <p class="membership-gateway">आफ्नो योजना छानेपछि Payment विवरण देखिन्छ। वास्तविक भुक्तानी Fonepay Merchant स्वीकृति र Gateway जडानपछि खुल्नेछ।</p>
     </div>
   </div>
 </section>
@@ -384,7 +385,7 @@
 <script src="app.js?v=147"></script>
 <script type="module" src="auth.js?v=2"></script>
 <script type="module" src="progress-sync.js?v=2"></script>
-<script type="module" src="membership.js?v=4"></script>
+<script type="module" src="membership.js?v=5"></script>
 <script src="oral-pathology.js?v=146"></script>
 <script src="dental-materials.js?v=146"></script>
 <script src="oral-anatomy.js?v=146"></script>
