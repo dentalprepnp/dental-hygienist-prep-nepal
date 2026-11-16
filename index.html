@@ -42,6 +42,29 @@
   <button id="signOutButton" class="secondary" type="button">Logout</button>
 </section>
 
+<section id="membershipPanel" class="membership-panel hidden" aria-label="Membership dashboard" aria-live="polite">
+  <div class="membership-top">
+    <div>
+      <p class="eyebrow">STUDENT MEMBERSHIP</p>
+      <h2>मेरो Membership</h2>
+      <p id="membershipDetail" class="membership-plan">Membership विवरण जाँच हुँदैछ...</p>
+    </div>
+    <span class="membership-crown" aria-hidden="true">♛</span>
+  </div>
+  <p id="membershipStatus" class="membership-status" role="status">Login भएपछि Membership जाँच हुनेछ।</p>
+  <div class="trial-track" aria-label="Trial progress"><span id="trialProgress"></span></div>
+  <p id="membershipExpiry" class="membership-expiry"></p>
+  <div class="membership-includes">
+    <b>7-दिने Trial योजना</b>
+    <ul>
+      <li>सबै Faculty का लागि सीमित MCQ Practice</li>
+      <li>प्रत्येक Faculty मा 20 Mock प्रश्नसम्म</li>
+      <li>छनोट गरिएका Study Notes</li>
+    </ul>
+    <p class="membership-gateway">Premium Membership का लागि eSewa र Khalti दुवै जोड्ने तयारी हुँदैछ। Payment प्रमाणित भएपछि मात्र Premium खुल्नेछ।</p>
+  </div>
+</section>
+
 <div class="search-wrap"><div class="search-center"><span aria-hidden="true">⌕</span><input id="subjectSearch" type="search" placeholder="विषय वा परीक्षा खोज्नुहोस्" aria-label="विषय वा परीक्षा खोज्नुहोस्"><button id="searchSubmit" type="button">खोज्नुहोस्</button></div><div id="searchResults" class="search-results hidden" aria-live="polite"></div></div>
 
 <main>
@@ -351,6 +374,7 @@
 <script src="app.js?v=147"></script>
 <script type="module" src="auth.js?v=2"></script>
 <script type="module" src="progress-sync.js?v=2"></script>
+<script type="module" src="membership.js?v=1"></script>
 <script src="oral-pathology.js?v=146"></script>
 <script src="dental-materials.js?v=146"></script>
 <script src="oral-anatomy.js?v=146"></script>
