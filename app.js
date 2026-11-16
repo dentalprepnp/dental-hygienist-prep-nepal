@@ -342,6 +342,13 @@ function showSubjectHub(id){
  const meta=subjectMeta[id];if(!meta)return;
  activeDentalSubject=id;
  const view=document.getElementById(id+"View");if(!view)return;
+ // Every subject except Basic Periodontology has its own independent module.
+ // Never overwrite that module: doing so used to replace its Notes/MCQ/Mock
+ // with the generic Periodontology practice screen.
+ if(id!=="basicPeriodontology"){
+  showTab(id);
+  return;
+ }
  view.classList.add("subject-landing");
  view.innerHTML=`<button class="module-back" type="button" data-back-subjects>← सबै विषयहरू</button>
   <div class="subject-welcome"><span class="subject-welcome-icon">${meta[2]}</span><p class="eyebrow">PCL IN DENTAL HYGIENE • NHPC</p><h2>${meta[0]}</h2><p>${meta[1]}</p></div>
