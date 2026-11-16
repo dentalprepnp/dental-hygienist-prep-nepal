@@ -663,3 +663,23 @@ button:focus-visible,a:focus-visible{outline:3px solid #38a6d4;outline-offset:3p
 :root[data-theme="dark"] .stats div{background:#152635;border-color:#294253}
 :root[data-theme="dark"] footer{background:#091521}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* Public membership pricing section */
+.public-membership{margin:18px 0 20px;padding:22px;border:1px solid #d8e9f0;border-radius:22px;background:linear-gradient(145deg,#fff,#f0f9fd);box-shadow:0 9px 25px rgba(15,55,82,.065)}
+.public-membership-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}
+.public-membership-heading h2{margin:0;color:#123b5d;font-size:22px}
+.public-membership-heading p:not(.eyebrow){margin:4px 0 0;color:#657d8d;font-size:12px}
+.public-membership-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:#e3f3fa;color:#0876a8;font-size:28px}
+.public-plan-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.public-plan{position:relative;min-width:0;padding:15px 12px;border:1px solid transparent;border-radius:15px;text-align:center}
+.public-plan small{font-size:11px;font-weight:700}.public-plan h3{margin:5px 0;font-size:14px}.public-plan strong{display:block;font-size:21px;line-height:1.4}.public-plan p{margin:3px 0 0;font-size:10px;opacity:.8}
+.public-plan-blue{background:#e8f2ff;border-color:#c5dcff;color:#1756a9}.public-plan-green{background:#e7f7ec;border-color:#bce8ca;color:#16743a}.public-plan-orange{background:#fff2d9;border-color:#f4d8a4;color:#a65b00}.public-plan-purple{background:#f1eafe;border-color:#d9c5f5;color:#7136a8}
+.public-popular{position:absolute;top:-8px;right:8px;padding:3px 7px;border-radius:20px;background:#16743a;color:white;font-size:9px;font-weight:800}
+.public-membership-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:15px;padding:13px 14px;border-radius:13px;background:#eaf6fb;color:#17506b;font-size:12px;font-weight:700}
+.public-membership-bottom .primary{white-space:normal}.public-membership-note{margin:10px 2px 0;color:#657d8d;font-size:10px;line-height:1.6}
+:root[data-theme="dark"] .public-membership{background:linear-gradient(145deg,#152635,#173344);border-color:#315c76}
+:root[data-theme="dark"] .public-membership-heading h2{color:#e7f0f7}
+:root[data-theme="dark"] .public-membership-heading p:not(.eyebrow),:root[data-theme="dark"] .public-membership-note{color:#b3c8d6}
+:root[data-theme="dark"] .public-membership-bottom{background:#1b4055;color:#d8eff9}
+@media(max-width:650px){.public-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+@media(max-width:520px){.public-membership{padding:15px;margin:14px 0;border-radius:18px}.public-membership-heading h2{font-size:19px}.public-plan{padding:13px 8px}.public-plan strong{font-size:19px}.public-membership-bottom{align-items:stretch;flex-direction:column}.public-membership-bottom .primary{width:100%}}
