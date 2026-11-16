@@ -47,10 +47,10 @@ function renderMembership(row) {
     return;
   }
   if (row.membership_type === "premium" && row.status === "active") {
-    detailEl.textContent = "Premium Membership";
+    detailEl.textContent = row.paid_duration_days ? `Premium Membership — ${row.paid_duration_days} दिन` : "Premium Membership";
     statusEl.textContent = "तपाईंको Premium Membership सक्रिय छ।";
     statusEl.dataset.kind = "success";
-    expiryEl.textContent = row.paid_until ? `Membership अवधि: ${formatDate(row.paid_until)} सम्म` : "Membership सक्रिय";
+    expiryEl.textContent = row.paid_until ? `Membership समाप्त हुने मिति: ${formatDate(row.paid_until)}` : "Membership सक्रिय";
     progressEl.style.width = "100%";
     return;
   }
@@ -87,7 +87,7 @@ async function loadMembership(user) {
     return;
   }
   const { data, error } = await supabase.from("memberships")
-    .select("membership_type,status,trial_started_at,trial_ends_at,paid_started_at,paid_until")
+    .select("membership_type,status,trial_started_at,trial_ends_at,paid_started_at,paid_until,active_plan_code,paid_duration_days")
     .eq("user_id", user.id).maybeSingle();
   if (error) {
     showMessage("Membership विवरण लोड हुन सकेन। फेरि प्रयास गर्नुहोस्।", "error");
