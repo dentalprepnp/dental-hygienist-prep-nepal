@@ -144,6 +144,9 @@
   ["Which route is preferred for oral rehydration solution in a child who can drink?","पिउन सक्ने बालबालिकालाई ORS दिने उपयुक्त route कुन हो?",["Oral, in frequent small amounts","Intramuscular","Intravenous in every case","Topical"],0,"Give ORS orally in frequent small sips; severe dehydration or inability to drink needs urgent protocol-based care.","ORS मुखबाट थोरै-थोरै गरी पटकपटक दिनुहोस्; गम्भीर dehydration वा पिउन नसक्ने अवस्थामा protocol अनुसार तत्काल उपचार चाहिन्छ।","General Medicine"],
   ["Which laboratory finding is most consistent with bacterial infection in many acute cases?","धेरै acute अवस्थामा bacterial infection सँग मिल्ने laboratory finding कुन हो?",["Neutrophil predominance","Low platelet count in every case","Absent red blood cells","High urine glucose only"],0,"Neutrophilia can support bacterial infection but must be interpreted with clinical findings and other tests.","Neutrophil बढ्नु bacterial infection सँग मिल्न सक्छ, तर clinical अवस्था र अन्य परीक्षणसँगै व्याख्या गर्नुपर्छ।","Clinical Pathology"],
  ];
+const practiceQ=Q.slice(0,Math.ceil(Q.length/2));
+const mockQ=Q.slice(Math.ceil(Q.length/2));
+
 
  Q.push(
  ["Which vaccine is routinely given at birth in Nepal's national immunization programme?","नेपालको राष्ट्रिय खोप कार्यक्रममा जन्मेपछि नियमित दिइने खोप कुन हो?",["BCG","Measles-rubella","DPT booster","Japanese encephalitis"],0,"BCG is given at birth to protect against severe forms of childhood tuberculosis; follow the current national schedule for all vaccines.","BCG ले बाल्यकालको गम्भीर क्षयरोगबाट सुरक्षा दिन्छ; अन्य खोपका लागि हालको राष्ट्रिय तालिका पालना गर्नुपर्छ।","Community Health"],
@@ -174,7 +177,7 @@
  function showNotes(){panel('<h3>विस्तृत अध्ययन Notes</h3><p class="muted">English concept + नेपाली व्याख्या • Clinical safety focus</p>'+notes.map(n=>'<article class="ha-note"><h4>'+n[0]+'</h4><p>'+n[1]+'</p><p class="np">'+n[2]+'</p></article>').join("")+'<button data-ha="menu" class="smallbtn">← मुख्य मेनु</button>');}
  function start(mode){
   clearInterval(state.timer);state.mode=mode;state.index=0;state.answers={};
-  const size=mode==="timed"?10:Math.min(100,Q.length);state.items=Q.slice().sort(()=>Math.random()-0.5).slice(0,size);state.left=mode==="timed"?600:Math.max(1800,state.items.length*60);
+  const pool=mockQ;const size=mode==="timed"?Math.min(10,pool.length):Math.min(100,pool.length);state.items=pool.slice().sort(()=>Math.random()-0.5).slice(0,size);state.left=mode==="timed"?600:Math.max(1800,state.items.length*60);
   renderQuestion();state.timer=setInterval(()=>{state.left--;const el=root.querySelector("#haTimer");if(el)el.textContent=fmt(state.left);if(state.left<=0)finish();},1000);
  }
  function fmt(n){return Math.floor(n/60).toString().padStart(2,"0")+":"+Math.max(0,n%60).toString().padStart(2,"0")}
@@ -189,11 +192,11 @@
   panel('<div class="ha-result"><h3>परीक्षा नतिजा</h3><div class="ha-score">'+score+' / '+state.items.length+'</div><b>'+pct+'% सही</b><p>यो अभ्यास नतिजा हो, NHPC को आधिकारिक pass mark होइन।</p><p>सही: '+score+' • गलत/छुटेका: '+(state.items.length-score)+'</p></div><h3>उत्तर समीक्षा</h3>'+details.map((d,i)=>'<article class="ha-review"><b>'+(i+1)+'. '+d.q[0]+'</b><p class="np">'+d.q[1]+'</p><p class="'+(d.ok?"correct":"incorrect")+'">'+(d.ok?"सही उत्तर":"गलत वा उत्तर नदिएको")+' • '+d.q[2][d.q[3]]+'</p><p>'+d.q[4]+'</p><p class="np">'+d.q[5]+'</p></article>').join("")+'<button data-ha="menu" class="smallbtn">मुख्य मेनुमा फर्कनुहोस्</button>');
  }
  function practice(){
-  state.mode="practice";state.items=Q;state.index=0;state.answers={};renderPracticeQ();
+  state.mode="practice";state.items=practiceQ;state.index=0;state.answers={};renderPracticeQ();
  }
  function renderPracticeQ(){
-  const q=Q[state.index],selected=state.answers[state.index],done=selected!==undefined;
-  panel('<p class="muted">MCQ '+(state.index+1)+' / '+Q.length+' • '+q[6]+'</p><article class="ha-question"><h3>'+q[0]+'</h3><p class="np">'+q[1]+'</p><div class="ha-options">'+q[2].map((o,i)=>'<button class="'+(selected===i?"selected":"")+'" data-ha-option="'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>').join("")+'</div>'+(done?'<div class="ha-explain"><b>'+(selected===q[3]?"सही उत्तर!":"सही उत्तर: "+q[2][q[3]])+'</b><p>'+q[4]+'</p><p class="np">'+q[5]+'</p></div>':"")+'</article><div class="ha-nav"><button data-ha-practice-prev '+(state.index===0?"disabled":"")+'>← अघिल्लो</button><button data-ha-practice-next>'+(state.index===Q.length-1?"समाप्त":"अर्को →")+'</button></div><button data-ha="menu" class="smallbtn">मुख्य मेनु</button>');
+  const q=practiceQ[state.index],selected=state.answers[state.index],done=selected!==undefined;
+  panel('<p class="muted">MCQ '+(state.index+1)+' / '+practiceQ.length+' • '+q[6]+'</p><article class="ha-question"><h3>'+q[0]+'</h3><p class="np">'+q[1]+'</p><div class="ha-options">'+q[2].map((o,i)=>'<button class="'+(selected===i?"selected":"")+'" data-ha-option="'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>').join("")+'</div>'+(done?'<div class="ha-explain"><b>'+(selected===q[3]?"सही उत्तर!":"सही उत्तर: "+q[2][q[3]])+'</b><p>'+q[4]+'</p><p class="np">'+q[5]+'</p></div>':"")+'</article><div class="ha-nav"><button data-ha-practice-prev '+(state.index===0?"disabled":"")+'>← अघिल्लो</button><button data-ha-practice-next>'+(state.index===practiceQ.length-1?"समाप्त":"अर्को →")+'</button></div><button data-ha="menu" class="smallbtn">मुख्य मेनु</button>');
  }
  root.addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;
@@ -201,7 +204,7 @@
   if(b.dataset.haOption!==undefined){const idx=Number(b.dataset.haOption);if(state.mode==="practice"){state.answers[state.index]=idx;renderPracticeQ();if(window.DHPNProgress)window.DHPNProgress.recordMCQ("NHPC HA – General Medicine",[Q[state.index][0],Q[state.index][1],Q[state.index][2],Q[state.index][3],Q[state.index][4],Q[state.index][5]],idx);}else{state.answers[state.index]=idx;renderQuestion();}return;}
   if(b.dataset.haNext!==undefined){if(state.index===state.items.length-1)finish();else{state.index++;renderQuestion();}return;}
   if(b.dataset.haPrev!==undefined){state.index=Math.max(0,state.index-1);renderQuestion();return;}
-  if(b.dataset.haPracticeNext!==undefined){if(state.index===Q.length-1){menu();return;}state.index++;renderPracticeQ();return;}
+  if(b.dataset.haPracticeNext!==undefined){if(state.index===practiceQ.length-1){menu();return;}state.index++;renderPracticeQ();return;}
   if(b.dataset.haPracticePrev!==undefined){state.index=Math.max(0,state.index-1);renderPracticeQ();}
  });
  menu();
