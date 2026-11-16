@@ -90,6 +90,19 @@
   </section>
 
 
+
+  <section class="public-membership" aria-label="Membership plans">
+    <div class="public-membership-heading"><div><p class="eyebrow">CHOOSE YOUR LEARNING PLAN</p><h2>Membership Plans</h2><p>आफ्नो तयारीको समयअनुसार Premium योजना छान्नुहोस्।</p></div><span class="public-membership-icon">♛</span></div>
+    <div class="public-plan-grid">
+      <article class="public-plan public-plan-blue"><small>३० दिन</small><h3>१ महिना</h3><strong>रु. ५००</strong><p>Premium Access</p></article>
+      <article class="public-plan public-plan-green"><span class="public-popular">लोकप्रिय</span><small>९० दिन</small><h3>३ महिना</h3><strong>रु. १,०००</strong><p>Premium Access</p></article>
+      <article class="public-plan public-plan-orange"><small>१८० दिन</small><h3>६ महिना</h3><strong>रु. १,५००</strong><p>Premium Access</p></article>
+      <article class="public-plan public-plan-purple"><small>३६५ दिन</small><h3>१ वर्ष</h3><strong>रु. २,०००</strong><p>Premium Access</p></article>
+    </div>
+    <div class="public-membership-bottom"><span>🎁 नयाँ विद्यार्थीका लागि ७ दिनको Free Trial</span><button type="button" id="membershipLoginCta" class="primary">Login / Register गरेर सुरु गर्नुहोस्</button></div>
+    <p class="public-membership-note">योजना छान्ने र Free Trial सुरु गर्ने सुविधा Login पछि उपलब्ध हुन्छ। वास्तविक भुक्तानी Fonepay Gateway स्वीकृत र जडान भएपछि मात्र खुल्नेछ।</p>
+  </section>
+
   <section class="exam-tracks" aria-label="Choose exam preparation">
     <div class="section-head"><div><p class="eyebrow">CHOOSE YOUR EXAM</p><h2>आफ्नो परीक्षा छान्नुहोस्</h2></div><span class="pill">9 Exam Tracks</span></div>
     <div class="track-grid">
@@ -449,6 +462,9 @@ document.addEventListener("click",function(event){
   var page=document.getElementById("physiotherapyView");
   if(page){page.classList.remove("hidden");page.scrollIntoView({behavior:"auto",block:"start"});}
 },true);
+</script>
+<script>
+(function(){var cta=document.getElementById("membershipLoginCta");if(!cta)return;cta.addEventListener("click",function(){var a=document.getElementById("accountPanel");if(a){a.scrollIntoView({behavior:"smooth",block:"start"});var e=document.getElementById("accountEmail");if(e)e.focus({preventScroll:true});}});})();
 </script>
 </body>
 </html>
