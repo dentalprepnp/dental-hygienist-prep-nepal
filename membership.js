@@ -123,9 +123,8 @@ async function loadMembership(user) {
     showMessage("Free Trial सुरु गर्न Email Verification आवश्यक छ।", "warning");
     return;
   }
-  const { data, error } = await supabase.from("memberships")
-    .select("membership_type,status,trial_started_at,trial_ends_at,paid_started_at,paid_until,active_plan_code,paid_duration_days")
-    .eq("user_id", user.id).maybeSingle();
+  const { data: rows, error } = await supabase.rpc("refresh_membership_status");
+  const data = Array.isArray(rows) ? rows[0] : rows;
   if (error) {
     console.error("Membership lookup:", error);
     showMessage("Membership विवरण लोड हुन सकेन। फेरि प्रयास गर्नुहोस्।", "error");
