@@ -155,12 +155,12 @@ if(profileForm)profileForm.addEventListener("submit",e=>{
  renderStudentProfile();
 });
 function showTab(tab){
-  $(".view").forEach(v=>v.classList.add("hidden"));
+  $$(".view").forEach(v=>v.classList.add("hidden"));
   const target=$("#"+tab+"View");
   if(!target)return;
   target.classList.remove("hidden");
   document.body.classList.toggle("study-screen-open",tab!=="home");
-  $(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  $$(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
   // Every selected module opens at the very top, without leaving the home directory visible.
