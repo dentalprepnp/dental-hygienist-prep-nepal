@@ -155,18 +155,17 @@ if(profileForm)profileForm.addEventListener("submit",e=>{
  renderStudentProfile();
 });
 function showTab(tab){
-  $$(".view").forEach(v=>v.classList.add("hidden"));
+  $(".view").forEach(v=>v.classList.add("hidden"));
   const target=$("#"+tab+"View");
   if(!target)return;
   target.classList.remove("hidden");
-  $$(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  document.body.classList.toggle("study-screen-open",tab!=="home");
+  $(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
-  // Bring the selected view itself to the top immediately.
-  target.scrollIntoView({behavior:"auto",block:"start"});
-  requestAnimationFrame(()=>{
-    target.scrollIntoView({behavior:"auto",block:"start"});
-  });
+  // Every selected module opens at the very top, without leaving the home directory visible.
+  window.scrollTo({top:0,left:0,behavior:"instant"});
+  requestAnimationFrame(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});target.scrollIntoView({behavior:"instant",block:"start"});});
 }
 document.addEventListener("click",e=>{const tabButton=e.target.closest(".track-card[data-tab]");if(!tabButton)return;e.preventDefault();showTab(tabButton.dataset.tab);},true);
 document.addEventListener("click",e=>{
@@ -176,7 +175,7 @@ document.addEventListener("click",e=>{
   const tracks=document.querySelector(".exam-tracks");
   if(tracks)tracks.scrollIntoView({behavior:"smooth",block:"start"});
 });
-document.addEventListener("click",e=>{const back=e.target.closest("[data-back-subjects]");if(!back)return;showTab("home");const directory=document.querySelector(".subject-directory");if(directory)directory.scrollIntoView({behavior:"smooth",block:"start"});});
+document.addEventListener("click",e=>{const back=e.target.closest("[data-back-subjects]");if(!back)return;showTab("home");requestAnimationFrame(()=>{const directory=document.querySelector(".subject-directory");if(directory)directory.scrollIntoView({behavior:"smooth",block:"start"});});});
 $$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
 const subjectSearch=$("#subjectSearch");
 const searchResults=$("#searchResults");
@@ -300,6 +299,34 @@ function finishMock(){
   $("#againMock").addEventListener("click",()=>{ $("#mockIntro").classList.remove("hidden");$("#mockArea").innerHTML="";});
   $("#mockIntro").classList.remove("hidden");
 }
+
+// Build a focused landing screen for every dental subject. Only the selected subject is shown.
+const subjectMeta={
+ oralPath:["Oral Pathology and Microbiology","मुखका रोग, संक्रमण, microorganism र diagnosis"],
+ dentalMaterials:["Dental Materials, Instruments and Assisting","Dental materials, instruments र chairside assisting"],
+ oralAnatomy:["Oral Anatomy and Physiology","दाँत, मुखका संरचना र तिनका कार्य"],
+ dentalPublicHealth:["Dental Public Health and Community Dentistry","रोकथाम, स्वास्थ्य शिक्षा र community dentistry"],
+ dentalRadiology:["Dental Radiography and Photography","Dental imaging, radiation safety र photography"],
+ dentalPharmacy:["Dental Pharmacy","औषधि, pharmacology र सुरक्षित प्रयोग"],
+ dentalEthics:["Dental Ethics and Practice Management","Professional ethics, records र clinic management"],
+ foodNutrition:["Food and Nutrition","पोषक तत्त्व, सन्तुलित आहार र oral health"],
+ epidemiology:["Epidemiology and Community Diagnosis","Incidence, prevalence र community survey"]
+};
+Object.entries(subjectMeta).forEach(([id,meta])=>{
+ const view=document.getElementById(id+"View");if(!view||view.dataset.landingReady==="1")return;
+ view.dataset.landingReady="1";
+ view.classList.add("subject-landing","view","hidden");
+ view.innerHTML=`<button class="module-back" type="button" data-back-subjects>← सबै विषयहरूमा फर्कनुहोस्</button>
+  <div class="section-head"><div><p class="eyebrow">PCL IN DENTAL HYGIENE • NHPC</p><h2>${meta[0]}</h2></div><span class="pill">Study Module</span></div>
+  <p class="muted">${meta[1]}</p>
+  <div class="notice"><b>यस विषयको अध्ययन</b><p>यस विषयका Notes, MCQ Practice र Mock Test छुट्टाछुट्टै खोल्न तलको विकल्प छान्नुहोस्। खोलिएको सामग्री मात्र देखिनेछ।</p></div>
+  <div class="feature-grid module-actions">
+   <button class="feature-card" type="button" data-go="notes"><span class="feature-icon">📚</span><b>Study Notes</b><small>नोट्स पढ्नुहोस्</small></button>
+   <button class="feature-card" type="button" data-go="practice"><span class="feature-icon">🧠</span><b>MCQ Practice</b><small>प्रश्न अभ्यास गर्नुहोस्</small></button>
+   <button class="feature-card" type="button" data-go="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small>समय मिलाएर परीक्षा दिनुहोस्</small></button>
+  </div>`;
+});
+
 updateStats();renderDashboard();renderExamTrackProgress();renderStudentProfile();renderMCQDashboard();renderDailyStudyGoal();renderNotes();
 if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").classList.remove("hidden")});
