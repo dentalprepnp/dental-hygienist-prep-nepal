@@ -196,7 +196,7 @@ document.addEventListener("click",e=>{
  const heading=document.querySelector("#"+target+"View h2");
  if(heading)heading.textContent=title+" — "+(target==="notes"?"Study Notes":target==="practice"?"MCQ Practice":"Mock Test");
  const back=document.querySelector("#"+target+"View [data-back-subjects]");
- if(back){back.textContent="← "+title+" मा फर्कनुहोस्";back.dataset.back-to-hub="1";}
+ if(back){back.textContent="← "+title+" मा फर्कनुहोस्";back.dataset.backToHub="1";}
 });
 document.addEventListener("click",e=>{
  const back=e.target.closest("[data-back-to-hub]");if(!back)return;
