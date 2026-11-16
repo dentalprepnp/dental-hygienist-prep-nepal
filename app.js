@@ -175,8 +175,33 @@ document.addEventListener("click",e=>{
   const tracks=document.querySelector(".exam-tracks");
   if(tracks)tracks.scrollIntoView({behavior:"smooth",block:"start"});
 });
-document.addEventListener("click",e=>{const back=e.target.closest("[data-back-subjects]");if(!back)return;showTab("home");requestAnimationFrame(()=>{const directory=document.querySelector(".subject-directory");if(directory)directory.scrollIntoView({behavior:"smooth",block:"start"});});});
-document.addEventListener("click",e=>{const go=e.target.closest("[data-go]");if(!go)return;e.preventDefault();showTab(go.dataset.go);});
+document.addEventListener("click",e=>{
+ const back=e.target.closest("[data-back-subjects]");if(!back||back.dataset.backToHub==="1")return;
+ e.preventDefault();showTab("home");
+ requestAnimationFrame(()=>{const directory=document.querySelector(".subject-directory");if(directory)directory.scrollIntoView({behavior:"instant",block:"start"});});
+});
+document.addEventListener("click",e=>{
+ const card=e.target.closest(".subject-card");
+ if(card){e.preventDefault();showSubjectHub(card.dataset.go==="home"?"home":card.dataset.go);return;}
+ const go=e.target.closest("[data-go]");
+ if(go){e.preventDefault();showTab(go.dataset.go);}
+});
+document.addEventListener("click",e=>{
+ const action=e.target.closest("[data-study-action]");if(!action)return;
+ e.preventDefault();
+ const target=action.dataset.studyAction;
+ const title=subjectMeta[activeDentalSubject]?.[0]||"Dental Hygiene";
+ sessionStorage.setItem("dhpn-active-subject",activeDentalSubject);
+ showTab(target);
+ const heading=document.querySelector("#"+target+"View h2");
+ if(heading)heading.textContent=title+" — "+(target==="notes"?"Study Notes":target==="practice"?"MCQ Practice":"Mock Test");
+ const back=document.querySelector("#"+target+"View [data-back-subjects]");
+ if(back){back.textContent="← "+title+" मा फर्कनुहोस्";back.dataset.back-to-hub="1";}
+});
+document.addEventListener("click",e=>{
+ const back=e.target.closest("[data-back-to-hub]");if(!back)return;
+ e.preventDefault();showSubjectHub(activeDentalSubject);
+});
 const subjectSearch=$("#subjectSearch");
 const searchResults=$("#searchResults");
 function openSearchResult(result){
@@ -300,32 +325,35 @@ function finishMock(){
   $("#mockIntro").classList.remove("hidden");
 }
 
-// Build a focused landing screen for every dental subject. Only the selected subject is shown.
 const subjectMeta={
- oralPath:["Oral Pathology and Microbiology","मुखका रोग, संक्रमण, microorganism र diagnosis"],
- dentalMaterials:["Dental Materials, Instruments and Assisting","Dental materials, instruments र chairside assisting"],
- oralAnatomy:["Oral Anatomy and Physiology","दाँत, मुखका संरचना र तिनका कार्य"],
- dentalPublicHealth:["Dental Public Health and Community Dentistry","रोकथाम, स्वास्थ्य शिक्षा र community dentistry"],
- dentalRadiology:["Dental Radiography and Photography","Dental imaging, radiation safety र photography"],
- dentalPharmacy:["Dental Pharmacy","औषधि, pharmacology र सुरक्षित प्रयोग"],
- dentalEthics:["Dental Ethics and Practice Management","Professional ethics, records र clinic management"],
- foodNutrition:["Food and Nutrition","पोषक तत्त्व, सन्तुलित आहार र oral health"],
- epidemiology:["Epidemiology and Community Diagnosis","Incidence, prevalence र community survey"]
+ home:["Basic Periodontology","Periodontium • Gingivitis • Periodontitis","🦷"],
+ oralPath:["Oral Pathology and Microbiology","Oral diseases • Microorganisms","🔬"],
+ dentalMaterials:["Dental Materials, Instruments and Assisting","Materials • Instruments • Chairside assisting","🧰"],
+ oralAnatomy:["Oral Anatomy and Physiology","Teeth • Oral structures • Functions","🦴"],
+ dentalPublicHealth:["Dental Public Health and Community Dentistry","Prevention • Health promotion","🌍"],
+ dentalRadiology:["Dental Radiography and Photography","Imaging • Radiation protection","📷"],
+ dentalPharmacy:["Dental Pharmacy","Medicines • Pharmacology","💊"],
+ dentalEthics:["Dental Ethics and Practice Management","Ethics • Records • Patient safety","📋"],
+ foodNutrition:["Food and Nutrition","Nutrients • Balanced diet","🥗"],
+ epidemiology:["Epidemiology and Community Diagnosis","Incidence • Prevalence • Community survey","📊"]
 };
-Object.entries(subjectMeta).forEach(([id,meta])=>{
- const view=document.getElementById(id+"View");if(!view||view.dataset.landingReady==="1")return;
- view.dataset.landingReady="1";
- view.classList.add("subject-landing","view","hidden");
- view.innerHTML=`<button class="module-back" type="button" data-back-subjects>← सबै विषयहरूमा फर्कनुहोस्</button>
-  <div class="section-head"><div><p class="eyebrow">PCL IN DENTAL HYGIENE • NHPC</p><h2>${meta[0]}</h2></div><span class="pill">Study Module</span></div>
-  <p class="muted">${meta[1]}</p>
-  <div class="notice"><b>यस विषयको अध्ययन</b><p>यस विषयका Notes, MCQ Practice र Mock Test छुट्टाछुट्टै खोल्न तलको विकल्प छान्नुहोस्। खोलिएको सामग्री मात्र देखिनेछ।</p></div>
-  <div class="feature-grid module-actions">
-   <button class="feature-card" type="button" data-go="notes"><span class="feature-icon">📚</span><b>Study Notes</b><small>नोट्स पढ्नुहोस्</small></button>
-   <button class="feature-card" type="button" data-go="practice"><span class="feature-icon">🧠</span><b>MCQ Practice</b><small>प्रश्न अभ्यास गर्नुहोस्</small></button>
-   <button class="feature-card" type="button" data-go="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small>समय मिलाएर परीक्षा दिनुहोस्</small></button>
-  </div>`;
-});
+let activeDentalSubject="home";
+function showSubjectHub(id){
+ const meta=subjectMeta[id];if(!meta)return;
+ activeDentalSubject=id;
+ const view=document.getElementById(id+"View");if(!view)return;
+ view.classList.add("subject-landing");
+ view.innerHTML=`<button class="module-back" type="button" data-back-subjects>← सबै विषयहरू</button>
+  <div class="subject-welcome"><span class="subject-welcome-icon">${meta[2]}</span><p class="eyebrow">PCL IN DENTAL HYGIENE • NHPC</p><h2>${meta[0]}</h2><p>${meta[1]}</p></div>
+  <h3 class="choose-action-title">आज के पढ्ने?</h3>
+  <div class="module-actions">
+   <button class="module-action-card notes-action" type="button" data-study-action="notes"><span>📖</span><b>Study Notes</b><small>पहिले विषय बुझौँ</small><i>खोल्नुहोस् →</i></button>
+   <button class="module-action-card mcq-action" type="button" data-study-action="practice"><span>✍️</span><b>MCQ Practice</b><small>प्रश्न हल गरेर सिकौँ</small><i>अभ्यास सुरु →</i></button>
+   <button class="module-action-card mock-action" type="button" data-study-action="mock"><span>⏱️</span><b>Mock Test</b><small>आफ्नो तयारी जाँचौँ</small><i>परीक्षा दिनुहोस् →</i></button>
+  </div>
+  <div class="study-tip"><b>💡 पढ्ने सजिलो तरिका</b><p>पहिले Notes पढ्नुहोस्, त्यसपछि MCQ अभ्यास गर्नुहोस् र अन्त्यमा Mock Test दिनुहोस्।</p></div>`;
+ showTab(id);
+}
 
 updateStats();renderDashboard();renderExamTrackProgress();renderStudentProfile();renderMCQDashboard();renderDailyStudyGoal();renderNotes();
 if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
