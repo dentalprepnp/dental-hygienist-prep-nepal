@@ -60,10 +60,59 @@ function renderMembership(row) {
   expiryEl.textContent = row.trial_ends_at ? `Trial समाप्त मिति: ${formatDate(row.trial_ends_at)}` : "";
   progressEl.style.width = "100%";
 }
+function showTrialConsent(user) {
+  if (!panel) return;
+  panel.classList.remove("hidden");
+  detailEl.textContent = "७ दिनको Free Trial";
+  statusEl.textContent = "तपाईंले सहमति दिएपछि मात्र Free Trial सुरु हुनेछ। कुनै पैसा स्वतः काटिँदैन।";
+  statusEl.dataset.kind = "info";
+  expiryEl.textContent = "Trial सुरु गरेपछि ७ दिनसम्म Premium सुविधा प्रयोग गर्न सक्नुहुन्छ।";
+  progressEl.style.width = "0%";
+
+  let box = document.getElementById("trialConsentBox");
+  if (!box) {
+    box = document.createElement("div");
+    box.id = "trialConsentBox";
+    box.className = "trial-consent-box";
+    box.innerHTML = `
+      <p><strong>Free Trial सुरु गर्ने?</strong></p>
+      <p>• ७ दिन निःशुल्क Premium सुविधा।</p>
+      <p>• Trial पछि आफैँ पैसा काटिँदैन।</p>
+      <p>• Premium जारी राख्न तपाईंले आफैँ Plan छानेर Payment गर्नुपर्छ।</p>
+      <label class="trial-consent-label">
+        <input id="trialConsentCheck" type="checkbox">
+        मैले जानकारी पढेँ र ७ दिनको Free Trial सुरु गर्न सहमत छु।
+      </label>
+      <button id="startTrialButton" type="button" disabled>Start Free Trial</button>
+    `;
+    panel.appendChild(box);
+    const check = box.querySelector("#trialConsentCheck");
+    const button = box.querySelector("#startTrialButton");
+    check.addEventListener("change", () => { button.disabled = !check.checked; });
+    button.addEventListener("click", async () => {
+      if (!check.checked || button.disabled) return;
+      button.disabled = true;
+      button.textContent = "Trial सुरु हुँदैछ...";
+      const { data, error } = await supabase.rpc("start_membership_trial_with_consent", { p_consent: true });
+      if (error) {
+        console.error("Trial consent:", error);
+        showMessage(error.message || "Trial सुरु हुन सकेन। फेरि प्रयास गर्नुहोस्।", "error");
+        button.disabled = false;
+        button.textContent = "Start Free Trial";
+        return;
+      }
+      box.remove();
+      const row = Array.isArray(data) ? data[0] : data;
+      renderMembership(row);
+    });
+  }
+  box.classList.remove("hidden");
+}
 async function loadMembership(user) {
   if (!user) {
     activeUserId = null;
     panel?.classList.add("hidden");
+    document.getElementById("trialConsentBox")?.remove();
     return;
   }
   activeUserId = user.id;
@@ -74,25 +123,19 @@ async function loadMembership(user) {
     showMessage("Free Trial सुरु गर्न Email Verification आवश्यक छ।", "warning");
     return;
   }
-  const { data: trialRows, error: trialError } = await supabase.rpc("start_membership_trial");
-  if (trialError) {
-    console.error("Membership trial:", trialError);
-    showMessage("Membership setup बाँकी छ। Supabase मा supabase/membership.sql चलाउनुहोस्।", "error");
-    detailEl.textContent = "Membership setup pending";
-    return;
-  }
-  const trialRow = Array.isArray(trialRows) ? trialRows[0] : trialRows;
-  if (trialRow) {
-    renderMembership(trialRow);
-    return;
-  }
   const { data, error } = await supabase.from("memberships")
     .select("membership_type,status,trial_started_at,trial_ends_at,paid_started_at,paid_until,active_plan_code,paid_duration_days")
     .eq("user_id", user.id).maybeSingle();
   if (error) {
+    console.error("Membership lookup:", error);
     showMessage("Membership विवरण लोड हुन सकेन। फेरि प्रयास गर्नुहोस्।", "error");
     return;
   }
+  if (!data) {
+    showTrialConsent(user);
+    return;
+  }
+  document.getElementById("trialConsentBox")?.remove();
   renderMembership(data);
 }
 supabase.auth.onAuthStateChange((event, session) => {
