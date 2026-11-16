@@ -485,3 +485,15 @@ footer a:hover{text-decoration:underline}
 :root[data-theme="dark"] .membership-includes ul{color:#d7e7f0}
 :root[data-theme="dark"] .membership-crown{background:#1b4058;color:#9cddf7}
 @media(max-width:520px){.membership-panel{margin:12px;padding:14px}}
+
+
+/* Fixed-duration membership plan choices */
+.membership-plans{margin-top:12px}
+.membership-plans>b{display:block;font-size:13px;color:#0c3554;margin-bottom:8px}
+.membership-plan-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.membership-plan-grid article{padding:11px 7px;border:1px solid var(--line);border-radius:11px;background:var(--bg);text-align:center}
+.membership-plan-grid strong,.membership-plan-grid small{display:block}
+.membership-plan-grid strong{font-size:14px;color:var(--blue)}
+.membership-plan-grid small{font-size:10px;color:var(--muted);margin-top:3px}
+:root[data-theme="dark"] .membership-plans>b{color:#e4f3fb}
+@media(max-width:520px){.membership-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
