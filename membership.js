@@ -10,6 +10,14 @@ const expiryEl = document.getElementById("membershipExpiry");
 const progressEl = document.getElementById("trialProgress");
 let activeUserId = null;
 
+const PREMIUM_PLANS = {
+  premium_30: { name: "१ महिना", days: 30, price: 500 },
+  premium_90: { name: "३ महिना", days: 90, price: 1000 },
+  premium_180: { name: "६ महिना", days: 180, price: 1500 },
+  premium_365: { name: "१ वर्ष", days: 365, price: 2000 }
+};
+
+
 function showMessage(text, kind = "info") {
   if (!statusEl) return;
   statusEl.textContent = text;
@@ -145,3 +153,40 @@ supabase.auth.onAuthStateChange((event, session) => {
 });
 const { data: sessionData } = await supabase.auth.getSession();
 await loadMembership(sessionData?.session?.user || null);
+
+function setupPlanCheckout() {
+  const grid = document.getElementById("membershipPlanGrid");
+  const checkout = document.getElementById("membershipCheckout");
+  if (!grid || !checkout || grid.dataset.bound === "true") return;
+  grid.dataset.bound = "true";
+  grid.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-plan-code]");
+    if (!button) return;
+    const plan = PREMIUM_PLANS[button.dataset.planCode];
+    if (!plan) return;
+    grid.querySelectorAll(".membership-plan-card").forEach(card => {
+      card.classList.toggle("selected", card === button);
+    });
+    checkout.innerHTML = [
+      '<div class="checkout-heading"><div><p class="eyebrow">SELECTED MEMBERSHIP</p><h3>Payment विवरण</h3></div><span class="checkout-lock" aria-hidden="true">🔒</span></div>',
+      '<div class="checkout-summary">',
+      '<div><span>छानिएको योजना</span><strong>' + plan.name + ' Premium</strong></div>',
+      '<div><span>अवधि</span><strong>' + plan.days + ' दिन</strong></div>',
+      '<div class="checkout-total"><span>जम्मा तिर्नुपर्ने</span><strong>रु. ' + plan.price.toLocaleString("en-IN") + '</strong></div>',
+      '</div>',
+      '<div class="checkout-pending" role="status"><strong>Fonepay Payment Gateway जडान हुँदैछ</strong><p>Merchant स्वीकृति र सुरक्षित server-side payment verification पूरा भएपछि मात्र वास्तविक भुक्तानी सुरु हुनेछ। अहिले कुनै रकम नपठाउनुहोस्।</p></div>',
+      '<button class="checkout-pay-button" type="button" disabled>भुक्तानी सुरु गर्न Gateway तयार हुन बाँकी</button>',
+      '<button class="checkout-back-button" type="button" id="backToMembershipPlans">← अर्को योजना छान्नुहोस्</button>'
+    ].join("");
+    checkout.classList.remove("hidden");
+    checkout.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    document.getElementById("backToMembershipPlans")?.addEventListener("click", () => {
+      checkout.classList.add("hidden");
+      checkout.innerHTML = "";
+      grid.querySelectorAll(".membership-plan-card").forEach(card => card.classList.remove("selected"));
+      grid.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+  });
+}
+setupPlanCheckout();
+
