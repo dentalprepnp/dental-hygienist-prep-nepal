@@ -289,4 +289,6 @@
   root.appendChild(detail);
   console.error("Physiotherapy module error:",error);
  }
+
+  if (window.DHPNRandomizeQuestionBank) window.DHPNRandomizeQuestionBank([Q, newBatch25]);
 })();
