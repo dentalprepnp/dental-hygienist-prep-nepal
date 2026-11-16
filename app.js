@@ -176,7 +176,7 @@ document.addEventListener("click",e=>{
   if(tracks)tracks.scrollIntoView({behavior:"smooth",block:"start"});
 });
 document.addEventListener("click",e=>{const back=e.target.closest("[data-back-subjects]");if(!back)return;showTab("home");requestAnimationFrame(()=>{const directory=document.querySelector(".subject-directory");if(directory)directory.scrollIntoView({behavior:"smooth",block:"start"});});});
-$$("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
+document.addEventListener("click",e=>{const go=e.target.closest("[data-go]");if(!go)return;e.preventDefault();showTab(go.dataset.go);});
 const subjectSearch=$("#subjectSearch");
 const searchResults=$("#searchResults");
 function openSearchResult(result){
