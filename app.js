@@ -182,7 +182,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("click",e=>{
  const card=e.target.closest(".subject-card");
- if(card){e.preventDefault();showSubjectHub(card.dataset.go==="home"?"home":card.dataset.go);return;}
+ if(card){e.preventDefault();showSubjectHub(card.dataset.go);return;}
  const go=e.target.closest("[data-go]");
  if(go){e.preventDefault();showTab(go.dataset.go);}
 });
@@ -326,7 +326,7 @@ function finishMock(){
 }
 
 const subjectMeta={
- home:["Basic Periodontology","Periodontium • Gingivitis • Periodontitis","🦷"],
+ basicPeriodontology:["Basic Periodontology","Periodontium • Gingivitis • Periodontitis","🦷"],
  oralPath:["Oral Pathology and Microbiology","Oral diseases • Microorganisms","🔬"],
  dentalMaterials:["Dental Materials, Instruments and Assisting","Materials • Instruments • Chairside assisting","🧰"],
  oralAnatomy:["Oral Anatomy and Physiology","Teeth • Oral structures • Functions","🦴"],
