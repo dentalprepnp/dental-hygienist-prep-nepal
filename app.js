@@ -271,7 +271,7 @@ function renderPractice(){
   $("#quizArea").innerHTML=`<article class="question"><div class="qtop"><span>PERIODONTOLOGY • MCQ ${practiceIndex+1}</span><span>${chosen===undefined?"Not answered":"Answered"}</span></div>${qText(q)}<div class="options">${q[2].map((o,i)=>`<button class="option ${chosen!==undefined&&i===q[3]?"correct":chosen===i&&chosen!==q[3]?"wrong":""}" data-answer="${i}" ${chosen!==undefined?"disabled":""}>${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div>${chosen!==undefined?`<div class="feedback ${chosen===q[3]?"good":"bad"}"><b>${chosen===q[3]?"Correct!":"Not quite. Correct answer: "+q[2][q[3]]}</b>${q[4]}<br><br>${q[5]}</div>`:""}<div class="nextrow"><button class="smallbtn" id="prevQ" ${practiceIndex===0?"disabled":""}>Previous</button><button class="smallbtn" id="nextQ">${practiceIndex===practiceQuestions.length-1?"Restart set":"Next question"}</button></div></article>`;
   $$("#quizArea [data-answer]").forEach(btn=>btn.addEventListener("click",()=>answerPractice(Number(btn.dataset.answer))));
   $("#prevQ").addEventListener("click",()=>{practiceIndex=Math.max(0,practiceIndex-1);renderPractice()});
-  $("#nextQ").addEventListener("click",()=>{practiceIndex=practiceIndex===QUESTIONS.length-1?0:practiceIndex+1;renderPractice()});
+  $("#nextQ").addEventListener("click",()=>{practiceIndex=practiceIndex===practiceQuestions.length-1?0:practiceIndex+1;renderPractice()});
 }
 function answerPractice(choice){
   if(practiceAnswered[practiceIndex]!==undefined)return;
