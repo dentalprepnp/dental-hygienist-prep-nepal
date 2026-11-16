@@ -112,6 +112,7 @@ $("signOutButton")?.addEventListener("click", async () => {
 
 supabase.auth.onAuthStateChange((event, session) => {
   showUser(session?.user || null);
+  window.dispatchEvent(new Event("dhpn-auth-changed"));
   if (event === "PASSWORD_RECOVERY") {
     $("resetPasswordForm")?.classList.remove("hidden");
     $("accountPanel")?.classList.remove("hidden");
