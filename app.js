@@ -192,6 +192,15 @@ document.addEventListener("click",e=>{
  const target=action.dataset.studyAction;
  const title=subjectMeta[activeDentalSubject]?.[0]||"Dental Hygiene";
  sessionStorage.setItem("dhpn-active-subject",activeDentalSubject);
+ // Basic Periodontology uses the complete NHPC learning bank, not the small legacy demo set.
+ if(activeDentalSubject==="basicPeriodontology"){
+  showTab("nhpc");
+  const control=document.getElementById(target==="notes"?"nhpcStartNotes":target==="practice"?"nhpcStartMcq":"nhpcStartFullMock");
+  if(control){control.click();return;}
+  const heading=document.querySelector("#nhpcView h2");
+  if(heading)heading.textContent=title;
+  return;
+ }
  showTab(target);
  const heading=document.querySelector("#"+target+"View h2");
  if(heading)heading.textContent=title+" — "+(target==="notes"?"Study Notes":target==="practice"?"MCQ Practice":"Mock Test");
