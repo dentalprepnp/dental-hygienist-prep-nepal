@@ -35,6 +35,9 @@
     ["Which factor can reduce salivary protection and increase oral disease risk?", "लारको सुरक्षा घटाई मुखको रोग जोखिम बढाउन सक्ने अवस्था कुन हो?", ["Xerostomia", "Normal saliva flow", "Adequate hydration", "Routine dental review"], 0, "Xerostomia reduces the protective effects of saliva and can increase caries and candidiasis risk.", "Xerostomia ले लारको सुरक्षा घटाएर caries र candidiasis जोखिम बढाउन सक्छ।"],
     ["The definitive diagnosis of many suspicious oral lesions may require:", "धेरै शंकास्पद oral lesion को निश्चित निदानका लागि के आवश्यक पर्न सक्छ?", ["Biopsy and histopathological examination", "Tooth brushing", "Only mouthwash", "Only visual inspection"], 0, "Biopsy with histopathological examination may be required to establish a definitive diagnosis.", "निश्चित निदानका लागि biopsy र histopathological examination आवश्यक पर्न सक्छ।"]
   ];
+const practiceQuestions = questions.slice(0, Math.ceil(questions.length / 2));
+const mockBankQuestions = questions.slice(Math.ceil(questions.length / 2));
+
   const root = document.getElementById("oralPathView");
   if (!root) return;
   let practiceIndex = 0, answers = {}, mockSet = [], mockAnswers = {}, mockIndex = 0, timer = null, remaining = 600;
@@ -52,17 +55,17 @@
   root.querySelectorAll("[data-op]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.op);if(b.dataset.op==="practice")renderPractice()}));
   function bilingual(q){const mode=$("#opLanguage").value;return `${mode==="ne"?"":`<h3>${q[0]}</h3>`}${mode==="en"?"":`<p class="translation">${q[1]}</p>`}`;}
   function renderPractice(){
-    const q=questions[practiceIndex], chosen=answers[practiceIndex];
-    $("#opCount").textContent=`${practiceIndex+1} / ${questions.length}`;
-    $("#opQuestion").innerHTML=`<article class="question"><div class="qtop"><span>ORAL PATHOLOGY • MCQ ${practiceIndex+1}</span><span>${chosen===undefined?"Not answered":"Answered"}</span></div>${bilingual(q)}<div class="options">${q[2].map((o,i)=>`<button class="option ${chosen!==undefined&&i===q[3]?"correct":chosen===i?"wrong":""}" data-op-answer="${i}" ${chosen!==undefined?"disabled":""}>${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div>${chosen!==undefined?`<div class="feedback ${chosen===q[3]?"good":"bad"}"><b>${chosen===q[3]?"Correct!":"Correct answer: "+q[2][q[3]]}</b>${q[4]}<br><br>${q[5]}</div>`:""}<div class="nextrow"><button class="smallbtn" id="opPrev" ${practiceIndex===0?"disabled":""}>Previous</button><button class="smallbtn" id="opNext">${practiceIndex===questions.length-1?"Restart":"Next question"}</button></div></article>`;
-    root.querySelectorAll("[data-op-answer]").forEach(b=>b.addEventListener("click",()=>{if(answers[practiceIndex]!==undefined)return;answers[practiceIndex]=Number(b.dataset.opAnswer);window.DHPNProgress.recordMCQ("Oral Pathology and Microbiology",questions[practiceIndex],answers[practiceIndex]);renderPractice()}));
+    const q=practiceQuestions[practiceIndex], chosen=answers[practiceIndex];
+    $("#opCount").textContent=`${practiceIndex+1} / ${practiceQuestions.length}`;
+    $("#opQuestion").innerHTML=`<article class="question"><div class="qtop"><span>ORAL PATHOLOGY • MCQ ${practiceIndex+1}</span><span>${chosen===undefined?"Not answered":"Answered"}</span></div>${bilingual(q)}<div class="options">${q[2].map((o,i)=>`<button class="option ${chosen!==undefined&&i===q[3]?"correct":chosen===i?"wrong":""}" data-op-answer="${i}" ${chosen!==undefined?"disabled":""}>${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div>${chosen!==undefined?`<div class="feedback ${chosen===q[3]?"good":"bad"}"><b>${chosen===q[3]?"Correct!":"Correct answer: "+q[2][q[3]]}</b>${q[4]}<br><br>${q[5]}</div>`:""}<div class="nextrow"><button class="smallbtn" id="opPrev" ${practiceIndex===0?"disabled":""}>Previous</button><button class="smallbtn" id="opNext">${practiceIndex===practiceQuestions.length-1?"Restart":"Next question"}</button></div></article>`;
+    root.querySelectorAll("[data-op-answer]").forEach(b=>b.addEventListener("click",()=>{if(answers[practiceIndex]!==undefined)return;answers[practiceIndex]=Number(b.dataset.opAnswer);window.DHPNProgress.recordMCQ("Oral Pathology and Microbiology",practiceQuestions[practiceIndex],answers[practiceIndex]);renderPractice()}));
     $("#opPrev").addEventListener("click",()=>{practiceIndex=Math.max(0,practiceIndex-1);renderPractice()});
-    $("#opNext").addEventListener("click",()=>{practiceIndex=practiceIndex===questions.length-1?0:practiceIndex+1;renderPractice()});
+    $("#opNext").addEventListener("click",()=>{practiceIndex=practiceIndex===practiceQuestions.length-1?0:practiceIndex+1;renderPractice()});
   }
   $("#opLanguage").addEventListener("change",()=>{if(!$("#opPractice").classList.contains("hidden"))renderPractice();if(!$("#opMock").classList.contains("hidden")&&mockSet.length)renderMock()});
   function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
   $("#opStartMock").addEventListener("click",startMock);
-  function startMock(){clearInterval(timer);mockSet=shuffle(questions).slice(0,Math.min(100,questions.length));mockAnswers={};mockIndex=0;remaining=mock.length*60;$("#opMockIntro").classList.add("hidden");renderMock();timer=setInterval(()=>{remaining--;const t=$("#opTimer");if(t)t.textContent=`${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}`;if(remaining<=0)finishMock()},1000)}
+  function startMock(){clearInterval(timer);mockSet=shuffle(mockBankQuestions).slice(0,Math.min(100,mockBankQuestions.length));mockAnswers={};mockIndex=0;remaining=mock.length*60;$("#opMockIntro").classList.add("hidden");renderMock();timer=setInterval(()=>{remaining--;const t=$("#opTimer");if(t)t.textContent=`${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}`;if(remaining<=0)finishMock()},1000)}
   function renderMock(){
     if(mockIndex>=mockSet.length){finishMock();return}
     const q=mockSet[mockIndex];
