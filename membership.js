@@ -10,12 +10,17 @@ const expiryEl = document.getElementById("membershipExpiry");
 const progressEl = document.getElementById("trialProgress");
 let activeUserId = null;
 
+// Supabase stores plan prices in paisa (100 paisa = NPR 1).
 const PREMIUM_PLANS = {
-  premium_30: { name: "१ महिना", days: 30, price: 500 },
-  premium_90: { name: "३ महिना", days: 90, price: 1000 },
-  premium_180: { name: "६ महिना", days: 180, price: 1500 },
-  premium_365: { name: "१ वर्ष", days: 365, price: 2000 }
+  premium_30: { name: "१ महिना", days: 30, pricePaisa: 50000 },
+  premium_90: { name: "३ महिना", days: 90, pricePaisa: 100000 },
+  premium_180: { name: "६ महिना", days: 180, pricePaisa: 150000 },
+  premium_365: { name: "१ वर्ष", days: 365, pricePaisa: 200000 }
 };
+function formatNPRFromPaisa(pricePaisa) {
+  const rupees = Math.round(Number(pricePaisa || 0) / 100);
+  return "रु. " + rupees.toLocaleString("en-IN");
+}
 
 
 function showMessage(text, kind = "info") {
@@ -172,7 +177,7 @@ function setupPlanCheckout() {
       '<div class="checkout-summary">',
       '<div><span>छानिएको योजना</span><strong>' + plan.name + ' Premium</strong></div>',
       '<div><span>अवधि</span><strong>' + plan.days + ' दिन</strong></div>',
-      '<div class="checkout-total"><span>जम्मा तिर्नुपर्ने</span><strong>रु. ' + plan.price.toLocaleString("en-IN") + '</strong></div>',
+      '<div class="checkout-total"><span>जम्मा तिर्नुपर्ने</span><strong>रु. ' + formatNPRFromPaisa(plan.pricePaisa) + '</strong></div>',
       '</div>',
       '<div class="checkout-pending" role="status"><strong>Fonepay Payment Gateway जडान हुँदैछ</strong><p>Merchant स्वीकृति र सुरक्षित server-side payment verification पूरा भएपछि मात्र वास्तविक भुक्तानी सुरु हुनेछ। अहिले कुनै रकम नपठाउनुहोस्।</p></div>',
       '<button class="checkout-pay-button" type="button" disabled>भुक्तानी सुरु गर्न Gateway तयार हुन बाँकी</button>',
