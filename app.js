@@ -392,7 +392,7 @@ if("serviceWorker" in navigator && location.protocol.startsWith("http")){
     button.type="button";button.textContent="Update Now";
     button.style.cssText="border:0;border-radius:9px;padding:10px 13px;background:#fff;color:#102b46;font-weight:700;white-space:nowrap";
     button.addEventListener("click",()=>{
-      if(document.querySelector("#timer,#nhpcFullTimer")){
+      if(document.querySelector(".timer")){
         alert("Mock Test चलिरहेको छ। परीक्षा पूरा गरेपछि Update Now थिच्नुहोस्।");
         return;
       }
