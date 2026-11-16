@@ -372,7 +372,52 @@ function showSubjectHub(id){
 }
 
 updateStats();renderDashboard();renderExamTrackProgress();renderStudentProfile();renderMCQDashboard();renderDailyStudyGoal();renderNotes();
-if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){
+  let updateRegistration=null,updateBanner=null,reloadAfterUpdate=false;
+  const showUpdateNotice=()=>{
+    if(updateBanner||!updateRegistration?.waiting)return;
+    updateBanner=document.createElement("aside");
+    updateBanner.setAttribute("role","status");
+    updateBanner.style.cssText="position:fixed;left:12px;right:12px;bottom:14px;z-index:9999;background:#102b46;color:#fff;padding:14px;border-radius:14px;box-shadow:0 8px 28px #0004;display:flex;gap:12px;align-items:center;justify-content:space-between;font:14px/1.45 system-ui,sans-serif";
+    const message=document.createElement("span");
+    message.textContent="नयाँ अपडेट उपलब्ध छ। पढाइ सुरक्षित राख्न तयार भएपछि मात्र अपडेट गर्नुहोस्।";
+    const button=document.createElement("button");
+    button.type="button";button.textContent="Update Now";
+    button.style.cssText="border:0;border-radius:9px;padding:10px 13px;background:#fff;color:#102b46;font-weight:700;white-space:nowrap";
+    button.addEventListener("click",()=>{
+      if(document.querySelector("#timer,#nhpcFullTimer")){
+        alert("Mock Test चलिरहेको छ। परीक्षा पूरा गरेपछि Update Now थिच्नुहोस्।");
+        return;
+      }
+      if(!updateRegistration?.waiting)return;
+      button.disabled=true;button.textContent="Updating…";
+      reloadAfterUpdate=true;
+      updateRegistration.waiting.postMessage({type:"SKIP_WAITING"});
+    });
+    updateBanner.append(message,button);document.body.appendChild(updateBanner);
+  };
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{
+    if(!reloadAfterUpdate)return;
+    reloadAfterUpdate=false;
+    if(sessionStorage.getItem("dhpn-update-reloaded")==="1")return;
+    sessionStorage.setItem("dhpn-update-reloaded","1");
+    location.reload();
+  });
+  navigator.serviceWorker.register("./sw.js").then(reg=>{
+    updateRegistration=reg;
+    if(reg.waiting&&navigator.serviceWorker.controller)showUpdateNotice();
+    reg.addEventListener("updatefound",()=>{
+      const worker=reg.installing;if(!worker)return;
+      worker.addEventListener("statechange",()=>{
+        if(worker.state==="installed"&&navigator.serviceWorker.controller)showUpdateNotice();
+      });
+    });
+    reg.update().catch(()=>{});
+    document.addEventListener("visibilitychange",()=>{
+      if(document.visibilityState==="visible")reg.update().catch(()=>{});
+    });
+  }).catch(()=>{});
+}
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").classList.remove("hidden")});
 $("#installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$("#installBtn").classList.add("hidden")});
 
