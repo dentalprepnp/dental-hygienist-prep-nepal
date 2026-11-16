@@ -47,6 +47,13 @@ function updateStats(){
 const MOCK_HISTORY_KEY="dhpn-mock-history";
 function readMockHistory(){try{return JSON.parse(localStorage.getItem(MOCK_HISTORY_KEY)||"[]")}catch(e){return []}}
 window.DHPNProgress={
+  recordMCQ(moduleName,question,selectedIndex){
+    const correctIndex=Array.isArray(question)?question[3]:-1;
+    saved.attempted++;
+    if(selectedIndex===correctIndex)saved.correct++;
+    saved.best=Math.max(saved.best,Math.round(saved.correct/saved.attempted*100));
+    persist();
+  },
   recordMock(moduleName,score,total){
     const rows=readMockHistory();
     rows.push({module:moduleName,score,total,percent:Math.round(score/total*100),date:new Date().toISOString()});
