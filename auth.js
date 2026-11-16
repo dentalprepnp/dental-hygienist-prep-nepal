@@ -41,6 +41,16 @@ async function refreshSession() {
   showUser(data?.session?.user || null);
 }
 
+$("resetPasswordForm")?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const password = $("resetNewPassword")?.value || "";
+  if (password.length < 8) return message("नयाँ Password कम्तीमा 8 अक्षरको राख्नुहोस्।", "error");
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) return message(error.message, "error");
+  $("resetPasswordForm")?.classList.add("hidden");
+  message("Password सफलतापूर्वक परिवर्तन भयो। अब नयाँ Password बाट Login गर्न सक्नुहुन्छ।", "success");
+});
+
 form?.addEventListener("submit", async (event) => {
   event.preventDefault();
   const action = event.submitter?.value || "login";
@@ -100,5 +110,13 @@ $("signOutButton")?.addEventListener("click", async () => {
   message("तपाईं Logout हुनुभयो।", "success");
 });
 
-supabase.auth.onAuthStateChange((_event, session) => showUser(session?.user || null));
+supabase.auth.onAuthStateChange((event, session) => {
+  showUser(session?.user || null);
+  if (event === "PASSWORD_RECOVERY") {
+    $("resetPasswordForm")?.classList.remove("hidden");
+    $("accountPanel")?.classList.remove("hidden");
+    $("signedInPanel")?.classList.add("hidden");
+    message("नयाँ Password राख्नुहोस्।", "info");
+  }
+});
 refreshSession();
