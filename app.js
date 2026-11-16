@@ -95,6 +95,7 @@ window.DHPNProgress.recordMCQ=function(moduleName,q,selected){
  const rows=readMCQHistory(),correct=selected===q[3];
  rows.push({module:moduleName,question:q[0],nepali:q[1],selected:q[2][selected],correctAnswer:q[2][q[3]],explanation:q[4],explanationNp:q[5],isCorrect:correct,date:new Date().toISOString()});
  localStorage.setItem(MCQ_HISTORY_KEY,JSON.stringify(rows.slice(-500)));
+ notifyCloudSync();
  renderMCQDashboard();
  renderDailyStudyGoal();
 };
