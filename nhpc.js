@@ -225,7 +225,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   box.innerHTML=`<div class="progress-mini-grid"><article><small>Mock Attempts</small><strong>${rows.length}</strong></article><article><small>Average Score</small><strong>${avg}%</strong></article><article><small>Best Score</small><strong>${best}%</strong></article></div><p class="muted">${last?"पछिल्लो अभ्यास: "+last.percent+"% • "+new Date(last.date).toLocaleDateString():"अहिलेसम्म NHPC Mock Test को नतिजा छैन। पहिलो परीक्षा दिएपछि यहाँ प्रगति देखिन्छ।"}</p>`;
  }
  renderNhpcProgress();
- // NHPC mock options: 50, 100, 150, or the complete available question bank.
+ // NHPC mock options: 25/75 mixed practice, 50/100/150 syllabus-weighted tests, or the complete question bank.
  const mockRoot=document.getElementById("nhpcFullMock");
  let mockSet=[],mockAt=0,mockPicked={},mockClock=null,mockSeconds=3600,mockDone=false,mockTarget=50;
  const shuffleItems=a=>[...a].sort(()=>Math.random()-.5);
@@ -256,7 +256,9 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   mockRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">PCL IN DENTAL HYGIENE • NHPC</p><h3>Mock Test छान्नुहोस्</h3></div><span class="pill">${total} प्रश्न उपलब्ध</span></div>
    <div class="notice"><b>आफ्नो परीक्षा अभ्यास छान्नुहोस्</b><p>प्रत्येक प्रश्न १ अंक। ५०, १०० र १५० प्रश्नका Mock मा NHPC 2023 Second Revision को २०:६०:२० तथा विषयगत marks अनुसार प्रश्न छानिन्छन्। Full Question Bank मा सबै प्रश्न समावेश हुन्छन्। सही उत्तरको स्थान पनि परिवर्तन हुन्छ।</p></div>
    <div class="feature-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+    <button class="feature-card" data-mock-size="25"><b>Quick Mock</b><strong>२५ प्रश्न</strong><small>३० मिनेट • Mixed practice</small></button>
     <button class="feature-card" data-mock-size="50"><b>Mini Mock</b><strong>५० प्रश्न</strong><small>६० मिनेट</small></button>
+    <button class="feature-card" data-mock-size="75"><b>Practice Mock</b><strong>७५ प्रश्न</strong><small>९० मिनेट • Mixed practice</small></button>
     <button class="feature-card" data-mock-size="100"><b>Standard Mock</b><strong>१०० प्रश्न</strong><small>१२० मिनेट</small></button>
     <button class="feature-card" data-mock-size="150"><b>Advanced Mock</b><strong>१५० प्रश्न</strong><small>१८० मिनेट</small></button>
     <button class="feature-card" data-mock-size="all"><b>Full Question Bank</b><strong>${total} प्रश्न</strong><small>${Math.ceil(total*1.2)} मिनेट</small></button>
