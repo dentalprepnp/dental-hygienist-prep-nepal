@@ -9,6 +9,12 @@ const form = $("accountForm");
 const status = $("accountStatus");
 const authPanel = $("accountPanel");
 const signedInPanel = $("signedInPanel");
+const accountAccessButton = $("accountAccessButton");
+accountAccessButton?.addEventListener("click", () => {
+  authPanel?.classList.remove("hidden");
+  authPanel?.scrollIntoView({ behavior: "smooth", block: "center" });
+  $("accountEmail")?.focus({ preventScroll: true });
+});
 
 function message(text, kind = "info") {
   if (!status) return;
@@ -23,7 +29,7 @@ function setBusy(busy) {
 }
 function showUser(user) {
   if (!user) {
-    authPanel?.classList.remove("hidden");
+    authPanel?.classList.add("hidden");
     signedInPanel?.classList.add("hidden");
     return;
   }
@@ -107,6 +113,7 @@ $("signOutButton")?.addEventListener("click", async () => {
   const { error } = await supabase.auth.signOut();
   if (error) return message(error.message, "error");
   showUser(null);
+  authPanel?.classList.add("hidden");
   message("तपाईं Logout हुनुभयो।", "success");
 });
 
