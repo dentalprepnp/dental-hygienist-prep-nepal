@@ -144,10 +144,14 @@
   </section>
 
     <section class="subject-directory" aria-label="All study subjects">
-      <div class="section-head"><div><p class="eyebrow">COMPLETE STUDY LIBRARY</p><h2>सबै अध्ययन विषयहरू</h2></div><span class="pill">10 Subjects</span></div>
+      <div class="section-head"><div><p class="eyebrow">COMPLETE STUDY LIBRARY</p><h2>सबै अध्ययन विषयहरू</h2></div><span class="pill">14 NHPC Study Subjects</span></div>
       <p class="muted">आफूले पढ्न चाहेको विषय छानेर Notes, MCQ र Mock Test अभ्यास गर्नुहोस्।</p>
       <div class="subject-grid" id="subjectGrid">
-        <button class="subject-card" data-go="basicPeriodontology" data-subject="Basic Periodontology"><span class="subject-number">01</span><b>Basic Periodontology</b><small>Periodontium • Gingivitis • Periodontitis</small></button>
+        <button class="subject-card" data-go="nhpc" data-nhpc-topic="Basic Periodontology I" data-subject="Basic Periodontology I"><span class="subject-number">01</span><b>Basic Periodontology I</b><small>Periodontium • Gingivitis • Periodontitis</small></button>
+        <button class="subject-card" data-go="nhpc" data-nhpc-topic="Basic Periodontology II" data-subject="Basic Periodontology II"><span class="subject-number">02</span><b>Basic Periodontology II</b><small>Periodontal examination • Treatment • Maintenance</small></button>
+        <button class="subject-card" data-go="nhpc" data-nhpc-topic="Human Anatomy & Physiology" data-subject="Human Anatomy and Physiology"><span class="subject-number">03</span><b>Human Anatomy & Physiology</b><small>Body systems • Structure • Functions</small></button>
+        <button class="subject-card" data-go="nhpc" data-nhpc-topic="Basic Medical Procedure & First Aid" data-subject="Basic Medical Procedure and First Aid"><span class="subject-number">04</span><b>Basic Medical Procedure & First Aid</b><small>Vital signs • First aid • Emergency response</small></button>
+        <button class="subject-card" data-go="nhpc" data-nhpc-topic="Health, Environment and Health Education" data-subject="Health, Environment and Health Education"><span class="subject-number">05</span><b>Health, Environment & Health Education</b><small>Health promotion • Sanitation • Environment</small></button>
         <button class="subject-card" data-go="oralPath" data-subject="Oral Pathology and Microbiology"><span class="subject-number">02</span><b>Oral Pathology and Microbiology</b><small>Oral diseases • Microorganisms</small></button>
         <button class="subject-card" data-go="dentalMaterials" data-subject="Dental Materials Instruments and Assisting"><span class="subject-number">03</span><b>Dental Materials, Instruments and Assisting</b><small>Materials • Instruments • Chairside assisting</small></button>
         <button class="subject-card" data-go="oralAnatomy" data-subject="Oral Anatomy and Physiology"><span class="subject-number">04</span><b>Oral Anatomy and Physiology</b><small>Teeth • Oral structures • Functions</small></button>
@@ -522,6 +526,17 @@
 </script>
 <script>
 (function(){var cta=document.getElementById("membershipLoginCta");if(!cta)return;cta.addEventListener("click",function(){var a=document.getElementById("accountPanel");if(a){a.scrollIntoView({behavior:"smooth",block:"start"});var e=document.getElementById("accountEmail");if(e)e.focus({preventScroll:true});}});})();
+</script>
+<script>
+/* Open NHPC topic cards directly in their matching bilingual study notes. */
+(function(){
+ document.addEventListener("click",function(event){
+  var card=event.target.closest("#subjectGrid .subject-card[data-nhpc-topic]");
+  if(!card)return;
+  event.preventDefault();event.stopImmediatePropagation();
+  if(window.DHPNOpenNHPCStudyTopic){window.DHPNOpenNHPCStudyTopic(card.dataset.nhpcTopic,"notes");}
+ },true);
+})();
 </script>
 </body>
 </html>
