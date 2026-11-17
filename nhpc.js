@@ -249,7 +249,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  document.getElementById("nhpcStartNotes")?.addEventListener("click",renderNhpcNotes);
  document.getElementById("nhpcCloseNotes")?.addEventListener("click",()=>{notesRoot.classList.add("hidden");document.getElementById("nhpcCloseNotes")?.classList.add("hidden")});
  // Public topic launcher used by the NHPC subject directory.
- window.DHPNOpenNHPCWeakTopic=function(topic){document.getElementById("nhpcStartMcq")?.click();const input=document.getElementById("nhpcSearch");if(input){input.value=topic;input.dispatchEvent(new Event("input",{bubbles:true}));}const area=document.getElementById("nhpcMcqArea");requestAnimationFrame(()=>area?.scrollIntoView({behavior:"auto",block:"start"}));};
+ window.DHPNOpenNHPCWeakTopic=function(topic){document.getElementById("nhpcStartMcq")?.click();topic="सबै विषय";practiceMode="all";root.querySelectorAll("[data-topic]").forEach(x=>x.classList.toggle("active",x.dataset.topic==="सबै विषय"));const input=document.getElementById("nhpcSearch");if(input){input.value=topic;input.dispatchEvent(new Event("input",{bubbles:true}));}const area=document.getElementById("nhpcMcqArea");requestAnimationFrame(()=>area?.scrollIntoView({behavior:"auto",block:"start"}));};
  window.DHPNOpenNHPCStudyTopic=function(topic,mode){
   const view=document.getElementById("nhpcView");
   if(!view)return;
