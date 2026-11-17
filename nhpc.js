@@ -148,6 +148,9 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  };
  function render(){
   const list=filtered(),item=list[index];
+  const wrongButton=root.querySelector('[data-practice-mode="wrong"]'),savedButton=root.querySelector('[data-practice-mode="saved"]');
+  if(wrongButton)wrongButton.textContent="गलत उत्तर अभ्यास ("+latestWrongKeys().length+")";
+  if(savedButton)savedButton.textContent="Bookmark ("+readBookmarks().length+")";
   if(!item){root.querySelector("#nhpcMcqCount").textContent="0 / 0";root.querySelector("#nhpcQuestion").innerHTML=`<div class="notice"><b>${practiceMode==="wrong"?"अहिलेसम्म गलत उत्तर छैन।":"अहिलेसम्म Bookmark गरिएको प्रश्न छैन।"}</b><p>सबै विषयको अभ्यासमा फर्किएर प्रश्नहरू हल गर्नुहोस्। गलत उत्तर वा Bookmark प्रश्न यहाँ देखिनेछन्।</p><button type="button" class="smallbtn" id="nhpcReturnAll">सबै प्रश्न अभ्यास गर्नुहोस्</button></div>`;root.querySelector("#nhpcReturnAll")?.addEventListener("click",()=>{practiceMode="all";index=0;updateModeButtons();render()});return;}
   const q=item.q,key=questionKey(item),chosen=answers[key],saved=readBookmarks().includes(key);
   root.querySelector("#nhpcMcqCount").textContent=(index+1)+" / "+list.length;
