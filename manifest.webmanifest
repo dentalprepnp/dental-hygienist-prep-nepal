@@ -1,12 +1,12 @@
 {
-  "name": "Dental Prep Nepal",
-  "short_name": "Dental Prep",
+  "name": "Health License Preparation Nepal",
+  "short_name": "HealthPrep",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f3f7fa",
   "theme_color": "#075985",
-  "description": "Bilingual licensing exam preparation for health professionals in Nepal.",
+  "description": "Health License Preparation Nepal — bilingual exam preparation for multiple health faculties.",
   "icons": [
     {
       "src": "icon.svg",
