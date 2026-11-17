@@ -719,3 +719,14 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 /* Keep the learning screen uncluttered: use the subject directory and subject hub cards only. */
 .tabs{display:none!important}
 .hero-actions{display:none!important}
+
+
+/* Weekly study progress */
+.weekly-study-progress{margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface,transparent)}
+.weekly-summary{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12px;margin-bottom:10px}.weekly-summary span{color:var(--muted)}
+.weekly-bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:end;min-height:100px}
+.weekly-day{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}.weekly-count{font-size:11px;font-weight:700;color:var(--muted)}
+.weekly-track{height:62px;width:100%;max-width:28px;border-radius:8px;background:var(--line);display:flex;align-items:flex-end;overflow:hidden}
+.weekly-track i{display:block;width:100%;min-height:3px;border-radius:8px;background:var(--primary,#0284c7)}
+.weekly-day small{font-size:10px;color:var(--muted)}
+:root[data-theme="dark"] .weekly-study-progress{background:#152635}
