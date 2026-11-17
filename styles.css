@@ -798,3 +798,18 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 :root[data-theme="dark"] #nhpcView .module-actions .feature-card:nth-child(5) .feature-icon{background:#245766}
 :root[data-theme="dark"] #nhpcView .module-actions .feature-card:nth-child(6) .feature-icon{background:#673b49}
 @media(max-width:520px){#nhpcView .module-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}#nhpcView .module-actions .feature-card{min-height:108px;padding:11px 9px}#nhpcView .module-actions .feature-card:last-child{grid-column:auto}}
+
+
+/* Focused NHPC mock screen */
+#nhpcView.nhpc-focused-mode > .notice,
+#nhpcView.nhpc-focused-mode > h3,
+#nhpcView.nhpc-focused-mode > .topic-grid,
+#nhpcView.nhpc-focused-mode > .module-actions,
+#nhpcView.nhpc-focused-mode > .nhpc-progress-panel,
+#nhpcView.nhpc-focused-mode > .disclaimer,
+#nhpcView.nhpc-focused-mode > #nhpcNotesArea,
+#nhpcView.nhpc-focused-mode > #nhpcCloseNotes,
+#nhpcView.nhpc-focused-mode > #nhpcMcqArea,
+#nhpcView.nhpc-focused-mode > #nhpcCloseMcq { display:none !important; }
+#nhpcView.nhpc-focused-mode > #nhpcCloseMock { display:inline-flex !important; width:100%; justify-content:flex-start; position:relative; }
+#nhpcView.nhpc-focused-mode > #nhpcFullMock { margin-top:0; }
