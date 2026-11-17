@@ -54,6 +54,15 @@ window.DHPNProgress={
     saved.best=Math.max(saved.best,Math.round(saved.correct/saved.attempted*100));
     persist();
   },
+  recordNHPCQuestion(item,selectedIndex){
+    if(!item||!Array.isArray(item.q))return;
+    const q=item.q,rows=readMCQHistory(),date=new Date().toISOString();
+    rows.push({module:"NHPC - PCL in Dental Hygiene",topic:item.topic||"अन्य",questionKey:(item.topic||"अन्य")+"::"+q[0],question:q[0],nepali:q[1],options:q[2],selected:q[2][selectedIndex],selectedIndex,correctAnswer:q[2][q[3]],correctIndex:q[3],explanation:q[4],explanationNp:q[5],clinicalExample:q[6]||"",isCorrect:selectedIndex===q[3],date});
+    localStorage.setItem("dhpn-mcq-history",JSON.stringify(rows.slice(-500)));
+    notifyCloudSync();
+    window.dispatchEvent(new CustomEvent("dhpn:data-changed"));
+    renderDailyStudyGoal();
+  },
   recordMock(moduleName,score,total,details={}){
     const rows=readMockHistory();
     const date=new Date().toISOString();
