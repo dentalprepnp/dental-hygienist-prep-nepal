@@ -137,6 +137,8 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  mergeNotes("Basic Periodontology","Basic Periodontology I");
  const noteRenames={"Dental Materials & Instruments":"Dental Materials, Instruments & Assisting","Dental Pharmacy":"Dental Pharmacy & Pharmacology","Food and Nutrition":"Food & Nutrition"};
  nhpcNotes.forEach(t=>{if(t&&noteRenames[t[0]])t[0]=noteRenames[t[0]];});
+ const noteOrder=["Human Anatomy & Physiology","Oral Anatomy & Physiology","Oral Pathology & Microbiology","Dental Pharmacy & Pharmacology","Basic Periodontology I","Basic Periodontology II","Dental Materials, Instruments & Assisting","Dental Radiography & Photography","Basic Medical Procedure & First Aid","Dental Public Health and Jurisprudence","Health, Environment and Health Education","Epidemiology & Community Diagnosis","Food & Nutrition","Infection Prevention & Sterilization","Medical Emergencies & First Aid"];
+ nhpcNotes.sort((a,b)=>noteOrder.indexOf(a[0])-noteOrder.indexOf(b[0]));
  for(let i=nhpcNotes.length-1;i>=0;i--){if(!nhpcNotes[i])nhpcNotes.splice(i,1);}
 
 
