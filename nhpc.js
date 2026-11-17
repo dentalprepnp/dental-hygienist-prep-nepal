@@ -128,7 +128,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  const setNHPCFocused=focused=>{
   const view=document.getElementById("nhpcView");
   if(!view)return;
-  [".notice","h3",".topic-grid",".module-actions",".nhpc-progress-panel",".disclaimer","#nhpcNotesArea","#nhpcCloseNotes","#nhpcMcqArea","#nhpcCloseMcq"].forEach(selector=>{
+  [".notice","h3",".topic-grid",".module-actions",".nhpc-progress-panel",".disclaimer"].forEach(selector=>{
    view.querySelectorAll(":scope > "+selector).forEach(el=>{
     if(focused)el.style.setProperty("display","none","important");
     else el.style.removeProperty("display");
