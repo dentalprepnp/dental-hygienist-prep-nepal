@@ -61,6 +61,7 @@ window.DHPNProgress={
     localStorage.setItem("dhpn-mcq-history",JSON.stringify(rows.slice(-500)));
     notifyCloudSync();
     window.dispatchEvent(new CustomEvent("dhpn:data-changed"));
+    renderMCQDashboard();
     renderDailyStudyGoal();
   },
   recordMock(moduleName,score,total,details={}){
@@ -164,13 +165,20 @@ function renderWeaknessAnalysis(){
 }
 function renderMCQDashboard(){
  renderWeaknessAnalysis();
- const rows=readMCQHistory(),wrong=rows.filter(r=>!r.isCorrect);
+ const rows=readMCQHistory(),groups=new Map();
+ rows.forEach(r=>{const key=r.questionKey||((r.module||"अन्य")+"::"+(r.question||""));if(!groups.has(key))groups.set(key,[]);groups.get(key).push(r)});
+ const latest=[...groups.values()].map(history=>({latest:history[history.length-1],history}));
+ const wrong=latest.filter(x=>!x.latest.isCorrect).sort((a,b)=>String(b.latest.date||"").localeCompare(String(a.latest.date||"")));
+ const recovered=latest.filter(x=>x.latest.isCorrect&&x.history.some(r=>!r.isCorrect));
  $("#mcqAttemptCount").textContent=rows.length;
  $("#mcqCorrectRate").textContent=(rows.length?Math.round(rows.filter(r=>r.isCorrect).length/rows.length*100):0)+"%";
  $("#wrongQuestionCount").textContent=wrong.length;
+ const recoveredCount=$("#recoveredQuestionCount");if(recoveredCount)recoveredCount.textContent=recovered.length;
  const box=$("#wrongQuestionList");
- if(!wrong.length){box.innerHTML='<p class="muted">अहिलेसम्म गलत उत्तर छैन। MCQ अभ्यास गरेपछि यहाँ गलत प्रश्नहरू देखिन्छन्।</p>';return}
- box.innerHTML=wrong.slice(-12).reverse().map(r=>'<article class="wrong-item"><b>'+r.module+'</b><p>'+r.question+'</p><small>तपाईंको उत्तर: '+r.selected+' | सही उत्तर: '+r.correctAnswer+'</small><p class="wrong-explain">'+r.explanation+' '+r.explanationNp+'</p></article>').join("");
+ if(!wrong.length){box.innerHTML='<p class="muted">अहिलेसम्म सुधार गर्न बाँकी गलत प्रश्न छैन। अभ्यास गरेपछि यहाँ देखिन्छ।</p>';}
+ else box.innerHTML='<h4>अहिले पनि गलत भइरहेका प्रश्नहरू</h4>'+wrong.slice(0,12).map(x=>{const r=x.latest,prior=x.history.filter(y=>!y.isCorrect).length;return '<article class="wrong-item"><b>'+r.module+' • '+(r.topic||"")+'</b><p>'+r.question+'</p><small>पछिल्लो उत्तर: '+(r.selected||"उत्तर नदिएको")+' | सही उत्तर: '+(r.correctAnswer||"—")+' • गलत इतिहास: '+prior+' पटक</small><p class="wrong-explain">'+(r.explanation||"")+' '+(r.explanationNp||"")+'</p></article>'}).join("");
+ const recoveredBox=$("#recoveredQuestionList");
+ if(recoveredBox)recoveredBox.innerHTML=recovered.length?recovered.slice(0,8).map(x=>{const r=x.latest,prior=x.history.filter(y=>!y.isCorrect).length;return '<article class="recovered-item"><b>'+r.module+' • '+(r.topic||"")+'</b><p>'+r.question+'</p><small>पहिले '+prior+' पटक गलत, पछिल्लो पटक सही ✓</small></article>'}).join(""):'<p class="muted">पहिले गलत भएका प्रश्न पछि सही गरेपछि यहाँ सुधार देखिन्छ।</p>';
 }
 const profileForm=$("#studentProfileForm");
 if(profileForm)profileForm.addEventListener("submit",e=>{
