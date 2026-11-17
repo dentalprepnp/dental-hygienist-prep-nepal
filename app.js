@@ -166,7 +166,7 @@ function renderWeaknessAnalysis(){
 function renderMCQDashboard(){
  renderWeaknessAnalysis();
  const rows=readMCQHistory(),groups=new Map();
- rows.forEach(r=>{const key=r.questionKey||((r.module||"अन्य")+"::"+(r.question||""));if(!groups.has(key))groups.set(key,[]);groups.get(key).push(r)});
+ rows.forEach(r=>{const key=(r.module||"अन्य")+"::"+(r.question||r.questionKey||"");if(!groups.has(key))groups.set(key,[]);groups.get(key).push(r)});
  const latest=[...groups.values()].map(history=>({latest:history[history.length-1],history}));
  const wrong=latest.filter(x=>!x.latest.isCorrect).sort((a,b)=>String(b.latest.date||"").localeCompare(String(a.latest.date||"")));
  const recovered=latest.filter(x=>x.latest.isCorrect&&x.history.some(r=>!r.isCorrect));
