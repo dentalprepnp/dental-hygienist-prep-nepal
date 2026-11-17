@@ -1,7 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="HealthPrep logo">
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e4f4ff"/><stop offset="1" stop-color="#075985"/></linearGradient></defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="HL Preparation logo">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#123b70"/></linearGradient>
+  <linearGradient id="page" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#dbeafe"/></linearGradient>
+</defs>
 <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-<circle cx="256" cy="235" r="174" fill="#fff" opacity=".14"/>
-<path d="M256 92c-22 0-40 18-40 40v64h-64c-22 0-40 18-40 40s18 40 40 40h64v64c0 22 18 40 40 40s40-18 40-40v-64h64c22 0 40-18 40-40s-18-40-40-40h-64v-64c0-22-18-40-40-40z" fill="#fff" stroke="#075985" stroke-width="10"/>
-<path d="M112 382c52-24 99-24 144 0 45-24 92-24 144 0v42c-52-24-99-24-144 0-45-24-92-24-144 0z" fill="#dff5ff" stroke="#075985" stroke-width="10" stroke-linejoin="round"/>
+<circle cx="256" cy="244" r="190" fill="#fff" opacity=".08"/>
+<path d="M92 350c57-25 110-23 164 8 54-31 107-33 164-8v61c-57-25-110-23-164 8-54-31-107-33-164-8z" fill="url(#page)" stroke="#0b315e" stroke-width="12" stroke-linejoin="round"/>
+<path d="M256 358v61" stroke="#0b315e" stroke-width="10"/>
+<text x="256" y="252" text-anchor="middle" font-family="Arial, sans-serif" font-size="142" font-weight="800" letter-spacing="-12" fill="#ffffff" stroke="#0b315e" stroke-width="5" paint-order="stroke">HL</text>
+<path d="M256 48v46m-23-23h46" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".9"/>
 </svg>
