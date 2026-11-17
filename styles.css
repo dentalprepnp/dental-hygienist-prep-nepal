@@ -834,3 +834,61 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
   z-index: auto !important;
   align-self: stretch;
 }
+
+
+/* Shared learning-screen design for every subject: Notes, MCQ and Mock */
+.view:not(#homeView):not(#nhpcView):not(.exam-view) {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 28px;
+}
+.view:not(#homeView):not(#nhpcView) > .module-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 9px 14px;
+  margin: 0 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card,#fff);
+  box-shadow: 0 3px 12px rgba(15,55,82,.06);
+}
+.view .notes-list { gap: 12px; }
+.view .note,
+.view .question {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--card,#fff);
+  box-shadow: 0 5px 18px rgba(15,55,82,.055);
+}
+.view .note { padding: 17px; }
+.view .question { padding: 18px; }
+.view .option {
+  min-height: 52px;
+  border-radius: 13px;
+  background: var(--surface,#f8fbfd);
+  transition: border-color .15s ease, background .15s ease;
+}
+.view .option:focus-visible,
+.view .smallbtn:focus-visible,
+.view .primary:focus-visible,
+.view .secondary:focus-visible {
+  outline: 3px solid #38a9d6;
+  outline-offset: 2px;
+}
+.view .toolbar {
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(15,55,82,.04);
+}
+@media(max-width:520px) {
+  .view:not(#homeView):not(#nhpcView) { padding-left: 2px; padding-right: 2px; }
+  .view .question { padding: 14px; }
+  .view .note { padding: 14px; }
+}
+:root[data-theme="dark"] .view .note,
+:root[data-theme="dark"] .view .question,
+:root[data-theme="dark"] .view .toolbar,
+:root[data-theme="dark"] .view:not(#homeView):not(#nhpcView) > .module-back {
+  background: #172d3d;
+  border-color: #35566b;
+}
