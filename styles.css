@@ -768,3 +768,33 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 .revision-review article{padding:10px;border:1px solid var(--line);border-radius:10px;font-size:13px}
 .revision-review p{margin:5px 0 0;color:var(--muted)}
 .revision-summary{font-weight:700}
+
+
+/* Dental Hygienist launch cards: colourful, clear and touch-friendly */
+#nhpcView .module-actions{gap:12px;margin:20px 0}
+#nhpcView .module-actions .feature-card{min-height:116px;padding:14px 12px;border-width:1px;box-shadow:0 5px 15px rgba(15,55,82,.06);transition:transform .18s ease,box-shadow .18s ease}
+#nhpcView .module-actions .feature-card:nth-child(1){background:linear-gradient(145deg,#eaf4ff,#f8fbff);border-color:#c7ddfa}
+#nhpcView .module-actions .feature-card:nth-child(2){background:linear-gradient(145deg,#f1eaff,#fbf8ff);border-color:#d9cafa}
+#nhpcView .module-actions .feature-card:nth-child(3){background:linear-gradient(145deg,#e5f8f1,#f8fffb);border-color:#bce8d5}
+#nhpcView .module-actions .feature-card:nth-child(4){background:linear-gradient(145deg,#fff3e4,#fffbf5);border-color:#f4d8b6}
+#nhpcView .module-actions .feature-card:nth-child(5){background:linear-gradient(145deg,#e6f7fb,#f8fdff);border-color:#bfe5ef}
+#nhpcView .module-actions .feature-card:nth-child(6){background:linear-gradient(145deg,#fff0f2,#fffafb);border-color:#f2cbd2}
+#nhpcView .module-actions .feature-card:nth-child(1) .feature-icon{background:#d5e9ff}
+#nhpcView .module-actions .feature-card:nth-child(2) .feature-icon{background:#e5d9ff}
+#nhpcView .module-actions .feature-card:nth-child(3) .feature-icon{background:#ccefe0}
+#nhpcView .module-actions .feature-card:nth-child(4) .feature-icon{background:#ffe4c5}
+#nhpcView .module-actions .feature-card:nth-child(5) .feature-icon{background:#cdeef5}
+#nhpcView .module-actions .feature-card:nth-child(6) .feature-icon{background:#ffdce2}
+#nhpcView .module-actions .feature-card b{font-size:12px;line-height:1.35;color:#17384e}
+#nhpcView .module-actions .feature-card small{font-size:10px;line-height:1.4;color:#496477}
+#nhpcView .module-actions .feature-card:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(15,55,82,.12)}
+:root[data-theme="dark"] #nhpcView .module-actions .feature-card{background:#172d3d;border-color:#35566b}
+:root[data-theme="dark"] #nhpcView .module-actions .feature-card b{color:#edf6fc}
+:root[data-theme="dark"] #nhpcView .module-actions .feature-card small{color:#b6cad7}
+:root[data-theme="dark"] #nhpcView .module-actions .feature-card:nth-child(1) .feature-icon{background:#23496b}
+:root[data-theme="dark"] #nhpcView .module-actions .feature-card:nth-child(2) .feature-icon{background:#44356b}
+:root[data-theme="dark"] #nhpcView .module-actions .feature-card:nth-child(3) .feature-icon{background:#205b49}
+:root[data-theme="dark"] #nhpcView .module-actions .feature-card:nth-child(4) .feature-icon{background:#694b2c}
+:root[data-theme="dark"] #nhpcView .module-actions .feature-card:nth-child(5) .feature-icon{background:#245766}
+:root[data-theme="dark"] #nhpcView .module-actions .feature-card:nth-child(6) .feature-icon{background:#673b49}
+@media(max-width:520px){#nhpcView .module-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}#nhpcView .module-actions .feature-card{min-height:108px;padding:11px 9px}#nhpcView .module-actions .feature-card:last-child{grid-column:auto}}
