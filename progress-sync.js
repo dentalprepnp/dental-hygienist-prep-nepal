@@ -2,7 +2,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL = "https://jrivojhpdupxnpefevzm.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rj6oDSLkwQipLCXPfVoy9w_0r6vqR0u";
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-const KEYS = ["dhpn-progress","dhpn-mock-history","dhpn-mcq-history","dhpn-student-profile","dhpn-study-goal"];
+const KEYS = ["dhpn-progress","dhpn-mock-history","dhpn-mcq-history","dhpn-student-profile","dhpn-study-goal","dhpn-nhpc-bookmarks"];
 let currentUser = null, syncTimer = null, syncing = false;
 function status(text) {
   let el = document.getElementById("cloudSyncStatus");
@@ -21,6 +21,7 @@ function mergeHistory(localRows,cloudRows,key) {
 function mergeValue(key,localValue,cloudValue) {
   if(localValue===null)return cloudValue;if(cloudValue===null)return localValue;
   if(key==="dhpn-mock-history"||key==="dhpn-mcq-history")return mergeHistory(localValue,cloudValue,key);
+  if(key==="dhpn-nhpc-bookmarks")return [...new Set([...(Array.isArray(cloudValue)?cloudValue:[]),...(Array.isArray(localValue)?localValue:[])])];
   if(key==="dhpn-progress")return {attempted:Math.max(Number(localValue.attempted)||0,Number(cloudValue.attempted)||0),correct:Math.max(Number(localValue.correct)||0,Number(cloudValue.correct)||0),best:Math.max(Number(localValue.best)||0,Number(cloudValue.best)||0)};
   if(key==="dhpn-student-profile")return localValue.name||localValue.target?localValue:cloudValue;
   return localValue;
