@@ -54,12 +54,14 @@ window.DHPNProgress={
     saved.best=Math.max(saved.best,Math.round(saved.correct/saved.attempted*100));
     persist();
   },
-  recordMock(moduleName,score,total){
+  recordMock(moduleName,score,total,details={}){
     const rows=readMockHistory();
-    rows.push({module:moduleName,score,total,percent:Math.round(score/total*100),date:new Date().toISOString()});
+    const date=new Date().toISOString();
+    rows.push({id:"mock-"+Date.now()+"-"+Math.random().toString(36).slice(2,8),module:moduleName,score,total,percent:total?Math.round(score/total*100):0,date,subject:details.subject||"सबै विषय",topicStats:details.topicStats||{}});
     localStorage.setItem(MOCK_HISTORY_KEY,JSON.stringify(rows.slice(-200)));
     notifyCloudSync();
     renderDashboard();
+    window.dispatchEvent(new CustomEvent("dhpn:mock-history-updated"));
   }
 };
 const PROFILE_KEY="dhpn-student-profile";
