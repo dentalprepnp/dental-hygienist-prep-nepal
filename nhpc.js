@@ -222,6 +222,26 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  }
  document.getElementById("nhpcStartNotes")?.addEventListener("click",renderNhpcNotes);
  document.getElementById("nhpcCloseNotes")?.addEventListener("click",()=>{notesRoot.classList.add("hidden");document.getElementById("nhpcCloseNotes")?.classList.add("hidden")});
+ // Public topic launcher used by the NHPC subject directory.
+ window.DHPNOpenNHPCStudyTopic=function(topic,mode){
+  const view=document.getElementById("nhpcView");
+  if(!view)return;
+  document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
+  view.classList.remove("hidden");
+  document.body.classList.add("study-screen-open");
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab==="nhpc"));
+  window.scrollTo({top:0,left:0,behavior:"auto"});
+  if(mode==="practice"){
+   document.getElementById("nhpcStartMcq")?.click();
+   const filter=[...document.querySelectorAll("#nhpcFilters [data-topic]")].find(b=>b.dataset.topic===topic);
+   filter?.click();
+  }else{
+   document.getElementById("nhpcStartNotes")?.click();
+   const filter=[...document.querySelectorAll("#nhpcNotesFilters [data-notes-topic]")].find(b=>b.textContent.trim()===topic);
+   filter?.click();
+  }
+  requestAnimationFrame(()=>{const area=mode==="practice"?document.getElementById("nhpcMcqArea"):document.getElementById("nhpcNotesArea");area?.scrollIntoView({behavior:"auto",block:"start"});});
+ };
  // NHPC student progress summary, based on locally saved mock-test attempts.
  function renderNhpcProgress(){
   const box=document.getElementById("nhpcProgress");if(!box)return;
