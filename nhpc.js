@@ -350,6 +350,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
 
  function openNhpcMock(){
   clearInterval(mockClock);mockClock=null;mockSubjectFilter="सबै विषय";
+  document.getElementById("nhpcView")?.classList.add("nhpc-focused-mode");
   mockRoot.classList.remove("hidden");document.getElementById("nhpcCloseMock")?.classList.remove("hidden");
   document.getElementById("nhpcMcqArea")?.classList.add("hidden");document.getElementById("nhpcCloseMcq")?.classList.add("hidden");
   const total=mockBank.length;
@@ -406,7 +407,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   mockRoot.querySelector("#nhpcRetake").addEventListener("click",openNhpcMock);
  }
  document.getElementById("nhpcStartFullMock")?.addEventListener("click",openNhpcMock);
- document.getElementById("nhpcCloseMock")?.addEventListener("click",()=>{clearInterval(mockClock);mockClock=null;mockRoot.classList.add("hidden");document.getElementById("nhpcCloseMock")?.classList.add("hidden")});
+ document.getElementById("nhpcCloseMock")?.addEventListener("click",()=>{clearInterval(mockClock);mockClock=null;mockRoot.classList.add("hidden");document.getElementById("nhpcCloseMock")?.classList.add("hidden");document.getElementById("nhpcView")?.classList.remove("nhpc-focused-mode");document.getElementById("nhpcStartFullMock")?.focus()});
 
 
   if (window.DHPNRandomizeQuestionBank) window.DHPNRandomizeQuestionBank(bank);
