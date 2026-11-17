@@ -822,3 +822,15 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
   top: auto !important;
   z-index: 1 !important;
 }
+
+
+/* FINAL LAYOUT FIX: learning/action cards are normal page content, never sticky.
+   This applies to every subject hub, including NHPC and all other faculties. */
+#nhpcView .module-actions,
+.view .module-actions,
+.subject-landing .module-actions {
+  position: static !important;
+  top: auto !important;
+  z-index: auto !important;
+  align-self: stretch;
+}
