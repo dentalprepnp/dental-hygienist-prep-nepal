@@ -261,7 +261,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  renderNhpcProgress();
  // NHPC mock options: 25/75 mixed practice, 50/100/150 syllabus-weighted tests, or the complete question bank.
  const mockRoot=document.getElementById("nhpcFullMock");
- let mockSet=[],mockAt=0,mockPicked={},mockClock=null,mockSeconds=3600,mockDone=false,mockTarget=50;
+ let mockSet=[],mockAt=0,mockPicked={},mockClock=null,mockSeconds=3600,mockDone=false,mockTarget=50,mockSubjectFilter="सबै विषय";
  const shuffleItems=a=>[...a].sort(()=>Math.random()-.5);
 
  const blueprintPlans={
@@ -281,28 +281,33 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  };
 
  function openNhpcMock(){
-  clearInterval(mockClock);mockClock=null;
-  mockRoot.classList.remove("hidden");
-  document.getElementById("nhpcCloseMock")?.classList.remove("hidden");
-  document.getElementById("nhpcMcqArea")?.classList.add("hidden");
-  document.getElementById("nhpcCloseMcq")?.classList.add("hidden");
+  clearInterval(mockClock);mockClock=null;mockSubjectFilter="सबै विषय";
+  mockRoot.classList.remove("hidden");document.getElementById("nhpcCloseMock")?.classList.remove("hidden");
+  document.getElementById("nhpcMcqArea")?.classList.add("hidden");document.getElementById("nhpcCloseMcq")?.classList.add("hidden");
   const total=mockBank.length;
   mockRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">PCL IN DENTAL HYGIENE • NHPC</p><h3>Mock Test छान्नुहोस्</h3></div><span class="pill">${total} प्रश्न उपलब्ध</span></div>
-   <div class="notice"><b>आफ्नो परीक्षा अभ्यास छान्नुहोस्</b><p>प्रत्येक प्रश्न १ अंक। ५०, १०० र १५० प्रश्नका Mock मा NHPC 2023 Second Revision को २०:६०:२० तथा विषयगत marks अनुसार प्रश्न छानिन्छन्। Full Question Bank मा सबै प्रश्न समावेश हुन्छन्। सही उत्तरको स्थान पनि परिवर्तन हुन्छ।</p></div>
+   <div class="notice"><b>आफ्नो परीक्षा अभ्यास छान्नुहोस्</b><p>समग्र NHPC Mock मा syllabus weight र विषयगत marks अनुसार प्रश्न छानिन्छन्। कुनै एउटा विषय छानेर छुट्टै अभ्यास पनि गर्न सकिन्छ।</p></div>
+   <label for="nhpcMockSubject"><b>विषय छान्नुहोस्</b></label><select id="nhpcMockSubject" style="width:100%;margin:8px 0 14px;padding:12px;border-radius:10px">${topics.map(t=>`<option value="${t}">${t}</option>`).join("")}</select>
    <div class="feature-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
-    <button class="feature-card" data-mock-size="25"><b>Quick Mock</b><strong>२५ प्रश्न</strong><small>३० मिनेट • Mixed practice</small></button>
+    <button class="feature-card" data-mock-size="10"><b>Quick Test</b><strong>१० प्रश्न</strong><small>१२ मिनेट</small></button>
+    <button class="feature-card" data-mock-size="25"><b>Quick Mock</b><strong>२५ प्रश्न</strong><small>३० मिनेट</small></button>
     <button class="feature-card" data-mock-size="50"><b>Mini Mock</b><strong>५० प्रश्न</strong><small>६० मिनेट</small></button>
-    <button class="feature-card" data-mock-size="75"><b>Practice Mock</b><strong>७५ प्रश्न</strong><small>९० मिनेट • Mixed practice</small></button>
     <button class="feature-card" data-mock-size="100"><b>Standard Mock</b><strong>१०० प्रश्न</strong><small>१२० मिनेट</small></button>
     <button class="feature-card" data-mock-size="150"><b>Advanced Mock</b><strong>१५० प्रश्न</strong><small>१८० मिनेट</small></button>
-    <button class="feature-card" data-mock-size="all"><b>Full Question Bank</b><strong>${total} प्रश्न</strong><small>${Math.ceil(total*1.2)} मिनेट</small></button>
-   </div>
-   <p class="muted">समय प्रति प्रश्न १.२ मिनेटका आधारमा राखिएको छ। यो syllabus marks मा आधारित अभ्यास योजना हो; वास्तविक परीक्षाको प्रश्न संख्या वा समय NHPC ले तोकेको आधिकारिक ढाँचा भनेर नबुझ्नुहोस्।</p>`;
+    <button class="feature-card" data-mock-size="all"><b>Full Question Bank</b><strong>सबै प्रश्न</strong><small>पूरा उपलब्ध बैंक</small></button>
+   </div><p class="muted">विषयगत Mock मा छानिएको विषयका प्रश्न मात्र आउँछन्। प्रश्न संख्या उपलब्ध प्रश्नअनुसार सीमित हुन सक्छ। यो अभ्यास योजना हो, NHPC को आधिकारिक परीक्षा समय/प्रश्न संख्याको दाबी होइन।</p>`;
   mockRoot.scrollIntoView({behavior:"smooth",block:"start"});
-  mockRoot.querySelectorAll("[data-mock-size]").forEach(b=>b.addEventListener("click",()=>{mockTarget=b.dataset.mockSize==="all"?total:Number(b.dataset.mockSize);beginNhpcMock()}));
+  mockRoot.querySelector("#nhpcMockSubject").addEventListener("change",e=>{mockSubjectFilter=e.target.value;});
+  mockRoot.querySelectorAll("[data-mock-size]").forEach(b=>b.addEventListener("click",()=>{mockTarget=b.dataset.mockSize==="all"?"all":Number(b.dataset.mockSize);beginNhpcMock()}));
  }
  function beginNhpcMock(){
-  clearInterval(mockClock);mockSet=mockTarget>=mockBank.length?shuffleItems(mockBank):buildBlueprintMock(mockTarget);mockAt=0;mockPicked={};mockSeconds=Math.ceil(mockSet.length*72);mockDone=false;drawNhpcMock();
+  clearInterval(mockClock);
+  const pool=mockSubjectFilter==="सबै विषय"?mockBank:mockBank.filter(item=>item.topic===mockSubjectFilter);
+  if(!pool.length){alert("यस विषयमा अहिले प्रश्न उपलब्ध छैन।");return;}
+  if(mockTarget==="all")mockSet=shuffleItems(pool);
+  else if(mockSubjectFilter==="सबै विषय"&&[50,100,150].includes(mockTarget))mockSet=buildBlueprintMock(mockTarget);
+  else mockSet=shuffleItems(pool).slice(0,Math.min(Number(mockTarget),pool.length));
+  mockAt=0;mockPicked={};mockSeconds=Math.ceil(mockSet.length*72);mockDone=false;drawNhpcMock();
   mockClock=setInterval(()=>{mockSeconds--;const t=mockRoot.querySelector("#nhpcFullTimer");if(t)t.textContent=fmtNhpcTime();if(mockSeconds<=0)finishNhpcMock(true)},1000);
  }
  function fmtNhpcTime(){return Math.floor(mockSeconds/60)+":"+String(mockSeconds%60).padStart(2,"0")}
@@ -324,7 +329,8 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   if(mockDone)return;mockDone=true;clearInterval(mockClock);mockClock=null;
   const total=mockSet.length,answered=Object.keys(mockPicked).length,score=mockSet.reduce((sum,item,i)=>sum+(mockPicked[i]===item.q[3]?1:0),0),percent=Math.round(score/total*100);
   window.DHPNProgress?.recordMock?.("PCL in Dental Hygiene",score,total);renderNhpcProgress();
-  mockRoot.innerHTML=`<div class="result"><p>PCL IN DENTAL HYGIENE MOCK COMPLETED</p><strong>${score}/${total}</strong><b>${percent}%</b><p>${auto?"समय सकिएपछि परीक्षा स्वतः बुझाइयो।":"तपाईंको परीक्षा बुझाइयो।"} ${total-answered} प्रश्न अनुत्तरित थिए।</p><p>${percent>=80?"धेरै राम्रो प्रयास!":percent>=50?"राम्रो प्रयास। कमजोर विषयहरू पुनः अध्ययन गर्नुहोस्।":"नोट्स पढेर फेरि अभ्यास गर्नुहोस्।"}</p><button class="primary" id="nhpcShowReview">उत्तर समीक्षा गर्नुहोस्</button> <button class="secondary" id="nhpcRetake">फेरि परीक्षा दिनुहोस्</button></div><div id="nhpcFullReview"></div>`;
+  const topicStats={};mockSet.forEach((item,i)=>{const key=item.topic||"अन्य";if(!topicStats[key])topicStats[key]={total:0,wrong:0};topicStats[key].total++;if(mockPicked[i]!==item.q[3])topicStats[key].wrong++;});const weakTopics=Object.entries(topicStats).filter(([,v])=>v.wrong>0).sort((a,b)=>(b[1].wrong/b[1].total)-(a[1].wrong/a[1].total));
+  mockRoot.innerHTML=`<div class="result"><p>PCL IN DENTAL HYGIENE MOCK COMPLETED</p><strong>${score}/${total}</strong><b>${percent}%</b><p>${auto?"समय सकिएपछि परीक्षा स्वतः बुझाइयो।":"तपाईंको परीक्षा बुझाइयो।"} ${total-answered} प्रश्न अनुत्तरित थिए।</p><p>${percent>=80?"धेरै राम्रो प्रयास!":percent>=50?"राम्रो प्रयास। कमजोर विषयहरू पुनः अध्ययन गर्नुहोस्।":"नोट्स पढेर फेरि अभ्यास गर्नुहोस्।"}</p><h3>विषयगत नतिजा र सुधार गर्नुपर्ने क्षेत्र</h3><div>${Object.entries(topicStats).map(([name,v])=>`<p><b>${name}</b> — ${v.total-v.wrong}/${v.total} सही <span class="pill">${Math.round((v.total-v.wrong)/v.total*100)}%</span></p>`).join("")}</div><p><b>पहिले दोहोर्‍याएर पढ्नुहोस्:</b> ${weakTopics.length?weakTopics.slice(0,4).map(([name,v])=>name+" ("+v.wrong+" गलत)").join(" • "):"सबै उत्तर सही छन्!"}</p><button class="primary" id="nhpcShowReview">उत्तर समीक्षा गर्नुहोस्</button> <button class="secondary" id="nhpcRetake">फेरि परीक्षा दिनुहोस्</button></div><div id="nhpcFullReview"></div>`;
   mockRoot.querySelector("#nhpcShowReview").addEventListener("click",()=>{mockRoot.querySelector("#nhpcFullReview").innerHTML=mockSet.map((item,i)=>{const q=item.q,ans=mockPicked[i];return `<article class="note"><p class="eyebrow">${i+1}. ${item.topic}</p><h3>${q[0]}</h3><p class="translation">${q[1]}</p><p>तपाईंको उत्तर: <b>${ans===undefined?"उत्तर नदिएको":q[2][ans]}</b></p><p>सही उत्तर: <b>${q[2][q[3]]}</b></p><p>${q[4]}</p><p class="np">${q[5]}</p>${q[6]?`<p><b>Clinical example:</b> ${q[6]}</p>`:""}<span class="pill">${ans===q[3]?"सही":"गलत / अनुत्तरित"}</span></article>`}).join("")});
   mockRoot.querySelector("#nhpcRetake").addEventListener("click",openNhpcMock);
  }
