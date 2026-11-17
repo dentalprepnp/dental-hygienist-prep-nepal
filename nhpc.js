@@ -302,7 +302,9 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  }
  function beginNhpcMock(){
   clearInterval(mockClock);
-  const pool=mockSubjectFilter==="सबै विषय"?mockBank:mockBank.filter(item=>item.topic===mockSubjectFilter);
+  const mockTopicBlueprintMap={"Human Anatomy & Physiology":["human"],"Oral Anatomy & Physiology":["oral"],"Oral Pathology & Microbiology":["path"],"Infection Prevention & Sterilization":["path"],"Dental Pharmacy & Pharmacology":["pharm"],"Basic Periodontology I":["bpi"],"Basic Periodontology II":["bpii"],"Dental Materials, Instruments & Assisting":["materials"],"Dental Radiography & Photography":["radiography"],"Basic Medical Procedure & First Aid":["basicMedical"],"Medical Emergencies & First Aid":["basicMedical"],"Dental Public Health and Jurisprudence":["dentalPublicHealth","officeManagement"],"Health, Environment and Health Education":["healthEducation","environmentalHealth"],"Epidemiology & Community Diagnosis":["epidemiology"],"Food & Nutrition":["nutrition"]};
+  const selectedBlueprints=mockTopicBlueprintMap[mockSubjectFilter]||[];
+  const pool=mockSubjectFilter==="सबै विषय"?mockBank:mockBank.filter(item=>selectedBlueprints.includes(item.examBlueprintSubject));
   if(!pool.length){alert("यस विषयमा अहिले प्रश्न उपलब्ध छैन।");return;}
   if(mockTarget==="all")mockSet=shuffleItems(pool);
   else if(mockSubjectFilter==="सबै विषय"&&[50,100,150].includes(mockTarget))mockSet=buildBlueprintMock(mockTarget);
