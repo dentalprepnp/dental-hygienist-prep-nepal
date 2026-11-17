@@ -27,7 +27,8 @@ function mergeValue(key,localValue,cloudValue) {
   return localValue;
 }
 async function syncNow() {
-  if(!currentUser||syncing)return;syncing=true;status("⏳ पढाइको Progress Cloud मा Sync हुँदैछ...");
+  if(!currentUser||syncing)return;
+  if(!navigator.onLine){status("📴 तपाईं Offline हुनुहुन्छ। पढाइ र Progress यसै फोनमा सुरक्षित हुन्छ; Internet आएपछि Sync हुनेछ।");return;}syncing=true;status("⏳ पढाइको Progress Cloud मा Sync हुँदैछ...");
   try {
     const {data:rows,error:readError}=await supabase.from("user_progress").select("progress_key,progress_data").eq("user_id",currentUser.id);
     if(readError)throw readError;
@@ -43,3 +44,6 @@ window.addEventListener("dhpn:data-changed",scheduleSync);
 window.addEventListener("dhpn:cloud-data-loaded",()=>{window.location.reload()});
 supabase.auth.onAuthStateChange((event,session)=>{currentUser=session?.user||null;if(currentUser&&(event==="SIGNED_IN"||event==="INITIAL_SESSION"||event==="TOKEN_REFRESHED"))setTimeout(syncNow,0);else if(!currentUser)status("");});
 const {data:sessionData}=await supabase.auth.getSession();currentUser=sessionData?.session?.user||null;if(currentUser)await syncNow();
+
+window.addEventListener("offline",()=>status("📴 तपाईं Offline हुनुहुन्छ। पढाइ र Progress यसै फोनमा सुरक्षित हुन्छ; Internet आएपछि Sync हुनेछ।"));
+window.addEventListener("online",()=>{status("🌐 Internet जोडियो। Progress Sync हुँदैछ...");if(currentUser)setTimeout(syncNow,300);});
