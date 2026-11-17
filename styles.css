@@ -730,3 +730,9 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 .weekly-track i{display:block;width:100%;min-height:3px;border-radius:8px;background:var(--primary,#0284c7)}
 .weekly-day small{font-size:10px;color:var(--muted)}
 :root[data-theme="dark"] .weekly-study-progress{background:#152635}
+
+/* Four compact MCQ progress indicators and recovered-question history */
+.mcq-summary{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:420px){.mcq-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.recovered-item{border:1px solid #cde8d5;background:#f7fcf8;border-radius:10px;padding:10px;margin:7px 0}
+.recovered-item b{font-size:10px;color:#187343}.recovered-item p{font-size:12px;margin:5px 0}.recovered-item small{font-size:10px;color:#187343}
