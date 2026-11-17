@@ -125,6 +125,16 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
 
  const mcqBank=bank;
  const mockBank=bank;
+ const setNHPCFocused=focused=>{
+  const view=document.getElementById("nhpcView");
+  if(!view)return;
+  [".notice","h3",".topic-grid",".module-actions",".nhpc-progress-panel",".disclaimer","#nhpcNotesArea","#nhpcCloseNotes","#nhpcMcqArea","#nhpcCloseMcq"].forEach(selector=>{
+   view.querySelectorAll(":scope > "+selector).forEach(el=>{
+    if(focused)el.style.setProperty("display","none","important");
+    else el.style.removeProperty("display");
+   });
+  });
+ };
  const root=document.getElementById("nhpcMcqArea");
  if(!root) return;
  let topic="सबै विषय",index=0,answers={};
@@ -203,8 +213,8 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   root.querySelector("#nhpcFilters").addEventListener("click",e=>{const b=e.target.closest("[data-topic]");if(!b)return;topic=b.dataset.topic;searchQuery="";root.querySelector("#nhpcSearch").value="";index=0;root.querySelectorAll("[data-topic]").forEach(x=>x.classList.toggle("active",x===b));render()});
   render();
  }
- document.getElementById("nhpcStartMcq")?.addEventListener("click",()=>{root.classList.remove("hidden");document.getElementById("nhpcCloseMcq")?.classList.remove("hidden");show();root.scrollIntoView({behavior:"smooth",block:"start"})});
- document.getElementById("nhpcCloseMcq")?.addEventListener("click",()=>{root.classList.add("hidden");document.getElementById("nhpcCloseMcq")?.classList.add("hidden")});
+ document.getElementById("nhpcStartMcq")?.addEventListener("click",()=>{setNHPCFocused(true);root.classList.remove("hidden");document.getElementById("nhpcCloseMcq")?.classList.remove("hidden");show();root.scrollIntoView({behavior:"smooth",block:"start"})});
+ document.getElementById("nhpcCloseMcq")?.addEventListener("click",()=>{root.classList.add("hidden");setNHPCFocused(false);document.getElementById("nhpcCloseMcq")?.classList.add("hidden")});
 
 
  // NHPC detailed bilingual study notes: independent learning resource.
@@ -263,6 +273,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
 
  const notesRoot=document.getElementById("nhpcNotesArea");
  function renderNhpcNotes(){
+  setNHPCFocused(true);
   notesRoot.classList.remove("hidden");
   document.getElementById("nhpcCloseNotes")?.classList.remove("hidden");
   document.getElementById("nhpcMcqArea")?.classList.add("hidden");
@@ -280,7 +291,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   notesRoot.scrollIntoView({behavior:"smooth",block:"start"});
  }
  document.getElementById("nhpcStartNotes")?.addEventListener("click",renderNhpcNotes);
- document.getElementById("nhpcCloseNotes")?.addEventListener("click",()=>{notesRoot.classList.add("hidden");document.getElementById("nhpcCloseNotes")?.classList.add("hidden")});
+ document.getElementById("nhpcCloseNotes")?.addEventListener("click",()=>{notesRoot.classList.add("hidden");setNHPCFocused(false);document.getElementById("nhpcCloseNotes")?.classList.add("hidden")});
  // Public topic launcher used by the NHPC subject directory.
  window.DHPNOpenNHPCWeakTopic=function(topic){document.getElementById("nhpcStartMcq")?.click();topic="सबै विषय";practiceMode="all";root.querySelectorAll("[data-topic]").forEach(x=>x.classList.toggle("active",x.dataset.topic==="सबै विषय"));const input=document.getElementById("nhpcSearch");if(input){input.value=topic;input.dispatchEvent(new Event("input",{bubbles:true}));}const area=document.getElementById("nhpcMcqArea");requestAnimationFrame(()=>area?.scrollIntoView({behavior:"auto",block:"start"}));};
  window.DHPNOpenNHPCStudyTopic=function(topic,mode){
@@ -350,6 +361,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
 
  function openNhpcMock(){
   clearInterval(mockClock);mockClock=null;mockSubjectFilter="सबै विषय";
+  setNHPCFocused(true);
   document.getElementById("nhpcView")?.classList.add("nhpc-focused-mode");
   mockRoot.classList.remove("hidden");document.getElementById("nhpcCloseMock")?.classList.remove("hidden");
   document.getElementById("nhpcMcqArea")?.classList.add("hidden");document.getElementById("nhpcCloseMcq")?.classList.add("hidden");
@@ -407,7 +419,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   mockRoot.querySelector("#nhpcRetake").addEventListener("click",openNhpcMock);
  }
  document.getElementById("nhpcStartFullMock")?.addEventListener("click",openNhpcMock);
- document.getElementById("nhpcCloseMock")?.addEventListener("click",()=>{clearInterval(mockClock);mockClock=null;mockRoot.classList.add("hidden");document.getElementById("nhpcCloseMock")?.classList.add("hidden");document.getElementById("nhpcView")?.classList.remove("nhpc-focused-mode");document.getElementById("nhpcStartFullMock")?.focus()});
+ document.getElementById("nhpcCloseMock")?.addEventListener("click",()=>{clearInterval(mockClock);mockClock=null;mockRoot.classList.add("hidden");document.getElementById("nhpcCloseMock")?.classList.add("hidden");document.getElementById("nhpcView")?.classList.remove("nhpc-focused-mode");setNHPCFocused(false);document.getElementById("nhpcStartFullMock")?.focus()});
 
 
   if (window.DHPNRandomizeQuestionBank) window.DHPNRandomizeQuestionBank(bank);
