@@ -813,3 +813,12 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 #nhpcView.nhpc-focused-mode > #nhpcCloseMcq { display:none !important; }
 #nhpcView.nhpc-focused-mode > #nhpcCloseMock { display:inline-flex !important; width:100%; justify-content:flex-start; position:relative; }
 #nhpcView.nhpc-focused-mode > #nhpcFullMock { margin-top:0; }
+
+
+/* FIX: module action cards must never stick over other subject content */
+.module-actions,
+#nhpcView .module-actions {
+  position: relative !important;
+  top: auto !important;
+  z-index: 1 !important;
+}
