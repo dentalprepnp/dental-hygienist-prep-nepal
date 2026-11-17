@@ -755,3 +755,16 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 .combined-topic-track{height:7px;border-radius:20px;background:var(--line);overflow:hidden;margin-top:5px}.combined-topic-track i{display:block;height:100%;border-radius:20px;background:var(--blue)}
 .combined-footnote{font-size:10px;color:var(--muted);margin:12px 0 0}
 @media(max-width:520px){.combined-exam-report{padding:12px}.combined-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.combined-report-head h3{font-size:16px}}
+
+
+/* Step 11: focused NHPC revision test */
+.revision-launch{background:var(--blue,#2563eb)!important;color:#fff!important;font-weight:800}
+.revision-panel{padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--surface,#fff);margin:12px 0}
+.revision-panel h3{margin:5px 0 12px}
+.revision-panel .revision-score{font-size:38px;font-weight:900;color:var(--blue);margin:12px 0}
+.revision-progress{height:8px;background:var(--line);border-radius:20px;overflow:hidden;margin:12px 0}
+.revision-progress i{display:block;height:100%;background:var(--blue);border-radius:20px;transition:width .2s}
+.revision-review{display:grid;gap:8px;margin:14px 0}
+.revision-review article{padding:10px;border:1px solid var(--line);border-radius:10px;font-size:13px}
+.revision-review p{margin:5px 0 0;color:var(--muted)}
+.revision-summary{font-weight:700}
