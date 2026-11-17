@@ -68,7 +68,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  const root=document.getElementById("nhpcMcqArea");
  if(!root) return;
  let topic="सबै विषय",index=0,answers={};
- const topics=["सबै विषय","Human Anatomy & Physiology","Oral Anatomy & Physiology","Oral Pathology & Microbiology","Dental Pharmacy & Pharmacology","Basic Periodontology I","Basic Periodontology II","Dental Materials, Instruments & Assisting","Dental Radiography & Photography","Basic Medical Procedure & First Aid","Dental Public Health and Jurisprudence","Health, Environment and Health Education","Epidemiology & Community Diagnosis","Food & Nutrition","Dental Ethics & Practice Management","Infection Prevention & Sterilization","Medical Emergencies & First Aid"];
+ const topics=["सबै विषय","Human Anatomy & Physiology","Oral Anatomy & Physiology","Oral Pathology & Microbiology","Dental Pharmacy & Pharmacology","Basic Periodontology I","Basic Periodontology II","Dental Materials, Instruments & Assisting","Dental Radiography & Photography","Basic Medical Procedure & First Aid","Dental Public Health and Jurisprudence","Health, Environment and Health Education","Epidemiology & Community Diagnosis","Food & Nutrition","Infection Prevention & Sterilization","Medical Emergencies & First Aid"];
  const filtered=()=>topic==="सबै विषय"?mcqBank:mcqBank.filter(x=>x.topic===topic);
  function render(){
   const list=filtered(),item=list[index]; if(!item)return;
@@ -130,7 +130,15 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   ["Informed consent, refusal and confidentiality","Consent should be informed, voluntary and specific to the proposed care. Explain relevant benefits, material risks and alternatives in language the patient understands. Respect an informed refusal. Protect records and disclose identifiable information only with appropriate authorization or a valid lawful basis.","Consent जानकारीमा आधारित, स्वेच्छिक र प्रस्तावित उपचारसँग सम्बन्धित हुनुपर्छ। फाइदा, महत्त्वपूर्ण जोखिम र विकल्प बुझिने भाषामा बताउनुपर्छ। जानकारीसहितको अस्वीकारलाई सम्मान गर्नुपर्छ। Record गोप्य राखी उपयुक्त अनुमति वा वैध कानुनी आधारमा मात्र पहिचान खुल्ने जानकारी साझा गर्नुपर्छ।","Clinical focus: Document the discussion, consent or refusal, and any authorized disclosure."],
   ["Scope of practice, records and incident reporting","Work within demonstrated competence and applicable legal authorization. Keep accurate, timely and attributable records. If an incident occurs, prioritize patient safety, arrange care, notify the responsible person and complete factual reporting under policy. General negligence analysis may involve duty, breach, causation and harm; exact legal rules vary by jurisdiction.","आफ्नो प्रमाणित सीप र लागू कानुनी अधिकारभित्र काम गर्नुपर्छ। सही, समयमै र लेख्ने व्यक्तिसँग पहिचानयोग्य record राख्नुपर्छ। Incident भए बिरामीको सुरक्षा प्राथमिकता दिई उपचार मिलाउने, जिम्मेवार व्यक्तिलाई जानकारी दिने र नीतिअनुसार तथ्यपरक report गर्ने। सामान्य negligence विश्लेषणमा duty, breach, causation र harm पर्न सक्छन्; कानुनी नियम क्षेत्रअनुसार फरक हुन्छन्।","Clinical focus: Never alter records secretly; use a dated, traceable correction process."]
  );
+
+ nhpcNotes.forEach(t=>{if(t){for(let i=2;i<t.length;i++){if(Array.isArray(t[i]))t[1].push(...t[i]);}if(t.length>2)t.splice(2);}});
+ const mergeNotes=(from,to)=>{const i=nhpcNotes.findIndex(t=>t&&t[0]===from);const target=nhpcNotes.find(t=>t&&t[0]===to);if(i>=0&&target){target[1].push(...nhpcNotes[i][1]);nhpcNotes.splice(i,1);}};
+ mergeNotes("Dental Ethics & Practice Management","Dental Public Health and Jurisprudence");
+ mergeNotes("Basic Periodontology","Basic Periodontology I");
+ const noteRenames={"Dental Materials & Instruments":"Dental Materials, Instruments & Assisting","Dental Pharmacy":"Dental Pharmacy & Pharmacology","Food and Nutrition":"Food & Nutrition"};
+ nhpcNotes.forEach(t=>{if(t&&noteRenames[t[0]])t[0]=noteRenames[t[0]];});
  for(let i=nhpcNotes.length-1;i>=0;i--){if(!nhpcNotes[i])nhpcNotes.splice(i,1);}
+
 
  const notesRoot=document.getElementById("nhpcNotesArea");
  function renderNhpcNotes(){
@@ -140,7 +148,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   document.getElementById("nhpcFullMock")?.classList.add("hidden");
   document.getElementById("nhpcCloseMcq")?.classList.add("hidden");
   document.getElementById("nhpcCloseMock")?.classList.add("hidden");
-  notesRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">BILINGUAL STUDY LIBRARY</p><h3>NHPC Detailed Study Notes</h3></div><span class="pill">२० विषय</span></div><p class="muted">प्रत्येक विषयमा English concept, नेपाली व्याख्या र Clinical focus समावेश गरिएको छ।</p><input id="nhpcNotesSearch" type="search" class="form-control" placeholder="Search notes in English or नेपाली..." aria-label="Search study notes"><div class="dha-mcq-filters" id="nhpcNotesFilters">${nhpcNotes.map((t,i)=>`<button class="smallbtn ${i===0?"active":""}" data-notes-topic="${i}" type="button">${t[0]}</button>`).join("")}</div><div id="nhpcNotesContent" aria-live="polite"></div>`;
+  notesRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">BILINGUAL STUDY LIBRARY</p><h3>NHPC Detailed Study Notes</h3></div><span class="pill">१५ विषय</span></div><p class="muted">प्रत्येक विषयमा English concept, नेपाली व्याख्या र Clinical focus समावेश गरिएको छ।</p><input id="nhpcNotesSearch" type="search" class="form-control" placeholder="Search notes in English or नेपाली..." aria-label="Search study notes"><div class="dha-mcq-filters" id="nhpcNotesFilters">${nhpcNotes.map((t,i)=>`<button class="smallbtn ${i===0?"active":""}" data-notes-topic="${i}" type="button">${t[0]}</button>`).join("")}</div><div id="nhpcNotesContent" aria-live="polite"></div>`;
   const content=notesRoot.querySelector("#nhpcNotesContent");
   const renderCards=(items,heading)=>{content.innerHTML=`<h3>${heading}</h3><div class="notes-list">${items.map(x=>`<article class="note"><h3>${x.topic?x.topic+" — ":""}${x.note[0]}</h3><p><b>English:</b> ${x.note[1]}</p><p class="np"><b>नेपाली:</b> ${x.note[2]}</p><div class="clinical-point"><b>Clinical focus:</b> ${x.note[3].replace("Clinical focus: ","")}</div></article>`).join("")}</div>`;};
   const showTopic=i=>{const t=nhpcNotes[i];notesRoot.querySelectorAll("[data-notes-topic]").forEach(b=>b.classList.toggle("active",Number(b.dataset.notesTopic)===i));renderCards(t[1].map(note=>({note})),t[0]);};
