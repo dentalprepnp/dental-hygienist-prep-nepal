@@ -63,6 +63,7 @@ window.DHPNProgress={
     window.dispatchEvent(new CustomEvent("dhpn:data-changed"));
     renderMCQDashboard();
     renderDailyStudyGoal();
+    renderExamReadiness();
   },
   recordMock(moduleName,score,total,details={}){
     const rows=readMockHistory();
@@ -71,6 +72,7 @@ window.DHPNProgress={
     localStorage.setItem(MOCK_HISTORY_KEY,JSON.stringify(rows.slice(-200)));
     notifyCloudSync();
     renderDashboard();
+    renderExamReadiness();
     window.dispatchEvent(new CustomEvent("dhpn:mock-history-updated"));
   }
 };
@@ -113,6 +115,27 @@ const progressObserver=new MutationObserver(records=>{records.forEach(record=>re
 progressObserver.observe(document.body,{childList:true,subtree:true});
 const MCQ_HISTORY_KEY="dhpn-mcq-history";
 function readMCQHistory(){try{return JSON.parse(localStorage.getItem(MCQ_HISTORY_KEY)||"[]")}catch(e){return []}}
+
+function escapeReportText(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
+function renderExamReadiness(){
+ const mcq=readMCQHistory().filter(r=>/nhpc|pcl in dental hygiene/i.test(r.module||""));
+ const mocks=readMockHistory().filter(r=>/nhpc|pcl in dental hygiene/i.test(r.module||""));
+ const box=$("#combinedExamReport");if(!box)return;
+ const correct=mcq.filter(r=>r.isCorrect).length,mcqRate=mcq.length?Math.round(correct/mcq.length*100):0;
+ const mockAvg=mocks.length?Math.round(mocks.reduce((s,r)=>s+(Number(r.percent)||0),0)/mocks.length):0;
+ const recent=mocks.slice(-5),recentAvg=recent.length?Math.round(recent.reduce((s,r)=>s+(Number(r.percent)||0),0)/recent.length):0;
+ const enough=mcq.length>=30&&mocks.length>=2;
+ const combined=enough?Math.round((mcqRate+mockAvg)/2):null;
+ let level="अझै पर्याप्त अभ्यास चाहिन्छ",advice="कम्तीमा ३० वटा NHPC MCQ र २ वटा Mock Test पूरा गरेपछि तयारीको संकेत देखाइनेछ।";
+ if(enough){if(combined>=80){level="राम्रो तयारी संकेत";advice="यो स्तर कायम राख्नुहोस्। कमजोर विषय दोहोर्‍याउनुहोस् र नियमित Full Mock दिनुहोस्।"}else if(combined>=65){level="मध्यम तयारी संकेत";advice="कम अंक आएका विषयमा Notes पढेर MCQ अभ्यास बढाउनुहोस्।"}else{level="थप सुधार आवश्यक";advice="आधारभूत Notes पुनरावलोकन गरी कमजोर विषयका प्रश्नहरू क्रमशः अभ्यास गर्नुहोस्।"}}
+ const topics={};
+ mcq.forEach(r=>{const n=r.topic||"अन्य";if(!topics[n])topics[n]={right:0,total:0};topics[n].total++;if(r.isCorrect)topics[n].right++});
+ mocks.forEach(r=>Object.entries(r.topicStats||{}).forEach(([n,v])=>{if(!topics[n])topics[n]={right:0,total:0};topics[n].right+=Number(v.right)||0;topics[n].total+=Number(v.total)||0}));
+ const ranked=Object.entries(topics).filter(([,v])=>v.total>0).map(([name,v])=>({name,...v,rate:Math.round(v.right/v.total*100)})).sort((a,b)=>a.rate-b.rate||b.total-a.total);
+ const topicHtml=ranked.length?ranked.slice(0,6).map(t=>'<article class="combined-topic"><div><b>'+escapeReportText(t.name)+'</b><span>'+t.right+'/'+t.total+' सही • '+t.rate+'%</span></div><div class="combined-topic-track"><i style="width:'+t.rate+'%"></i></div></article>').join(""):'<p class="muted">विषयगत रिपोर्टका लागि MCQ अभ्यास वा विषयगत Mock Test पूरा गर्नुहोस्।</p>';
+ box.innerHTML='<div class="combined-report-head"><div><p class="eyebrow">NHPC • PERFORMANCE REPORT</p><h3>Mock Test + MCQ संयुक्त प्रगति</h3><p class="muted">अभ्यास रेकर्डका आधारमा स्वचालित विश्लेषण</p></div><span class="combined-level">'+level+'</span></div><div class="combined-metrics"><article><small>MCQ Accuracy</small><strong>'+mcqRate+'%</strong><span>'+mcq.length+' प्रश्न</span></article><article><small>Mock Average</small><strong>'+mockAvg+'%</strong><span>'+mocks.length+' परीक्षा</span></article><article><small>पछिल्ला Mock (५)</small><strong>'+recentAvg+'%</strong><span>'+recent.length+' परीक्षा</span></article><article><small>संयुक्त संकेत</small><strong>'+(combined===null?"—":combined+"%")+'</strong><span>'+(enough?"MCQ + Mock":"थप अभ्यास चाहिन्छ")+'</span></article></div><div class="combined-advice"><b>तपाईंको अर्को कदम</b><p>'+advice+'</p></div><div class="combined-topics"><h4>विषयअनुसार अभ्यास नतिजा</h4>'+topicHtml+'</div><p class="combined-footnote">यो व्यक्तिगत अभ्यासको अनुमानित सूचक मात्र हो। आधिकारिक NHPC नतिजा वा उत्तीर्ण हुने सम्भावनाको ग्यारेन्टी होइन।</p>';
+}
+
 window.DHPNProgress=window.DHPNProgress||{};
 window.DHPNProgress.recordMCQ=function(moduleName,q,selected){
  const rows=readMCQHistory(),correct=selected===q[3];
@@ -404,7 +427,7 @@ function showSubjectHub(id){
  showTab(id);
 }
 
-updateStats();renderDashboard();renderExamTrackProgress();renderStudentProfile();renderMCQDashboard();renderDailyStudyGoal();renderNotes();
+updateStats();renderDashboard();renderExamTrackProgress();renderStudentProfile();renderMCQDashboard();renderDailyStudyGoal();renderExamReadiness();renderNotes();
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   let updateRegistration=null,updateBanner=null,reloadAfterUpdate=false;
   const showUpdateNotice=()=>{
