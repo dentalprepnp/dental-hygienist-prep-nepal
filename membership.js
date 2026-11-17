@@ -179,12 +179,23 @@ function setupPlanCheckout() {
       '<div><span>अवधि</span><strong>' + plan.days + ' दिन</strong></div>',
       '<div class="checkout-total"><span>जम्मा तिर्नुपर्ने</span><strong>रु. ' + formatNPRFromPaisa(plan.pricePaisa) + '</strong></div>',
       '</div>',
-      '<div class="checkout-pending" role="status"><strong>Fonepay Payment Gateway जडान हुँदैछ</strong><p>Merchant स्वीकृति र सुरक्षित server-side payment verification पूरा भएपछि मात्र वास्तविक भुक्तानी सुरु हुनेछ। अहिले कुनै रकम नपठाउनुहोस्।</p></div>',
-      '<button class="checkout-pay-button" type="button" disabled>भुक्तानी सुरु गर्न Gateway तयार हुन बाँकी</button>',
+      '<div class="checkout-pending" role="status"><strong>🧪 TEST MODE — Demo Checkout</strong><p>यो अभ्यासका लागि मात्र हो। कुनै वास्तविक Fonepay कारोबार वा रकम कटौती हुँदैन। Demo पूरा गर्दा Premium खुल्दैन।</p></div>',
+      '<button class="checkout-pay-button" type="button" id="runDemoPayment">Demo Payment परीक्षण गर्नुहोस् (रु. ०)</button>',
+      '<div id="demoPaymentResult" class="checkout-pending hidden" role="status" aria-live="polite"></div>',
       '<button class="checkout-back-button" type="button" id="backToMembershipPlans">← अर्को योजना छान्नुहोस्</button>'
     ].join("");
     checkout.classList.remove("hidden");
     checkout.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    document.getElementById("runDemoPayment")?.addEventListener("click", () => {
+      const demoButton = document.getElementById("runDemoPayment");
+      const result = document.getElementById("demoPaymentResult");
+      if (!demoButton || !result) return;
+      demoButton.disabled = true;
+      demoButton.textContent = "Demo प्रक्रिया जाँच हुँदैछ...";
+      result.classList.remove("hidden");
+      result.innerHTML = '<strong>✓ Demo Checkout सफल भयो</strong><p>यो नक्कली परीक्षण नतिजा हो—कुनै पैसा तिरिएको छैन, कुनै Fonepay transaction बनेको छैन र Premium Membership सक्रिय गरिएको छैन। वास्तविक भुक्तानी Merchant Approval, server-side order creation र provider verification पछि मात्र उपलब्ध हुनेछ।</p>';
+      demoButton.textContent = "Demo परीक्षण पूरा भयो";
+    });
     document.getElementById("backToMembershipPlans")?.addEventListener("click", () => {
       checkout.classList.add("hidden");
       checkout.innerHTML = "";
