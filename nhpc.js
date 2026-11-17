@@ -240,7 +240,15 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
    const filter=[...document.querySelectorAll("#nhpcNotesFilters [data-notes-topic]")].find(b=>b.textContent.trim()===topic);
    filter?.click();
   }
-  requestAnimationFrame(()=>{const area=mode==="practice"?document.getElementById("nhpcMcqArea"):document.getElementById("nhpcNotesArea");area?.scrollIntoView({behavior:"auto",block:"start"});});
+  const area=mode==="practice"?document.getElementById("nhpcMcqArea"):document.getElementById("nhpcNotesArea");
+  if(area){
+   const switchButton=document.createElement("button");
+   switchButton.type="button";switchButton.className="smallbtn";
+   switchButton.textContent=mode==="practice"?"यसै विषयका Notes पढ्नुहोस्":"यसै विषयका MCQ अभ्यास गर्नुहोस्";
+   switchButton.addEventListener("click",()=>window.DHPNOpenNHPCStudyTopic(topic,mode==="practice"?"notes":"practice"));
+   area.prepend(switchButton);
+  }
+  requestAnimationFrame(()=>{area?.scrollIntoView({behavior:"auto",block:"start"});});
  };
  // NHPC student progress summary, based on locally saved mock-test attempts.
  function renderNhpcProgress(){
