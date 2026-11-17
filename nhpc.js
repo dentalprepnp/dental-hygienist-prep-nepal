@@ -129,18 +129,38 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  if(!root) return;
  let topic="सबै विषय",index=0,answers={};
  const topics=["सबै विषय","Human Anatomy & Physiology","Oral Anatomy & Physiology","Oral Pathology & Microbiology","Dental Pharmacy & Pharmacology","Basic Periodontology I","Basic Periodontology II","Dental Materials, Instruments & Assisting","Dental Radiography & Photography","Basic Medical Procedure & First Aid","Dental Public Health and Jurisprudence","Health, Environment and Health Education","Epidemiology & Community Diagnosis","Food & Nutrition","Infection Prevention & Sterilization","Medical Emergencies & First Aid"];
- const filtered=()=>topic==="सबै विषय"?mcqBank:mcqBank.filter(x=>x.topic===topic);
+ const BOOKMARK_KEY="dhpn-nhpc-bookmarks";
+ const readBookmarks=()=>{try{return JSON.parse(localStorage.getItem(BOOKMARK_KEY)||"[]")}catch(e){return []}};
+ const writeBookmarks=rows=>{localStorage.setItem(BOOKMARK_KEY,JSON.stringify([...new Set(rows)]));window.dispatchEvent(new CustomEvent("dhpn:data-changed"));};
+ let practiceMode="all";
+ const questionKey=item=>(item.topic||"अन्य")+"::"+item.q[0];
+ const latestWrongKeys=()=>{
+  let rows=[];try{rows=JSON.parse(localStorage.getItem("dhpn-mcq-history")||"[]")}catch(e){}
+  const latest=new Map();
+  rows.filter(r=>/nhpc/i.test(r.module||"")&&r.questionKey).forEach(r=>latest.set(r.questionKey,r));
+  return [...latest.entries()].filter(([,r])=>!r.isCorrect).map(([key])=>key);
+ };
+ const filtered=()=>{
+  let list=topic==="सबै विषय"?mcqBank:mcqBank.filter(x=>x.topic===topic);
+  if(practiceMode==="wrong"){const keys=new Set(latestWrongKeys());list=list.filter(x=>keys.has(questionKey(x)));}
+  if(practiceMode==="saved"){const keys=new Set(readBookmarks());list=list.filter(x=>keys.has(questionKey(x)));}
+  return list;
+ };
  function render(){
-  const list=filtered(),item=list[index]; if(!item)return;
-  const q=item.q,key=topic+"-"+index,chosen=answers[key];
+  const list=filtered(),item=list[index];
+  if(!item){root.querySelector("#nhpcMcqCount").textContent="0 / 0";root.querySelector("#nhpcQuestion").innerHTML=`<div class="notice"><b>${practiceMode==="wrong"?"अहिलेसम्म गलत उत्तर छैन।":"अहिलेसम्म Bookmark गरिएको प्रश्न छैन।"}</b><p>सबै विषयको अभ्यासमा फर्किएर प्रश्नहरू हल गर्नुहोस्। गलत उत्तर वा Bookmark प्रश्न यहाँ देखिनेछन्।</p><button type="button" class="smallbtn" id="nhpcReturnAll">सबै प्रश्न अभ्यास गर्नुहोस्</button></div>`;root.querySelector("#nhpcReturnAll")?.addEventListener("click",()=>{practiceMode="all";index=0;updateModeButtons();render()});return;}
+  const q=item.q,key=questionKey(item),chosen=answers[key],saved=readBookmarks().includes(key);
   root.querySelector("#nhpcMcqCount").textContent=(index+1)+" / "+list.length;
-  root.querySelector("#nhpcQuestion").innerHTML=`<article class="question"><div class="qtop"><span>NHPC PRACTICE • QUESTION ${index+1}</span><span>${chosen===undefined?"Not answered":"Answered"}</span></div><h3>${q[0]}</h3><p class="translation">${q[1]}</p><div class="options">${q[2].map((o,i)=>`<button class="option ${chosen!==undefined&&i===q[3]?"correct":chosen===i?"wrong":""}" data-answer="${i}" ${chosen!==undefined?"disabled":""}>${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div>${chosen!==undefined?`<div class="feedback ${chosen===q[3]?"good":"bad"}"><b>${chosen===q[3]?"सही उत्तर!":"सही उत्तर: "+q[2][q[3]]}</b><p>${q[4]}</p><p>${q[5]}</p>${q[6]?`<p><b>Clinical example:</b> ${q[6]}</p>`:""}</div>`:""}<div class="nextrow"><button class="smallbtn" id="nhpcPrev" ${index===0?"disabled":""}>अघिल्लो</button><button class="smallbtn" id="nhpcNext">${index===list.length-1?"फेरि सुरु":"अर्को प्रश्न"}</button></div></article>`;
-  root.querySelectorAll("[data-answer]").forEach(b=>b.addEventListener("click",()=>{if(answers[key]!==undefined)return;answers[key]=Number(b.dataset.answer);render()}));
+  root.querySelector("#nhpcQuestion").innerHTML=`<article class="question"><div class="qtop"><span>NHPC PRACTICE • ${item.topic}</span><span>${chosen===undefined?"Not answered":"Answered"}</span></div><h3>${q[0]}</h3><p class="translation">${q[1]}</p><div class="nextrow"><button type="button" class="smallbtn" id="nhpcBookmark">${saved?"★ Bookmark हटाउनुहोस्":"☆ Bookmark गर्नुहोस्"}</button><span class="muted">${saved?"Saved":" "} </span></div><div class="options">${q[2].map((o,i)=>`<button class="option ${chosen!==undefined&&i===q[3]?"correct":chosen===i?"wrong":""}" data-answer="${i}" ${chosen!==undefined?"disabled":""}>${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div>${chosen!==undefined?`<div class="feedback ${chosen===q[3]?"good":"bad"}"><b>${chosen===q[3]?"सही उत्तर!":"सही उत्तर: "+q[2][q[3]]}</b><p>${q[4]}</p><p>${q[5]}</p>${q[6]?`<p><b>Clinical example:</b> ${q[6]}</p>`:""}</div>`:""}<div class="nextrow"><button class="smallbtn" id="nhpcPrev" ${index===0?"disabled":""}>अघिल्लो</button><button class="smallbtn" id="nhpcNext">${index===list.length-1?"फेरि सुरु":"अर्को प्रश्न"}</button></div></article>`;
+  root.querySelector("#nhpcBookmark").addEventListener("click",()=>{const rows=readBookmarks();writeBookmarks(saved?rows.filter(x=>x!==key):[...rows,key]);render()});
+  root.querySelectorAll("[data-answer]").forEach(b=>b.addEventListener("click",()=>{if(answers[key]!==undefined)return;answers[key]=Number(b.dataset.answer);window.DHPNProgress?.recordNHPCQuestion?.(item,answers[key]);render()}));
   root.querySelector("#nhpcPrev").addEventListener("click",()=>{index=Math.max(0,index-1);render()});
   root.querySelector("#nhpcNext").addEventListener("click",()=>{index=index===list.length-1?0:index+1;render()});
  }
+ function updateModeButtons(){root.querySelectorAll("[data-practice-mode]").forEach(b=>b.classList.toggle("active",b.dataset.practiceMode===practiceMode));}
  function show(){
-  root.innerHTML=`<div class="section-head"><div><p class="eyebrow">NHPC QUESTION BANK</p><h3>विषयगत MCQ अभ्यास</h3></div><span class="pill">${mcqBank.length} Questions</span></div><p class="muted">सबै उपलब्ध NHPC प्रश्नहरूबाट विषय छानेर अभ्यास गर्नुहोस्। उत्तर छानेपछि सही उत्तर र व्याख्या देखिन्छ।</p><div class="dha-mcq-filters" id="nhpcFilters">${topics.map((t,i)=>`<button type="button" class="smallbtn ${i===0?"active":""}" data-topic="${t}">${i===0?"सबै विषय":t}</button>`).join("")}</div><div class="section-head"><span class="pill" id="nhpcMcqCount"></span></div><div id="nhpcQuestion"></div>`;
+  root.innerHTML=`<div class="section-head"><div><p class="eyebrow">NHPC QUESTION BANK</p><h3>विषयगत MCQ अभ्यास</h3></div><span class="pill">${mcqBank.length} Questions</span></div><p class="muted">गलत भएका प्रश्न फेरि अभ्यास गर्नुहोस् र महत्त्वपूर्ण प्रश्न Bookmark गरेर राख्नुहोस्। उत्तर छानेपछि सही उत्तर र व्याख्या देखिन्छ।</p><div class="nextrow" style="flex-wrap:wrap;margin:12px 0"><button type="button" class="smallbtn active" data-practice-mode="all">सबै प्रश्न</button><button type="button" class="smallbtn" data-practice-mode="wrong">गलत उत्तर अभ्यास (${latestWrongKeys().length})</button><button type="button" class="smallbtn" data-practice-mode="saved">Bookmark (${readBookmarks().length})</button></div><div class="dha-mcq-filters" id="nhpcFilters">${topics.map((t,i)=>`<button type="button" class="smallbtn ${i===0?"active":""}" data-topic="${t}">${i===0?"सबै विषय":t}</button>`).join("")}</div><div class="section-head"><span class="pill" id="nhpcMcqCount"></span></div><div id="nhpcQuestion"></div>`;
+  root.querySelectorAll("[data-practice-mode]").forEach(b=>b.addEventListener("click",()=>{practiceMode=b.dataset.practiceMode;index=0;updateModeButtons();render()}));
   root.querySelector("#nhpcFilters").addEventListener("click",e=>{const b=e.target.closest("[data-topic]");if(!b)return;topic=b.dataset.topic;index=0;root.querySelectorAll("[data-topic]").forEach(x=>x.classList.toggle("active",x===b));render()});
   render();
  }
