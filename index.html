@@ -16,6 +16,7 @@
   <div><strong>HL Preparation</strong><small>Health License Preparation Nepal</small></div>
   <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme" title="Switch theme">🌙</button><button id="installBtn" class="install hidden" type="button">Install</button>
 </header>
+<p id="networkStatus" role="status" aria-live="polite" style="display:none;margin:8px 12px;padding:9px 12px;border-radius:10px;background:#e0f2fe;color:#075985;font-size:13px;text-align:center"></p>
 
 <section id="accountPanel" class="account-panel hidden" aria-label="Student account">
   <div class="account-heading"><div><p class="eyebrow">STUDENT ACCOUNT</p><h2>विद्यार्थी Login / Register</h2><p>Account बनाएर आफ्नो पढाइको प्रगति सुरक्षित राख्नुहोस्।</p></div><span class="account-lock">🔐</span></div>
@@ -543,6 +544,10 @@
   if(window.DHPNOpenNHPCStudyTopic){window.DHPNOpenNHPCStudyTopic(card.dataset.nhpcTopic,"notes");}
  },true);
 })();
+</script>
+
+<script>
+(function(){var el=document.getElementById("networkStatus");if(!el)return;function update(){var offline=!navigator.onLine;el.style.display="block";el.textContent=offline?"📴 Offline Mode: पहिले लोड/Cache भएका Notes, MCQ र Mock Test अभ्यास गर्न सक्नुहुन्छ। Progress फोनमै सुरक्षित हुन्छ; Sync का लागि Internet चाहिन्छ।":"🌐 Internet Connected: तपाईंको Progress Cloud मा Sync हुन सक्छ।";el.style.background=offline?"#fff7ed":"#ecfdf5";el.style.color=offline?"#9a3412":"#166534";}window.addEventListener("online",update);window.addEventListener("offline",update);update();})();
 </script>
 </body>
 </html>
