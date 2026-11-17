@@ -478,7 +478,8 @@
   if(term.includes("pharmacy")||term.includes("औषधि")||term.includes("फार्मेसी"))return cards.filter(c=>c.dataset.go==="dentalPharmacy");
   return cards.filter(c=>((c.dataset.subject||"")+" "+c.textContent).toLocaleLowerCase().includes(term));
  }
- function open(id){
+ function open(id,topic){
+  if(topic&&window.DHPNOpenNHPCStudyTopic){window.DHPNOpenNHPCStudyTopic(topic,"notes");results.classList.add("hidden");input.blur();return;}
   var target=document.getElementById(id+"View");if(!target)return;
   document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
   target.classList.remove("hidden");results.classList.add("hidden");input.blur();
@@ -490,17 +491,17 @@
   var found=find(term);
   if(!found.length)results.innerHTML='<p class="search-empty">मिल्दो विषय भेटिएन। अर्को शब्द खोज्नुहोस्।</p>';
   found.slice(0,10).forEach(c=>{
-   var b=document.createElement("button");b.type="button";b.className="search-result";b.dataset.openView=c.dataset.go;
+   var b=document.createElement("button");b.type="button";b.className="search-result";b.dataset.openView=c.dataset.go;if(c.dataset.nhpcTopic)b.dataset.nhpcTopic=c.dataset.nhpcTopic;
    var title=document.createElement("b");title.textContent=c.querySelector("b")?.textContent||c.dataset.subject||"विषय";
    var small=document.createElement("small");small.textContent="विषय खोल्नुहोस्";b.append(title,small);results.append(b);
   });
   results.classList.remove("hidden");
  }
- function submitSearch(){var term=input.value.trim();if(!term){input.focus();return;}var found=find(term);if(found.length)open(found[0].dataset.go);else render();}
+ function submitSearch(){var term=input.value.trim();if(!term){input.focus();return;}var found=find(term);if(found.length)open(found[0].dataset.go,found[0].dataset.nhpcTopic);else render();}
  input.addEventListener("input",render,true);
  input.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();e.stopImmediatePropagation();submitSearch();}if(e.key==="Escape")results.classList.add("hidden");},true);
  if(submit)submit.addEventListener("click",e=>{e.preventDefault();e.stopImmediatePropagation();submitSearch();},true);
- results.addEventListener("click",e=>{var b=e.target.closest("[data-open-view]");if(b){e.preventDefault();e.stopImmediatePropagation();open(b.dataset.openView);}},true);
+ results.addEventListener("click",e=>{var b=e.target.closest("[data-open-view]");if(b){e.preventDefault();e.stopImmediatePropagation();open(b.dataset.openView,b.dataset.nhpcTopic);}},true);
 })();</script>
 <script>
 /* Reliable fallback navigation for every faculty/programme card. */
