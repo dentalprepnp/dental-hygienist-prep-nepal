@@ -1,6 +1,6 @@
-# HealthPrep
+# HL Preparation
 
-HealthPrep is a public, mobile-first bilingual learning and practice website for health-professional licensing preparation in Nepal.
+HL Preparation is a public, mobile-first bilingual learning and practice website for health-professional licensing preparation in Nepal.
 
 ## Public access
 - Students can open learning sections, notes, MCQ practice and mock tests without creating an account.
