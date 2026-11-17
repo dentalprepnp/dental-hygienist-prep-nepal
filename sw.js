@@ -1,4 +1,4 @@
-const CACHE="dhpn-v246-topic-navigation";
+const CACHE="dhpn-v247-topic-search-navigation";
 const ASSETS=["./","./index.html","./about.html","./privacy.html","./styles.css","./app.js?v=156","./progress-sync.js","./membership.js?v=6","./manifest.webmanifest","./icon.svg","./oral-pathology.js?v=147","./dental-materials.js?v=147","./oral-anatomy.js?v=147","./dental-public-health.js?v=147","./dental-radiology.js?v=147","./dental-pharmacy.js?v=148","./dental-ethics.js?v=147","./food-nutrition.js?v=149","./epidemiology-community.js?v=149","./dha.js?v=146","./nhpc.js?v=180","./ha-general-medicine.js?v=146","./mlt.js?v=147","./bsc-anesthesia.js?v=147","./radiotherapy.js?v=8","./ott.js?v=19","./radiography.js?v=146","./physiotherapy.js?v=146","./ophthalmic-science.js?v=146"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
 self.addEventListener("message",e=>{if(e.data&&e.data.type==="SKIP_WAITING")self.skipWaiting()});
