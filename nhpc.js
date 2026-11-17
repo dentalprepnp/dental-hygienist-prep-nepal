@@ -77,6 +77,35 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   item.q[2]=pairs.map(pair=>pair.value);
   item.q[3]=pairs.findIndex(pair=>pair.isCorrect);
  });
+ 
+ // Map each question to the subject-wise marks in NHPC's 2023 second-revision syllabus.
+ const assignBlueprintSubject=item=>{
+  const t=item.topic,stem=String(item.q?.[0]||"");
+  if(t==="Human Anatomy & Physiology")return "human";
+  if(t==="Oral Anatomy & Physiology")return "oral";
+  if(t==="Oral Pathology & Microbiology"||t==="Infection Prevention & Sterilization")return "path";
+  if(t==="Dental Pharmacy & Pharmacology")return "pharm";
+  if(t==="Basic Periodontology I")return "bpi";
+  if(t==="Basic Periodontology II")return "bpii";
+  if(t==="Dental Materials, Instruments & Assisting")return "materials";
+  if(t==="Dental Radiography & Photography")return "radiography";
+  if(t==="Basic Medical Procedure & First Aid"||t==="Medical Emergencies & First Aid")return "basicMedical";
+  if(t==="Epidemiology & Community Diagnosis")return "epidemiology";
+  if(t==="Food & Nutrition")return "nutrition";
+  if(t==="Dental Public Health and Jurisprudence"){
+   if(/herd protection|surveillance/i.test(stem))return "epidemiology";
+   if(/school oral.health programme|community participation|primary aim of oral health education|example of health promotion/i.test(stem))return "healthEducation";
+   if(/micro.plan|referral record|appointment register|equipment maintenance|stock rotation|FEFO|emergency contact|HMIS|stock management|supervision|sterilizer performance|sterilisation cycle|sterilization cycle|confidential|clinical record|patient refuses|informed consent|scope of practice|professional negligence|clinical incident|delegat/i.test(stem))return "officeManagement";
+   return "dentalPublicHealth";
+  }
+  if(t==="Health, Environment and Health Education"){
+   if(/water|latrine|food hygiene|clinical waste|used needles|ventilation|mosquito|vector|sanitation|waste|blood spill|surface|cross.contamination/i.test(stem))return "environmentalHealth";
+   return "healthEducation";
+  }
+  return "supplemental";
+ };
+ bank.forEach(item=>{item.examBlueprintSubject=assignBlueprintSubject(item);});
+
  const mcqBank=bank;
  const mockBank=bank;
  const root=document.getElementById("nhpcMcqArea");
@@ -189,6 +218,23 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  const mockRoot=document.getElementById("nhpcFullMock");
  let mockSet=[],mockAt=0,mockPicked={},mockClock=null,mockSeconds=3600,mockDone=false,mockTarget=50;
  const shuffleItems=a=>[...a].sort(()=>Math.random()-.5);
+
+ const blueprintPlans={
+  50:{human:3,oral:2,path:3,pharm:2,bpi:6,bpii:7,materials:4,radiography:3,basicMedical:2,dentalPublicHealth:8,healthEducation:2,epidemiology:3,officeManagement:2,environmentalHealth:2,nutrition:1},
+  100:{human:5,oral:5,path:5,pharm:5,bpi:12,bpii:13,materials:8,radiography:7,basicMedical:5,dentalPublicHealth:15,healthEducation:3,epidemiology:7,officeManagement:5,environmentalHealth:3,nutrition:2},
+  150:{human:8,oral:7,path:8,pharm:7,bpi:18,bpii:20,materials:12,radiography:10,basicMedical:8,dentalPublicHealth:22,healthEducation:5,epidemiology:10,officeManagement:7,environmentalHealth:5,nutrition:3}
+ };
+ const buildBlueprintMock=size=>{
+  const plan=blueprintPlans[size];if(!plan)return shuffleItems(mockBank).slice(0,size);
+  const selected=[];
+  Object.entries(plan).forEach(([subject,count])=>{
+   const pool=mockBank.filter(item=>item.examBlueprintSubject===subject);
+   if(pool.length<count)throw new Error("NHPC blueprint pool short: "+subject+" needs "+count+", has "+pool.length);
+   selected.push(...shuffleItems(pool).slice(0,count));
+  });
+  return shuffleItems(selected);
+ };
+
  function openNhpcMock(){
   clearInterval(mockClock);mockClock=null;
   mockRoot.classList.remove("hidden");
@@ -197,19 +243,19 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   document.getElementById("nhpcCloseMcq")?.classList.add("hidden");
   const total=mockBank.length;
   mockRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">PCL IN DENTAL HYGIENE • NHPC</p><h3>Mock Test छान्नुहोस्</h3></div><span class="pill">${total} प्रश्न उपलब्ध</span></div>
-   <div class="notice"><b>आफ्नो परीक्षा अभ्यास छान्नुहोस्</b><p>प्रत्येक प्रश्न १ अंक। प्रश्नहरू उपलब्ध question bank बाट random रूपमा छानिन्छन् र सही उत्तरको स्थान पनि परिवर्तन हुन्छ।</p></div>
+   <div class="notice"><b>आफ्नो परीक्षा अभ्यास छान्नुहोस्</b><p>प्रत्येक प्रश्न १ अंक। ५०, १०० र १५० प्रश्नका Mock मा NHPC 2023 Second Revision को २०:६०:२० तथा विषयगत marks अनुसार प्रश्न छानिन्छन्। Full Question Bank मा सबै प्रश्न समावेश हुन्छन्। सही उत्तरको स्थान पनि परिवर्तन हुन्छ।</p></div>
    <div class="feature-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
     <button class="feature-card" data-mock-size="50"><b>Mini Mock</b><strong>५० प्रश्न</strong><small>६० मिनेट</small></button>
     <button class="feature-card" data-mock-size="100"><b>Standard Mock</b><strong>१०० प्रश्न</strong><small>१२० मिनेट</small></button>
     <button class="feature-card" data-mock-size="150"><b>Advanced Mock</b><strong>१५० प्रश्न</strong><small>१८० मिनेट</small></button>
     <button class="feature-card" data-mock-size="all"><b>Full Question Bank</b><strong>${total} प्रश्न</strong><small>${Math.ceil(total*1.2)} मिनेट</small></button>
    </div>
-   <p class="muted">समय प्रति प्रश्न १.२ मिनेटका आधारमा राखिएको छ। यो अभ्यासको नमुना ढाँचा हो, NHPC को आधिकारिक परीक्षा ढाँचा होइन।</p>`;
+   <p class="muted">समय प्रति प्रश्न १.२ मिनेटका आधारमा राखिएको छ। यो syllabus marks मा आधारित अभ्यास योजना हो; वास्तविक परीक्षाको प्रश्न संख्या वा समय NHPC ले तोकेको आधिकारिक ढाँचा भनेर नबुझ्नुहोस्।</p>`;
   mockRoot.scrollIntoView({behavior:"smooth",block:"start"});
   mockRoot.querySelectorAll("[data-mock-size]").forEach(b=>b.addEventListener("click",()=>{mockTarget=b.dataset.mockSize==="all"?total:Number(b.dataset.mockSize);beginNhpcMock()}));
  }
  function beginNhpcMock(){
-  clearInterval(mockClock);mockSet=shuffleItems(mockBank).slice(0,Math.min(mockTarget,mockBank.length));mockAt=0;mockPicked={};mockSeconds=Math.ceil(mockSet.length*72);mockDone=false;drawNhpcMock();
+  clearInterval(mockClock);mockSet=mockTarget>=mockBank.length?shuffleItems(mockBank):buildBlueprintMock(mockTarget);mockAt=0;mockPicked={};mockSeconds=Math.ceil(mockSet.length*72);mockDone=false;drawNhpcMock();
   mockClock=setInterval(()=>{mockSeconds--;const t=mockRoot.querySelector("#nhpcFullTimer");if(t)t.textContent=fmtNhpcTime();if(mockSeconds<=0)finishNhpcMock(true)},1000);
  }
  function fmtNhpcTime(){return Math.floor(mockSeconds/60)+":"+String(mockSeconds%60).padStart(2,"0")}
