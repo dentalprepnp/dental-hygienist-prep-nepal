@@ -736,3 +736,22 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 @media(max-width:420px){.mcq-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .recovered-item{border:1px solid #cde8d5;background:#f7fcf8;border-radius:10px;padding:10px;margin:7px 0}
 .recovered-item b{font-size:10px;color:#187343}.recovered-item p{font-size:12px;margin:5px 0}.recovered-item small{font-size:10px;color:#187343}
+
+
+/* Step 10: combined NHPC mock + MCQ performance report */
+.combined-exam-report{margin:16px 0;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--surface,#fff)}
+.combined-report-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.combined-report-head h3{margin:2px 0 4px;font-size:18px}
+.combined-report-head .eyebrow{margin:0;font-size:10px;letter-spacing:.08em;color:var(--muted)}
+.combined-level{display:inline-flex;max-width:180px;padding:7px 10px;border-radius:20px;background:var(--bg);border:1px solid var(--line);font-size:11px;font-weight:700}
+.combined-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}
+.combined-metrics article{min-width:0;padding:11px 7px;border:1px solid var(--line);border-radius:12px;background:var(--bg);text-align:center}
+.combined-metrics small,.combined-metrics span{display:block;color:var(--muted);font-size:10px}
+.combined-metrics strong{display:block;font-size:22px;color:var(--blue);margin:3px 0}
+.combined-advice{padding:12px;border-radius:12px;background:var(--bg);border-left:3px solid var(--blue)}
+.combined-advice p{margin:5px 0 0;font-size:13px}
+.combined-topics{margin-top:14px}.combined-topics h4{margin:0 0 8px}
+.combined-topic{margin:9px 0}.combined-topic>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:12px}.combined-topic>div:first-child span{color:var(--muted);white-space:nowrap}
+.combined-topic-track{height:7px;border-radius:20px;background:var(--line);overflow:hidden;margin-top:5px}.combined-topic-track i{display:block;height:100%;border-radius:20px;background:var(--blue)}
+.combined-footnote{font-size:10px;color:var(--muted);margin:12px 0 0}
+@media(max-width:520px){.combined-exam-report{padding:12px}.combined-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.combined-report-head h3{font-size:16px}}
