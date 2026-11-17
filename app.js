@@ -128,6 +128,13 @@ function renderDailyStudyGoal(){
  if(streakEl)streakEl.textContent=streak+" दिन";
  if(bar)bar.style.width=Math.min(100,Math.round(todayCount/goal*100))+"%";
  if(message)message.textContent=todayCount>=goal?"🎉 आजको लक्ष्य पूरा भयो! अभ्यास जारी राख्नुहोस्।":(streak?("राम्रो! तपाईंको अध्ययन streak "+streak+" दिन छ। आज अझै "+(goal-todayCount)+" MCQ अभ्यास गर्नुहोस्।"):("आजको लक्ष्य पूरा गर्न अझै "+(goal-todayCount)+" MCQ अभ्यास गर्नुहोस्।"));
+ const weekly=$("#dailyWeeklyProgress");
+ if(weekly){
+  const days=["आइत","सोम","मंगल","बुध","बिही","शुक्र","शनि"],todayDate=new Date(),start=new Date(todayDate);start.setHours(0,0,0,0);start.setDate(start.getDate()-6);
+  const dayRows=Array.from({length:7},(_,i)=>{const d=new Date(start);d.setDate(start.getDate()+i);const key=localDateKey(d),n=rows.filter(r=>localDateKey(r.date)===key).length;return {d,key,n,label:days[d.getDay()]};});
+  const weekTotal=dayRows.reduce((sum,x)=>sum+x.n,0),completed=dayRows.filter(x=>x.n>=goal).length;
+  weekly.innerHTML='<div class="weekly-summary"><b>पछिल्लो ७ दिन</b><span>'+weekTotal+' MCQ • '+completed+'/7 दिन लक्ष्य पूरा</span></div><div class="weekly-bars">'+dayRows.map(x=>'<div class="weekly-day"><div class="weekly-count">'+x.n+'</div><div class="weekly-track"><i style="height:'+Math.max(3,Math.min(100,Math.round(x.n/goal*100)))+'%"></i></div><small>'+x.label+'</small></div>').join("")+'</div>';
+ }
 }
 const saveGoalButton=$("#saveDailyGoal");
 if(saveGoalButton)saveGoalButton.addEventListener("click",()=>{
