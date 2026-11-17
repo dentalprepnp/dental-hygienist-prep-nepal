@@ -161,11 +161,44 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   root.querySelector("#nhpcPrev").addEventListener("click",()=>{index=Math.max(0,index-1);render()});
   root.querySelector("#nhpcNext").addEventListener("click",()=>{index=index===list.length-1?0:index+1;render()});
  }
+ function startRevisionTest(){
+  const keys=new Set(latestWrongKeys());
+  let pool=mcqBank.filter(item=>keys.has(questionKey(item)));
+  if(!pool.length){
+   root.innerHTML='<div class="revision-panel"><h3>🎉 अहिले गलत उत्तर बाँकी छैन</h3><p>नयाँ MCQ अभ्यास गर्नुहोस्। गलत उत्तर आएपछि यहाँ Revision Test तयार हुनेछ।</p><button type="button" class="smallbtn" id="revisionBack">MCQ अभ्यासमा फर्कनुहोस्</button></div>';
+   root.querySelector("#revisionBack").addEventListener("click",show);return;
+  }
+  pool=pool.sort(()=>Math.random()-.5).slice(0,20);
+  let pos=0,score=0,answers=[],selected=null;
+  function finish(){
+   const missed=answers.filter(x=>!x.correct);
+   root.innerHTML='<div class="revision-panel"><p class="eyebrow">NHPC REVISION RESULT</p><h3>Revision Test पूरा भयो</h3><div class="revision-score">'+score+' / '+pool.length+'</div><p class="revision-summary">सही उत्तर: '+score+' • फेरि पढ्नुपर्ने: '+missed.length+'</p><div class="revision-review">'+(missed.length?missed.map(x=>'<article><b>'+escapeRevisionText(x.item.q[0])+'</b><p>सही उत्तर: '+escapeRevisionText(x.item.q[2][x.item.q[3]])+'</p></article>').join(""):'<p>उत्कृष्ट! यस टेस्टका सबै प्रश्न सही भए।</p>')+'</div><div class="nextrow"><button type="button" class="smallbtn" id="revisionAgain">बाँकी गलत प्रश्न फेरि टेस्ट</button><button type="button" class="smallbtn" id="revisionBack">MCQ अभ्यासमा फर्कनुहोस्</button></div></div>';
+   root.querySelector("#revisionAgain").addEventListener("click",startRevisionTest);
+   root.querySelector("#revisionBack").addEventListener("click",show);
+  }
+  function draw(){
+   if(pos>=pool.length){finish();return;}
+   const item=pool[pos],q=item.q;
+   root.innerHTML='<div class="revision-panel"><div class="section-head"><div><p class="eyebrow">NHPC REVISION TEST</p><h3>पहिले गलत भएका प्रश्न</h3></div><span class="pill">'+(pos+1)+' / '+pool.length+'</span></div><div class="revision-progress"><i style="width:'+Math.round(pos/pool.length*100)+'%"></i></div><p class="muted">प्रश्न '+(pos+1)+' • '+escapeRevisionText(item.topic)+'</p><h3>'+escapeRevisionText(q[0])+'</h3><p class="translation">'+escapeRevisionText(q[1]||"")+'</p><div class="options">'+q[2].map((option,i)=>'<button type="button" class="option" data-revision-answer="'+i+'" '+(selected!==null?'disabled':'')+'>'+String.fromCharCode(65+i)+'. '+escapeRevisionText(option)+'</button>').join("")+'</div>'+(selected!==null?'<div class="feedback '+(selected===q[3]?'good':'bad')+'"><b>'+(selected===q[3]?'सही उत्तर!':'सही उत्तर: '+escapeRevisionText(q[2][q[3]]))+'</b><p>'+escapeRevisionText(q[4]||"")+'</p><p>'+escapeRevisionText(q[5]||"")+'</p></div><button type="button" class="smallbtn" id="revisionNext">'+(pos===pool.length-1?'नतिजा हेर्नुहोस्':'अर्को प्रश्न')+'</button>':'<p class="muted">एउटा उत्तर छान्नुहोस्। उत्तर दिएपछि व्याख्या देखिन्छ।</p>')+'</div>';
+   root.querySelectorAll("[data-revision-answer]").forEach(button=>button.addEventListener("click",()=>{
+    if(selected!==null)return;
+    selected=Number(button.dataset.revisionAnswer);
+    const correct=selected===q[3];if(correct)score++;
+    answers.push({item,correct});
+    window.DHPNProgress?.recordNHPCQuestion?.(item,selected);
+    draw();
+   }));
+   root.querySelector("#revisionNext")?.addEventListener("click",()=>{pos++;selected=null;draw()});
+  }
+  draw();
+ }
+ function escapeRevisionText(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
  function updateModeButtons(){root.querySelectorAll("[data-practice-mode]").forEach(b=>b.classList.toggle("active",b.dataset.practiceMode===practiceMode));}
  function show(){
-  root.innerHTML=`<div class="section-head"><div><p class="eyebrow">NHPC QUESTION BANK</p><h3>विषयगत MCQ अभ्यास</h3></div><span class="pill">${mcqBank.length} Questions</span></div><p class="muted">गलत भएका प्रश्न फेरि अभ्यास गर्नुहोस् र महत्त्वपूर्ण प्रश्न Bookmark गरेर राख्नुहोस्। उत्तर छानेपछि सही उत्तर र व्याख्या देखिन्छ।</p><div class="nextrow" style="flex-wrap:wrap;margin:12px 0"><button type="button" class="smallbtn active" data-practice-mode="all">सबै प्रश्न</button><button type="button" class="smallbtn" data-practice-mode="wrong">गलत उत्तर अभ्यास (${latestWrongKeys().length})</button><button type="button" class="smallbtn" data-practice-mode="saved">Bookmark (${readBookmarks().length})</button></div><div class="nextrow" style="gap:8px;margin:12px 0"><input id="nhpcSearch" type="search" placeholder="प्रश्न, नेपाली अर्थ वा विकल्प खोज्नुहोस्..." aria-label="Search NHPC questions" style="flex:1;min-width:0;padding:12px;border:1px solid var(--line,#d1d5db);border-radius:10px;background:var(--card,#fff);color:inherit"><button type="button" class="smallbtn" id="nhpcClearSearch">हटाउनुहोस्</button></div><div class="dha-mcq-filters" id="nhpcFilters">${topics.map((t,i)=>`<button type="button" class="smallbtn ${i===0?"active":""}" data-topic="${t}">${i===0?"सबै विषय":t}</button>`).join("")}</div><div class="section-head"><span class="pill" id="nhpcMcqCount"></span></div><div id="nhpcQuestion"></div>`;
+  root.innerHTML=`<div class="section-head"><div><p class="eyebrow">NHPC QUESTION BANK</p><h3>विषयगत MCQ अभ्यास</h3></div><span class="pill">${mcqBank.length} Questions</span></div><p class="muted">गलत भएका प्रश्न फेरि अभ्यास गर्नुहोस् र महत्त्वपूर्ण प्रश्न Bookmark गरेर राख्नुहोस्। उत्तर छानेपछि सही उत्तर र व्याख्या देखिन्छ।</p><div class="nextrow" style="flex-wrap:wrap;margin:12px 0"><button type="button" class="smallbtn revision-launch" id="startRevisionTest">📝 Revision Test (${latestWrongKeys().length})</button><button type="button" class="smallbtn active" data-practice-mode="all">सबै प्रश्न</button><button type="button" class="smallbtn" data-practice-mode="wrong">गलत उत्तर अभ्यास (${latestWrongKeys().length})</button><button type="button" class="smallbtn" data-practice-mode="saved">Bookmark (${readBookmarks().length})</button></div><div class="nextrow" style="gap:8px;margin:12px 0"><input id="nhpcSearch" type="search" placeholder="प्रश्न, नेपाली अर्थ वा विकल्प खोज्नुहोस्..." aria-label="Search NHPC questions" style="flex:1;min-width:0;padding:12px;border:1px solid var(--line,#d1d5db);border-radius:10px;background:var(--card,#fff);color:inherit"><button type="button" class="smallbtn" id="nhpcClearSearch">हटाउनुहोस्</button></div><div class="dha-mcq-filters" id="nhpcFilters">${topics.map((t,i)=>`<button type="button" class="smallbtn ${i===0?"active":""}" data-topic="${t}">${i===0?"सबै विषय":t}</button>`).join("")}</div><div class="section-head"><span class="pill" id="nhpcMcqCount"></span></div><div id="nhpcQuestion"></div>`;
   root.querySelector("#nhpcSearch").addEventListener("input",e=>{searchQuery=e.target.value.trim();index=0;render()});
   root.querySelector("#nhpcClearSearch").addEventListener("click",()=>{searchQuery="";root.querySelector("#nhpcSearch").value="";index=0;render()});
+  root.querySelector("#startRevisionTest").addEventListener("click",startRevisionTest);
   root.querySelectorAll("[data-practice-mode]").forEach(b=>b.addEventListener("click",()=>{practiceMode=b.dataset.practiceMode;topic="सबै विषय";searchQuery="";root.querySelector("#nhpcSearch").value="";index=0;root.querySelectorAll("[data-topic]").forEach(x=>x.classList.toggle("active",x.dataset.topic==="सबै विषय"));updateModeButtons();render()}));
   root.querySelector("#nhpcFilters").addEventListener("click",e=>{const b=e.target.closest("[data-topic]");if(!b)return;topic=b.dataset.topic;searchQuery="";root.querySelector("#nhpcSearch").value="";index=0;root.querySelectorAll("[data-topic]").forEach(x=>x.classList.toggle("active",x===b));render()});
   render();
