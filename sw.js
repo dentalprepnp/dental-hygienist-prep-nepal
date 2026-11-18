@@ -1,6 +1,19 @@
-const CACHE="hl-preparation-v274-privacy-free-access";
+const CACHE="hl-preparation-v275-interaction-refresh";
 const ASSETS=["./","./index.html","./about.html","./privacy.html","./styles.css?v=266","./app.js?v=163","./auth.js?v=2","./progress-sync.js?v=3","./manifest.webmanifest","./icon.svg","./oral-pathology.js?v=147","./dental-materials.js?v=147","./oral-anatomy.js?v=147","./dental-public-health.js?v=147","./dental-radiology.js?v=147","./dental-pharmacy.js?v=148","./dental-ethics.js?v=147","./food-nutrition.js?v=149","./epidemiology-community.js?v=149","./dha.js?v=146","./nhpc.js?v=191","./ha-general-medicine.js?v=146","./mlt.js?v=147","./bsc-anesthesia.js?v=147","./radiotherapy.js?v=8","./ott.js?v=19","./radiography.js?v=147","./physiotherapy.js?v=146","./ophthalmic-science.js?v=146"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
 self.addEventListener("message",e=>{if(e.data&&e.data.type==="SKIP_WAITING")self.skipWaiting()});
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener("fetch",e=>{if(e.request.method!=="GET"||new URL(e.request.url).origin!==self.location.origin)return;e.respondWith(caches.match(e.request).then(cached=>cached||fetch(e.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return response}).catch(()=>caches.match("./index.html"))))});
+self.addEventListener("fetch",e=>{
+ if(e.request.method!=="GET"||new URL(e.request.url).origin!==self.location.origin)return;
+ const refreshFirst=e.request.mode==="navigate"||e.request.destination==="document"||e.request.destination==="script";
+ if(refreshFirst){
+  e.respondWith(fetch(e.request).then(response=>{
+   if(response&&response.ok){const copy=response.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));}
+   return response;
+  }).catch(()=>caches.match(e.request).then(cached=>cached||caches.match("./index.html"))));
+  return;
+ }
+ e.respondWith(caches.match(e.request).then(cached=>cached||fetch(e.request).then(response=>{
+  const copy=response.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return response;
+ }).catch(()=>caches.match("./index.html"))));
+});
