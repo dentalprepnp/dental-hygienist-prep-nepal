@@ -8,7 +8,7 @@
   <title>HL Preparation | Health License Preparation Nepal</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=271">
+  <link rel="stylesheet" href="styles.css?v=272">
 </head>
 <body>
 <header class="topbar">
@@ -43,7 +43,22 @@
   <button id="signOutButton" class="secondary" type="button">Logout</button>
 </section>
 
-<section class="free-access-panel" aria-label="Free access notice" style="margin:14px 12px;padding:18px;border:1px solid #86efac;border-radius:18px;background:linear-gradient(135deg,#ecfdf5,#eff6ff);color:#14532d">
+<button id="adminDashboardButton" class="secondary hidden" type="button" style="margin:10px 12px">🔐 Admin Dashboard खोल्नुहोस्</button>\n
+<section id="adminDashboard" class="admin-dashboard hidden" aria-label="Admin Dashboard">
+ <div class="admin-dashboard-head"><div><p class="eyebrow">PRIVATE ADMIN AREA</p><h2>📊 HL Preparation Admin Dashboard</h2><p class="muted">विद्यार्थी र App गतिविधिको सारांश</p></div><div class="admin-dashboard-actions"><button id="adminRefresh" class="secondary" type="button">↻ Refresh</button><button id="adminClose" class="secondary" type="button">बन्द गर्नुहोस्</button></div></div>
+ <p id="adminStatus" class="muted" role="status">Admin अनुमति जाँच हुँदैछ...</p>
+ <div class="admin-dashboard-grid">
+  <div class="admin-dashboard-card"><small>कुल विद्यार्थी Accounts</small><strong id="adminTotalStudents">—</strong></div>
+  <div class="admin-dashboard-card"><small>आज सक्रिय Device/Browser</small><strong id="adminActiveToday">—</strong></div>
+  <div class="admin-dashboard-card"><small>रेकर्ड भएका Device/Browser</small><strong id="adminActiveAll">—</strong></div>
+  <div class="admin-dashboard-card"><small>Mock Test पूरा भएका</small><strong id="adminMockCount">—</strong></div>
+ </div>
+ <h3>Faculty अनुसार गतिविधि</h3><div id="adminFacultyStats"><p>लोड हुँदैछ...</p></div>
+ <h3>विद्यार्थी Accounts</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>नाम</th><th>Email</th><th>दर्ता मिति</th></tr></thead><tbody id="adminStudentRows"></tbody></table></div>
+ <h3>हालका गतिविधि</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>मिति</th><th>गतिविधि</th><th>Faculty</th><th>प्रयोगकर्ता</th></tr></thead><tbody id="adminRecentEvents"></tbody></table></div>
+ <p class="muted">नोट: Guest प्रयोगकर्तालाई Device/Browser session का रूपमा गनिन्छ; एउटै व्यक्तिका धेरै Device छुट्टाछुट्टै देखिन सक्छन्। Login नगरी Mock Test दिएका Guest को नाम/email देखिँदैन।</p>
+</section>
+\n<section class="free-access-panel" aria-label="Free access notice" style="margin:14px 12px;padding:18px;border:1px solid #86efac;border-radius:18px;background:linear-gradient(135deg,#ecfdf5,#eff6ff);color:#14532d">
   <p class="eyebrow" style="margin:0 0 6px;font-weight:800">🎉 १००% FREE ACCESS</p>
   <h2 style="margin:0 0 8px">HL Preparation अब सबैका लागि निःशुल्क</h2>
   <p style="margin:0">सबै Faculty, Subject, MCQ Practice, Mock Test र Study Notes बिना शुल्क प्रयोग गर्नुहोस्। पढ्नका लागि Login वा Membership आवश्यक छैन।</p>
@@ -426,7 +441,7 @@
 <footer><b>HL Preparation</b><span>Made for learning in Nepal 🇳🇵</span><small>Educational practice only • Verify current official syllabus</small><nav class="footer-links" aria-label="Footer links"><a href="about.html">हाम्रोबारे</a><a href="privacy.html">Privacy Policy</a><a href="https://github.com/dentalprepnp/dental-hygienist-prep-nepal/issues">Feedback</a></nav></footer>
 <script src="app.js?v=168"></script>
 <script type="module" src="auth.js?v=3"></script>
-<script type="module" src="progress-sync.js?v=4"></script>
+<script type="module" src="progress-sync.js?v=4"></script>\n<script type="module" src="admin-dashboard.js?v=1"></script>
 
 <script src="oral-pathology.js?v=148"></script>
 <script src="dental-materials.js?v=148"></script>
