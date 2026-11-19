@@ -5,6 +5,21 @@ const panel=$("adminDashboard"),openBtn=$("adminDashboardButton"),status=$("admi
 let user=null,isAdmin=false,sessionId="";
 try{sessionId=localStorage.getItem("hlp-analytics-session")||crypto.randomUUID();localStorage.setItem("hlp-analytics-session",sessionId)}catch{sessionId="session-"+Date.now()}
 function say(t){if(status)status.textContent=t}
+function esc(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
+function progressLabel(key){return ({
+ "dhpn-progress":"समग्र अभ्यास Progress",
+ "dhpn-mock-history":"Mock Test History",
+ "dhpn-mcq-history":"MCQ History",
+ "dhpn-student-profile":"विद्यार्थी Profile",
+ "dhpn-study-goal":"Study Goal",
+ "dhpn-nhpc-bookmarks":"Bookmarks"
+})[key]||key}
+function progressSummary(key,data){
+ if(key==="dhpn-progress"&&data&&typeof data==="object")return "Attempted: "+(Number(data.attempted)||0)+" • Correct: "+(Number(data.correct)||0)+" • Best: "+(Number(data.best)||0);
+ if(Array.isArray(data))return data.length+" वटा रेकर्ड";
+ if(data&&typeof data==="object"){const text=JSON.stringify(data);return text.length>260?text.slice(0,260)+"…":text;}
+ const text=String(data??"");return text.length>260?text.slice(0,260)+"…":text;
+}
 function currentFaculty(){const v=[...document.querySelectorAll(".view:not(.hidden)")].find(x=>x.id!=="homeView");return v?.id?.replace(/View$/,"")||"home"}
 async function track(eventType,faculty=currentFaculty(),details={}){try{await supabase.from("app_events").insert({session_id:sessionId,user_id:user?.id||null,event_type:eventType,faculty,details})}catch(e){console.warn("Analytics event not saved",e.message)}}
 async function refreshAccess(){
@@ -40,12 +55,13 @@ async function loadDashboard(){
  say("तथ्याङ्क लोड हुँदैछ...");
  if(!isAdmin){say("Admin अनुमति जाँच हुँदैछ...");if(!await refreshAccess()){panel.classList.add("hidden");return;}}
  try{
- const [students,events]=await Promise.all([
+ const [students,events,progress]=await Promise.all([
   supabase.from("admin_student_directory").select("user_id,email,display_name,phone,created_at,last_sign_in_at").order("created_at",{ascending:false}).limit(500),
-  supabase.from("app_events").select("session_id,user_id,event_type,faculty,details,created_at").order("created_at",{ascending:false}).limit(2000)
+  supabase.from("app_events").select("session_id,user_id,event_type,faculty,details,created_at").order("created_at",{ascending:false}).limit(2000),
+  supabase.from("user_progress").select("user_id,progress_key,progress_data,updated_at").order("updated_at",{ascending:false}).limit(3000)
  ]);
- if(students.error||events.error){say("डेटाबेस तयार छैन वा अनुमति मिलेको छैन। Supabase SQL setup पूरा गर्नुहोस्।");return;}
- const s=students.data||[],e=events.data||[],today=new Date();today.setHours(0,0,0,0);
+ if(students.error||events.error||progress.error){console.error("Admin data query:",students.error||events.error||progress.error);say("डेटाबेस तयार छैन वा अनुमति मिलेको छैन। Progress Policy र SQL setup जाँच्नुहोस्।");return;}
+ const s=students.data||[],e=events.data||[],p=progress.data||[],studentById=new Map(s.map(x=>[x.user_id,x])),today=new Date();today.setHours(0,0,0,0);
  const activeToday=new Set(e.filter(x=>new Date(x.created_at)>=today).map(x=>x.session_id)).size;
  const activeAll=new Set(e.map(x=>x.session_id)).size;
  const counts={};e.forEach(x=>counts[x.faculty]=(counts[x.faculty]||0)+1);
@@ -53,8 +69,9 @@ async function loadDashboard(){
  $("adminTotalStudents").textContent=s.length;$("adminActiveToday").textContent=activeToday;$("adminActiveAll").textContent=activeAll;$("adminMockCount").textContent=mocks;
  $("adminFacultyStats").innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<div class="admin-stat-row"><b>'+k.replace(/[&<>"]/g,"")+'</b><span>'+v+' गतिविधि</span></div>').join("")||"<p>अहिलेसम्म गतिविधि छैन।</p>";
  $("adminRecentEvents").innerHTML=e.slice(0,40).map(x=>'<tr><td>'+new Date(x.created_at).toLocaleString("ne-NP")+'</td><td>'+String(x.event_type).replace(/[&<>"]/g,"")+'</td><td>'+String(x.faculty).replace(/[&<>"]/g,"")+'</td><td>'+(x.user_id?"Login":"Guest")+'</td></tr>').join("")||'<tr><td colspan="4">रेकर्ड छैन।</td></tr>';
- $("adminStudentRows").innerHTML=s.map(x=>'<tr><td>'+String(x.display_name||"—").replace(/[&<>"]/g,"")+'</td><td>'+String(x.email||"").replace(/[&<>"]/g,"")+'</td><td>'+String(x.phone||"—").replace(/[&<>"]/g,"")+'</td><td>'+new Date(x.created_at).toLocaleDateString("ne-NP")+'</td></tr>').join("")||'<tr><td colspan="4">अहिलेसम्म विद्यार्थी Account छैन।</td></tr>';
- say("अन्तिम अपडेट: "+new Date().toLocaleString("ne-NP")+" • हालका २,००० गतिविधि सम्म");
+ $("adminStudentRows").innerHTML=s.map(x=>'<tr><td>'+esc(x.display_name||"—")+'</td><td>'+esc(x.email||"")+'</td><td>'+esc(x.phone||"—")+'</td><td>'+new Date(x.created_at).toLocaleDateString("ne-NP")+'</td></tr>').join("")||'<tr><td colspan="4">अहिलेसम्म विद्यार्थी Account छैन।</td></tr>';
+ $("adminProgressRows").innerHTML=p.map(x=>{const st=studentById.get(x.user_id)||{};return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+esc(progressLabel(x.progress_key))+'</td><td>'+esc(progressSummary(x.progress_key,x.progress_data))+'</td><td>'+ (x.updated_at?new Date(x.updated_at).toLocaleString("ne-NP"):"—")+'</td></tr>';}).join("")||'<tr><td colspan="5">अहिलेसम्म Cloud Progress Sync भएको छैन।</td></tr>';
+ say("अन्तिम अपडेट: "+new Date().toLocaleString("ne-NP")+" • "+p.length+" Progress रेकर्ड देखाइयो (अधिकतम ३,०००)");
  }catch(error){console.error("Dashboard load failed:",error);say("Dashboard लोड हुन सकेन। Internet जाँच गरी Refresh थिच्नुहोस्।");}
 }
 if(openBtn){
