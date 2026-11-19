@@ -50,6 +50,23 @@ async function loadDashboard(){
   });
   const visitRows=[...facultyVisits.values()].sort((a,b)=>new Date(b.last)-new Date(a.last));
   $("facultyStudentRows").innerHTML=visitRows.map(x=>{const st=byId.get(x.user_id)||{};return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+esc(st.phone||"—")+'</td><td>'+esc(x.faculty)+'</td><td>'+x.opens+'</td><td>'+date(x.last)+'</td></tr>';}).join("")||'<tr><td colspan="6">अहिलेसम्म Login भएको विद्यार्थीको Faculty खोल्ने गतिविधि छैन।</td></tr>';
+  const interestMap=new Map();
+  const sectionNames={notes:"Study Notes",practice:"MCQ Practice",mock:"Mock Test",home:"Home"};
+  e.filter(x=>x.user_id&&["faculty_open","subject_open","section_open","learning_section_open","study_action","topic_activity","mock_completed"].includes(x.event_type)).forEach(x=>{
+   const d=x.details&&typeof x.details==="object"?x.details:{};
+   const action=d.action&&typeof d.action==="object"?d.action:{};
+   let interest=d.subject||d.topic||d.module||"";
+   if(!interest&&x.event_type==="learning_section_open")interest=sectionNames[d.section]||d.section||"";
+   if(!interest&&x.event_type==="study_action")interest=Object.values(action).find(v=>typeof v==="string"&&v.trim())||"";
+   if(!interest)interest=x.faculty||"अन्य";
+   interest=String(interest).slice(0,100);
+   const key=x.user_id+"::"+interest;
+   const item=interestMap.get(key)||{user_id:x.user_id,interest,count:0,types:new Set(),last:x.created_at};
+   item.count++;item.types.add(x.event_type);if(new Date(x.created_at)>new Date(item.last))item.last=x.created_at;
+   interestMap.set(key,item);
+  });
+  const interestRows=[...interestMap.values()].sort((a,b)=>b.count-a.count||new Date(b.last)-new Date(a.last)).slice(0,500);
+  $("studentInterestRows").innerHTML=interestRows.map(x=>{const st=byId.get(x.user_id)||{};return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+esc(x.interest)+'</td><td>'+x.count+'</td><td>'+esc([...x.types].join(", "))+'</td><td>'+date(x.last)+'</td></tr>';}).join("")||'<tr><td colspan="6">अहिलेसम्म रुचि अनुमान गर्न पर्याप्त गतिविधि छैन।</td></tr>';
   $("eventRows").innerHTML=e.slice(0,50).map(x=>{const st=byId.get(x.user_id)||{};return '<tr><td>'+date(x.created_at)+'</td><td>'+esc(st.display_name||(x.user_id?"विद्यार्थी नाम उपलब्ध छैन":"Guest"))+'</td><td>'+esc(x.event_type)+'</td><td>'+esc(x.faculty||"—")+'</td></tr>';}).join("")||'<tr><td colspan="4">रेकर्ड छैन।</td></tr>';
   $("dashboardStatus").textContent="अन्तिम अपडेट: "+date(new Date())+" • "+p.length+" Progress records (अधिकतम ३,०००)";
  }catch(error){console.error("Admin portal data error",error);$("dashboardStatus").textContent="डेटा लोड हुन सकेन: "+(error.message||"Database policy/schema जाँच्नुहोस्।");}
