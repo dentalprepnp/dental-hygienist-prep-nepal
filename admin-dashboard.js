@@ -41,7 +41,7 @@ async function loadDashboard(){
  if(!isAdmin){say("Admin अनुमति जाँच हुँदैछ...");if(!await refreshAccess()){panel.classList.add("hidden");return;}}
  try{
  const [students,events]=await Promise.all([
-  supabase.from("admin_student_directory").select("user_id,email,display_name,created_at,last_sign_in_at").order("created_at",{ascending:false}).limit(500),
+  supabase.from("admin_student_directory").select("user_id,email,display_name,phone,created_at,last_sign_in_at").order("created_at",{ascending:false}).limit(500),
   supabase.from("app_events").select("session_id,user_id,event_type,faculty,details,created_at").order("created_at",{ascending:false}).limit(2000)
  ]);
  if(students.error||events.error){say("डेटाबेस तयार छैन वा अनुमति मिलेको छैन। Supabase SQL setup पूरा गर्नुहोस्।");return;}
@@ -53,7 +53,7 @@ async function loadDashboard(){
  $("adminTotalStudents").textContent=s.length;$("adminActiveToday").textContent=activeToday;$("adminActiveAll").textContent=activeAll;$("adminMockCount").textContent=mocks;
  $("adminFacultyStats").innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<div class="admin-stat-row"><b>'+k.replace(/[&<>"]/g,"")+'</b><span>'+v+' गतिविधि</span></div>').join("")||"<p>अहिलेसम्म गतिविधि छैन।</p>";
  $("adminRecentEvents").innerHTML=e.slice(0,40).map(x=>'<tr><td>'+new Date(x.created_at).toLocaleString("ne-NP")+'</td><td>'+String(x.event_type).replace(/[&<>"]/g,"")+'</td><td>'+String(x.faculty).replace(/[&<>"]/g,"")+'</td><td>'+(x.user_id?"Login":"Guest")+'</td></tr>').join("")||'<tr><td colspan="4">रेकर्ड छैन।</td></tr>';
- $("adminStudentRows").innerHTML=s.map(x=>'<tr><td>'+String(x.display_name||"—").replace(/[&<>"]/g,"")+'</td><td>'+String(x.email||"").replace(/[&<>"]/g,"")+'</td><td>'+new Date(x.created_at).toLocaleDateString("ne-NP")+'</td></tr>').join("")||'<tr><td colspan="3">अहिलेसम्म विद्यार्थी Account छैन।</td></tr>';
+ $("adminStudentRows").innerHTML=s.map(x=>'<tr><td>'+String(x.display_name||"—").replace(/[&<>"]/g,"")+'</td><td>'+String(x.email||"").replace(/[&<>"]/g,"")+'</td><td>'+String(x.phone||"—").replace(/[&<>"]/g,"")+'</td><td>'+new Date(x.created_at).toLocaleDateString("ne-NP")+'</td></tr>').join("")||'<tr><td colspan="4">अहिलेसम्म विद्यार्थी Account छैन।</td></tr>';
  say("अन्तिम अपडेट: "+new Date().toLocaleString("ne-NP")+" • हालका २,००० गतिविधि सम्म");
  }catch(error){console.error("Dashboard load failed:",error);say("Dashboard लोड हुन सकेन। Internet जाँच गरी Refresh थिच्नुहोस्।");}
 }
