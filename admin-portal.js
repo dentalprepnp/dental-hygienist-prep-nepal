@@ -24,12 +24,12 @@ async function verifyAdmin(user){
 async function loadDashboard(){
  $("dashboardStatus").textContent="तथ्याङ्क लोड हुँदैछ...";
  try{
-  const [students,events,progress]=await Promise.all([
+  const [students,events,progress,feedback]=await Promise.all([
    supabase.from("admin_student_directory").select("user_id,email,display_name,phone,created_at").order("created_at",{ascending:false}).limit(500),
    supabase.from("app_events").select("session_id,user_id,event_type,faculty,details,created_at").order("created_at",{ascending:false}).limit(2000),
-   supabase.from("user_progress").select("user_id,progress_key,progress_data,updated_at").order("updated_at",{ascending:false}).limit(3000)
+   supabase.from("user_progress").select("user_id,progress_key,progress_data,updated_at").order("updated_at",{ascending:false}).limit(3000),\n   supabase.from("student_feedback").select("id,user_id,category,message,status,created_at").order("created_at",{ascending:false}).limit(500)
   ]);
-  const failure=students.error||events.error||progress.error;if(failure)throw failure;
+  const failure=students.error||events.error||progress.error||feedback.error;if(failure)throw failure;
   const s=students.data||[],e=events.data||[],p=progress.data||[],byId=new Map(s.map(x=>[x.user_id,x]));
   const today=new Date();today.setHours(0,0,0,0);
   $("totalStudents").textContent=s.length;
@@ -67,6 +67,9 @@ async function loadDashboard(){
   });
   const interestRows=[...interestMap.values()].sort((a,b)=>b.count-a.count||new Date(b.last)-new Date(a.last)).slice(0,500);
   $("studentInterestRows").innerHTML=interestRows.map(x=>{const st=byId.get(x.user_id)||{};return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+esc(x.interest)+'</td><td>'+x.count+'</td><td>'+esc([...x.types].join(", "))+'</td><td>'+date(x.last)+'</td></tr>';}).join("")||'<tr><td colspan="6">अहिलेसम्म रुचि अनुमान गर्न पर्याप्त गतिविधि छैन।</td></tr>';
+
+  const feedbackRows=feedback.data||[];
+  $("feedbackRows").innerHTML=feedbackRows.map(x=>{const st=byId.get(x.user_id)||{};const msg=esc(x.message);return '<tr><td>'+date(x.created_at)+'</td><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+esc(x.category)+'</td><td style="white-space:pre-wrap;min-width:220px">'+msg+'</td><td>'+esc(x.status||"new")+'</td><td><select data-feedback-status="'+esc(x.id)+'" aria-label="स्थिति परिवर्तन"><option value="new" '+(x.status==="new"?"selected":"")+'>नयाँ</option><option value="reviewed" '+(x.status==="reviewed"?"selected":"")+'>हेरिएको</option><option value="resolved" '+(x.status==="resolved"?"selected":"")+'>समाधान</option></select><button type="button" data-feedback-save="'+esc(x.id)+'">Save</button></td></tr>';}).join("")||'<tr><td colspan="7">अहिलेसम्म Feedback आएको छैन।</td></tr>';
   $("eventRows").innerHTML=e.slice(0,50).map(x=>{const st=byId.get(x.user_id)||{};return '<tr><td>'+date(x.created_at)+'</td><td>'+esc(st.display_name||(x.user_id?"विद्यार्थी नाम उपलब्ध छैन":"Guest"))+'</td><td>'+esc(x.event_type)+'</td><td>'+esc(x.faculty||"—")+'</td></tr>';}).join("")||'<tr><td colspan="4">रेकर्ड छैन।</td></tr>';
   $("dashboardStatus").textContent="अन्तिम अपडेट: "+date(new Date())+" • "+p.length+" Progress records (अधिकतम ३,०००)";
  }catch(error){console.error("Admin portal data error",error);$("dashboardStatus").textContent="डेटा लोड हुन सकेन: "+(error.message||"Database policy/schema जाँच्नुहोस्।");}
