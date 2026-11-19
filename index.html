@@ -102,7 +102,7 @@
 </section>
 
   <section class="exam-tracks" aria-label="Choose exam preparation">
-    <div class="section-head"><div><p class="eyebrow">CHOOSE YOUR EXAM</p><h2>आफ्नो परीक्षा छान्नुहोस्</h2></div><span class="pill">11 Exam Tracks</span></div>
+    <div class="section-head"><div><p class="eyebrow">CHOOSE YOUR EXAM</p><h2>आफ्नो परीक्षा छान्नुहोस्</h2></div><span class="pill">13 Exam Tracks</span></div>
     <div class="track-grid">
       <button class="track-card track-ophthalmic" data-tab="ophthalmic"><span class="track-icon">👁️</span><b>PCL Ophthalmic Science / Ophthalmic Technique</b><small>NHPC • Ophthalmic Assistant License Preparation</small><span class="track-action">Open Ophthalmic Science Preparation →</span></button>
       <button class="track-card track-physiotherapy" data-tab="physiotherapy"><span class="track-icon">🧑‍⚕️</span><b>Certificate in Physiotherapy (PCL/CPT)</b><small>NHPC • Physiotherapy License Preparation</small><span class="track-action">Open Physiotherapy Preparation →</span></button>
@@ -115,6 +115,8 @@
       <button class="track-card track-nhpc" data-tab="nhpc"><span class="track-icon">🇳🇵</span><b>PCL in Dental Hygiene</b><small>NHPC License Exam • नेपालको लाइसेन्स तयारी</small><span class="track-action">Open PCL in Dental Hygiene →</span></button>
       <button class="track-card track-dha" data-tab="dha"><span class="track-icon">🌍</span><b>DHA Exam – Dubai</b><small>Dubai Health Authority • Dental Hygienist</small><span class="track-action">Open DHA →</span></button>
       <button class="track-card track-loksewa" data-tab="loksewa"><span class="track-icon">🏛️</span><b>Loksewa Exam</b><small>Dental Hygienist • नेपाल</small><span class="track-action">Open Loksewa →</span></button>
+      <button class="track-card track-dha" data-tab="dpharm"><span class="track-icon">💊</span><b>Diploma in Pharmacy (D.Pharm)</b><small>CTEVT • Nepal Pharmacy Council Name Registration Exam</small><span class="track-action">Open D.Pharm Preparation →</span></button>
+      <button class="track-card track-dha" data-tab="bpharm"><span class="track-icon">🎓</span><b>Bachelor of Pharmacy (B.Pharm)</b><small>University Curriculum • Nepal Pharmacy Council Name Registration Exam</small><span class="track-action">Open B.Pharm Preparation →</span></button>
     </div>
   </section>
 
@@ -392,6 +394,8 @@
   <section id="dentalPublicHealthView" class="view hidden"></section>
   <section id="dentalRadiologyView" class="view hidden"></section>
   <section id="dentalPharmacyView" class="view hidden"></section>
+  <section id="dpharmView" class="view hidden exam-view"></section>
+  <section id="bpharmView" class="view hidden exam-view"></section>
   <section id="dentalEthicsView" class="view hidden"></section>
   <section id="foodNutritionView" class="view hidden"></section>
   <section id="epidemiologyView" class="view hidden"></section>
@@ -494,6 +498,7 @@
 <script src="dental-public-health.js?v=148"></script>
 <script src="dental-radiology.js?v=148"></script>
 <script src="dental-pharmacy.js?v=149"></script>
+<script src="pharmacy-faculties.js?v=1"></script>
 <script src="dental-ethics.js?v=148"></script>
 <script src="food-nutrition.js?v=150"></script>
 <script src="epidemiology-community.js?v=150"></script>
@@ -512,10 +517,9 @@
 (function(){
  var input=document.getElementById("subjectSearch"), results=document.getElementById("searchResults"), submit=document.getElementById("searchSubmit");
  if(!input||!results)return;
- var cards=Array.from(document.querySelectorAll("#subjectGrid .subject-card"));
+ var cards=Array.from(document.querySelectorAll("#subjectGrid .subject-card, .exam-tracks .track-card"));
  function find(term){
   term=term.toLocaleLowerCase();
-  if(term.includes("pharmacy")||term.includes("औषधि")||term.includes("फार्मेसी"))return cards.filter(c=>c.dataset.go==="dentalPharmacy");
   return cards.filter(c=>((c.dataset.subject||"")+" "+c.textContent).toLocaleLowerCase().includes(term));
  }
  function open(id,topic){
