@@ -79,7 +79,7 @@ if(openBtn){
   event.preventDefault();
   panel?.classList.add("hidden");
   say("Admin अनुमति जाँच हुँदैछ...");
-  if(await refreshAccess())await loadDashboard();
+  if(await refreshAccess())window.location.href="admin.html";
   else {panel?.classList.add("hidden");say("यो Email लाई Admin अनुमति दिइएको छैन।");}
  };
 }
