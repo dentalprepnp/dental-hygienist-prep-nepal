@@ -66,7 +66,7 @@
 <section class="free-access-panel" aria-label="Free access notice" style="margin:14px 12px;padding:18px;border:1px solid #86efac;border-radius:18px;background:linear-gradient(135deg,#ecfdf5,#eff6ff);color:#14532d">
   <p class="eyebrow" style="margin:0 0 6px;font-weight:800">🎉 १००% FREE ACCESS</p>
   <h2 style="margin:0 0 8px">HL Preparation अब सबैका लागि निःशुल्क</h2>
-  <p style="margin:0">सबै Faculty, Subject, MCQ Practice, Mock Test र Study Notes बिना शुल्क प्रयोग गर्नुहोस्। पढ्नका लागि Login वा Membership आवश्यक छैन।</p>
+  <p style="margin:0">सबै Faculty, Subject, MCQ Practice, Mock Test र Study Notes निःशुल्क छन्। पढ्नका लागि Login वा Register आवश्यक छ।</p>
 </section>
 
 <div class="search-wrap"><div class="search-center"><span aria-hidden="true">⌕</span><input id="subjectSearch" type="search" placeholder="विषय वा परीक्षा खोज्नुहोस्" aria-label="विषय वा परीक्षा खोज्नुहोस्"><button id="searchSubmit" type="button">खोज्नुहोस्</button></div><div id="searchResults" class="search-results hidden" aria-live="polite"></div></div>
@@ -93,10 +93,10 @@
       <li>MCQ Practice र Mock Test निःशुल्क</li>
       <li>Study Notes, Bookmarks र Revision अभ्यास</li>
       <li>Mock Test History र Progress Tracking</li>
-      <li>Login बिना नै पढ्न र अभ्यास गर्न सकिने</li>
+      <li>Login गरेपछि पढ्न र अभ्यास गर्न सकिने</li>
     </ul>
   </div>
-  <p class="public-membership-note">Login ऐच्छिक हो र Cloud Progress Sync का लागि मात्र प्रयोग हुन्छ। Premium Membership र Payment सुविधा पछि आवश्यक तयारी पूरा भएपछि मात्र ल्याइनेछ।</p>
+  <p class="public-membership-note">Login अनिवार्य छ; यसले विद्यार्थीको पढाइको प्रगति सुरक्षित राख्न मद्दत गर्छ। Premium Membership र Payment सुविधा पछि आवश्यक तयारी पूरा भएपछि मात्र ल्याइनेछ।</p>
 </section>
 
   <section class="exam-tracks" aria-label="Choose exam preparation">
@@ -449,7 +449,25 @@
 </main>
 
 <footer><b>HL Preparation</b><span>Made for learning in Nepal 🇳🇵</span><small>Educational practice only • Verify current official syllabus</small><nav class="footer-links" aria-label="Footer links"><a href="about.html">हाम्रोबारे</a><a href="privacy.html">Privacy Policy</a><a href="https://github.com/dentalprepnp/dental-hygienist-prep-nepal/issues">Feedback</a></nav></footer>
-<script src="app.js?v=168"></script>
+<script>
+/* Login required before opening any faculty, subject, notes, MCQ or mock test. */
+(function(){
+ function requireLogin(event){
+  if(window.HLPAuthUser)return;
+  var target=event.target.closest(".track-card[data-tab], [data-go], .subject-card, [data-open-view], [data-study-action]");
+  if(!target)return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  var panel=document.getElementById("accountPanel");
+  if(panel){panel.classList.remove("hidden");panel.scrollIntoView({behavior:"smooth",block:"center"});}
+  var status=document.getElementById("accountStatus");
+  if(status){status.textContent="पढ्नका लागि पहिले Login वा Register गर्नुहोस्।";status.dataset.kind="info";status.classList.remove("hidden");}
+  document.getElementById("accountEmail")?.focus({preventScroll:true});
+ }
+ document.addEventListener("click",requireLogin,true);
+})();
+</script>
+<script src="app.js?v=169"></script>
 <script type="module" src="auth.js?v=4"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=4"></script>
