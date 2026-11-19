@@ -10,6 +10,12 @@ const status = $("accountStatus");
 const authPanel = $("accountPanel");
 const signedInPanel = $("signedInPanel");
 const accountAccessButton = $("accountAccessButton");
+const topLoginButton = $("topLoginButton");
+topLoginButton?.addEventListener("click", () => {
+  authPanel?.classList.remove("hidden");
+  authPanel?.scrollIntoView({ behavior: "smooth", block: "center" });
+  $("accountEmail")?.focus({ preventScroll: true });
+});
 accountAccessButton?.addEventListener("click", () => {
   authPanel?.classList.remove("hidden");
   authPanel?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -29,11 +35,13 @@ function setBusy(busy) {
 }
 function showUser(user) {
   if (!user) {
+    if (topLoginButton) topLoginButton.classList.remove("hidden");
     authPanel?.classList.add("hidden");
     signedInPanel?.classList.add("hidden");
     return;
   }
   authPanel?.classList.add("hidden");
+  if (topLoginButton) topLoginButton.classList.add("hidden");
   signedInPanel?.classList.remove("hidden");
   const email = $("signedInEmail");
   if (email) email.textContent = user.email || "Signed in";
