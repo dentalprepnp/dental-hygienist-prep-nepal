@@ -34,6 +34,7 @@ function setBusy(busy) {
   });
 }
 function showUser(user) {
+  window.HLPAuthUser = user || null;
   if (!user) {
     if (topLoginButton) topLoginButton.classList.remove("hidden");
     authPanel?.classList.add("hidden");
