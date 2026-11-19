@@ -8,14 +8,31 @@ function say(t){if(status)status.textContent=t}
 function currentFaculty(){const v=[...document.querySelectorAll(".view:not(.hidden)")].find(x=>x.id!=="homeView");return v?.id?.replace(/View$/,"")||"home"}
 async function track(eventType,faculty=currentFaculty(),details={}){try{await supabase.from("app_events").insert({session_id:sessionId,user_id:user?.id||null,event_type:eventType,faculty,details})}catch(e){console.warn("Analytics event not saved",e.message)}}
 async function refreshAccess(){
- const {data}=await supabase.auth.getSession();user=data?.session?.user||null;isAdmin=false;
- if(user){const {data:row,error}=await supabase.from("admin_users").select("user_id").eq("user_id",user.id).maybeSingle();isAdmin=!error&&!!row;}
- openBtn?.classList.toggle("hidden",!isAdmin);
- if(!isAdmin&&panel)panel.classList.add("hidden");
+ try{
+  const {data,error:sessionError}=await supabase.auth.getSession();
+  if(sessionError)throw sessionError;
+  user=data?.session?.user||null;isAdmin=false;
+  if(user){
+   const {data:row,error}=await supabase.from("admin_users").select("user_id").eq("user_id",user.id).maybeSingle();
+   if(error)throw error;
+   isAdmin=!!row;
+  }
+  openBtn?.classList.toggle("hidden",!isAdmin);
+  if(!isAdmin&&panel)panel.classList.add("hidden");
+  return isAdmin;
+ }catch(error){
+  console.error("Admin access check failed:",error);
+  say("Admin अनुमति जाँच हुन सकेन। Internet जाँच गरी Refresh गर्नुहोस्।");
+  return false;
+ }
 }
 async function loadDashboard(){
- if(!isAdmin||!panel)return;
- panel.classList.remove("hidden");say("तथ्याङ्क लोड हुँदैछ...");
+ if(!panel)return;
+ panel.classList.remove("hidden");
+ panel.scrollIntoView({behavior:"smooth",block:"start"});
+ say("तथ्याङ्क लोड हुँदैछ...");
+ if(!isAdmin){say("Admin अनुमति जाँच हुँदैछ...");if(!await refreshAccess()){panel.classList.add("hidden");return;}}
+ try{
  const [students,events]=await Promise.all([
   supabase.from("admin_student_directory").select("user_id,email,display_name,created_at,last_sign_in_at").order("created_at",{ascending:false}).limit(500),
   supabase.from("app_events").select("session_id,user_id,event_type,faculty,details,created_at").order("created_at",{ascending:false}).limit(2000)
@@ -31,8 +48,17 @@ async function loadDashboard(){
  $("adminRecentEvents").innerHTML=e.slice(0,40).map(x=>'<tr><td>'+new Date(x.created_at).toLocaleString("ne-NP")+'</td><td>'+String(x.event_type).replace(/[&<>"]/g,"")+'</td><td>'+String(x.faculty).replace(/[&<>"]/g,"")+'</td><td>'+(x.user_id?"Login":"Guest")+'</td></tr>').join("")||'<tr><td colspan="4">रेकर्ड छैन।</td></tr>';
  $("adminStudentRows").innerHTML=s.map(x=>'<tr><td>'+String(x.display_name||"—").replace(/[&<>"]/g,"")+'</td><td>'+String(x.email||"").replace(/[&<>"]/g,"")+'</td><td>'+new Date(x.created_at).toLocaleDateString("ne-NP")+'</td></tr>').join("")||'<tr><td colspan="3">अहिलेसम्म विद्यार्थी Account छैन।</td></tr>';
  say("अन्तिम अपडेट: "+new Date().toLocaleString("ne-NP")+" • हालका २,००० गतिविधि सम्म");
+ }catch(error){console.error("Dashboard load failed:",error);say("Dashboard लोड हुन सकेन। Internet जाँच गरी Refresh थिच्नुहोस्।");}
 }
-openBtn?.addEventListener("click",loadDashboard);
+if(openBtn){
+ openBtn.onclick=async event=>{
+  event.preventDefault();
+  panel?.classList.remove("hidden");
+  say("Admin अनुमति जाँच हुँदैछ...");
+  if(await refreshAccess())await loadDashboard();
+  else {panel?.classList.add("hidden");say("यो Email लाई Admin अनुमति दिइएको छैन।");}
+ };
+}
 $("adminRefresh")?.addEventListener("click",loadDashboard);
 $("adminClose")?.addEventListener("click",()=>panel?.classList.add("hidden"));
 document.addEventListener("click",e=>{
