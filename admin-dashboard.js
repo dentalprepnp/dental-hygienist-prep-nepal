@@ -88,9 +88,11 @@ $("adminClose")?.addEventListener("click",()=>panel?.classList.add("hidden"));
 document.addEventListener("click",e=>{
  const b=e.target.closest("button");if(!b)return;
  if(b.matches(".track-card[data-tab]"))track("faculty_open",b.dataset.tab);
- else if(b.matches("[data-go]"))track("section_open",b.dataset.go);
- else if(b.matches("[data-ha]"))track("ha_"+b.dataset.ha,"ha");
+ else if(b.matches("[data-go]"))track(b.dataset.subject||b.dataset.nhpcTopic?"subject_open":"section_open",b.dataset.go,{subject:b.dataset.subject||"",topic:b.dataset.nhpcTopic||""});
+ else if(b.matches(".tab[data-tab]"))track("learning_section_open",currentFaculty(),{section:b.dataset.tab});
+ else if(b.matches("[data-ha]"))track("study_action","ha",{action:b.dataset});
  else if(b.matches("[data-nhpc],[data-dha],[data-mlt],[data-oph],[data-pt],[data-rad],[data-ott],[data-rt],[data-op],[data-dm],[data-oa],[data-dph],[data-dr],[data-dp],[data-de],[data-fn],[data-ec]"))track("study_action",currentFaculty(),{action:b.dataset});
+ else if(b.matches("[data-topic],[data-mcq-topic]")&&b.closest(".view"))track("topic_activity",currentFaculty(),{topic:b.dataset.topic||b.dataset.mcqTopic||""});
 },true);
 window.addEventListener("dhpn:mock-history-updated",()=>{const rows=JSON.parse(localStorage.getItem("dhpn-mock-history")||"[]");const r=rows.at(-1);if(r)track("mock_completed",currentFaculty(),{module:r.module,score:r.score,total:r.total,percent:r.percent})});
 window.addEventListener("dhpn-auth-changed",refreshAccess);
