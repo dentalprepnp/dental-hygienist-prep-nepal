@@ -651,21 +651,29 @@
   q[2]=pairs.map(x=>x.option);
   q[3]=pairs.findIndex(x=>x.correct);
  });
- // Separate, non-overlapping banks. Expand each bank independently toward 250+ questions.
- const splitAt=Math.ceil(Q.length/2);
- const practiceQ=Q.slice(0,splitAt);
- const mockQ=Q.slice(splitAt);
+ // The complete reviewed bank is available for practice and weighted mock sampling.
+ const practiceQ=Q;
+ const mockQ=Q;
 
  const state={mode:"",index:0,answers:{},timer:null,left:0,items:[]};
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  function panel(html){root.querySelector("#haContent").innerHTML=html;root.querySelector("#haContent").scrollIntoView({behavior:"smooth",block:"start"});}
  function menu(){
-  panel('<div class="ha-overview"><div class="ha-kpis"><div><b>'+notes.length+'</b><small>विस्तृत Notes</small></div><div><b>'+Q.length+'</b><small>अहिलेका MCQ</small></div><div><b>500+</b><small>लक्ष्य MCQ</small></div></div><p>MCQ बैंक चरणबद्ध रूपमा बढाइँदैछ। अहिलेको प्रश्न बैंक प्रारम्भिक संस्करण हो; ५००+ अद्वितीय र समीक्षा गरिएका प्रश्न पूरा नभएसम्म संख्या लक्ष्य मात्र हो।</p></div><div class="ha-actions"><button data-ha="notes">📚 Detailed Notes</button><button data-ha="practice">🧠 MCQ Practice</button><button data-ha="timed">⏱️ Timed Practice</button><button data-ha="mock">📝 Full Syllabus Mock</button></div><h3>NHPC Licensing Syllabus – Subject Weightage</h3><div class="ha-topic-list">'+topics.map(t=>'<article><div><b>'+t[0]+'</b><strong>'+t[1]+'</strong></div><p>'+t[2]+'</p><p class="np">'+t[3]+'</p></article>').join("")+'</div><div class="notice"><b>परीक्षा ढाँचाबारे स्पष्टता</b><p>NHPC को उपलब्ध HA licensing syllabus ले विषयगत भार १०%, २५%, २५%, १०%, २५%, ५% तोकेको छ। यसले MCQ संख्या, कुल परीक्षा समय वा negative marking निर्दिष्ट गरेको छैन। त्यसैले यहाँका timed practice र mock समय अभ्यासका लागि राखिएका हुन्, आधिकारिक परीक्षा समय होइनन्।</p></div>');
+  panel('<div class="ha-overview"><div class="ha-kpis"><div><b>'+notes.length+'</b><small>विस्तृत Notes</small></div><div><b>'+Q.length+'</b><small>अहिलेका MCQ</small></div><div><b>500</b><small>कुल MCQ</small></div></div><p>यस HA अध्ययन मोड्युलमा ५०० वटा bilingual MCQ छन्। Practice मा पूरा प्रश्न बैंक उपलब्ध छ र Full Syllabus Mock मा NHPC विषयगत weightage अनुसार प्रश्न छानिन्छ।</p></div><div class="ha-actions"><button data-ha="notes">📚 Detailed Notes</button><button data-ha="practice">🧠 MCQ Practice</button><button data-ha="timed">⏱️ Timed Practice</button><button data-ha="mock">📝 Full Syllabus Mock</button></div><h3>NHPC Licensing Syllabus – Subject Weightage</h3><div class="ha-topic-list">'+topics.map(t=>'<article><div><b>'+t[0]+'</b><strong>'+t[1]+'</strong></div><p>'+t[2]+'</p><p class="np">'+t[3]+'</p></article>').join("")+'</div><div class="notice"><b>परीक्षा ढाँचाबारे स्पष्टता</b><p>NHPC को उपलब्ध HA licensing syllabus ले विषयगत भार १०%, २५%, २५%, १०%, २५%, ५% तोकेको छ। यसले MCQ संख्या, कुल परीक्षा समय वा negative marking निर्दिष्ट गरेको छैन। त्यसैले यहाँका timed practice र mock समय अभ्यासका लागि राखिएका हुन्, आधिकारिक परीक्षा समय होइनन्।</p></div>');
  }
  function showNotes(){panel('<h3>विस्तृत अध्ययन Notes</h3><p class="muted">English concept + नेपाली व्याख्या • Clinical safety focus</p>'+notes.map(n=>'<article class="ha-note"><h4>'+n[0]+'</h4><p>'+n[1]+'</p><p class="np">'+n[2]+'</p></article>').join("")+'<button data-ha="menu" class="smallbtn">← मुख्य मेनु</button>');}
  function start(mode){
   clearInterval(state.timer);state.mode=mode;state.index=0;state.answers={};
-  const pool=mockQ;const size=mode==="timed"?Math.min(10,pool.length):Math.min(100,pool.length);state.items=pool.slice().sort(()=>Math.random()-0.5).slice(0,size);state.left=mode==="timed"?600:7200;
+  const pool=mockQ;const size=mode==="timed"?Math.min(10,pool.length):Math.min(100,pool.length);
+  let source=pool;
+  if(mode==="mock"){
+   const quotas=[["Anatomy & Physiology",10],["Community Health",25],["General Medicine",25],["Pharmacology & Pharmacy",10],["General Surgery",25],["Clinical Pathology",5]];
+   source=quotas.flatMap(([topic,count])=>{
+    const candidates=Q.filter(q=>topic==="Pharmacology & Pharmacy"?(q[6]==="Pharmacology"||q[6]==="Pharmacology & Pharmacy"):q[6]===topic);
+    return candidates.slice().sort(()=>Math.random()-0.5).slice(0,count);
+   });
+  }
+  state.items=source.slice().sort(()=>Math.random()-0.5).slice(0,size);state.left=mode==="timed"?600:7200;
   renderQuestion();state.timer=setInterval(()=>{state.left--;const el=root.querySelector("#haTimer");if(el)el.textContent=fmt(state.left);if(state.left<=0)finish();},1000);
  }
  function fmt(n){return Math.floor(n/60).toString().padStart(2,"0")+":"+Math.max(0,n%60).toString().padStart(2,"0")}
