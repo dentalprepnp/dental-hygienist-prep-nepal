@@ -8,7 +8,7 @@
   <title>HL Preparation | Health License Preparation Nepal</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=273">
+  <link rel="stylesheet" href="styles.css?v=274">
 </head>
 <body>
 <header class="topbar">
@@ -23,7 +23,7 @@
   <form id="accountForm" class="account-form">
     <label for="accountName">नाम (Register गर्दा मात्र)</label>
     <input id="accountName" type="text" maxlength="60" autocomplete="name" placeholder="आफ्नो नाम लेख्नुहोस्">
-    <label for="accountEmail">Email Address</label>
+    <label for="accountPhone">मोबाइल नम्बर (नयाँ Account बनाउँदा अनिवार्य)</label>\n    <input id="accountPhone" type="tel" maxlength="20" autocomplete="tel" placeholder="98XXXXXXXX">\n    <label for="accountEmail">Email Address</label>
     <input id="accountEmail" type="email" required autocomplete="email" placeholder="example@gmail.com">
     <label for="accountPassword">Password</label>
     <input id="accountPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="कम्तीमा 8 अक्षर">
@@ -39,7 +39,7 @@
 </section>
 <section id="signedInPanel" class="signed-in-panel hidden" aria-live="polite">
   <div><p class="eyebrow">ACCOUNT ACTIVE</p><h2 id="accountGreeting">तपाईं Login हुनुहुन्छ।</h2><p id="signedInEmail" class="muted"></p></div>
-  <p id="cloudSyncStatus" class="muted" role="status" aria-live="polite">Login पछि Cloud Sync स्थिति यहाँ देखिन्छ।</p>
+  <p id="cloudSyncStatus" class="muted" role="status" aria-live="polite">Login पछि Cloud Sync स्थिति यहाँ देखिन्छ।</p>\n  <label for="studentPhoneUpdate">आफ्नो मोबाइल नम्बर</label><input id="studentPhoneUpdate" type="tel" maxlength="20" autocomplete="tel" placeholder="98XXXXXXXX"> <button id="saveStudentPhone" class="secondary" type="button">मोबाइल नम्बर सुरक्षित गर्नुहोस्</button>
   <button id="signOutButton" class="secondary" type="button">Logout</button>
 </section>
 
@@ -54,7 +54,7 @@
   <div class="admin-dashboard-card"><small>Mock Test पूरा भएका</small><strong id="adminMockCount">—</strong></div>
  </div>
  <h3>Faculty अनुसार गतिविधि</h3><div id="adminFacultyStats"><p>लोड हुँदैछ...</p></div>
- <h3>विद्यार्थी Accounts</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>नाम</th><th>Email</th><th>दर्ता मिति</th></tr></thead><tbody id="adminStudentRows"></tbody></table></div>
+ <h3>विद्यार्थी Accounts</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>नाम</th><th>Email</th><th>मोबाइल नम्बर</th><th>दर्ता मिति</th></tr></thead><tbody id="adminStudentRows"></tbody></table></div>
  <h3>हालका गतिविधि</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>मिति</th><th>गतिविधि</th><th>Faculty</th><th>प्रयोगकर्ता</th></tr></thead><tbody id="adminRecentEvents"></tbody></table></div>
  <p class="muted">नोट: Guest प्रयोगकर्तालाई Device/Browser session का रूपमा गनिन्छ; एउटै व्यक्तिका धेरै Device छुट्टाछुट्टै देखिन सक्छन्। Login नगरी Mock Test दिएका Guest को नाम/email देखिँदैन।</p>
 </section>
@@ -441,7 +441,7 @@
 <footer><b>HL Preparation</b><span>Made for learning in Nepal 🇳🇵</span><small>Educational practice only • Verify current official syllabus</small><nav class="footer-links" aria-label="Footer links"><a href="about.html">हाम्रोबारे</a><a href="privacy.html">Privacy Policy</a><a href="https://github.com/dentalprepnp/dental-hygienist-prep-nepal/issues">Feedback</a></nav></footer>
 <script src="app.js?v=168"></script>
 <script type="module" src="auth.js?v=4"></script>
-<script type="module" src="progress-sync.js?v=4"></script>\n<script type="module" src="admin-dashboard.js?v=3"></script>
+<script type="module" src="progress-sync.js?v=4"></script>\n<script type="module" src="admin-dashboard.js?v=4"></script>
 
 <script src="oral-pathology.js?v=148"></script>
 <script src="dental-materials.js?v=148"></script>
