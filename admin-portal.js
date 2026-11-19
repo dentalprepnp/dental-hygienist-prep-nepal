@@ -26,7 +26,7 @@ async function loadDashboard(){
  try{
   const [students,events,progress]=await Promise.all([
    supabase.from("admin_student_directory").select("user_id,email,display_name,phone,created_at").order("created_at",{ascending:false}).limit(500),
-   supabase.from("app_events").select("session_id,user_id,event_type,faculty,created_at").order("created_at",{ascending:false}).limit(2000),
+   supabase.from("app_events").select("session_id,user_id,event_type,faculty,details,created_at").order("created_at",{ascending:false}).limit(2000),
    supabase.from("user_progress").select("user_id,progress_key,progress_data,updated_at").order("updated_at",{ascending:false}).limit(3000)
   ]);
   const failure=students.error||events.error||progress.error;if(failure)throw failure;
@@ -39,9 +39,18 @@ async function loadDashboard(){
   $("progressCount").textContent=p.length;
   $("studentRows").innerHTML=s.map(x=>'<tr><td>'+esc(x.display_name||"—")+'</td><td>'+esc(x.email)+'</td><td>'+esc(x.phone||"—")+'</td><td>'+date(x.created_at)+'</td></tr>').join("")||'<tr><td colspan="4">विद्यार्थी Account छैन।</td></tr>';
   $("progressRows").innerHTML=p.map(x=>{const st=byId.get(x.user_id)||{};return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+esc(progressLabel(x.progress_key))+'</td><td>'+esc(progressSummary(x.progress_key,x.progress_data))+'</td><td>'+date(x.updated_at)+'</td></tr>';}).join("")||'<tr><td colspan="5">Cloud Progress Sync भएको छैन।</td></tr>';
-  const counts={};e.forEach(x=>counts[x.faculty]=(counts[x.faculty]||0)+1);
+  const counts={};e.forEach(x=>counts[x.faculty||"अन्य"]=(counts[x.faculty||"अन्य"]||0)+1);
   $("facultyStats").innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<p><b>'+esc(k)+'</b> — '+v+' गतिविधि</p>').join("")||"अहिलेसम्म गतिविधि छैन।";
-  $("eventRows").innerHTML=e.slice(0,50).map(x=>'<tr><td>'+date(x.created_at)+'</td><td>'+esc(x.event_type)+'</td><td>'+esc(x.faculty)+'</td><td>'+(x.user_id?"Login":"Guest")+'</td></tr>').join("")||'<tr><td colspan="4">रेकर्ड छैन।</td></tr>';
+  const facultyVisits=new Map();
+  e.filter(x=>x.user_id&&x.event_type==="faculty_open").forEach(x=>{
+   const key=x.user_id+"::"+(x.faculty||"unknown");
+   const item=facultyVisits.get(key)||{user_id:x.user_id,faculty:x.faculty||"—",opens:0,last:x.created_at};
+   item.opens++;if(new Date(x.created_at)>new Date(item.last))item.last=x.created_at;
+   facultyVisits.set(key,item);
+  });
+  const visitRows=[...facultyVisits.values()].sort((a,b)=>new Date(b.last)-new Date(a.last));
+  $("facultyStudentRows").innerHTML=visitRows.map(x=>{const st=byId.get(x.user_id)||{};return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+esc(st.phone||"—")+'</td><td>'+esc(x.faculty)+'</td><td>'+x.opens+'</td><td>'+date(x.last)+'</td></tr>';}).join("")||'<tr><td colspan="6">अहिलेसम्म Login भएको विद्यार्थीको Faculty खोल्ने गतिविधि छैन।</td></tr>';
+  $("eventRows").innerHTML=e.slice(0,50).map(x=>{const st=byId.get(x.user_id)||{};return '<tr><td>'+date(x.created_at)+'</td><td>'+esc(st.display_name||(x.user_id?"विद्यार्थी नाम उपलब्ध छैन":"Guest"))+'</td><td>'+esc(x.event_type)+'</td><td>'+esc(x.faculty||"—")+'</td></tr>';}).join("")||'<tr><td colspan="4">रेकर्ड छैन।</td></tr>';
   $("dashboardStatus").textContent="अन्तिम अपडेट: "+date(new Date())+" • "+p.length+" Progress records (अधिकतम ३,०००)";
  }catch(error){console.error("Admin portal data error",error);$("dashboardStatus").textContent="डेटा लोड हुन सकेन: "+(error.message||"Database policy/schema जाँच्नुहोस्।");}
 }
