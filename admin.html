@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ne">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#075985">
+<title>Admin Portal | HL Preparation</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css?v=274">
+<style>
+body{background:#f1f5f9}.portal-wrap{max-width:1100px;margin:28px auto;padding:0 14px}.portal-card{background:white;border:1px solid #dbeafe;border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 8px 24px #0f172a0d}.portal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}.portal-stat{background:#eff6ff;border-radius:14px;padding:16px}.portal-stat small{display:block;color:#475569}.portal-stat strong{display:block;font-size:26px;color:#075985}.portal-form{display:grid;gap:10px;max-width:420px}.portal-form input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px}.portal-table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{text-align:left;padding:10px;border-bottom:1px solid #e2e8f0;font-size:13px}th{background:#f8fafc}.portal-muted{color:#64748b;font-size:13px}.portal-status{padding:10px;border-radius:10px;background:#eff6ff;color:#075985}.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="brandmark"><img src="icon.svg" alt="HL Preparation"></div><div><strong>HL Preparation</strong><small>Private Admin Portal</small></div><a href="./" class="secondary" style="text-decoration:none;padding:8px 12px;border-radius:10px">← मुख्य App</a></header>
+<main class="portal-wrap">
+<section class="portal-card" id="loginCard">
+<p class="eyebrow">SECURE ADMIN ACCESS</p><h1>🔐 Admin Portal Login</h1><p class="portal-muted">Admin Email र Password प्रयोग गरेर प्रवेश गर्नुहोस्। विद्यार्थी Account मा Admin अनुमति नभए Dashboard खुल्दैन।</p>
+<form id="adminLoginForm" class="portal-form">
+<label for="adminEmail">Admin Email</label><input id="adminEmail" type="email" autocomplete="username" required placeholder="admin@example.com">
+<label for="adminPassword">Password</label><input id="adminPassword" type="password" autocomplete="current-password" required>
+<button class="primary" id="adminLoginButton" type="submit">Admin Login</button>
+</form><p id="portalStatus" class="portal-status" role="status" aria-live="polite">Login गरेपछि Admin अनुमति जाँच हुनेछ।</p>
+</section>
+<section id="dashboard" class="hidden">
+<div class="portal-card portal-head"><div><p class="eyebrow">PRIVATE ADMIN AREA</p><h1>📊 Admin Dashboard</h1><p id="adminIdentity" class="portal-muted"></p></div><div><button id="portalRefresh" class="secondary" type="button">↻ Refresh</button> <button id="portalLogout" class="secondary" type="button">Logout</button></div></div>
+<div class="portal-card"><div class="portal-grid">
+<div class="portal-stat"><small>कुल विद्यार्थी Accounts</small><strong id="totalStudents">—</strong></div>
+<div class="portal-stat"><small>आजका सक्रिय Device/Browser</small><strong id="activeToday">—</strong></div>
+<div class="portal-stat"><small>रेकर्ड भएका Device/Browser</small><strong id="activeAll">—</strong></div>
+<div class="portal-stat"><small>पूरा भएका Mock Test</small><strong id="mockCount">—</strong></div>
+<div class="portal-stat"><small>Cloud Progress Records</small><strong id="progressCount">—</strong></div>
+</div><p id="dashboardStatus" class="portal-muted">तथ्याङ्क लोड हुँदैछ...</p></div>
+<div class="portal-card"><h2>विद्यार्थी Accounts</h2><div class="portal-table-wrap"><table><thead><tr><th>नाम</th><th>Email</th><th>मोबाइल</th><th>दर्ता मिति</th></tr></thead><tbody id="studentRows"></tbody></table></div></div>
+<div class="portal-card"><h2>विद्यार्थीहरूको पढाइ Progress</h2><div class="portal-table-wrap"><table><thead><tr><th>विद्यार्थी</th><th>Email</th><th>Progress प्रकार</th><th>विवरण</th><th>अन्तिम Sync</th></tr></thead><tbody id="progressRows"></tbody></table></div></div>
+<div class="portal-card"><h2>Faculty अनुसार गतिविधि</h2><div id="facultyStats" class="portal-muted">लोड हुँदैछ...</div></div>
+<div class="portal-card"><h2>हालका गतिविधि</h2><div class="portal-table-wrap"><table><thead><tr><th>मिति</th><th>गतिविधि</th><th>Faculty</th><th>प्रयोगकर्ता</th></tr></thead><tbody id="eventRows"></tbody></table></div></div>
+</section>
+</main>
+<script type="module" src="admin-portal.js?v=1"></script>
+</body></html>
