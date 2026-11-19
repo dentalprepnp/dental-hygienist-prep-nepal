@@ -27,7 +27,8 @@ async function loadDashboard(){
   const [students,events,progress,feedback]=await Promise.all([
    supabase.from("admin_student_directory").select("user_id,email,display_name,phone,created_at").order("created_at",{ascending:false}).limit(500),
    supabase.from("app_events").select("session_id,user_id,event_type,faculty,details,created_at").order("created_at",{ascending:false}).limit(2000),
-   supabase.from("user_progress").select("user_id,progress_key,progress_data,updated_at").order("updated_at",{ascending:false}).limit(3000),\n   supabase.from("student_feedback").select("id,user_id,category,message,status,created_at").order("created_at",{ascending:false}).limit(500)
+   supabase.from("user_progress").select("user_id,progress_key,progress_data,updated_at").order("updated_at",{ascending:false}).limit(3000),
+   supabase.from("student_feedback").select("id,user_id,category,message,status,created_at").order("created_at",{ascending:false}).limit(500)
   ]);
   const failure=students.error||events.error||progress.error||feedback.error;if(failure)throw failure;
   const s=students.data||[],e=events.data||[],p=progress.data||[],byId=new Map(s.map(x=>[x.user_id,x]));
