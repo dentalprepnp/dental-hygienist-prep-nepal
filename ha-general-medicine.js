@@ -640,6 +640,9 @@
   ["Which condition may cause sudden severe abdominal pain with a pulsatile abdominal mass in an older adult?","वृद्ध व्यक्तिमा पेटमा धड्किने mass र अचानक कडा पेट दुखाइ कुन अवस्थाले गराउन सक्छ?",["Abdominal aortic aneurysm","Simple constipation","Acute otitis media","Chronic dermatitis"],0,"A painful pulsatile abdominal mass may indicate an abdominal aortic aneurysm, especially if rupture occurs; emergency care is essential.","दुख्ने pulsatile abdominal mass abdominal aortic aneurysm हुन सक्छ; फुटेको अवस्थामा आकस्मिक उपचार अत्यावश्यक हुन्छ।","General Surgery"]
  );
 
+
+ Q.push(["Which finding is most concerning in a patient with severe dehydration?","गम्भीर dehydration भएको बिरामीमा कुन निष्कर्ष बढी चिन्ताजनक हुन्छ?",["Altered mental status with weak rapid pulse and poor perfusion","Normal alertness and normal urine output","Moist mucosa and normal capillary refill","Normal blood pressure with no symptoms"],0,"Altered mental status, weak rapid pulse and poor perfusion suggest severe circulatory compromise and require urgent emergency management.","मानसिक अवस्था परिवर्तन, कमजोर छिटो नाडी र रक्तसञ्चार कमजोर हुनु गम्भीर circulatory compromise का संकेत हुन्; तत्काल आकस्मिक उपचार चाहिन्छ।","General Medicine"]);
+
  // Build both practice pools only after the full question bank is assembled.
  // Shuffle answer choices once per app load and keep the correct-answer index accurate.
  Q.forEach(q=>{
