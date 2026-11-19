@@ -168,8 +168,17 @@
  );
 
  // Build both practice pools only after the full 100-question bank is assembled.
- const practiceQ=Q.slice();
- const mockQ=Q.slice();
+ // Shuffle answer choices once per app load and keep the correct-answer index accurate.
+ Q.forEach(q=>{
+  const pairs=q[2].map((option,index)=>({option,correct:index===q[3]}));
+  for(let i=pairs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pairs[i],pairs[j]]=[pairs[j],pairs[i]];}
+  q[2]=pairs.map(x=>x.option);
+  q[3]=pairs.findIndex(x=>x.correct);
+ });
+ // Separate, non-overlapping banks. Expand each bank independently toward 250+ questions.
+ const splitAt=Math.ceil(Q.length/2);
+ const practiceQ=Q.slice(0,splitAt);
+ const mockQ=Q.slice(splitAt);
 
  const state={mode:"",index:0,answers:{},timer:null,left:0,items:[]};
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -180,7 +189,7 @@
  function showNotes(){panel('<h3>विस्तृत अध्ययन Notes</h3><p class="muted">English concept + नेपाली व्याख्या • Clinical safety focus</p>'+notes.map(n=>'<article class="ha-note"><h4>'+n[0]+'</h4><p>'+n[1]+'</p><p class="np">'+n[2]+'</p></article>').join("")+'<button data-ha="menu" class="smallbtn">← मुख्य मेनु</button>');}
  function start(mode){
   clearInterval(state.timer);state.mode=mode;state.index=0;state.answers={};
-  const pool=mockQ;const size=mode==="timed"?Math.min(10,pool.length):Math.min(100,pool.length);state.items=pool.slice().sort(()=>Math.random()-0.5).slice(0,size);state.left=mode==="timed"?600:Math.max(1800,state.items.length*60);
+  const pool=mockQ;const size=mode==="timed"?Math.min(10,pool.length):pool.length;state.items=pool.slice().sort(()=>Math.random()-0.5).slice(0,size);state.left=mode==="timed"?600:Math.max(1800,state.items.length*60);
   renderQuestion();state.timer=setInterval(()=>{state.left--;const el=root.querySelector("#haTimer");if(el)el.textContent=fmt(state.left);if(state.left<=0)finish();},1000);
  }
  function fmt(n){return Math.floor(n/60).toString().padStart(2,"0")+":"+Math.max(0,n%60).toString().padStart(2,"0")}
