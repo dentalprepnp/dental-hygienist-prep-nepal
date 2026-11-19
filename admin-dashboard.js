@@ -8,6 +8,10 @@ function say(t){if(status)status.textContent=t}
 function currentFaculty(){const v=[...document.querySelectorAll(".view:not(.hidden)")].find(x=>x.id!=="homeView");return v?.id?.replace(/View$/,"")||"home"}
 async function track(eventType,faculty=currentFaculty(),details={}){try{await supabase.from("app_events").insert({session_id:sessionId,user_id:user?.id||null,event_type:eventType,faculty,details})}catch(e){console.warn("Analytics event not saved",e.message)}}
 async function refreshAccess(){
+ // Hide privileged UI first; reveal it only after the server confirms admin membership.
+ isAdmin=false;user=null;
+ openBtn?.classList.add("hidden");
+ panel?.classList.add("hidden");
  try{
   const {data,error:sessionError}=await supabase.auth.getSession();
   if(sessionError)throw sessionError;
@@ -21,6 +25,9 @@ async function refreshAccess(){
   if(!isAdmin&&panel)panel.classList.add("hidden");
   return isAdmin;
  }catch(error){
+  user=null;isAdmin=false;
+  openBtn?.classList.add("hidden");
+  panel?.classList.add("hidden");
   console.error("Admin access check failed:",error);
   say("Admin अनुमति जाँच हुन सकेन। Internet जाँच गरी Refresh गर्नुहोस्।");
   return false;
@@ -53,7 +60,7 @@ async function loadDashboard(){
 if(openBtn){
  openBtn.onclick=async event=>{
   event.preventDefault();
-  panel?.classList.remove("hidden");
+  panel?.classList.add("hidden");
   say("Admin अनुमति जाँच हुँदैछ...");
   if(await refreshAccess())await loadDashboard();
   else {panel?.classList.add("hidden");say("यो Email लाई Admin अनुमति दिइएको छैन।");}
