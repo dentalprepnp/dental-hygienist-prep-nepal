@@ -449,7 +449,20 @@
 
 </main>
 
-<footer><b>HL Preparation</b><span>Made for learning in Nepal 🇳🇵</span><small>Educational practice only • Verify current official syllabus</small><nav class="footer-links" aria-label="Footer links"><a href="about.html">हाम्रोबारे</a><a href="privacy.html">Privacy Policy</a><a href="https://github.com/dentalprepnp/dental-hygienist-prep-nepal/issues">Feedback</a></nav></footer>
+
+<section id="studentFeedback" class="portal-card hidden" style="max-width:900px;margin:18px auto;padding:20px;border:1px solid #bfdbfe;border-radius:18px;background:#f8fbff" aria-label="विद्यार्थी Feedback">
+ <p class="eyebrow">STUDENT VOICE</p><h2>💬 आफ्नो सुझाव वा समस्या Admin लाई भन्नुहोस्</h2>
+ <p class="muted">App मा के राम्रो बनाउनुपर्छ, के समस्या आयो वा कुन सुविधा चाहिन्छ—हामीलाई लेख्नुहोस्।</p>
+ <form id="studentFeedbackForm" style="display:grid;gap:10px">
+  <label for="feedbackCategory">सन्देशको प्रकार</label>
+  <select id="feedbackCategory" required style="padding:12px;border:1px solid #cbd5e1;border-radius:10px"><option value="सुझाव">सुझाव</option><option value="समस्या">समस्या / Bug</option><option value="प्रशंसा">प्रशंसा</option><option value="नयाँ सुविधा">नयाँ सुविधा</option><option value="अन्य">अन्य</option></select>
+  <label for="feedbackMessage">तपाईंको सन्देश</label>
+  <textarea id="feedbackMessage" required minlength="5" maxlength="2000" rows="4" placeholder="आफ्नो कुरा यहाँ लेख्नुहोस्..." style="width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;resize:vertical"></textarea>
+  <button class="primary" id="sendFeedbackButton" type="submit">सुझाव Admin लाई पठाउनुहोस्</button>
+ </form>
+ <p id="feedbackStatus" role="status" aria-live="polite" class="muted"></p>
+</section>
+\n<footer><b>HL Preparation</b><span>Made for learning in Nepal 🇳🇵</span><small>Educational practice only • Verify current official syllabus</small><nav class="footer-links" aria-label="Footer links"><a href="about.html">हाम्रोबारे</a><a href="privacy.html">Privacy Policy</a><a href="https://github.com/dentalprepnp/dental-hygienist-prep-nepal/issues">Feedback</a></nav></footer>
 <script>
 /* Login required before opening any faculty, subject, notes, MCQ or mock test. */
 (function(){
@@ -471,7 +484,7 @@
 <script src="app.js?v=169"></script>
 <script type="module" src="auth.js?v=5"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
-<script type="module" src="admin-dashboard.js?v=6"></script>
+<script type="module" src="admin-dashboard.js?v=6"></script>\n<script type="module" src="feedback.js?v=1"></script>
 
 <script src="oral-pathology.js?v=148"></script>
 <script src="dental-materials.js?v=148"></script>
