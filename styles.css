@@ -958,3 +958,9 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 .ha-bottom-back button{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 10px;background:#e0f2fe;color:#075985;font-weight:800;font-size:13px}
 #haView:not(.hidden){padding-bottom:86px}
 :root[data-theme="dark"] #haView:not(.hidden) .ha-bottom-back{background:rgba(21,38,53,.98)}
+
+
+/* Persistent faculty navigation: one clear way back from any study screen. */
+.faculty-back{margin-left:auto;border:1px solid #b7d9eb;border-radius:999px;background:#eaf6fc;color:#075985;padding:7px 11px;font-size:12px;font-weight:800;white-space:nowrap}
+.faculty-back.hidden{display:none!important}
+:root[data-theme="dark"] .faculty-back{background:#17394d;color:#c8edff;border-color:#31566b}
