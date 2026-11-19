@@ -1,6 +1,6 @@
 -- HL Preparation Admin Dashboard setup
 -- Run this entire script in Supabase Dashboard > SQL Editor.
--- Then replace YOUR_ADMIN_EMAIL below with the email used for the app account.
+-- Then replace prabinrazz99@gmail.com below with the email used for the app account.
 
 create extension if not exists pgcrypto;
 
@@ -74,7 +74,7 @@ on conflict(user_id) do update set email=excluded.email,display_name=excluded.di
 
 -- Grant dashboard access ONLY to your own account after you have registered/logged in.
 insert into public.admin_users(user_id,email)
-select id,email from auth.users where lower(email)=lower('YOUR_ADMIN_EMAIL')
+select id,email from auth.users where lower(email)=lower('prabinrazz99@gmail.com')
 on conflict(user_id) do update set email=excluded.email;
 
 -- Verify the admin was added. If this returns 0 rows, create the app account first,
