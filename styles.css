@@ -922,3 +922,15 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
   border-radius: 12px;
   background: var(--card,#fff);
 }
+
+/* Focused learning mode: selected Notes / MCQ / Mock content takes the front. */
+.view.study-focused > .module-actions,
+.view.study-focused .ha-actions,
+.view.study-focused .module-actions,
+.view.study-focused .ha-topic-list {display:none !important;}
+.view.study-focused .ha-overview:first-of-type,
+.view.study-focused .ha-note:first-of-type,
+.view.study-focused .ha-question:first-of-type,
+.view.study-focused .question:first-of-type,
+.view.study-focused .dha-panel:not(.hidden),
+.view.study-focused .op-panel:not(.hidden) {scroll-margin-top:82px;}
