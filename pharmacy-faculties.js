@@ -31,6 +31,7 @@
     const status = $(config.short.replace(".","").toLowerCase()+"Status");
     const app = $(config.short.replace(".","").toLowerCase()+"App");
     let notes=[], practice=[], mockBank=[], answers={}, pi=0, mock=[], mockAnswers={}, mi=0, timer=null, remaining=0, client=null;
+    let hasLoaded=false, loadSequence=0, authReloadQueued=false;
     function showStatus(message, kind="info") { status.textContent=message;status.dataset.kind=kind;status.classList.remove("hidden");app.classList.add("hidden"); }
     function panel(name) { root.querySelectorAll(".op-panel").forEach(x=>x.classList.add("hidden"));$(name+"Panel").classList.remove("hidden"); }
     function shuffled(row) {
@@ -79,20 +80,32 @@
       renderNotes();
     }
     async function load() {
-      showStatus("Login र सुरक्षित सामग्री जाँच हुँदैछ...");
+      const sequence=++loadSequence;
+      // Keep already-rendered study content visible during duplicate auth/session refreshes.
+      if(!hasLoaded) showStatus("Login र सुरक्षित सामग्री जाँच हुँदैछ...");
       try {
         if(!client){const {createClient}=await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");client=createClient(SUPABASE_URL,SUPABASE_KEY);}
         const {data:{session},error:sessionError}=await client.auth.getSession();if(sessionError)throw sessionError;
         if(!session?.user){showStatus("पढ्नका लागि पहिले Login गर्नुहोस्। Login / Register विकल्प खोल्नुहोस्।","warning");const b=document.createElement("button");b.className="primary";b.textContent="Login / Register";b.addEventListener("click",()=>document.getElementById("accountPanel")?.scrollIntoView({behavior:"smooth",block:"center"}));status.append(b);return;}
         const {data,error}=await client.rpc("get_learning_content",{p_subject:config.subject,p_content_type:null});if(error)throw error;
-        if(!data?.length){showStatus("यस Faculty को syllabus map र सामग्री तयार हुँदैछ। कृपया केही समयपछि पुनः हेर्नुहोस्।","warning");return;}
-        showApp(data);
-      } catch(error) { console.error(config.subject+" content:",error);showStatus("सामग्री लोड हुन सकेन: "+(error.message||"Database जाँच्नुहोस्।"),"error"); }
+        if(sequence!==loadSequence)return;
+        if(!data?.length){if(!hasLoaded)showStatus("यस Faculty को syllabus map र सामग्री तयार हुँदैछ। कृपया केही समयपछि पुनः हेर्नुहोस्।","warning");return;}
+        showApp(data);hasLoaded=true;
+      } catch(error) {
+        if(sequence!==loadSequence)return;
+        console.error(config.subject+" content:",error);
+        if(!hasLoaded)showStatus("सामग्री लोड हुन सकेन: "+(error.message||"Database जाँच्नुहोस्।"),"error");
+      }
     }
     root.querySelectorAll("[data-action]").forEach(b=>b.addEventListener("click",()=>{const action=b.dataset.action;panel(action);if(action==="practice")renderPractice();}));
     $("language").addEventListener("change",()=>{if(!$("practicePanel").classList.contains("hidden"))renderPractice();if(!$("mockPanel").classList.contains("hidden")&&mock.length)renderMock();});
     $("startMock").addEventListener("click",startMock);
-    load();window.addEventListener("dhpn-auth-changed",load);
+    load();
+    window.addEventListener("dhpn-auth-changed",()=>{
+      if(authReloadQueued)return;
+      authReloadQueued=true;
+      queueMicrotask(()=>{authReloadQueued=false;load();});
+    });
   }
   modules.forEach(init);
 })();
