@@ -144,8 +144,7 @@
   ["Which route is preferred for oral rehydration solution in a child who can drink?","पिउन सक्ने बालबालिकालाई ORS दिने उपयुक्त route कुन हो?",["Oral, in frequent small amounts","Intramuscular","Intravenous in every case","Topical"],0,"Give ORS orally in frequent small sips; severe dehydration or inability to drink needs urgent protocol-based care.","ORS मुखबाट थोरै-थोरै गरी पटकपटक दिनुहोस्; गम्भीर dehydration वा पिउन नसक्ने अवस्थामा protocol अनुसार तत्काल उपचार चाहिन्छ।","General Medicine"],
   ["Which laboratory finding is most consistent with bacterial infection in many acute cases?","धेरै acute अवस्थामा bacterial infection सँग मिल्ने laboratory finding कुन हो?",["Neutrophil predominance","Low platelet count in every case","Absent red blood cells","High urine glucose only"],0,"Neutrophilia can support bacterial infection but must be interpreted with clinical findings and other tests.","Neutrophil बढ्नु bacterial infection सँग मिल्न सक्छ, तर clinical अवस्था र अन्य परीक्षणसँगै व्याख्या गर्नुपर्छ।","Clinical Pathology"],
  ];
-const practiceQ=Q.slice(0,Math.ceil(Q.length/2));
-const mockQ=Q.slice(Math.ceil(Q.length/2));
+// Both learning modes use the complete bank, including questions appended below.
 
 
  Q.push(
@@ -167,6 +166,10 @@ const mockQ=Q.slice(Math.ceil(Q.length/2));
  ["Which condition is classically associated with a painless, hard breast lump that needs urgent evaluation?","दुखाइ नहुने कडा breast lump देखिएमा कुन रोगको सम्भावना जाँच्नुपर्छ?",["Breast cancer","Simple muscle cramp","Acute tonsillitis","Otitis externa"],0,"A new breast lump requires clinical assessment; a painless hard lump is a concerning feature but is not diagnostic by itself.","नयाँ breast lump को चिकित्सकीय जाँच आवश्यक हुन्छ; दुखाइ नहुने कडा गाँठो चिन्ताजनक संकेत हो तर यसैले मात्र निदान हुँदैन।","General Surgery"],
  ["Which is the safest principle when giving oxygen to a patient with respiratory distress?","श्वासप्रश्वासमा समस्या भएको बिरामीलाई oxygen दिँदा सुरक्षित सिद्धान्त कुन हो?",["Use prescribed/indicated oxygen, monitor response and titrate to a target saturation","Give the highest flow to every patient without monitoring","Withhold oxygen from all COPD patients","Use oxygen instead of urgent assessment"],0,"Oxygen is a treatment that should be titrated to an appropriate target and monitored; patients at risk of hypercapnic respiratory failure may need a controlled target under protocol.","Oxygen उपचार हो; उपयुक्त target अनुसार मात्रा मिलाएर monitoring गर्नुपर्छ। hypercapnic respiratory failure को जोखिम भएकालाई protocol अनुसार नियन्त्रित target चाहिन्छ।","General Medicine"]
  );
+
+ // Build both practice pools only after the full 100-question bank is assembled.
+ const practiceQ=Q.slice();
+ const mockQ=Q.slice();
 
  const state={mode:"",index:0,answers:{},timer:null,left:0,items:[]};
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
