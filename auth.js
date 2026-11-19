@@ -42,6 +42,7 @@ function showUser(user) {
     if (topLoginButton) topLoginButton.classList.remove("hidden");
     authPanel?.classList.add("hidden");
     signedInPanel?.classList.add("hidden");
+    window.dispatchEvent(new Event("dhpn-auth-changed"));
     return;
   }
   authPanel?.classList.add("hidden");
@@ -54,6 +55,7 @@ function showUser(user) {
   if (phoneField) phoneField.value = user.user_metadata?.phone || "";
   const greeting = $("accountGreeting");
   if (greeting) greeting.textContent = name ? `नमस्ते, ${name}! तपाईं Login हुनुहुन्छ।` : "तपाईं सफलतापूर्वक Login हुनुभयो।";
+  window.dispatchEvent(new Event("dhpn-auth-changed"));
 }
 async function refreshSession() {
   const { data, error } = await supabase.auth.getSession();
