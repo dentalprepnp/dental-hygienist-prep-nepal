@@ -951,3 +951,10 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 .view.study-focused .question {
   scroll-margin-top: 76px;
 }
+
+/* Always-available Health Assistant navigation on small screens */
+.ha-bottom-back{display:none}
+#haView:not(.hidden) .ha-bottom-back{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:10px;padding:10px max(12px,calc((100vw - 900px)/2));padding-bottom:calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);border-top:1px solid var(--line);box-shadow:0 -5px 18px #0c355414}
+.ha-bottom-back button{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 10px;background:#e0f2fe;color:#075985;font-weight:800;font-size:13px}
+#haView:not(.hidden){padding-bottom:86px}
+:root[data-theme="dark"] #haView:not(.hidden) .ha-bottom-back{background:rgba(21,38,53,.98)}
