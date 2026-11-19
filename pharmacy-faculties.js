@@ -3,8 +3,8 @@
   const SUPABASE_URL = "https://jrivojhpdupxnpefevzm.supabase.co";
   const SUPABASE_KEY = "sb_publishable_rj6oDSLkwQipLCXPfVoy9w_0r6vqR0u";
   const modules = [
-    { viewId:"dpharmView", subject:"Diploma in Pharmacy", short:"D.Pharm", title:"Diploma in Pharmacy", subtitle:"CTEVT curriculum + Nepal Pharmacy Council Name Registration Exam" },
-    { viewId:"bpharmView", subject:"Bachelor of Pharmacy", short:"B.Pharm", title:"Bachelor of Pharmacy", subtitle:"University curriculum + Nepal Pharmacy Council Name Registration Exam" }
+    { viewId:"dpharmView", subject:"Diploma in Pharmacy", short:"D.Pharm", title:"Diploma in Pharmacy", subtitle:"NPC Assistant Pharmacist Name Registration Exam • D.Pharm syllabus" },
+    { viewId:"bpharmView", subject:"Bachelor of Pharmacy", short:"B.Pharm", title:"Bachelor of Pharmacy", subtitle:"NPC Pharmacist Name Registration Exam • B.Pharm syllabus" }
   ];
   const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   function init(config) {
@@ -13,7 +13,7 @@
     root.innerHTML = `
       <button class="module-back" type="button" data-back-exams>← Faculty छनोटमा फर्कनुहोस्</button>
       <div class="exam-heading"><span class="track-icon">💊</span><div><p class="eyebrow">PHARMACY EDUCATION • ${config.short}</p><h2>${config.title}</h2><p class="muted">${config.subtitle}</p></div></div>
-      <div class="notice"><b>सिलेबसअनुसार अध्ययन</b><p>कलेज/विश्वविद्यालयको पाठ्यक्रम र Nepal Pharmacy Council को Name Registration Exam syllabus छुट्टाछुट्टै मिलाएर सामग्री तयार गरिनेछ। हरेक विषयमा Notes, MCQ Practice र Mock Test उपलब्ध गराइनेछ।</p><p>अहिले सुरक्षित सामग्री लोड हुँदैछ।</p></div>
+      <div class="notice"><b>सिलेबसअनुसार अध्ययन</b><p>Nepal Pharmacy Council (NPC) को Name Registration Exam syllabus मुख्य आधार हुनेछ। कलेज/विश्वविद्यालयको पाठ्यक्रमलाई आवश्यक परे पूरक स्रोतका रूपमा मात्र प्रयोग गरिनेछ। हरेक विषयमा Notes, MCQ Practice र Mock Test क्रमशः विस्तार गरिनेछ।</p><p>अहिले सुरक्षित सामग्री लोड हुँदैछ।</p></div>
       <div id="${config.short.replace(".","").toLowerCase()}Status" class="notice">Login जाँच हुँदैछ...</div>
       <div id="${config.short.replace(".","").toLowerCase()}App" class="hidden">
         <div class="feature-grid module-actions">
