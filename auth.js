@@ -45,7 +45,9 @@ function showUser(user) {
   signedInPanel?.classList.remove("hidden");
   const email = $("signedInEmail");
   if (email) email.textContent = user.email || "Signed in";
-  const name = user.user_metadata?.name || "";\n  const phoneField = $("studentPhoneUpdate");\n  if (phoneField) phoneField.value = user.user_metadata?.phone || "";
+  const name = user.user_metadata?.name || "";
+  const phoneField = $("studentPhoneUpdate");
+  if (phoneField) phoneField.value = user.user_metadata?.phone || "";
   const greeting = $("accountGreeting");
   if (greeting) greeting.textContent = name ? `नमस्ते, ${name}! तपाईं Login हुनुहुन्छ।` : "तपाईं सफलतापूर्वक Login हुनुभयो।";
 }
@@ -70,9 +72,11 @@ form?.addEventListener("submit", async (event) => {
   const action = event.submitter?.value || "login";
   const email = $("accountEmail")?.value.trim();
   const password = $("accountPassword")?.value || "";
-  const name = $("accountName")?.value.trim() || "";\n  const phone = $("accountPhone")?.value.trim() || "";
+  const name = $("accountName")?.value.trim() || "";
+  const phone = $("accountPhone")?.value.trim() || "";
   if (!email || !password) return message("Email र Password दुवै भर्नुहोस्।", "error");
-  if (action === "signup" && password.length < 8) return message("Password कम्तीमा 8 अक्षरको राख्नुहोस्।", "error");\n  if (action === "signup" && phone.replace(/[^0-9]/g, "").length < 7) return message("सही मोबाइल नम्बर लेख्नुहोस्।", "error");
+  if (action === "signup" && password.length < 8) return message("Password कम्तीमा 8 अक्षरको राख्नुहोस्।", "error");
+  if (action === "signup" && phone.replace(/[^0-9]/g, "").length < 7) return message("सही मोबाइल नम्बर लेख्नुहोस्।", "error");
   setBusy(true);
   try {
     if (action === "signup") {
@@ -117,7 +121,15 @@ $("forgotPassword")?.addEventListener("click", async () => {
   }
 });
 
-$("saveStudentPhone")?.addEventListener("click", async () => {\n  const phone = $("studentPhoneUpdate")?.value.trim() || "";\n  if (phone.replace(/[^0-9]/g, "").length < 7) return message("सही मोबाइल नम्बर लेख्नुहोस्।", "error");\n  const { error } = await supabase.auth.updateUser({ data: { phone } });\n  if (error) return message(error.message, "error");\n  message("मोबाइल नम्बर सुरक्षित भयो। Admin Dashboard मा देखिन केही क्षण लाग्न सक्छ।", "success");\n});\n\n$("signOutButton")?.addEventListener("click", async () => {
+$("saveStudentPhone")?.addEventListener("click", async () => {
+  const phone = $("studentPhoneUpdate")?.value.trim() || "";
+  if (phone.replace(/[^0-9]/g, "").length < 7) return message("सही मोबाइल नम्बर लेख्नुहोस्।", "error");
+  const { error } = await supabase.auth.updateUser({ data: { phone } });
+  if (error) return message(error.message, "error");
+  message("मोबाइल नम्बर सुरक्षित भयो। Admin Dashboard मा देखिन केही क्षण लाग्न सक्छ।", "success");
+});
+
+$("signOutButton")?.addEventListener("click", async () => {
   const { error } = await supabase.auth.signOut();
   if (error) return message(error.message, "error");
   showUser(null);
