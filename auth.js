@@ -36,6 +36,9 @@ function setBusy(busy) {
 function showUser(user) {
   window.HLPAuthUser = user || null;
   if (!user) {
+    document.querySelectorAll(".view").forEach((view) => view.classList.add("hidden"));
+    document.getElementById("homeView")?.classList.remove("hidden");
+    document.body.classList.remove("study-screen-open");
     if (topLoginButton) topLoginButton.classList.remove("hidden");
     authPanel?.classList.add("hidden");
     signedInPanel?.classList.add("hidden");
