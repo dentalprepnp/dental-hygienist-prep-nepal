@@ -23,7 +23,9 @@
   <form id="accountForm" class="account-form">
     <label for="accountName">नाम (Register गर्दा मात्र)</label>
     <input id="accountName" type="text" maxlength="60" autocomplete="name" placeholder="आफ्नो नाम लेख्नुहोस्">
-    <label for="accountPhone">मोबाइल नम्बर (नयाँ Account बनाउँदा अनिवार्य)</label>\n    <input id="accountPhone" type="tel" maxlength="20" autocomplete="tel" placeholder="98XXXXXXXX">\n    <label for="accountEmail">Email Address</label>
+    <label for="accountPhone">मोबाइल नम्बर (नयाँ Account बनाउँदा अनिवार्य)</label>
+    <input id="accountPhone" type="tel" maxlength="20" autocomplete="tel" placeholder="98XXXXXXXX">
+    <label for="accountEmail">Email Address</label>
     <input id="accountEmail" type="email" required autocomplete="email" placeholder="example@gmail.com">
     <label for="accountPassword">Password</label>
     <input id="accountPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="कम्तीमा 8 अक्षर">
@@ -39,11 +41,13 @@
 </section>
 <section id="signedInPanel" class="signed-in-panel hidden" aria-live="polite">
   <div><p class="eyebrow">ACCOUNT ACTIVE</p><h2 id="accountGreeting">तपाईं Login हुनुहुन्छ।</h2><p id="signedInEmail" class="muted"></p></div>
-  <p id="cloudSyncStatus" class="muted" role="status" aria-live="polite">Login पछि Cloud Sync स्थिति यहाँ देखिन्छ।</p>\n  <label for="studentPhoneUpdate">आफ्नो मोबाइल नम्बर</label><input id="studentPhoneUpdate" type="tel" maxlength="20" autocomplete="tel" placeholder="98XXXXXXXX"> <button id="saveStudentPhone" class="secondary" type="button">मोबाइल नम्बर सुरक्षित गर्नुहोस्</button>
+  <p id="cloudSyncStatus" class="muted" role="status" aria-live="polite">Login पछि Cloud Sync स्थिति यहाँ देखिन्छ।</p>
+  <label for="studentPhoneUpdate">आफ्नो मोबाइल नम्बर</label><input id="studentPhoneUpdate" type="tel" maxlength="20" autocomplete="tel" placeholder="98XXXXXXXX"> <button id="saveStudentPhone" class="secondary" type="button">मोबाइल नम्बर सुरक्षित गर्नुहोस्</button>
   <button id="signOutButton" class="secondary" type="button">Logout</button>
 </section>
 
-<button id="adminDashboardButton" class="secondary hidden" type="button" style="margin:10px 12px">🔐 Admin Dashboard खोल्नुहोस्</button>\n
+<button id="adminDashboardButton" class="secondary hidden" type="button" style="margin:10px 12px">🔐 Admin Dashboard खोल्नुहोस्</button>
+
 <section id="adminDashboard" class="admin-dashboard hidden" aria-label="Admin Dashboard">
  <div class="admin-dashboard-head"><div><p class="eyebrow">PRIVATE ADMIN AREA</p><h2>📊 HL Preparation Admin Dashboard</h2><p class="muted">विद्यार्थी र App गतिविधिको सारांश</p></div><div class="admin-dashboard-actions"><button id="adminRefresh" class="secondary" type="button">↻ Refresh</button><button id="adminClose" class="secondary" type="button">बन्द गर्नुहोस्</button></div></div>
  <p id="adminStatus" class="muted" role="status">Admin अनुमति जाँच हुँदैछ...</p>
@@ -58,7 +62,8 @@
  <h3>हालका गतिविधि</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>मिति</th><th>गतिविधि</th><th>Faculty</th><th>प्रयोगकर्ता</th></tr></thead><tbody id="adminRecentEvents"></tbody></table></div>
  <p class="muted">नोट: Guest प्रयोगकर्तालाई Device/Browser session का रूपमा गनिन्छ; एउटै व्यक्तिका धेरै Device छुट्टाछुट्टै देखिन सक्छन्। Login नगरी Mock Test दिएका Guest को नाम/email देखिँदैन।</p>
 </section>
-\n<section class="free-access-panel" aria-label="Free access notice" style="margin:14px 12px;padding:18px;border:1px solid #86efac;border-radius:18px;background:linear-gradient(135deg,#ecfdf5,#eff6ff);color:#14532d">
+
+<section class="free-access-panel" aria-label="Free access notice" style="margin:14px 12px;padding:18px;border:1px solid #86efac;border-radius:18px;background:linear-gradient(135deg,#ecfdf5,#eff6ff);color:#14532d">
   <p class="eyebrow" style="margin:0 0 6px;font-weight:800">🎉 १००% FREE ACCESS</p>
   <h2 style="margin:0 0 8px">HL Preparation अब सबैका लागि निःशुल्क</h2>
   <p style="margin:0">सबै Faculty, Subject, MCQ Practice, Mock Test र Study Notes बिना शुल्क प्रयोग गर्नुहोस्। पढ्नका लागि Login वा Membership आवश्यक छैन।</p>
@@ -118,7 +123,11 @@
       <b>सामग्री Audit — हालको अवस्था</b>
       <p>NHPC को हालको सूचीमा ५५ वटा syllabus छन्। App मा छुट्टै तयारी खण्ड भएका ९ कार्यक्रम छन्; यी सबैको पूर्ण syllabus coverage अझै प्रमाणित भएको छैन। बाँकी ४६ कार्यक्रमका लागि छुट्टै तयारी खण्ड वा syllabus अनुसार scope बनाउनुपर्नेछ।</p>
       <p><b>पहिलो विस्तृत जाँच — PCL Dental Hygiene:</b> NHPC को 2021 licensing syllabus (First Revision 2022, Second Revision 2023) अनुसार Core 20%, Clinical 60% र Community 20% हुन्छ। Clinical भित्र Basic Periodontology I = 12 marks, Basic Periodontology II = 13, Dental Materials/Instruments/Assisting = 8, Dental Radiography/Photography = 7, Basic Medical Procedure/First Aid = 5 र Dental Public Health = 15 marks छन्। उपलब्ध 2023 syllabus reference मा Community अन्तर्गत Health Education, Epidemiology/Community Diagnosis, Office Health Management, Environmental Health र Food/Nutrition छुट्टाछुट्टै उल्लेख छन्। तर app को अध्ययन सुविधा तपाईंको निर्देशनअनुसार Health, Environment and Health Education तथा Dental Public Health and Jurisprudence गरी समूहबद्ध गरिएको छ; Epidemiology and Community Diagnosis र Food and Nutrition छुट्टै रहनेछन्। ५०, १०० र १५० प्रश्नका Mock Test मा विषयगत marks अनुसार २०:६०:२० weightage लागू गरिएको छ।</p>
-      <p><b>पहिले भेटिएको कमी:</b> पुरानो ६० प्रश्नको बैंक १२ broad topic मा समान रूपमा बाँडिएको थियो, जबकि आधिकारिक licensing blueprint 20% Core, 60% Clinical र 20% Community छ; Periodontology I/II पनि छुट्टिएका थिएनन्।</p>\n      <p><b>यस चरणमा गरिएको सुधार:</b> मुख्य NHPC अभ्यास बैंकमा हाल स्रोत कोडमा ५२९ प्रश्न entry छन्; Practice र Mock Test ले यही साझा प्रश्न बैंक प्रयोग गर्छन्। मोबाइलमा सबै प्रश्न देखिने अन्तिम परीक्षण बाँकी छ। Human Anatomy, Periodontology I/II, Basic Medical Procedure/First Aid, Health, Environment and Health Education तथा Dental Public Health and Jurisprudence का थप प्रश्न समावेश छन्। १५ विषय समूहमा ८० bilingual study cards राखिएका छन्। संरचना जाँचमा प्रश्नको दोहोरिएको English stem भेटिएन र सबै प्रश्नमा चार विकल्प तथा वैध सही उत्तर सूचक छन्।</p>\n      <p><b>अझै गर्नुपर्ने:</b> ५२९ प्रश्नको अन्तिम weightage र हरेक subtopic को coverage लाई official blueprint सँग चरणबद्ध रूपमा मिलाउँदै जानेछौँ। NHPC को ७ सेप्टेम्बर २०२६ को curriculum-release सूचना छुट्टै छ; त्यसको licensing-exam मा लागू हुने अवस्था स्पष्ट भएपछि syllabus version पुनःपुष्टि गरिनेछ।</p>\n      <p><b>बाँकी syllabus audit:</b> प्रश्न संख्या बढेको भए पनि प्रत्येक उपविषयको प्रतिनिधित्व र Core/Clinical/Community को अन्तिम 20:60:20 वितरण अझै पूर्ण रूपमा प्रमाणित भएको छैन। Dental Public Health भित्र extraction, local anaesthesia, ART, oral hygiene indices, fluoride र infection-control जस्ता सबै subtopic मा थप प्रश्न आवश्यक छन्। Dental Ethics का प्रश्नलाई पूरक सामग्रीका रूपमा मात्र राखिनेछ, official mark-bearing subject का रूपमा होइन।</p>\n      <p><b>अर्को सुधार चरण:</b> ५२९ प्रश्नलाई आधिकारिक विषयगत marks अनुसार पुनःसन्तुलन गर्ने, छुटेका subtopic थप्ने र प्रत्येक mock मा १० Core, ३० Clinical र १० Community प्रश्नको blueprint लागू गर्ने।</p>
+      <p><b>पहिले भेटिएको कमी:</b> पुरानो ६० प्रश्नको बैंक १२ broad topic मा समान रूपमा बाँडिएको थियो, जबकि आधिकारिक licensing blueprint 20% Core, 60% Clinical र 20% Community छ; Periodontology I/II पनि छुट्टिएका थिएनन्।</p>
+      <p><b>यस चरणमा गरिएको सुधार:</b> मुख्य NHPC अभ्यास बैंकमा हाल स्रोत कोडमा ५२९ प्रश्न entry छन्; Practice र Mock Test ले यही साझा प्रश्न बैंक प्रयोग गर्छन्। मोबाइलमा सबै प्रश्न देखिने अन्तिम परीक्षण बाँकी छ। Human Anatomy, Periodontology I/II, Basic Medical Procedure/First Aid, Health, Environment and Health Education तथा Dental Public Health and Jurisprudence का थप प्रश्न समावेश छन्। १५ विषय समूहमा ८० bilingual study cards राखिएका छन्। संरचना जाँचमा प्रश्नको दोहोरिएको English stem भेटिएन र सबै प्रश्नमा चार विकल्प तथा वैध सही उत्तर सूचक छन्।</p>
+      <p><b>अझै गर्नुपर्ने:</b> ५२९ प्रश्नको अन्तिम weightage र हरेक subtopic को coverage लाई official blueprint सँग चरणबद्ध रूपमा मिलाउँदै जानेछौँ। NHPC को ७ सेप्टेम्बर २०२६ को curriculum-release सूचना छुट्टै छ; त्यसको licensing-exam मा लागू हुने अवस्था स्पष्ट भएपछि syllabus version पुनःपुष्टि गरिनेछ।</p>
+      <p><b>बाँकी syllabus audit:</b> प्रश्न संख्या बढेको भए पनि प्रत्येक उपविषयको प्रतिनिधित्व र Core/Clinical/Community को अन्तिम 20:60:20 वितरण अझै पूर्ण रूपमा प्रमाणित भएको छैन। Dental Public Health भित्र extraction, local anaesthesia, ART, oral hygiene indices, fluoride र infection-control जस्ता सबै subtopic मा थप प्रश्न आवश्यक छन्। Dental Ethics का प्रश्नलाई पूरक सामग्रीका रूपमा मात्र राखिनेछ, official mark-bearing subject का रूपमा होइन।</p>
+      <p><b>अर्को सुधार चरण:</b> ५२९ प्रश्नलाई आधिकारिक विषयगत marks अनुसार पुनःसन्तुलन गर्ने, छुटेका subtopic थप्ने र प्रत्येक mock मा १० Core, ३० Clinical र १० Community प्रश्नको blueprint लागू गर्ने।</p>
       <p><b>कामको क्रम:</b> पहिले उपलब्ध ९ कार्यक्रमको syllabus audit र सुधार; त्यसपछि बाँकी कार्यक्रम PCL → Bachelor → Master क्रमले तयार गरिनेछ।</p>
     </div>
     <div class="notice"><b>हाम्रो लक्ष्य</b><p>PCL/Diploma, Bachelor र Master तहका प्रत्येक प्रकाशित syllabus लाई विषयगत रूपमा अध्ययन गरी MCQ, नेपाली व्याख्या, Clinical/Case-based प्रश्न, Notes र Mock Test तयार गर्नेछौँ। प्रश्नहरू अभ्यासका लागि नयाँ बनाइनेछन्; वास्तविक वा गोप्य NHPC प्रश्नपत्र भनेर प्रस्तुत गरिने छैन।</p></div>
@@ -421,7 +430,8 @@
     <div class="notice"><b>महत्त्वपूर्ण सूचना</b><p>लाइसेन्सको eligibility, experience, document verification, exam format र लागू नियम समयअनुसार परिवर्तन हुन सक्छन्। आवेदन वा परीक्षा दिनुअघि DHA को हालको आधिकारिक Professional Qualification Requirements (PQR), Sheryan portal र सम्बन्धित आधिकारिक निर्देशन जाँच गर्नुहोस्। यहाँका विषयहरू अध्ययन मार्गदर्शन हुन्, आधिकारिक DHA exam blueprint वा वास्तविक प्रश्नपत्र होइनन्।</p></div>
     <p class="disclaimer">यस खण्डको सामग्री स्वतन्त्र शैक्षिक अभ्यासका लागि हो। यो DHA को आधिकारिक सामग्री, प्रश्नपत्र वा परीक्षा नतिजाको ग्यारेन्टी होइन।</p>
   </section>
-  <section id="loksewaView" class="view hidden exam-view">\n    <button class="module-back" type="button" data-back-exams>← परीक्षा छनोटमा फर्कनुहोस्</button>
+  <section id="loksewaView" class="view hidden exam-view">
+    <button class="module-back" type="button" data-back-exams>← परीक्षा छनोटमा फर्कनुहोस्</button>
     <div class="exam-heading"><span class="track-icon">🏛️</span><div><p class="eyebrow">PUBLIC SERVICE COMMISSION • NEPAL</p><h2>लोकसेवा – Dental Hygienist</h2><p class="muted">प्राविधिक विषय र सामान्य ज्ञान/सेवा सम्बन्धी तयारी</p></div></div>
     <div class="notice"><b>लोकसेवा तयारी खण्ड</b><p>यहाँ Dental Hygienist पदको तह, सेवा/समूह र विज्ञापनअनुसारको आधिकारिक पाठ्यक्रममा आधारित Notes, MCQs र Mock Tests राखिनेछ।</p></div>
     <h3>प्रस्तावित अध्ययन क्षेत्र</h3>
@@ -441,7 +451,8 @@
 <footer><b>HL Preparation</b><span>Made for learning in Nepal 🇳🇵</span><small>Educational practice only • Verify current official syllabus</small><nav class="footer-links" aria-label="Footer links"><a href="about.html">हाम्रोबारे</a><a href="privacy.html">Privacy Policy</a><a href="https://github.com/dentalprepnp/dental-hygienist-prep-nepal/issues">Feedback</a></nav></footer>
 <script src="app.js?v=168"></script>
 <script type="module" src="auth.js?v=4"></script>
-<script type="module" src="progress-sync.js?v=4"></script>\n<script type="module" src="admin-dashboard.js?v=4"></script>
+<script type="module" src="progress-sync.js?v=4"></script>
+<script type="module" src="admin-dashboard.js?v=4"></script>
 
 <script src="oral-pathology.js?v=148"></script>
 <script src="dental-materials.js?v=148"></script>
