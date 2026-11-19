@@ -472,6 +472,26 @@ if("serviceWorker" in navigator && location.protocol.startsWith("http")){
     });
   }).catch(()=>{});
 }
+// Keep every faculty's selected learning activity at the top of the screen.
+document.addEventListener("click",event=>{
+ const button=event.target.closest("button");
+ if(!button)return;
+ const keys=["oph","ha","mlt","rad","pt","ott","rt","an","dha"];
+ let actionKey=null,actionValue=null;
+ for(const key of keys){if(button.dataset[key]!==undefined){actionKey=key;actionValue=String(button.dataset[key]);break;}}
+ if(!actionKey)return;
+ const view=button.closest(".view");
+ if(!view)return;
+ if(["menu","syllabus","coverage"].includes(actionValue)){view.classList.remove("study-focused");return;}
+ view.classList.add("study-focused");
+ requestAnimationFrame(()=>{
+  const target=view.querySelector(".ha-overview, .ha-note, .ha-question, .question, .notes-list, .dha-panel:not(.hidden), .op-panel:not(.hidden), #dhaNotes:not(.hidden), #dhaPractice:not(.hidden), #dhaMock:not(.hidden)");
+  const top=target||view;
+  const y=top.getBoundingClientRect().top+window.scrollY-82;
+  window.scrollTo({top:Math.max(0,y),behavior:"instant"});
+ });
+},false);
+
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").classList.remove("hidden")});
 $("#installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$("#installBtn").classList.add("hidden")});
 
