@@ -216,7 +216,8 @@ function showTab(tab){
   if(!target)return;
   target.classList.remove("hidden");
   document.body.classList.toggle("study-screen-open",tab!=="home");
-  $$(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  const facultyBack=$("#facultyBackButton");if(facultyBack)facultyBack.classList.toggle("hidden",tab==="home");
+  $(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
   // Every selected module opens at the very top, without leaving the home directory visible.
@@ -224,6 +225,7 @@ function showTab(tab){
   requestAnimationFrame(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});target.scrollIntoView({behavior:"instant",block:"start"});});
 }
 document.addEventListener("click",e=>{const tabButton=e.target.closest(".track-card[data-tab]");if(!tabButton)return;e.preventDefault();showTab(tabButton.dataset.tab);},true);
+document.addEventListener("click",e=>{const back=e.target.closest("#facultyBackButton");if(!back)return;e.preventDefault();showTab("home");requestAnimationFrame(()=>{const tracks=document.querySelector(".exam-tracks");if(tracks)tracks.scrollIntoView({behavior:"smooth",block:"start"});});});
 document.addEventListener("click",e=>{
   const back=e.target.closest("[data-back-exams]");
   if(!back)return;
