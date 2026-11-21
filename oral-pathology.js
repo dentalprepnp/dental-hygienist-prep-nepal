@@ -35,6 +35,14 @@
     ["Which factor can reduce salivary protection and increase oral disease risk?", "लारको सुरक्षा घटाई मुखको रोग जोखिम बढाउन सक्ने अवस्था कुन हो?", ["Xerostomia", "Normal saliva flow", "Adequate hydration", "Routine dental review"], 0, "Xerostomia reduces the protective effects of saliva and can increase caries and candidiasis risk.", "Xerostomia ले लारको सुरक्षा घटाएर caries र candidiasis जोखिम बढाउन सक्छ।"],
     ["The definitive diagnosis of many suspicious oral lesions may require:", "धेरै शंकास्पद oral lesion को निश्चित निदानका लागि के आवश्यक पर्न सक्छ?", ["Biopsy and histopathological examination", "Tooth brushing", "Only mouthwash", "Only visual inspection"], 0, "Biopsy with histopathological examination may be required to establish a definitive diagnosis.", "निश्चित निदानका लागि biopsy र histopathological examination आवश्यक पर्न सक्छ।"]
   ];
+/* Additional 5 bilingual syllabus MCQs */
+questions.push(...[
+["A persistent oral ulcer that does not heal needs:","ननिको हुने लगातार oral ulcer मा के आवश्यक हुन्छ?",["Prompt assessment and appropriate referral","No examination if painless","Only indefinite mouthwash","Permanent covering"],0,"Persistent ulcers need timely assessment for significant pathology.","लगातार ulcer को समयमै जाँच गरी गम्भीर pathology हटाउनुपर्छ।"],
+["A persistent unexplained red or white patch should be:","कारण नखुलेको लगातार रातो/सेतो patch लाई:",["Professionally assessed","Ignored","Scraped without assessment","Assumed normal"],0,"Persistent red or white lesions require professional evaluation.","लगातार red/white lesion को पेशेवर जाँच आवश्यक हुन्छ।"],
+["Biopsy provides tissue for:","Biopsy ले कुन परीक्षणका लागि tissue दिन्छ?",["Histopathological examination","Blood pressure","Impression making","Plaque scoring"],0,"Biopsy is used for microscopic tissue diagnosis when indicated.","Biopsy ले आवश्यक हुँदा microscopic tissue diagnosis दिन्छ।"],
+["Oral candidiasis is caused by:","Oral candidiasis कुन कारणले हुन्छ?",["Candida fungus","Dental calculus","Enamel wear","Vitamin D alone"],0,"Candida species can cause oral fungal infection.","Candida ले मुखमा fungal infection गराउन सक्छ।"],
+["Why document lesion size and site?","Lesion को आकार र स्थान किन लेख्नुपर्छ?",["Monitor changes and support referral","Guarantee it is benign","Avoid follow-up","Replace diagnosis"],0,"Baseline documentation helps compare changes over time.","आधारभूत अभिलेखले समयसँगै परिवर्तन तुलना गर्न मद्दत गर्छ।"]
+]);
 const practiceQuestions = questions.slice(0, Math.ceil(questions.length / 2));
 const mockBankQuestions = questions.slice(Math.ceil(questions.length / 2));
 
