@@ -70,7 +70,7 @@ const mockBankQuestions = questions.slice(Math.ceil(questions.length / 2));
     if(mockIndex>=mockSet.length){finishMock();return}
     const q=mockSet[mockIndex];
     $("#opMockArea").innerHTML=`<div class="qtop"><span>QUESTION ${mockIndex+1} OF ${mockSet.length}</span><span class="timer" id="opTimer">${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}</span></div><article class="question">${bilingual(q)}<div class="options">${q[2].map((o,i)=>`<button class="option ${mockAnswers[mockIndex]===i?"correct":""}" data-op-mock="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div><div class="nextrow"><span class="muted">Choose one answer</span><button class="smallbtn" id="opMockNext">Next</button></div></article>`;
-    root.querySelectorAll("[data-op-mock]").forEach(b=>b.addEventListener("click",()=>{mockAnswers[mockIndex]=Number(b.dataset.opMock);root.querySelectorAll("[data-op-mock]").forEach(x=>x.classList.toggle("correct",Number(x.dataset.opMock)===mockAnswers[mockIndex]))}));
+    root.querySelectorAll("[data-op-mock]").forEach(b=>b.addEventListener("click",()=>{mockAnswers[mockIndex]=Number(b.dataset.opMock);root.querySelectorAll("[data-op-mock]").forEach(x=>x.classList.toggle("correct",Number(x.dataset.17940)===q[3]);x.classList.toggle("wrong",Number(x.dataset.17940)===ma[mi]&&ma[mi]!==q[3]))}));
     $("#opMockNext").addEventListener("click",()=>{mockIndex++;renderMock()});
   }
   function finishMock(){clearInterval(timer);const score=mockSet.reduce((s,q,i)=>s+(mockAnswers[i]===q[3]?1:0),0);
