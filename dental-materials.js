@@ -35,6 +35,14 @@ const questions = [
 ["Which factor can affect the setting and strength of gypsum products?","Gypsum product को setting र strength मा कुन कुराले असर गर्छ?",["Water-to-powder ratio","Patient's age only","Tooth shade","Room music"],0,"The water-to-powder ratio influences setting time and physical properties.","पानी र powder को अनुपातले setting time र physical गुणमा असर गर्छ।"],
 ["How should used sharps be disposed of?","प्रयोग भइसकेका धारिला sharps कसरी dispose गर्नुपर्छ?",["Immediately into an appropriate puncture-resistant sharps container","Into an open general waste bin","Recap with both hands and keep on tray","Leave on the chair"],0,"Dispose of sharps immediately in an approved puncture-resistant container; follow local protocols.","Sharps तुरुन्तै puncture-resistant container मा राख्नुपर्छ र स्थानीय protocol पालना गर्नुपर्छ।"]
 ];
+/* Additional 5 bilingual syllabus MCQs */
+questions.push(...[
+["A matrix band in a Class II restoration helps to:","Class II restoration मा matrix band ले:",["Form the proximal wall and contour","Remove calculus","Etch enamel","Test pulp vitality"],0,"The matrix provides a temporary wall for shaping the restoration.","Matrix ले restoration को proximal wall बनाउन सहयोग गर्छ।"],
+["Why use tray adhesive with an impression material?","Impression material सँग tray adhesive किन प्रयोग हुन्छ?",["Improve material retention in the tray","Disinfect the tray","Change tooth shade","Stop saliva production"],0,"Compatible adhesive helps keep impression material attached to the tray.","Adhesive ले impression material tray मा अड्याउन मद्दत गर्छ।"],
+["Which property helps an impression reproduce fine detail?","Impression ले सूक्ष्म विवरण उतार्न कुन गुण चाहिन्छ?",["Adequate flow and dimensional accuracy","Strong smell","High colour only","Very low detail"],0,"Flow and dimensional stability support accurate reproduction.","Flow र dimensional stability ले सही impression बनाउन सहयोग गर्छ।"],
+["Dental materials should be stored as directed to:","Dental material निर्देशनअनुसार भण्डारण गर्नुको कारण:",["Maintain performance and safety","Make it expire sooner","Avoid checking expiry","Change its composition"],0,"Storage conditions can affect material properties and expiry.","भण्डारण अवस्थाले material को गुण र expiry मा असर गर्छ।"],
+["A dental cement's working and setting time are important because they:","Dental cement को working र setting time किन महत्त्वपूर्ण?",["Guide correct handling and placement","Determine patient age","Replace isolation","Measure tooth mobility"],0,"The operator must manipulate and place material within its working time.","Material लाई working time भित्र सही रूपमा प्रयोग गर्नुपर्छ।"]
+]);
 const practiceQuestions = questions.slice(0, Math.ceil(questions.length / 2));
 const mockBankQuestions = questions.slice(Math.ceil(questions.length / 2));
 
