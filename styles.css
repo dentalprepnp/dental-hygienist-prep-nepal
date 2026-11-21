@@ -983,3 +983,6 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 .ha-options button.wrong,.ha-options .wrong{border:1px solid #e39b95!important;background:#fff0ef!important;color:#8b241d!important;font-weight:700}
 :root[data-theme="dark"] .ha-options button.correct,:root[data-theme="dark"] .ha-options .correct{background:#174537!important;color:#d5f8e8!important}
 :root[data-theme="dark"] .ha-options button.wrong,:root[data-theme="dark"] .ha-options .wrong{background:#4a2424!important;color:#ffe1de!important}
+
+.ha-options button.correct::after,.option.correct::after{content:" ✓ सही";font-weight:800}
+.ha-options button.wrong::after,.option.wrong::after{content:" ✗ गलत";font-weight:800}
