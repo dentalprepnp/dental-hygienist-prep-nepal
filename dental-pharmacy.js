@@ -75,7 +75,7 @@
     if(mi>=mock.length){finish();return;}
     const q=mock[mi],area=document.getElementById("dpMockArea"),mode=document.getElementById("dpLanguage").value;
     area.innerHTML=`<div class="qtop"><span>QUESTION ${mi+1} OF ${mock.length}</span><span class="timer" id="dpTimer">${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}</span></div><article class="question">${bilingual(q)}<div class="options">${q[2].map((o,i)=>`<button class="option ${ma[mi]!==undefined&&i===q[3]?"correct":ma[mi]===i&&i!==q[3]?"wrong":""}" data-dpm="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div><div class="nextrow"><span class="muted">Choose one answer</span><button class="smallbtn" id="dpMockNext">${mi===mock.length-1?"Submit test":"Next"}</button></div></article>`;
-    area.querySelectorAll("[data-dpm]").forEach(b=>b.addEventListener("click",()=>{ma[mi]=Number(b.dataset.dpm);area.querySelectorAll("[data-dpm]").forEach(x=>x.classList.toggle("correct",Number(x.dataset.dpm)===q[3]);x.classList.toggle("wrong",Number(x.dataset.dpm)===ma[mi]&&ma[mi]!==q[3]));}));
+    area.querySelectorAll("[data-dpm]").forEach(b=>b.addEventListener("click",()=>{ma[mi]=Number(b.dataset.dpm);area.querySelectorAll("[data-dpm]").forEach(x=>{x.classList.toggle("correct",Number(x.dataset.dpm)===q[3]);x.classList.toggle("wrong",Number(x.dataset.dpm)===ma[mi]&&ma[mi]!==q[3])});}));
     document.getElementById("dpMockNext").addEventListener("click",()=>{mi++;if(mi>=mock.length)finish();else renderMock();});
   }
   function finish(){
