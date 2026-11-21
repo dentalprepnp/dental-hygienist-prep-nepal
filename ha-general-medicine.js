@@ -707,7 +707,7 @@
  root.addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;
   if(b.dataset.ha){const a=b.dataset.ha;if(a==="menu")menu();if(a==="notes")showNotes();if(a==="practice")practice();if(a==="timed")start("timed");if(a==="mock")start("mock");if(a==="retry")start("mock");return;}
-  if(b.dataset.haOption!==undefined){const idx=Number(b.dataset.haOption);if(state.mode==="practice"){state.answers[state.index]=idx;renderPracticeQ();if(window.DHPNProgress)window.DHPNProgress.recordMCQ("NHPC HA – General Medicine",[Q[state.index][0],Q[state.index][1],Q[state.index][2],Q[state.index][3],Q[state.index][4],Q[state.index][5]],idx);}else{state.answers[state.index]=idx;renderQuestion();}return;}
+  if(b.dataset.haOption!==undefined){const idx=Number(b.dataset.haOption);if(state.mode==="practice"){state.answers[state.index]=idx;renderPracticeQ();if(window.DHPNProgress)window.DHPNProgress.recordMCQ("NHPC HA – General Medicine",[practiceQ[state.index][0],Q[state.index][1],Q[state.index][2],Q[state.index][3],Q[state.index][4],Q[state.index][5]],idx);}else{state.answers[state.index]=idx;renderQuestion();}return;}
   if(b.dataset.haNext!==undefined){if(state.index===state.items.length-1)finish();else{state.index++;renderQuestion();}return;}
   if(b.dataset.haPrev!==undefined){state.index=Math.max(0,state.index-1);renderQuestion();return;}
   if(b.dataset.haPracticeNext!==undefined){if(state.index===practiceQ.length-1){menu();return;}state.index++;renderPracticeQ();return;}
