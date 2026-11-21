@@ -382,7 +382,7 @@ function renderMock(){
   if(mockIndex>=mockQuestions.length){finishMock();return}
   const q=mockQuestions[mockIndex];
   $("#mockArea").innerHTML=`<div class="qtop"><span>QUESTION ${mockIndex+1} OF 10</span><span class="timer" id="timer">${Math.floor(secondsLeft/60)}:${String(secondsLeft%60).padStart(2,"0")}</span></div><article class="question">${qText(q)}<div class="options">${q[2].map((o,i)=>`<button class="option" data-mock="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div><div class="nextrow"><span class="muted">Choose one answer</span><button class="smallbtn" id="mockNext">Next</button></div></article>`;
-  $$("#mockArea [data-mock]").forEach(b=>b.addEventListener("click",()=>{mockAnswers[mockIndex]=Number(b.dataset.mock);$$("#mockArea [data-mock]").forEach(x=>x.classList.toggle("correct",Number(x.dataset.mock)===mockAnswers[mockIndex]));}));
+  $$("#mockArea [data-mock]").forEach(b=>b.addEventListener("click",()=>{mockAnswers[mockIndex]=Number(b.dataset.mock);$$("#mockArea [data-mock]").forEach(x=>{x.classList.toggle("correct",Number(x.dataset.mock)===q[3]);x.classList.toggle("wrong",Number(x.dataset.mock)===mockAnswers[mockIndex]&&mockAnswers[mockIndex]!==q[3])});}));
   $("#mockNext").addEventListener("click",()=>{mockIndex++;renderMock()});
 }
 function finishMock(){
