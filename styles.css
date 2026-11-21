@@ -977,3 +977,9 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 .answer-review.review-wrong .pill{background:#ffe0dd;color:#a72f2a}
 :root[data-theme="dark"] .answer-review.review-correct{background:#102b20}
 :root[data-theme="dark"] .answer-review.review-wrong{background:#321b1b}
+
+/* Consistent right/wrong feedback across all faculty MCQ and mock screens */
+.ha-options button.correct,.ha-options .correct{border:1px solid #36a77d!important;background:#e5f7ef!important;color:#075b43!important;font-weight:700}
+.ha-options button.wrong,.ha-options .wrong{border:1px solid #e39b95!important;background:#fff0ef!important;color:#8b241d!important;font-weight:700}
+:root[data-theme="dark"] .ha-options button.correct,:root[data-theme="dark"] .ha-options .correct{background:#174537!important;color:#d5f8e8!important}
+:root[data-theme="dark"] .ha-options button.wrong,:root[data-theme="dark"] .ha-options .wrong{background:#4a2424!important;color:#ffe1de!important}
