@@ -35,6 +35,14 @@ const questions=[
 ["Which vitamin deficiency can cause night blindness?","कुन भिटामिनको कमीले राति कम देख्ने समस्या हुन्छ?",["Vitamin A","Vitamin C","Vitamin D","Vitamin K"],0,"Vitamin A deficiency can cause night blindness.","Vitamin A कमीले राति कम देख्ने समस्या हुन सक्छ।"],
 ["Which advice helps reduce dental caries risk?","दन्तक्षयको जोखिम घटाउन कुन सल्लाह उपयुक्त हुन्छ?",["Sip sugary drinks all day","Eat sweets frequently between meals","Limit free sugars and drink water","Avoid all fruits and vegetables"],2,"Limiting free sugars, reducing frequent sugary exposures and choosing water help reduce caries risk.","Free sugar घटाउने, बारम्बार गुलियो नखाने र पानी रोज्ने बानीले caries जोखिम घटाउन सहयोग गर्छ।"]
 ];
+/* Additional 5 bilingual syllabus MCQs */
+questions.push(...[
+["Which nutrient supports collagen synthesis and wound healing?","Collagen र wound healing मा कुन nutrient सहयोग गर्छ?",["Vitamin C","Caffeine","Sodium","Vitamin K only"],0,"Vitamin C is needed for collagen formation and tissue repair.","Vitamin C collagen निर्माण र tissue repair का लागि चाहिन्छ।"],
+["Frequent fermentable sugar intake increases caries risk because plaque bacteria produce:","Fermentable sugar बारम्बार खाँदा plaque bacteria ले के बनाउँछन्?",["Acids","Fluoride","Calcium","Oxygen only"],0,"Bacterial acids can demineralize tooth structure.","Bacterial acid ले दाँत demineralize गर्न सक्छ।"],
+["A protective between-meal drink is usually:","Meal बीचमा राम्रो पेय सामान्यतया कुन हो?",["Plain water","Sweet soda","Energy drink","Sugared juice"],0,"Water hydrates without adding free sugar.","पानीले free sugar नथपी hydration दिन्छ।"],
+["Protein is important for:","Protein केका लागि महत्त्वपूर्ण हुन्छ?",["Growth and tissue repair","Replacing all vitamins","Causing caries always","No body function"],0,"Protein provides amino acids for growth, maintenance and repair.","Protein ले वृद्धि, maintenance र repair का amino acids दिन्छ।"],
+["Which habit helps reduce caries risk?","Caries जोखिम घटाउन कुन बानी सहयोगी हुन्छ?",["Limit frequency of sugary snacks","Sip sweet drinks all day","Eat sticky sweets often","Avoid water"],0,"Reducing frequent free-sugar exposure lowers acid challenges.","Free sugar बारम्बार सेवन घटाउँदा acid attack कम हुन्छ।"]
+]);
 const practiceQuestions = questions.slice(0, Math.ceil(questions.length / 2));
 const mockBankQuestions = questions.slice(Math.ceil(questions.length / 2));
 
