@@ -35,6 +35,14 @@ const questions = [
 ["Community water fluoridation, where implemented, is an example of:","लागू गरिएको अवस्थामा community water fluoridation कुन प्रकारको उपाय हो?",["Population-level preventive measure","A restorative procedure","A surgical treatment","A diagnostic index"],0,"Water fluoridation is a population-level measure intended to reduce caries across a community.","पानीमा fluoride मिलाउने उपाय समुदायस्तरमा caries घटाउने preventive measure हो।"],
 ["The main goal of primary oral health care is to provide:","Primary oral health care को मुख्य लक्ष्य के हो?",["Accessible essential prevention and care close to the community","Only specialist surgery","Only cosmetic procedures","Care only for hospital inpatients"],0,"Primary oral health care aims to make essential, appropriate services accessible and connected to referral pathways.","Primary oral health care ले आवश्यक र उपयुक्त सेवा समुदायमै पहुँचयोग्य बनाउने तथा referral सँग जोड्ने लक्ष्य राख्छ।"]
 ];
+/* Additional 5 bilingual syllabus MCQs */
+questions.push(...[
+["DMFT index is used to assess:","DMFT index ले के मूल्याङ्कन गर्छ?",["Caries experience in permanent teeth","Blood pressure","Vision","Body temperature"],0,"DMFT counts decayed, missing due to caries and filled teeth.","DMFT ले caries भएका, caries का कारण हराएका र भरिएका दाँत गन्छ।"],
+["Fluoride use is an example of:","Fluoride प्रयोग कुन prevention हो?",["Primary prevention","Rehabilitation only","Tertiary diagnosis","No prevention"],0,"Fluoride helps prevent caries before disease progresses.","Fluoride ले caries रोकथाममा सहयोग गर्छ।"],
+["A school oral-health program should include:","School oral-health program मा के समावेश हुनुपर्छ?",["Education, prevention, screening and referral","Extraction for all","Posters only","No follow-up"],0,"Comprehensive programs combine promotion, prevention and referral.","समग्र कार्यक्रमले शिक्षा, रोकथाम, screening र referral जोड्छ।"],
+["Community data helps planners to:","Community data ले योजनाकारलाई के सहयोग गर्छ?",["Identify needs and prioritize resources","Reveal private records publicly","Avoid evaluation","Replace all examination"],0,"Data supports needs assessment and service planning.","Data ले आवश्यकता पहिचान र सेवा योजना गर्न सहयोग गर्छ।"],
+["Outreach services can improve:","Outreach सेवाले के सुधार गर्न सक्छ?",["Access in underserved communities","Radiograph quality only","Tooth eruption","Material setting time"],0,"Outreach brings preventive and basic services closer to communities.","Outreach ले रोकथाम र आधारभूत सेवा समुदाय नजिक पुर्‍याउँछ।"]
+]);
 const practiceQuestions = questions.slice(0, Math.ceil(questions.length / 2));
 const mockBankQuestions = questions.slice(Math.ceil(questions.length / 2));
 
