@@ -35,6 +35,14 @@ const questions = [
 ["What is the main role of the gingiva?","Gingiva को मुख्य काम के हो?",["To produce dentin","To surround teeth and protect supporting tissues","To move the tongue","To form saliva"],1,"The gingiva surrounds the teeth and provides a protective soft-tissue seal around the cervical region.","Gingiva ले दाँत वरिपरि घेरेर cervical क्षेत्रमा सुरक्षात्मक soft-tissue seal बनाउँछ।"],
 ["Which muscle is a major muscle of the cheek that helps keep food between the teeth?","खाना दाँतको बीचमा राख्न सहयोग गर्ने गालाको प्रमुख मांसपेशी कुन हो?",["Masseter","Buccinator","Temporalis","Mylohyoid"],1,"The buccinator compresses the cheek and helps keep food on the occlusal surfaces during chewing.","Buccinator ले गाला भित्रतर्फ थिचेर चपाउँदा खाना दाँतको सतहमा राख्न मद्दत गर्छ।"]
 ];
+/* Additional 5 bilingual syllabus MCQs */
+questions.push(...[
+["Which muscle is a major elevator of the mandible?","Mandible उठाउने प्रमुख muscle कुन हो?",["Masseter","Digastric","Platysma","Orbicularis oris"],0,"Masseter elevates the mandible during jaw closing.","Masseter ले mandible उठाउँछ।"],
+["The maxillary sinus is located in the:","Maxillary sinus कुन हड्डीमा हुन्छ?",["Maxilla","Mandible","Sphenoid","Nasal bone"],0,"The maxillary sinus is an air cavity within the maxilla.","Maxillary sinus maxilla भित्र हुन्छ।"],
+["Which muscle forms much of the floor of the mouth?","मुखको floor को ठूलो भाग कुन muscle ले बनाउँछ?",["Mylohyoid","Temporalis","Masseter","Buccinator"],0,"Mylohyoid forms much of the muscular floor of the oral cavity.","Mylohyoid ले मुखको muscular floor बनाउँछ।"],
+["General sensation from the anterior two-thirds of the tongue is mainly carried by:","जिब्रोको अगाडिको दुई-तिहाइको सामान्य संवेदना कुनले बोक्छ?",["Lingual nerve (V3)","Glossopharyngeal nerve","Hypoglossal nerve","Optic nerve"],0,"The lingual nerve, a branch of V3, carries general sensation.","V3 को lingual nerve ले सामान्य संवेदना बोक्छ।"],
+["Permanent maxillary first molars commonly have:","स्थायी maxillary first molar मा सामान्यतया कति root हुन्छन्?",["Three roots","One root","Two roots","Five roots"],0,"Maxillary first molars commonly have three roots.","Maxillary first molar मा सामान्यतया तीन root हुन्छन्।"]
+]);
 const practiceQuestions = questions.slice(0, Math.ceil(questions.length / 2));
 const mockBankQuestions = questions.slice(Math.ceil(questions.length / 2));
 
