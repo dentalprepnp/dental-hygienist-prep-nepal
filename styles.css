@@ -968,3 +968,12 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 /* Admin analytics dashboard */
 .admin-dashboard{margin:14px 12px;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--card,#fff);box-shadow:0 5px 18px rgba(15,55,82,.06)}
 .admin-dashboard.hidden{display:none!important}.admin-dashboard-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.admin-dashboard-actions{display:flex;gap:8px;flex-wrap:wrap}.admin-dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}.admin-dashboard-card{padding:13px;border:1px solid var(--line);border-radius:14px;background:var(--surface,#f7fafc)}.admin-dashboard-card small{display:block;color:var(--muted);font-size:12px}.admin-dashboard-card strong{display:block;font-size:26px;margin-top:5px}.admin-stat-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}.admin-table-wrap{overflow:auto;margin:10px 0 18px}.admin-table{width:100%;border-collapse:collapse;font-size:12px;min-width:420px}.admin-table th,.admin-table td{text-align:left;padding:9px;border-bottom:1px solid var(--line)}.admin-table th{background:var(--surface,#f7fafc)}
+
+
+/* Color-coded answer review after completed MCQ/mock tests */
+.answer-review.review-correct{border-left:5px solid #168653;background:#f0fbf5}
+.answer-review.review-wrong{border-left:5px solid #d64a45;background:#fff3f2}
+.answer-review.review-correct .pill{background:#d8f4e4;color:#12683e}
+.answer-review.review-wrong .pill{background:#ffe0dd;color:#a72f2a}
+:root[data-theme="dark"] .answer-review.review-correct{background:#102b20}
+:root[data-theme="dark"] .answer-review.review-wrong{background:#321b1b}
