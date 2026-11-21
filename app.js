@@ -389,7 +389,7 @@ function finishMock(){
   clearInterval(mockTimer);let score=0;mockQuestions.forEach((q,i)=>{if(mockAnswers[i]===q[3])score++});
   saved.attempted+=10;saved.correct+=score;saved.best=Math.max(saved.best,score*10);persist();
   $("#mockArea").innerHTML=`<div class="result"><p>MOCK TEST COMPLETED</p><strong>${score}/10</strong><b>${score*10}%</b><p>${score>=8?"Excellent effort!":score>=5?"Good attempt. Review the explanations.":"Keep practising. Revise the notes and try again."}</p><button class="primary" id="reviewMock">Review answers</button> <button class="secondary" id="againMock">Try again</button></div><div id="reviewList"></div>`;
-  $("#reviewMock").addEventListener("click",()=>{$("#reviewList").innerHTML=mockQuestions.map((q,i)=>`<article class="note"><h3>${i+1}. ${q[0]}</h3><p>Your answer: ${mockAnswers[i]===undefined?"Not answered":q[2][mockAnswers[i]]}</p><p><b>Correct: ${q[2][q[3]]}</b></p><p>${q[4]} ${q[5]}</p></article>`).join("")});
+  $("#reviewMock").addEventListener("click",()=>{$("#reviewList").innerHTML=mockQuestions.map((q,i)=>`<article class="note answer-review ${mockAnswers[i]===q[3]?"review-correct":"review-wrong"}"><h3>${i+1}. ${q[0]}</h3><p>Your answer: ${mockAnswers[i]===undefined?"Not answered":q[2][mockAnswers[i]]}</p><p><b>Correct: ${q[2][q[3]]}</b></p><p>${q[4]} ${q[5]}</p><span class="pill">${mockAnswers[i]===q[3]?"Correct ✓":"Incorrect / unanswered"}</span></article>`).join("")});
   $("#againMock").addEventListener("click",()=>{ $("#mockIntro").classList.remove("hidden");$("#mockArea").innerHTML="";});
   $("#mockIntro").classList.remove("hidden");
 }
