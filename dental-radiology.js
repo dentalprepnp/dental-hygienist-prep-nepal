@@ -19,7 +19,7 @@ const mockBankQuestions = questions.slice(Math.ceil(questions.length / 2));
 const root=document.getElementById("dentalRadiologyView"); if(!root)return;
 let pi=0, answers={}, mock=[], ma={}, mi=0, timer=null, remaining=mock.length*60;
 root.innerHTML=`
-<button class="module-back" type="button" data-back-subjects>← सबै विषयहरूमा फर्कनुहोस्</button><div class="section-head"><div><p class="eyebrow">MODULE 06 • BILINGUAL LEARNING</p><h2>Dental Radiography and Photography</h2></div><span class="pill">25 MCQs</span></div>
+<button class="module-back" type="button" data-back-subjects>← सबै विषयहरूमा फर्कनुहोस्</button><div class="section-head"><div><p class="eyebrow">MODULE 06 • BILINGUAL LEARNING</p><h2>Dental Radiography and Photography</h2></div><span class="pill">40 MCQs</span></div>
 <p class="muted">Dental X-ray types, techniques, image errors, radiation safety, infection control र quality assurance सम्बन्धी अध्ययन सामग्री।</p>
 <div class="feature-grid module-actions"><button class="feature-card" data-dr="notes"><span class="feature-icon">📘</span><b>Study Notes</b><small>११ वटा विषय</small></button><button class="feature-card" data-dr="practice"><span class="feature-icon">📝</span><b>MCQ Practice</b><small>१३ अभ्यास प्रश्न</small></button><button class="feature-card" data-dr="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small>१२ प्रश्न • १२ मिनेट</small></button></div>
 <div class="toolbar"><label for="drLanguage">Question language</label><select id="drLanguage"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
