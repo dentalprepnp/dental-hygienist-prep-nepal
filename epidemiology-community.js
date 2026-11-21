@@ -35,6 +35,14 @@ const questions=[
 ["Which factor should be considered when prioritizing a community health problem?", "समुदायको स्वास्थ्य समस्या प्राथमिकता निर्धारण गर्दा कुन पक्ष हेर्नुपर्छ?", ["Magnitude and severity of the problem","Only one worker's preference","Colour of clinic walls","Distance to a shopping centre"],0,"Magnitude, severity, preventability, community concern and resources guide priority setting.","समस्याको आकार, गम्भीरता, रोकथाम सम्भावना, समुदायको चासो र स्रोतसाधन हेर्नुपर्छ।"],
 ["Why is evaluation important in a community health programme?", "सामुदायिक स्वास्थ्य कार्यक्रममा मूल्याङ्कन किन आवश्यक हुन्छ?", ["To determine progress and improve the programme","To avoid collecting data","To replace community participation","To guarantee every intervention succeeds"],0,"Evaluation assesses implementation and outcomes and informs programme improvement.","मूल्याङ्कनले कार्यक्रमको कार्यान्वयन र नतिजा हेरी सुधारका लागि जानकारी दिन्छ।"]
 ];
+/* Additional 5 bilingual syllabus MCQs */
+questions.push(...[
+["Incidence measures:","Incidence ले के मापन गर्छ?",["New cases over a specified period","All existing cases at one time","Only deaths","Number of clinics"],0,"Incidence describes new cases among a population at risk over time.","Incidence ले जोखिममा रहेको जनसंख्यामा अवधिभरका नयाँ case जनाउँछ।"],
+["Prevalence includes:","Prevalence मा के समावेश हुन्छ?",["Existing cases at a specified time or period","Only new cases","Only recovered cases","Only deaths"],0,"Prevalence counts existing cases in the defined population.","Prevalence ले तोकिएको जनसंख्याका विद्यमान case गन्छ।"],
+["A screening test is intended to:","Screening test को उद्देश्य:",["Identify people needing further assessment","Confirm all diagnosis alone","Replace treatment","Measure clinic profit"],0,"Screening identifies possible disease; positive results may need confirmation.","Screening ले सम्भावित रोग पहिचान गर्छ; positive मा पुष्टि आवश्यक हुन सक्छ।"],
+["Which study design commonly measures prevalence?","Prevalence मापन गर्न कुन study design उपयोगी हुन्छ?",["Cross-sectional","Case report only","Animal experiment","Treatment trial always"],0,"Cross-sectional studies assess a population at a particular time.","Cross-sectional study ले निश्चित समयमा जनसंख्या मूल्याङ्कन गर्छ।"],
+["A denominator is important because it:","Denominator किन महत्त्वपूर्ण हुन्छ?",["Relates cases to the population studied or at risk","Hides all cases","Proves causation","Replaces sampling"],0,"A denominator provides context for rates and proportions.","Denominator ले rate र proportion बुझ्न आधार दिन्छ।"]
+]);
 const practiceQuestions = questions.slice(0, Math.ceil(questions.length / 2));
 const mockBankQuestions = questions.slice(Math.ceil(questions.length / 2));
 
