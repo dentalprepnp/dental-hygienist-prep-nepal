@@ -73,16 +73,23 @@ $("resetPasswordForm")?.addEventListener("submit", async (event) => {
   message("Password सफलतापूर्वक परिवर्तन भयो। अब नयाँ Password बाट Login गर्न सक्नुहुन्छ।", "success");
 });
 
-// Mobile browsers and some in-app WebViews do not consistently expose event.submitter.
+// Use explicit buttons instead of relying on event.submitter, which is unreliable
+// in some Android/in-app browsers. Enter-key submission always means Login.
 let selectedAuthAction = "login";
-form?.querySelectorAll('button[type="submit"]').forEach((button) => {
-  button.addEventListener("click", () => {
-    selectedAuthAction = button.value === "signup" ? "signup" : "login";
-  });
+$("loginButton")?.addEventListener("click", () => { selectedAuthAction = "login"; });
+$("signupButton")?.addEventListener("click", () => {
+  selectedAuthAction = "signup";
+  if (!form) return;
+  if (typeof form.reportValidity === "function" && !form.reportValidity()) {
+    selectedAuthAction = "login";
+    return;
+  }
+  if (typeof form.requestSubmit === "function") form.requestSubmit();
+  else form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 });
 form?.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const action = event.submitter?.value === "signup" || selectedAuthAction === "signup" ? "signup" : "login";
+  const action = selectedAuthAction;
   selectedAuthAction = "login";
   const email = $("accountEmail")?.value.trim();
   const password = $("accountPassword")?.value || "";
