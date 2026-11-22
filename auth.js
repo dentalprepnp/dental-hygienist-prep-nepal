@@ -73,9 +73,17 @@ $("resetPasswordForm")?.addEventListener("submit", async (event) => {
   message("Password सफलतापूर्वक परिवर्तन भयो। अब नयाँ Password बाट Login गर्न सक्नुहुन्छ।", "success");
 });
 
+// Mobile browsers and some in-app WebViews do not consistently expose event.submitter.
+let selectedAuthAction = "login";
+form?.querySelectorAll('button[type="submit"]').forEach((button) => {
+  button.addEventListener("click", () => {
+    selectedAuthAction = button.value === "signup" ? "signup" : "login";
+  });
+});
 form?.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const action = event.submitter?.value || "login";
+  const action = event.submitter?.value === "signup" || selectedAuthAction === "signup" ? "signup" : "login";
+  selectedAuthAction = "login";
   const email = $("accountEmail")?.value.trim();
   const password = $("accountPassword")?.value || "";
   const name = $("accountName")?.value.trim() || "";
@@ -104,7 +112,15 @@ form?.addEventListener("submit", async (event) => {
       message("Login सफल भयो। स्वागत छ!", "success");
     }
   } catch (error) {
-    message(error.message || "काम पूरा हुन सकेन। फेरि प्रयास गर्नुहोस्।", "error");
+    const raw = String(error?.message || "");
+    const lower = raw.toLowerCase();
+    let friendly = raw || "काम पूरा हुन सकेन। फेरि प्रयास गर्नुहोस्।";
+    if (lower.includes("invalid login credentials")) friendly = "Email वा Password मिलेन। फेरि जाँच्नुहोस् वा Forgot Password प्रयोग गर्नुहोस्।";
+    else if (lower.includes("email not confirmed")) friendly = "Email verify भएको छैन। Inbox/Spam मा verification link खोज्नुहोस् र verify गरेपछि Login गर्नुहोस्।";
+    else if (lower.includes("already registered") || lower.includes("user already registered")) friendly = "यो Email बाट Account पहिल्यै बनेको छ। नयाँ Account नबनाई Login गर्नुहोस् वा Forgot Password थिच्नुहोस्।";
+    else if (lower.includes("password should be at least")) friendly = "Password कम्तीमा 8 अक्षरको हुनुपर्छ।";
+    else if (lower.includes("fetch") || lower.includes("network")) friendly = "Internet connection कमजोर छ। Net जाँचेर फेरि प्रयास गर्नुहोस्।";
+    message(friendly, "error");
   } finally {
     setBusy(false);
   }
