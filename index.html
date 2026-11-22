@@ -29,6 +29,8 @@
     <input id="accountEmail" type="email" required autocomplete="email" placeholder="example@gmail.com">
     <label for="accountPassword">Password</label>
     <input id="accountPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="कम्तीमा 8 अक्षर">
+    <label id="confirmPasswordLabel" class="hidden" for="confirmPassword">Password फेरि लेख्नुहोस् (Signup गर्दा)</label>
+    <input id="confirmPassword" class="hidden" type="password" minlength="8" autocomplete="new-password" placeholder="उही Password फेरि लेख्नुहोस्">
     <p id="accountModeHelp" class="muted" style="font-size:13px">पहिलेबाट Account छ भने Login गर्नुहोस्। नयाँ विद्यार्थीले Signup थिच्नुहोस्।</p>
     <div class="account-actions"><button class="primary" id="loginButton" type="submit" value="login">Login</button><button class="secondary" id="signupButton" type="button">Signup</button></div>
   </form>
@@ -491,8 +493,8 @@
  document.addEventListener("click",requireLogin,true);
 })();
 </script>
-<script src="app.js?v=174"></script>
-<script type="module" src="auth.js?v=9"></script>
+<script src="app.js?v=175"></script>
+<script type="module" src="auth.js?v=10"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=6"></script>\n<script type="module" src="feedback.js?v=3"></script>
 
