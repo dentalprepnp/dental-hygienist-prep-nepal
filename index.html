@@ -29,7 +29,7 @@
     <input id="accountEmail" type="email" required autocomplete="email" placeholder="example@gmail.com">
     <label for="accountPassword">Password</label>
     <input id="accountPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="कम्तीमा 8 अक्षर">
-    <div class="account-actions"><button class="primary" type="submit" value="login">Login</button><button class="secondary" type="submit" value="signup">Signup</button></div>
+    <div class="account-actions"><button class="primary" id="loginButton" type="submit" value="login">Login</button><button class="secondary" id="signupButton" type="button">Signup</button></div>
   </form>
   <button id="forgotPassword" class="text-button" type="button">Forgot Password?</button>
   <p id="accountStatus" class="account-status hidden" role="status" aria-live="polite"></p>
@@ -489,8 +489,8 @@
  document.addEventListener("click",requireLogin,true);
 })();
 </script>
-<script src="app.js?v=170"></script>
-<script type="module" src="auth.js?v=5"></script>
+<script src="app.js?v=171"></script>
+<script type="module" src="auth.js?v=6"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=6"></script>\n<script type="module" src="feedback.js?v=3"></script>
 
@@ -500,7 +500,7 @@
 <script src="dental-public-health.js?v=148"></script>
 <script src="dental-radiology.js?v=148"></script>
 <script src="dental-pharmacy.js?v=149"></script>
-<script src="bmlt.js?v=1"></script>
+<script src="bmlt.js?v=2"></script>
 <script src="pharmacy-faculties.js?v=1"></script>
 <script src="dental-ethics.js?v=148"></script>
 <script src="food-nutrition.js?v=150"></script>
