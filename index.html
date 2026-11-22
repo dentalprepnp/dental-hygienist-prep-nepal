@@ -541,7 +541,7 @@
   catch(error){console.error("Faculty module loading failed:",error);alert("यो Faculty खोल्न आवश्यक सामग्री लोड हुन सकेन। Internet जाँचेर फेरि प्रयास गर्नुहोस्।");return false;}
  }
  document.addEventListener("click",async function(event){
-  const target=event.target.closest(".track-card[data-tab], .subject-card[data-go], [data-open-view], [data-go]");
+  const target=event.target.closest(".track-card[data-tab], .subject-card[data-go], .search-result, [data-open-view], [data-go]");
   if(!target||target.dataset.hlpLazyReady==="1")return;
   const key=target.dataset.tab||target.dataset.go||target.dataset.openView;
   if(!Object.prototype.hasOwnProperty.call(byDestination,key))return;
