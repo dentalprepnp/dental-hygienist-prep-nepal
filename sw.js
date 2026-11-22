@@ -1,7 +1,7 @@
 /* Resilient PWA cache: one unavailable optional file must not block app updates. */
-const CACHE="hl-preparation-v311-password-confirm";
+const CACHE="hl-preparation-v312-ai-help";
 const ASSETS=[
- "./","./index.html","./admin.html","./admin-portal.js?v=3","./feedback.js?v=3",
+ "./","./index.html","./student-help.js?v=1","./admin.html","./admin-portal.js?v=3","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=274","./app.js?v=175","./auth.js?v=10",
  "./progress-sync.js?v=4","./admin-dashboard.js?v=6","./manifest.webmanifest","./icon.svg",
  "./oral-pathology.js?v=148","./dental-materials.js?v=148","./oral-anatomy.js?v=148",
