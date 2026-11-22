@@ -14,14 +14,14 @@
 <header class="topbar">
   <div class="brandmark"><img src="icon.svg" alt="HL Preparation logo"></div>
   <div><strong>HL Preparation</strong><small>Health License Preparation Nepal</small></div>
-  <button id="topLoginButton" class="secondary" type="button" style="padding:7px 10px;font-size:12px;white-space:nowrap">Login / Register</button><button id="facultyBackButton" class="faculty-back hidden" type="button" aria-label="सबै Faculty मा फर्कनुहोस्">🔙 Back</button><button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme" title="Switch theme">🌙</button><button id="installBtn" class="install hidden" type="button">Install</button>
+  <button id="topLoginButton" class="secondary" type="button" style="padding:7px 10px;font-size:12px;white-space:nowrap">Login / Signup</button><button id="facultyBackButton" class="faculty-back hidden" type="button" aria-label="सबै Faculty मा फर्कनुहोस्">🔙 Back</button><button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme" title="Switch theme">🌙</button><button id="installBtn" class="install hidden" type="button">Install</button>
 </header>
 <p id="networkStatus" role="status" aria-live="polite" style="display:none;margin:8px 12px;padding:9px 12px;border-radius:10px;background:#e0f2fe;color:#075985;font-size:13px;text-align:center"></p>
 
 <section id="accountPanel" class="account-panel hidden" aria-label="Student account">
-  <div class="account-heading"><div><p class="eyebrow">STUDENT ACCOUNT</p><h2>विद्यार्थी Login / Register</h2><p>Account बनाएर आफ्नो पढाइको प्रगति सुरक्षित राख्नुहोस्।</p></div><span class="account-lock">🔐</span></div>
+  <div class="account-heading"><div><p class="eyebrow">STUDENT ACCOUNT</p><h2>विद्यार्थी Login / Signup</h2><p>Account बनाएर आफ्नो पढाइको प्रगति सुरक्षित राख्नुहोस्।</p></div><span class="account-lock">🔐</span></div>
   <form id="accountForm" class="account-form">
-    <label for="accountName">नाम (Register गर्दा मात्र)</label>
+    <label for="accountName">नाम (Signup गर्दा मात्र)</label>
     <input id="accountName" type="text" maxlength="60" autocomplete="name" placeholder="आफ्नो नाम लेख्नुहोस्">
     <label for="accountPhone">मोबाइल नम्बर (नयाँ Account बनाउँदा अनिवार्य)</label>
     <input id="accountPhone" type="tel" maxlength="20" autocomplete="tel" placeholder="98XXXXXXXX">
@@ -29,7 +29,7 @@
     <input id="accountEmail" type="email" required autocomplete="email" placeholder="example@gmail.com">
     <label for="accountPassword">Password</label>
     <input id="accountPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="कम्तीमा 8 अक्षर">
-    <div class="account-actions"><button class="primary" type="submit" value="login">Login</button><button class="secondary" type="submit" value="signup">नयाँ Account बनाउनुहोस्</button></div>
+    <div class="account-actions"><button class="primary" type="submit" value="login">Login</button><button class="secondary" type="submit" value="signup">Signup</button></div>
   </form>
   <button id="forgotPassword" class="text-button" type="button">Forgot Password?</button>
   <p id="accountStatus" class="account-status hidden" role="status" aria-live="polite"></p>
