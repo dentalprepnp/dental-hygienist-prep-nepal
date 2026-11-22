@@ -404,7 +404,8 @@ const subjectMeta={
  dentalPharmacy:["Dental Pharmacy","Medicines • Pharmacology","💊"],
  dentalEthics:["Dental Ethics and Practice Management","Ethics • Records • Patient safety","📋"],
  foodNutrition:["Food and Nutrition","Nutrients • Balanced diet","🥗"],
- epidemiology:["Epidemiology and Community Diagnosis","Incidence • Prevalence • Community survey","📊"]
+ epidemiology:["Epidemiology and Community Diagnosis","Incidence • Prevalence • Community survey","📊"],
+ bmlt:["BMLT NHPC Licensing","Medical Microbiology • Clinical Biochemistry • Hematology","🧪"]
 };
 let activeDentalSubject="home";
 function showSubjectHub(id){
