@@ -1,16 +1,11 @@
-/* Resilient PWA cache: one unavailable optional file must not block app updates. */
-const CACHE="hl-preparation-v312-ai-help";
+/* Lightweight PWA cache: precache only the app shell.
+   Faculty modules are cached automatically when the app actually requests them. */
+const CACHE="hl-preparation-v313-core-cache";
 const ASSETS=[
- "./","./index.html","./student-help.js?v=1","./admin.html","./admin-portal.js?v=3","./feedback.js?v=3",
+ "./","./index.html","./admin.html","./admin-portal.js?v=3","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=274","./app.js?v=175","./auth.js?v=10",
- "./progress-sync.js?v=4","./admin-dashboard.js?v=6","./manifest.webmanifest","./icon.svg",
- "./oral-pathology.js?v=148","./dental-materials.js?v=148","./oral-anatomy.js?v=148",
- "./dental-public-health.js?v=148","./dental-radiology.js?v=148","./dental-pharmacy.js?v=149",
- "./bmlt.js?v=2","./pharmacy-faculties.js?v=1","./dental-ethics.js?v=148",
- "./food-nutrition.js?v=150","./epidemiology-community.js?v=150","./dha.js?v=147",
- "./nhpc.js?v=192","./ha-general-medicine.js?v=156","./mlt.js?v=148",
- "./bsc-anesthesia.js?v=148","./radiotherapy.js?v=9","./ott.js?v=20",
- "./radiography.js?v=148","./physiotherapy.js?v=147","./ophthalmic-science.js?v=147"
+ "./progress-sync.js?v=4","./admin-dashboard.js?v=6","./student-help.js?v=1",
+ "./manifest.webmanifest","./icon.svg"
 ];
 self.addEventListener("install",event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);
