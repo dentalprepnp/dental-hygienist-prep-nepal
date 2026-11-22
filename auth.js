@@ -76,14 +76,29 @@ $("resetPasswordForm")?.addEventListener("submit", async (event) => {
 // Use explicit buttons instead of relying on event.submitter, which is unreliable
 // in some Android/in-app browsers. Enter-key submission always means Login.
 let selectedAuthAction = "login";
-$("loginButton")?.addEventListener("click", () => { selectedAuthAction = "login"; });
+function setAuthMode(mode) {
+  selectedAuthAction = mode;
+  const signup = mode === "signup";
+  ["accountNameLabel","accountName","accountPhoneLabel","accountPhone"].forEach((id) => {
+    $(id)?.classList.toggle("hidden", !signup);
+  });
+  if ($("accountName")) $("accountName").required = signup;
+  if ($("accountPhone")) $("accountPhone").required = signup;
+  if ($("accountPassword")) $("accountPassword").autocomplete = signup ? "new-password" : "current-password";
+  if ($("accountModeHelp")) $("accountModeHelp").textContent = signup
+    ? "नयाँ Account बनाउनुहोस्। Signup पछि Email verification गरेर Login गर्नुहोस्।"
+    : "पहिलेबाट Account छ भने Login गर्नुहोस्। नयाँ विद्यार्थीले Signup थिच्नुहोस्।";
+  $("loginButton")?.classList.toggle("secondary", signup);
+  $("loginButton")?.classList.toggle("primary", !signup);
+  $("signupButton")?.classList.toggle("primary", signup);
+  $("signupButton")?.classList.toggle("secondary", !signup);
+}
+setAuthMode("login");
+$("loginButton")?.addEventListener("click", () => { setAuthMode("login"); });
 $("signupButton")?.addEventListener("click", () => {
-  selectedAuthAction = "signup";
+  setAuthMode("signup");
   if (!form) return;
-  if (typeof form.reportValidity === "function" && !form.reportValidity()) {
-    selectedAuthAction = "login";
-    return;
-  }
+  if (typeof form.reportValidity === "function" && !form.reportValidity()) return;
   if (typeof form.requestSubmit === "function") form.requestSubmit();
   else form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 });
@@ -110,7 +125,7 @@ form?.addEventListener("submit", async (event) => {
         showUser(data.session.user);
         message("Account तयार भयो। स्वागत छ!", "success");
       } else {
-        message("Registration अनुरोध सफल भयो। आफ्नो Email Inbox खोल्नुहोस् र Supabase बाट आएको verification link थिच्नुहोस्। त्यसपछि Login गर्नुहोस्।", "success");
+        message("Signup अनुरोध सफल भयो! Email Inbox/Spam खोल्नुहोस् र Supabase को verification link थिच्नुहोस्। Verify भएपछि App मा फर्केर Login गर्नुहोस्। Email नआए Verification Email फेरि पठाउनुहोस्।", "success");
       }
     } else {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -123,7 +138,7 @@ form?.addEventListener("submit", async (event) => {
     const lower = raw.toLowerCase();
     let friendly = raw || "काम पूरा हुन सकेन। फेरि प्रयास गर्नुहोस्।";
     if (lower.includes("invalid login credentials")) friendly = "Login हुन सकेन। Email ठीक छ र Password सही छ जाँच्नुहोस्। नयाँ Account बनाउँदा आएको Verification Email पहिले खोल्नुहोस्। Inbox/Spam मा नभेटिए तलको “Verification Email फेरि पठाउनुहोस्” थिच्नुहोस्। Password बिर्सनुभएको भए Forgot Password प्रयोग गर्नुहोस्।";
-    else if (lower.includes("email not confirmed")) friendly = "Email verify भएको छैन। Inbox/Spam मा verification link खोज्नुहोस् र verify गरेपछि Login गर्नुहोस्।";
+    else if (lower.includes("email not confirmed")) friendly = "Email verify भएको छैन। Inbox/Spam मा verification link खोल्नुहोस् वा Verification Email फेरि पठाउनुहोस्। Verify गरेपछि Login गर्नुहोस्।";
     else if (lower.includes("already registered") || lower.includes("user already registered")) friendly = "यो Email बाट Account पहिल्यै बनेको छ। नयाँ Account नबनाई Login गर्नुहोस् वा Forgot Password थिच्नुहोस्।";
     else if (lower.includes("password should be at least")) friendly = "Password कम्तीमा 8 अक्षरको हुनुपर्छ।";
     else if (lower.includes("fetch") || lower.includes("network")) friendly = "Internet connection कमजोर छ। Net जाँचेर फेरि प्रयास गर्नुहोस्।";
