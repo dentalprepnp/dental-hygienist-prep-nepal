@@ -1,6 +1,6 @@
 /* Lightweight PWA cache: precache only the app shell.
-   Faculty modules are cached automatically when the app actually requests them. */
-const CACHE="hl-preparation-v313-core-cache";
+   Faculty modules are cached on first use and served cache-first afterwards. */
+const CACHE="hl-preparation-v314-script-cache";
 const ASSETS=[
  "./","./index.html","./admin.html","./admin-portal.js?v=3","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=274","./app.js?v=175","./auth.js?v=10",
@@ -22,8 +22,22 @@ self.addEventListener("activate",event=>event.waitUntil((async()=>{
 self.addEventListener("fetch",event=>{
  const request=event.request;
  if(request.method!=="GET"||new URL(request.url).origin!==self.location.origin)return;
- const refreshFirst=request.mode==="navigate"||request.destination==="document"||request.destination==="script";
- if(refreshFirst){
+ if(request.destination==="script"||request.destination==="style"){
+  event.respondWith((async()=>{
+   const cached=await caches.match(request);
+   if(cached)return cached;
+   try{
+    const response=await fetch(request);
+    if(response&&response.ok){
+     const copy=response.clone();
+     caches.open(CACHE).then(cache=>cache.put(request,copy)).catch(()=>{});
+    }
+    return response;
+   }catch{return new Response("Offline: this module has not been downloaded yet.",{status:503,statusText:"Offline"});}
+  })());
+  return;
+ }
+ if(request.mode==="navigate"||request.destination==="document"){
   event.respondWith((async()=>{
    try{
     const response=await fetch(request);
@@ -48,8 +62,6 @@ self.addEventListener("fetch",event=>{
     caches.open(CACHE).then(cache=>cache.put(request,copy)).catch(()=>{});
    }
    return response;
-  }catch{
-   return caches.match("./index.html");
-  }
+  }catch{return caches.match("./index.html");}
  })());
 });
