@@ -21,14 +21,15 @@
 <section id="accountPanel" class="account-panel hidden" aria-label="Student account">
   <div class="account-heading"><div><p class="eyebrow">STUDENT ACCOUNT</p><h2>विद्यार्थी Login / Signup</h2><p>Account बनाएर आफ्नो पढाइको प्रगति सुरक्षित राख्नुहोस्।</p></div><span class="account-lock">🔐</span></div>
   <form id="accountForm" class="account-form">
-    <label for="accountName">नाम (Signup गर्दा मात्र)</label>
-    <input id="accountName" type="text" maxlength="60" autocomplete="name" placeholder="आफ्नो नाम लेख्नुहोस्">
-    <label for="accountPhone">मोबाइल नम्बर (नयाँ Account बनाउँदा अनिवार्य)</label>
-    <input id="accountPhone" type="tel" maxlength="20" autocomplete="tel" placeholder="98XXXXXXXX">
+    <label id="accountNameLabel" class="hidden" for="accountName">नाम (Signup गर्दा अनिवार्य)</label>
+    <input id="accountName" class="hidden" type="text" maxlength="60" autocomplete="name" placeholder="आफ्नो नाम लेख्नुहोस्">
+    <label id="accountPhoneLabel" class="hidden" for="accountPhone">मोबाइल नम्बर (Signup गर्दा अनिवार्य)</label>
+    <input id="accountPhone" class="hidden" type="tel" maxlength="20" autocomplete="tel" placeholder="98XXXXXXXX">
     <label for="accountEmail">Email Address</label>
     <input id="accountEmail" type="email" required autocomplete="email" placeholder="example@gmail.com">
     <label for="accountPassword">Password</label>
     <input id="accountPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="कम्तीमा 8 अक्षर">
+    <p id="accountModeHelp" class="muted" style="font-size:13px">पहिलेबाट Account छ भने Login गर्नुहोस्। नयाँ विद्यार्थीले Signup थिच्नुहोस्।</p>
     <div class="account-actions"><button class="primary" id="loginButton" type="submit" value="login">Login</button><button class="secondary" id="signupButton" type="button">Signup</button></div>
   </form>
   <button id="forgotPassword" class="text-button" type="button">Forgot Password?</button>
@@ -490,8 +491,8 @@
  document.addEventListener("click",requireLogin,true);
 })();
 </script>
-<script src="app.js?v=172"></script>
-<script type="module" src="auth.js?v=7"></script>
+<script src="app.js?v=173"></script>
+<script type="module" src="auth.js?v=8"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=6"></script>\n<script type="module" src="feedback.js?v=3"></script>
 
