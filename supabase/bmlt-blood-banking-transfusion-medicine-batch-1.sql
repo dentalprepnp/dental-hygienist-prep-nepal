@@ -54,11 +54,5 @@ values
 ('bmlt-bloodbank-mock-023','BMLT','BMLT NHPC Licensing','mock','free',922,'{"question":"A blood unit is recalled when:","translation":"Blood unit recall कहिले गरिन्छ?","options":["A relevant safety concern or post-donation information requires action","The unit label is attractive","A patient asks for a different color","The refrigerator is clean"],"correctIndex":0,"explanation":"Recall procedures remove or investigate potentially unsafe components.","explanationNe":"Safety concern वा post-donation information ले action आवश्यक गर्दा।","topic":"Blood Banking & Transfusion Medicine"}'::jsonb,true),
 ('bmlt-bloodbank-mock-024','BMLT','BMLT NHPC Licensing','mock','free',923,'{"question":"Cold chain maintenance in blood banking is important to:","translation":"Blood bank मा cold chain किन महत्त्वपूर्ण छ?","options":["Preserve component quality and safety","Change blood group","Increase antibody production","Replace compatibility testing"],"correctIndex":0,"explanation":"Validated storage and transport conditions preserve component integrity.","explanationNe":"Component को quality र safety कायम राख्न।","topic":"Blood Banking & Transfusion Medicine"}'::jsonb,true),
 ('bmlt-bloodbank-mock-025','BMLT','BMLT NHPC Licensing','mock','free',924,'{"question":"A transfusion should be started only after:","translation":"Transfusion सुरु गर्नुअघि के आवश्यक हुन्छ?","options":["Correct patient-unit checks and required compatibility procedures","Checking donor name only","Skipping sample identification","Assuming all group O units are safe for everyone"],"correctIndex":0,"explanation":"Patient identification and required compatibility checks are essential before transfusion.","explanationNe":"Patient-unit identity check र आवश्यक compatibility procedure पूरा हुनुपर्छ।","topic":"Blood Banking & Transfusion Medicine"}'::jsonb,true);
+on conflict (content_id) do nothing;
 commit;
-
-select content_type, count(*) as inserted_count
-from public.learning_content
-where faculty='BMLT' and subject='BMLT NHPC Licensing'
-and content_id like 'bmlt-bloodbank-%'
-group by content_type
-order by content_type;
