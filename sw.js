@@ -1,8 +1,8 @@
 /* Resilient PWA cache: one unavailable optional file must not block app updates. */
-const CACHE="hl-preparation-v308-student-verification-help";
+const CACHE="hl-preparation-v309-auth-mode-verify";
 const ASSETS=[
  "./","./index.html","./admin.html","./admin-portal.js?v=3","./feedback.js?v=3",
- "./about.html","./privacy.html","./styles.css?v=274","./app.js?v=172","./auth.js?v=7",
+ "./about.html","./privacy.html","./styles.css?v=274","./app.js?v=173","./auth.js?v=8",
  "./progress-sync.js?v=4","./admin-dashboard.js?v=6","./manifest.webmanifest","./icon.svg",
  "./oral-pathology.js?v=148","./dental-materials.js?v=148","./oral-anatomy.js?v=148",
  "./dental-public-health.js?v=148","./dental-radiology.js?v=148","./dental-pharmacy.js?v=149",
