@@ -4,11 +4,14 @@
 // Best-effort per-isolate throttle; configure a persistent gateway/database limit for production.
 const buckets=new Map<string,{count:number;start:number}>();
 function allowed(key:string){const now=Date.now(),windowMs=10*60*1000,limit=8;let b=buckets.get(key);if(!b||now-b.start>windowMs){b={count:0,start:now};buckets.set(key,b)}b.count++;return b.count<=limit}
-\nconst cors={"Access-Control-Allow-Origin":"*","Access-Control-Allow-Headers":"authorization, x-client-info, apikey, content-type","Access-Control-Allow-Methods":"POST, OPTIONS"};
+
+const cors={"Access-Control-Allow-Origin":"*","Access-Control-Allow-Headers":"authorization, x-client-info, apikey, content-type","Access-Control-Allow-Methods":"POST, OPTIONS"};
 Deno.serve(async(req)=>{
  if(req.method==="OPTIONS")return new Response("ok",{headers:cors});
  if(req.method!=="POST")return new Response(JSON.stringify({error:"POST required"}),{status:405,headers:{...cors,"Content-Type":"application/json"}});
  try{
+  const clientIp=req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()||"unknown";
+  if(!allowed(clientIp))return new Response(JSON.stringify({error:"Too many requests"}),{status:429,headers:{...cors,"Content-Type":"application/json"}});
   const body=await req.json();const message=String(body?.message||"").trim();
   if(!message||message.length>1500)return new Response(JSON.stringify({error:"Message must be 1–1500 characters"}),{status:400,headers:{...cors,"Content-Type":"application/json"}});
   const apiKey=Deno.env.get("OPENAI_API_KEY");if(!apiKey)return new Response(JSON.stringify({error:"AI service is not configured"}),{status:503,headers:{...cors,"Content-Type":"application/json"}});
