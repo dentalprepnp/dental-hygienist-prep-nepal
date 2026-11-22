@@ -79,11 +79,12 @@ let selectedAuthAction = "login";
 function setAuthMode(mode) {
   selectedAuthAction = mode;
   const signup = mode === "signup";
-  ["accountNameLabel","accountName","accountPhoneLabel","accountPhone"].forEach((id) => {
+  ["accountNameLabel","accountName","accountPhoneLabel","accountPhone","confirmPasswordLabel","confirmPassword"].forEach((id) => {
     $(id)?.classList.toggle("hidden", !signup);
   });
   if ($("accountName")) $("accountName").required = signup;
   if ($("accountPhone")) $("accountPhone").required = signup;
+  if ($("confirmPassword")) $("confirmPassword").required = signup;
   if ($("accountPassword")) $("accountPassword").autocomplete = signup ? "new-password" : "current-password";
   if ($("accountModeHelp")) $("accountModeHelp").textContent = signup
     ? "नयाँ Account बनाउनुहोस्। Signup पछि Email verification गरेर Login गर्नुहोस्।"
@@ -117,6 +118,8 @@ form?.addEventListener("submit", async (event) => {
     if (domainFixes[domain]) return message("Email मा spelling mistake हुन सक्छ: " + email.split("@")[0] + "@" + domainFixes[domain] + " । सही Email आफैँ जाँचेर सच्याउनुहोस्; AI/Auto-correct ले Email परिवर्तन गर्दैन।", "error");
   }
   if (action === "signup" && password.length < 8) return message("Password कम्तीमा 8 अक्षरको राख्नुहोस्।", "error");
+  const confirmPassword = $("confirmPassword")?.value || "";
+  if (action === "signup" && password !== confirmPassword) return message("दुवै Password मिलेनन्। दुवै ठाउँमा एउटै Password लेख्नुहोस्।", "error");
   if (action === "signup" && phone.replace(/[^0-9]/g, "").length < 7) return message("सही मोबाइल नम्बर लेख्नुहोस्।", "error");
   setBusy(true);
   try {
@@ -130,7 +133,7 @@ form?.addEventListener("submit", async (event) => {
         showUser(data.session.user);
         message("Account तयार भयो। स्वागत छ!", "success");
       } else {
-        message("Signup अनुरोध सफल भयो! Email अक्षर-अक्षर जाँच्नुहोस्। Email गलत भए सही Email लेखेर फेरि Signup गर्नुहोस्; पुरानो गलत, unverified Account ignore गर्न सक्नुहुन्छ। सही Email मा आएको Inbox/Spam verification link खोल्नुहोस्, अनि Login गर्नुहोस्।", "success");
+        message("Signup सफल भयो! तपाईंले राखेको Email र Password सम्झेर राख्नुहोस्। Email Inbox/Spam मा आएको Verification Link खोल्नुहोस्। Verify भएपछि Login गर्दा Signup कै उही Email र Password प्रयोग गर्नुहोस्।", "success");
       }
     } else {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -142,7 +145,7 @@ form?.addEventListener("submit", async (event) => {
     const raw = String(error?.message || "");
     const lower = raw.toLowerCase();
     let friendly = raw || "काम पूरा हुन सकेन। फेरि प्रयास गर्नुहोस्।";
-    if (lower.includes("invalid login credentials")) friendly = "Login हुन सकेन। Email ठीक छ र Password सही छ जाँच्नुहोस्। नयाँ Account बनाउँदा आएको Verification Email पहिले खोल्नुहोस्। Inbox/Spam मा नभेटिए तलको “Verification Email फेरि पठाउनुहोस्” थिच्नुहोस्। Password बिर्सनुभएको भए Forgot Password प्रयोग गर्नुहोस्।";
+    if (lower.includes("invalid login credentials")) friendly = "Email वा Password मिलेन। Signup गर्दा राखेको ठ्याक्कै उही Email र Password प्रयोग गर्नुहोस्। Email verify गर्नुभएको छ कि जाँच्नुहोस्। Verification Email नआए “Verification Email फेरि पठाउनुहोस्” थिच्नुहोस्। Password बिर्सनुभएको भए Forgot Password प्रयोग गर्नुहोस्।";
     else if (lower.includes("email not confirmed")) friendly = "Email verify भएको छैन। Inbox/Spam मा verification link खोल्नुहोस् वा Verification Email फेरि पठाउनुहोस्। Verify गरेपछि Login गर्नुहोस्।";
     else if (lower.includes("already registered") || lower.includes("user already registered")) friendly = "यो Email बाट Account पहिल्यै बनेको छ। नयाँ Account नबनाई Login गर्नुहोस् वा Forgot Password थिच्नुहोस्।";
     else if (lower.includes("password should be at least")) friendly = "Password कम्तीमा 8 अक्षरको हुनुपर्छ।";
