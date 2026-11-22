@@ -493,33 +493,94 @@
  document.addEventListener("click",requireLogin,true);
 })();
 </script>
+<script>
+/* Load faculty modules only when a student opens that faculty or subject. */
+(function(){
+ const byDestination={
+  ophthalmic:["ophthalmic-science.js?v=147"],
+  physiotherapy:["physiotherapy.js?v=147"],
+  ott:["ott.js?v=20"],
+  radiotherapy:["radiotherapy.js?v=9"],
+  radiography:["radiography.js?v=148"],
+  mlt:["mlt.js?v=148"],
+  anesthesia:["bsc-anesthesia.js?v=148"],
+  ha:["ha-general-medicine.js?v=156"],
+  nhpc:["nhpc.js?v=192"],
+  dha:["dha.js?v=147"],
+  loksewa:[],
+  oralPath:["oral-pathology.js?v=148"],
+  dentalMaterials:["dental-materials.js?v=148"],
+  oralAnatomy:["oral-anatomy.js?v=148"],
+  dentalPublicHealth:["dental-public-health.js?v=148"],
+  dentalRadiology:["dental-radiology.js?v=148"],
+  dentalPharmacy:["dental-pharmacy.js?v=149"],
+  dentalEthics:["dental-ethics.js?v=148"],
+  foodNutrition:["food-nutrition.js?v=150"],
+  epidemiology:["epidemiology-community.js?v=150"],
+  bmlt:["bmlt.js?v=2"],
+  dpharm:["pharmacy-faculties.js?v=1"],
+  bpharm:["pharmacy-faculties.js?v=1"]
+ };
+ const loaded=new Map();
+ function loadOne(src){
+  if(loaded.has(src))return loaded.get(src);
+  const promise=new Promise((resolve,reject)=>{
+   const script=document.createElement("script");
+   script.src=src;script.async=false;
+   script.onload=resolve;
+   script.onerror=()=>{loaded.delete(src);reject(new Error("Could not load "+src));};
+   document.head.appendChild(script);
+  });
+  loaded.set(src,promise);return promise;
+ }
+ async function loadDestination(key){
+  const files=byDestination[key];
+  if(!files)return true;
+  try{for(const src of files)await loadOne(src);return true;}
+  catch(error){console.error("Faculty module loading failed:",error);alert("यो Faculty खोल्न आवश्यक सामग्री लोड हुन सकेन। Internet जाँचेर फेरि प्रयास गर्नुहोस्।");return false;}
+ }
+ document.addEventListener("click",async function(event){
+  const target=event.target.closest(".track-card[data-tab], .subject-card[data-go], [data-open-view], [data-go]");
+  if(!target||target.dataset.hlpLazyReady==="1")return;
+  const key=target.dataset.tab||target.dataset.go||target.dataset.openView;
+  if(!Object.prototype.hasOwnProperty.call(byDestination,key))return;
+  event.preventDefault();event.stopImmediatePropagation();
+  const ok=await loadDestination(key);
+  if(!ok)return;
+  target.dataset.hlpLazyReady="1";
+  target.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true,view:window}));
+  delete target.dataset.hlpLazyReady;
+ },true);
+})();
+</script>
+
 <script src="app.js?v=175"></script>
 <script type="module" src="auth.js?v=10"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=6"></script>\n<script type="module" src="feedback.js?v=3"></script>
 <script type="module" src="student-help.js?v=1"></script>
 
-<script src="oral-pathology.js?v=148"></script>
-<script src="dental-materials.js?v=148"></script>
-<script src="oral-anatomy.js?v=148"></script>
-<script src="dental-public-health.js?v=148"></script>
-<script src="dental-radiology.js?v=148"></script>
-<script src="dental-pharmacy.js?v=149"></script>
-<script src="bmlt.js?v=2"></script>
-<script src="pharmacy-faculties.js?v=1"></script>
-<script src="dental-ethics.js?v=148"></script>
-<script src="food-nutrition.js?v=150"></script>
-<script src="epidemiology-community.js?v=150"></script>
-<script src="dha.js?v=147"></script>
-<script src="nhpc.js?v=192"></script>
-<script src="ha-general-medicine.js?v=156"></script>
-<script src="mlt.js?v=148"></script>
-<script src="bsc-anesthesia.js?v=148"></script>
-<script src="radiotherapy.js?v=9"></script>
-<script src="ott.js?v=20"></script>
-<script src="radiography.js?v=148"></script>
-<script src="physiotherapy.js?v=147"></script>
-<script src="ophthalmic-science.js?v=147"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
 /* Independent subject search with visible suggestions and reliable navigation. */
 (function(){
