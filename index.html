@@ -593,7 +593,22 @@
   term=term.toLocaleLowerCase();
   return cards.filter(c=>((c.dataset.subject||"")+" "+c.textContent).toLocaleLowerCase().includes(term));
  }
- function open(id,topic){
+ function ensureNHPC(){
+  if(window.DHPNOpenNHPCStudyTopic)return Promise.resolve();
+  if(window.__hlpNHPCLoadPromise)return window.__hlpNHPCLoadPromise;
+  window.__hlpNHPCLoadPromise=new Promise((resolve,reject)=>{
+   var script=document.createElement("script");
+   script.src="nhpc.js?v=192";
+   script.onload=resolve;
+   script.onerror=()=>{window.__hlpNHPCLoadPromise=null;reject(new Error("NHPC module load failed"));};
+   document.head.appendChild(script);
+  });
+  return window.__hlpNHPCLoadPromise;
+ }
+ async function open(id,topic){
+  if(topic||id==="nhpc"){
+   try{await ensureNHPC();}catch(error){alert("NHPC सामग्री लोड भएन। Internet जाँचेर फेरि प्रयास गर्नुहोस्।");return;}
+  }
   if(topic&&window.DHPNOpenNHPCStudyTopic){window.DHPNOpenNHPCStudyTopic(topic,"notes");results.classList.add("hidden");input.blur();return;}
   var target=document.getElementById(id+"View");if(!target)return;
   document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
