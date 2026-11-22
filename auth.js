@@ -111,6 +111,11 @@ form?.addEventListener("submit", async (event) => {
   const name = $("accountName")?.value.trim() || "";
   const phone = $("accountPhone")?.value.trim() || "";
   if (!email || !password) return message("Email र Password दुवै भर्नुहोस्।", "error");
+  if (action === "signup") {
+    const domain = (email.split("@")[1] || "").toLowerCase();
+    const domainFixes = { "gmial.com":"gmail.com", "gmai.com":"gmail.com", "gamil.com":"gmail.com", "gmail.co":"gmail.com", "yaho.com":"yahoo.com", "yahooo.com":"yahoo.com", "hotmial.com":"hotmail.com", "outlok.com":"outlook.com" };
+    if (domainFixes[domain]) return message("Email मा spelling mistake हुन सक्छ: " + email.split("@")[0] + "@" + domainFixes[domain] + " । सही Email आफैँ जाँचेर सच्याउनुहोस्; AI/Auto-correct ले Email परिवर्तन गर्दैन।", "error");
+  }
   if (action === "signup" && password.length < 8) return message("Password कम्तीमा 8 अक्षरको राख्नुहोस्।", "error");
   if (action === "signup" && phone.replace(/[^0-9]/g, "").length < 7) return message("सही मोबाइल नम्बर लेख्नुहोस्।", "error");
   setBusy(true);
@@ -125,7 +130,7 @@ form?.addEventListener("submit", async (event) => {
         showUser(data.session.user);
         message("Account तयार भयो। स्वागत छ!", "success");
       } else {
-        message("Signup अनुरोध सफल भयो! Email Inbox/Spam खोल्नुहोस् र Supabase को verification link थिच्नुहोस्। Verify भएपछि App मा फर्केर Login गर्नुहोस्। Email नआए Verification Email फेरि पठाउनुहोस्।", "success");
+        message("Signup अनुरोध सफल भयो! Email अक्षर-अक्षर जाँच्नुहोस्। Email गलत भए सही Email लेखेर फेरि Signup गर्नुहोस्; पुरानो गलत, unverified Account ignore गर्न सक्नुहुन्छ। सही Email मा आएको Inbox/Spam verification link खोल्नुहोस्, अनि Login गर्नुहोस्।", "success");
       }
     } else {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
