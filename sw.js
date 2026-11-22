@@ -1,6 +1,6 @@
 /* Lightweight PWA cache: precache only the app shell.
    Faculty modules are cached on first use and served cache-first afterwards. */
-const CACHE="hl-preparation-v314-script-cache";
+const CACHE="hl-preparation-v315-script-cache";
 const ASSETS=[
  "./","./index.html","./admin.html","./admin-portal.js?v=3","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=274","./app.js?v=175","./auth.js?v=10",
