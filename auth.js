@@ -122,11 +122,31 @@ form?.addEventListener("submit", async (event) => {
     const raw = String(error?.message || "");
     const lower = raw.toLowerCase();
     let friendly = raw || "काम पूरा हुन सकेन। फेरि प्रयास गर्नुहोस्।";
-    if (lower.includes("invalid login credentials")) friendly = "Email वा Password मिलेन। फेरि जाँच्नुहोस् वा Forgot Password प्रयोग गर्नुहोस्।";
+    if (lower.includes("invalid login credentials")) friendly = "Login हुन सकेन। Email ठीक छ र Password सही छ जाँच्नुहोस्। नयाँ Account बनाउँदा आएको Verification Email पहिले खोल्नुहोस्। Inbox/Spam मा नभेटिए तलको “Verification Email फेरि पठाउनुहोस्” थिच्नुहोस्। Password बिर्सनुभएको भए Forgot Password प्रयोग गर्नुहोस्।";
     else if (lower.includes("email not confirmed")) friendly = "Email verify भएको छैन। Inbox/Spam मा verification link खोज्नुहोस् र verify गरेपछि Login गर्नुहोस्।";
     else if (lower.includes("already registered") || lower.includes("user already registered")) friendly = "यो Email बाट Account पहिल्यै बनेको छ। नयाँ Account नबनाई Login गर्नुहोस् वा Forgot Password थिच्नुहोस्।";
     else if (lower.includes("password should be at least")) friendly = "Password कम्तीमा 8 अक्षरको हुनुपर्छ।";
     else if (lower.includes("fetch") || lower.includes("network")) friendly = "Internet connection कमजोर छ। Net जाँचेर फेरि प्रयास गर्नुहोस्।";
+    message(friendly, "error");
+  } finally {
+    setBusy(false);
+  }
+});
+
+$("resendVerification")?.addEventListener("click", async () => {
+  const email = $("accountEmail")?.value.trim();
+  if (!email) return message("पहिले Signup गरेको Email लेख्नुहोस्।", "error");
+  setBusy(true);
+  try {
+    const { error } = await supabase.auth.resend({ type: "signup", email });
+    if (error) throw error;
+    message("Verification Email पठाउने अनुरोध सफल भयो। Inbox र Spam जाँच्नुहोस्; link खोलेपछि Login गर्नुहोस्।", "success");
+  } catch (error) {
+    const raw = String(error?.message || "");
+    const lower = raw.toLowerCase();
+    let friendly = "Verification Email पठाउन सकिएन। Email जाँचेर केही समयपछि फेरि प्रयास गर्नुहोस्।";
+    if (lower.includes("rate limit")) friendly = "धेरै पटक अनुरोध भयो। केही समय पर्खेर फेरि प्रयास गर्नुहोस्।";
+    else if (lower.includes("network") || lower.includes("fetch")) friendly = "Internet जाँचेर फेरि प्रयास गर्नुहोस्।";
     message(friendly, "error");
   } finally {
     setBusy(false);
