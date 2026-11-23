@@ -1,10 +1,10 @@
 /* Lightweight PWA cache: precache only the app shell.
    Faculty modules are cached on first use and served cache-first afterwards. */
-const CACHE="hl-preparation-v324-free-question-import-cache";
+const CACHE="hl-preparation-v325-import-feedback-cache";
 const ASSETS=[
  "./","./index.html","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=275","./app.js?v=175","./auth.js?v=10",
- "./progress-sync.js?v=4","./admin-dashboard.js?v=6","./student-help.js?v=1","./weekly-live-exam.js?v=1","./admin-exams.js?v=4",
+ "./progress-sync.js?v=4","./admin-dashboard.js?v=6","./student-help.js?v=1","./weekly-live-exam.js?v=1","./admin-exams.js?v=5",
  "./manifest.webmanifest","./icon.svg"
 ];
 self.addEventListener("install",event=>event.waitUntil((async()=>{
