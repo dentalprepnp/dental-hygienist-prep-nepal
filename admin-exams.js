@@ -40,33 +40,44 @@ async function loadQuestionDrafts(){
 }
 $("loadQuestionDraftsBtn")?.addEventListener("click",loadQuestionDrafts);
 $("importQuestionDraftsBtn")?.addEventListener("click",async()=>{
-  if(!await adminCheck())return;
-  const code=$("questionFaculty").value;
-  if(!code){aiSay("पहिले Faculty छान्नुहोस्।");return;}
-  let items;
-  try{items=JSON.parse($("questionImportJSON").value.trim());}catch{aiSay("JSON ढाँचा मिलेन। ChatGPT बाट आएको पूरा JSON paste गर्नुहोस्।");return;}
-  if(!Array.isArray(items)||!items.length||items.length>200){aiSay("१ देखि २०० प्रश्न भएको JSON array राख्नुहोस्।");return;}
-  const rows=items.map((q,i)=>({
-    faculty_code:code,subject:String(q.subject||"General").trim().slice(0,120),
-    topic:String(q.topic||"").trim().slice(0,160),
-    difficulty:["easy","medium","hard"].includes(String(q.difficulty).toLowerCase())?String(q.difficulty).toLowerCase():"medium",
-    question_en:String(q.question_en||"").trim(),question_ne:String(q.question_ne||"").trim()||null,
-    option_a:String(q.option_a||"").trim(),option_b:String(q.option_b||"").trim(),
-    option_c:String(q.option_c||"").trim(),option_d:String(q.option_d||"").trim(),
-    correct_option:String(q.correct_option||"").trim().toUpperCase(),
-    explanation_en:String(q.explanation_en||"").trim(),explanation_ne:String(q.explanation_ne||"").trim()||null,
-    source_note:"Imported by admin; pending review.",status:"draft"
-  }));
-  const bad=rows.findIndex(q=>!q.question_en||!q.option_a||!q.option_b||!q.option_c||!q.option_d||!["A","B","C","D"].includes(q.correct_option)||!q.explanation_en);
-  if(bad>=0){aiSay("प्रश्न "+(bad+1)+" मा question, चार options, सही उत्तर A-D र English explanation अनिवार्य छ। केही पनि import भएन।");return;}
-  if(!confirm(code+" का "+rows.length+" प्रश्न Draft रूपमा import गर्ने?"))return;
-  $("importQuestionDraftsBtn").disabled=true;
-  const {error}=await sb.from("live_exam_question_bank").insert(rows);
-  $("importQuestionDraftsBtn").disabled=false;
-  if(error){aiSay("Import असफल: "+error.message);return;}
-  $("questionImportJSON").value="";
-  aiSay(rows.length+" प्रश्न Draft मा सुरक्षित भए। Review गरेर मात्र Approve गर्नुहोस्।");
-  await loadQuestionDrafts();
+  const btn=$("importQuestionDraftsBtn");
+  const aiSayBoth=s=>{aiSay(s);say(s);};
+  aiSayBoth("Import button चल्यो — Admin अनुमति जाँच हुँदैछ...");
+  try{
+    if(!await adminCheck()){aiSayBoth("Admin login/permission जाँच असफल भयो। माथिको Admin status हेर्नुहोस्।");return;}
+    const code=$("questionFaculty")?.value;
+    if(!code){aiSayBoth("पहिले Question Bank मा Faculty छान्नुहोस्।");return;}
+    const raw=$("questionImportJSON")?.value?.trim()||"";
+    if(!raw){aiSayBoth("JSON बाकस खाली छ। प्रश्नहरूको JSON paste गर्नुहोस्।");return;}
+    let items;
+    try{items=JSON.parse(raw);}catch(err){aiSayBoth("JSON parse error: "+err.message);return;}
+    if(!Array.isArray(items)||!items.length||items.length>200){aiSayBoth("१ देखि २०० प्रश्न भएको JSON array राख्नुहोस्।");return;}
+    const rows=items.map(q=>({
+      faculty_code:code,subject:String(q.subject||"General").trim().slice(0,120),
+      topic:String(q.topic||"").trim().slice(0,160),
+      difficulty:["easy","medium","hard"].includes(String(q.difficulty).toLowerCase())?String(q.difficulty).toLowerCase():"medium",
+      question_en:String(q.question_en||"").trim(),question_ne:String(q.question_ne||"").trim()||null,
+      option_a:String(q.option_a||"").trim(),option_b:String(q.option_b||"").trim(),
+      option_c:String(q.option_c||"").trim(),option_d:String(q.option_d||"").trim(),
+      correct_option:String(q.correct_option||"").trim().toUpperCase(),
+      explanation_en:String(q.explanation_en||"").trim(),explanation_ne:String(q.explanation_ne||"").trim()||null,
+      source_note:"Imported by admin; pending review.",status:"draft"
+    }));
+    const bad=rows.findIndex(q=>!q.question_en||!q.option_a||!q.option_b||!q.option_c||!q.option_d||!["A","B","C","D"].includes(q.correct_option)||!q.explanation_en);
+    if(bad>=0){aiSayBoth("प्रश्न "+(bad+1)+" मा question, चार options, सही उत्तर A-D र English explanation अनिवार्य छ। केही पनि import भएन।");return;}
+    if(!confirm(code+" का "+rows.length+" प्रश्न Draft रूपमा import गर्ने?")){aiSayBoth("Import रद्द गरियो।");return;}
+    btn.disabled=true;
+    aiSayBoth("Supabase मा "+rows.length+" प्रश्न पठाउँदैछौँ...");
+    const {error}=await sb.from("live_exam_question_bank").insert(rows);
+    if(error){aiSayBoth("Import असफल: "+error.message+" ("+(error.code||"no code")+")");return;}
+    $("questionImportJSON").value="";
+    aiSayBoth(rows.length+" प्रश्न Draft मा सुरक्षित भए। Review गरेर मात्र Approve गर्नुहोस्।");
+    await loadQuestionDrafts();
+  }catch(err){
+    aiSayBoth("Import मा unexpected error: "+(err?.message||String(err)));
+  }finally{
+    if(btn)btn.disabled=false;
+  }
 });
 $("approveFacultyDraftsBtn")?.addEventListener("click",async()=>{
   if(!await adminCheck())return;
