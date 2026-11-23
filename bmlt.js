@@ -5,7 +5,7 @@
   root.innerHTML = `
     <button class="module-back" type="button" data-back-subjects>← सबै विषयहरूमा फर्कनुहोस्</button>
     <div class="section-head"><div><p class="eyebrow">BMLT MODULE • BILINGUAL LEARNING</p><h2>BMLT NHPC Licensing</h2></div><span class="pill">Secure content</span></div>
-    <p class="muted">Basic pharmacology, analgesics, antibiotics, local anaesthetics, antiseptics र medicine safety।</p>
+    <p class="muted">Medical Microbiology • Clinical Biochemistry • Hematology • Laboratory Diagnostics।</p>
     <div id="bmltSecureStatus" class="notice">BMLT NHPC Licensing सामग्री सुरक्षित रूपमा लोड हुँदैछ...</div>
     <div id="bmltSecureApp" class="hidden">
       <div class="feature-grid module-actions">
@@ -29,6 +29,13 @@
     status.dataset.kind=kind;
     status.classList.remove("hidden");
     app.classList.add("hidden");
+  }
+  function addRetryButton(label="फेरि Load गर्नुहोस्") {
+    const button=document.createElement("button");
+    button.className="primary";
+    button.textContent=label;
+    button.addEventListener("click",loadSecureContent);
+    status.appendChild(button);
   }
   function shuffledQuestion(row) {
     const q=[row.question,row.translation,[...row.options],Number(row.correctIndex),row.explanation||"",row.explanationNe||""];
@@ -101,11 +108,11 @@
       }
       const {data,error}=await client.rpc("get_learning_content",{p_subject:"BMLT NHPC Licensing",p_content_type:null});
       if(error)throw error;
-      if(!data?.length){statusMessage("अहिले तपाईंको Membership मा BMLT NHPC Licensing सामग्री उपलब्ध छैन। Trial वा Premium Membership जाँच गर्नुहोस्।","warning");return;}
+      if(!data?.length){statusMessage("BMLT पेज खुल्यो, तर Supabase बाट सामग्री आएन। BMLT content database मा import/publish भएको छ कि जाँच गर्नुहोस्।","warning");addRetryButton();return;}
       convertRows(data);showApp();
     }catch(error){
       console.error("Secure BMLT NHPC Licensing:",error);
-      statusMessage("सुरक्षित सामग्री लोड हुन सकेन। Login र Supabase SQL जाँच्नुहोस्। विवरण: "+(error.message||"Unknown error"),"error");
+      statusMessage("BMLT सामग्री load हुन सकेन। कृपया Internet/Login जाँच्नुहोस्। Error: "+(error.message||"Unknown error"),"error");addRetryButton();
     }
   }
   loadSecureContent();
