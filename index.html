@@ -51,6 +51,15 @@
   <button id="signOutButton" class="secondary" type="button">Logout</button>
 </section>
 
+<section id="weeklyLiveExam" class="weekly-live-exam" aria-label="Weekly Live Exam">
+  <div class="weekly-live-exam-head"><div><p class="eyebrow">WEEKLY PRACTICE EXAM</p><h2>📝 Weekly Live Exam</h2><p class="muted">हरेक शनिबार साँझ ६ बजे • नेपाल समय</p></div><span class="weekly-exam-pill">Practice</span></div>
+  <p id="weeklyExamStatus" class="weekly-exam-message" role="status" aria-live="polite">Faculty list load हुँदैछ...</p>
+  <label for="weeklyExamFaculty">आफ्नो Faculty छान्नुहोस्</label>
+  <select id="weeklyExamFaculty"><option value="">Faculty load हुँदैछ...</option></select>
+  <div id="weeklyExamList" class="weekly-exam-list"><p class="muted">Faculty छानेपछि scheduled exam देखिन्छ।</p></div>
+  <p class="weekly-exam-note">यो HL Preparation को अभ्यास परीक्षा हो, आधिकारिक licensing examination होइन।</p>
+</section>
+
 <button id="adminDashboardButton" class="secondary hidden" type="button" style="margin:10px 12px">🔐 Admin Portal खोल्नुहोस्</button>
 
 <section id="adminDashboard" class="admin-dashboard hidden" aria-label="Admin Dashboard">
@@ -672,5 +681,6 @@
 <script>
 (function(){var el=document.getElementById("networkStatus");if(!el)return;function update(){var offline=!navigator.onLine;el.style.display="block";el.textContent=offline?"📴 Offline Mode: पहिले लोड/Cache भएका Notes, MCQ र Mock Test अभ्यास गर्न सक्नुहुन्छ। Progress फोनमै सुरक्षित हुन्छ; Sync का लागि Internet चाहिन्छ।":"🌐 Internet Connected: तपाईंको Progress Cloud मा Sync हुन सक्छ।";el.style.background=offline?"#fff7ed":"#ecfdf5";el.style.color=offline?"#9a3412":"#166534";}window.addEventListener("online",update);window.addEventListener("offline",update);update();})();
 </script>
+<script type="module" src="weekly-live-exam.js?v=1"></script>
 </body>
 </html>
