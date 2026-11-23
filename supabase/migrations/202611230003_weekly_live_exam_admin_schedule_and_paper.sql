@@ -111,3 +111,44 @@ comment on function public.hlp_admin_schedule_live_exam(text,integer,integer,int
   'Admin-only creates a draft weekly exam with faculty-specific exam configuration.';
 comment on function public.hlp_admin_build_live_exam_paper(uuid) is
   'Admin-only assembles a random paper from approved questions for a draft exam; exam remains draft until admin schedules it.';
+
+
+create or replace function public.hlp_admin_publish_live_exam_schedule(p_exam_id uuid)
+returns boolean
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_exam public.live_exams%rowtype;
+  v_count integer;
+begin
+  if not public.hlp_is_live_exam_admin() then
+    raise exception 'Admin permission required';
+  end if;
+  select * into v_exam from public.live_exams e
+  where e.exam_id = p_exam_id and e.status = 'draft'
+  for update;
+  if not found then raise exception 'Draft exam not found'; end if;
+
+  select count(*) into v_count
+  from public.live_exam_paper_questions pq
+  where pq.exam_id = p_exam_id;
+  if v_count <> v_exam.question_count then
+    raise exception 'Paper has % questions; expected %',v_count,v_exam.question_count;
+  end if;
+  if v_exam.starts_at <= now() then
+    raise exception 'Choose a future start time before scheduling';
+  end if;
+
+  update public.live_exams
+    set status = 'scheduled', updated_at = now()
+    where exam_id = p_exam_id;
+  return true;
+end;
+$$;
+revoke all on function public.hlp_admin_publish_live_exam_schedule(uuid) from public, anon, authenticated;
+grant execute on function public.hlp_admin_publish_live_exam_schedule(uuid) to authenticated;
+
+comment on function public.hlp_admin_publish_live_exam_schedule(uuid) is
+  'Admin-only validates a complete draft paper and publishes its scheduled listing to students.';
