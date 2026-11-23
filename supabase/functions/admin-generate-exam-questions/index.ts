@@ -71,7 +71,7 @@ Deno.serve(async (req) => {
       faculty_code: facultyCode,
       subject: String(q.subject || subject).slice(0, 120),
       topic: String(q.topic || "").slice(0, 160),
-      difficulty: ["easy", "medium", "hard"].includes(String(q.difficulty)) ? q.difficulty : "medium",
+      difficulty: ["easy", "medium", "hard"].includes(String(q.difficulty)) ? String(q.difficulty) : "medium",
       question_en: String(q.question_en || "").trim(),
       question_ne: String(q.question_ne || "").trim(),
       option_a: String(q.option_a || "").trim(),
