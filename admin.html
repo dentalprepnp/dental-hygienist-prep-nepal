@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#075985">
 <title>Admin Portal | HL Preparation</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css?v=276">
+<link rel="stylesheet" href="styles.css?v=277">
 <style>
 body{background:#f1f5f9}.portal-wrap{max-width:1100px;margin:28px auto;padding:0 14px}.portal-card{background:white;border:1px solid #dbeafe;border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 8px 24px #0f172a0d}.portal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.portal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}.portal-stat{background:#eff6ff;border-radius:14px;padding:16px}.portal-stat small{display:block;color:#475569}.portal-stat strong{display:block;font-size:26px;color:#075985}.portal-form{display:grid;gap:10px;max-width:420px}.portal-form input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px}.portal-table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{text-align:left;padding:10px;border-bottom:1px solid #e2e8f0;font-size:13px}th{background:#f8fafc}.portal-muted{color:#64748b;font-size:13px}.portal-status{padding:10px;border-radius:10px;background:#eff6ff;color:#075985}.hidden{display:none!important}
 </style>
@@ -42,6 +42,8 @@ body{background:#f1f5f9}.portal-wrap{max-width:1100px;margin:28px auto;padding:0
 <div class="portal-card" id="weeklyExamAdmin">
 <h2>📝 Weekly Live Exam Management</h2><p class="portal-muted">Admin मात्र। Faculty अनुसार exam draft बनाउनुहोस्, प्रश्न थप्नुहोस्, paper तयार गरी विद्यार्थीका लागि schedule गर्नुहोस्। शनिबार साँझ ६ बजे Nepal time राख्नुहोस्।</p>
 <p id="examAdminStatus" class="portal-status" role="status" aria-live="polite">Admin अनुमति जाँच हुँदैछ...</p>
+<div class="portal-card" style="background:#eff6ff"><h3>🚀 सबै Faculty को Monthly Exam एकै पटक</h3><p class="portal-muted">महिना छान्नुहोस्। सबै active faculty का चारवटा शनिबार साँझ ६ बजेका exam, faculty को आफ्नै settings र Approved question bank अनुसार तयार भएर schedule हुन्छन्। पहिले schedule भएका exam overwrite हुँदैनन्।</p><label for="batchMonth">Exam month</label><input id="batchMonth" type="month" style="padding:12px;border:1px solid #cbd5e1;border-radius:10px"><button id="batchScheduleBtn" class="primary" type="button" style="margin-top:10px">Schedule All Faculties</button></div>
+<div class="portal-card" style="background:#f8fafc"><h3>Faculty अनुसार Exam Format सेट गर्नुहोस्</h3><p class="portal-muted">हरेक faculty को question count, duration, marks र pass marks अलग-अलग राख्न सकिन्छ। Monthly batch schedule गर्नु अघि format सुरक्षित गर्नुहोस्।</p><form id="facultySettingsForm" class="portal-form" style="max-width:760px"><label for="settingsFaculty">Faculty</label><select id="settingsFaculty" required></select><label for="settingsDuration">Duration (minutes)</label><input id="settingsDuration" type="number" min="1" max="180" value="60" required><label for="settingsCount">Question count</label><input id="settingsCount" type="number" min="1" max="300" value="50" required><label for="settingsMarks">Marks per question</label><input id="settingsMarks" type="number" min="0.01" step="0.01" value="1" required><label for="settingsNegative">Negative marks per wrong answer</label><input id="settingsNegative" type="number" min="0" step="0.01" value="0" required><label for="settingsPass">Pass marks</label><input id="settingsPass" type="number" min="0" step="0.01" value="25" required><button class="primary" type="submit">Save Faculty Exam Format</button></form></div>
 <div class="portal-card" style="background:#f8fafc"><h3>१. Exam Draft बनाउनुहोस्</h3><form id="examScheduleForm" class="portal-form" style="max-width:760px">
 <label for="examFaculty">Faculty</label><select id="examFaculty" required></select><label for="examTitle">Exam Title</label><input id="examTitle" maxlength="160" required placeholder="Weekly Practice Exam - Week 1">
 <label for="examWeek">Week Number</label><select id="examWeek"><option value="1">Week 1</option><option value="2">Week 2</option><option value="3">Week 3</option><option value="4">Week 4</option></select>
@@ -56,5 +58,5 @@ body{background:#f1f5f9}.portal-wrap{max-width:1100px;margin:28px auto;padding:0
 </section>
 </main>
 <script type="module" src="admin-portal.js?v=3"></script>
-<script type="module" src="admin-exams.js?v=1"></script>
+<script type="module" src="admin-exams.js?v=2"></script>
 </body></html>
