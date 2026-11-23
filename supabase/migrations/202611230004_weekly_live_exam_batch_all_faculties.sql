@@ -43,6 +43,7 @@ begin
         faculty_code := f.faculty_code; week_number := w; result := 'exists'; details := 'यस faculty/week को exam पहिल्यै छ'; return next; continue;
       end if;
       begin
+        v_exam_id := null;
         insert into public.live_exams(faculty_code,exam_year,exam_month,week_number,title,starts_at,duration_minutes,question_count,marks_per_question,negative_marks,pass_marks,status,created_by)
         values(f.faculty_code,p_exam_year,p_exam_month,w,f.faculty_name||' - Monthly Practice Exam Week '||w,v_start,
           f.exam_duration_minutes,f.exam_question_count,f.exam_marks_per_question,f.exam_negative_marks,f.exam_pass_marks,'draft',auth.uid())
@@ -63,7 +64,7 @@ begin
           where exam_id=v_exam_id;
         faculty_code := f.faculty_code; week_number := w; result := 'scheduled'; details := v_added||' प्रश्नको paper schedule भयो'; return next;
       exception when others then
-        delete from public.live_exams where exam_id=v_exam_id;
+        if v_exam_id is not null then delete from public.live_exams where exam_id=v_exam_id; end if;
         faculty_code := f.faculty_code; week_number := w; result := 'failed'; details := sqlerrm; return next;
       end;
     end loop;
