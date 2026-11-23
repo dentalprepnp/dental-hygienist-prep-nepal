@@ -455,20 +455,48 @@
   </section>
   <section id="loksewaView" class="view hidden exam-view">
     <button class="module-back" type="button" data-back-exams>← परीक्षा छनोटमा फर्कनुहोस्</button>
-    <div class="exam-heading"><span class="track-icon">🏛️</span><div><p class="eyebrow">PUBLIC SERVICE COMMISSION • NEPAL</p><h2>लोकसेवा – Dental Hygienist</h2><p class="muted">प्राविधिक विषय र सामान्य ज्ञान/सेवा सम्बन्धी तयारी</p></div></div>
-    <div class="notice"><b>लोकसेवा तयारी खण्ड</b><p>यहाँ Dental Hygienist पदको तह, सेवा/समूह र विज्ञापनअनुसारको आधिकारिक पाठ्यक्रममा आधारित Notes, MCQs र Mock Tests राखिनेछ।</p></div>
-    <h3>प्रस्तावित अध्ययन क्षेत्र</h3>
-    <div class="topic-grid">
-      <article class="topic-card"><b>01. Dental Hygiene Technical</b><small>Oral health, prevention, clinical procedures and patient care</small></article>
-      <article class="topic-card"><b>02. Oral Diseases & Dental Materials</b><small>Oral pathology, microbiology, instruments and materials</small></article>
-      <article class="topic-card"><b>03. Community & Public Health</b><small>Health promotion, epidemiology and community dentistry</small></article>
-      <article class="topic-card"><b>04. General Knowledge</b><small>नेपालको भूगोल, इतिहास, समाज र समसामयिक विषय</small></article>
-      <article class="topic-card"><b>05. Constitution & Governance</b><small>नेपालको संविधान, शासन व्यवस्था र सार्वजनिक प्रशासन</small></article>
-      <article class="topic-card"><b>06. Public Service & Job-related Knowledge</b><small>सेवा सम्बन्धी कानुन, आचरण र पदसँग सम्बन्धित जिम्मेवारी</small></article>
+    <div class="exam-heading"><span class="track-icon">🏛️</span><div><p class="eyebrow">FEDERAL & PROVINCIAL PUBLIC SERVICE COMMISSIONS</p><h2>लोकसेवा – Dental Hygienist</h2><p class="muted">चौथो र पाँचौँ तह • संघीय तथा सातै प्रदेश</p></div></div>
+    <div class="notice"><b>आफ्नो लोकसेवा आयोग छान्नुहोस्</b><p>पहिले आयोग/प्रदेश र त्यसपछि तह छान्नुहोस्। प्रत्येक विज्ञापनको आधिकारिक पाठ्यक्रमअनुसार छुट्टै Notes, Practice MCQs र Mock Tests तयार गरिनेछ।</p></div>
+    <h3>१. आयोग / प्रदेश छनोट</h3>
+    <div class="topic-grid loksewa-commission-grid">
+      <button type="button" class="topic-card loksewa-choice" data-loksewa-commission="federal"><b>🇳🇵 संघीय लोक सेवा आयोग</b><small>Federal Public Service Commission</small></button>
+      <button type="button" class="topic-card loksewa-choice" data-loksewa-commission="koshi"><b>कोशी प्रदेश</b><small>प्रदेश लोक सेवा आयोग</small></button>
+      <button type="button" class="topic-card loksewa-choice" data-loksewa-commission="madhesh"><b>मधेश प्रदेश</b><small>प्रदेश लोक सेवा आयोग</small></button>
+      <button type="button" class="topic-card loksewa-choice" data-loksewa-commission="bagmati"><b>बागमती प्रदेश</b><small>प्रदेश लोक सेवा आयोग</small></button>
+      <button type="button" class="topic-card loksewa-choice" data-loksewa-commission="gandaki"><b>गण्डकी प्रदेश</b><small>प्रदेश लोक सेवा आयोग</small></button>
+      <button type="button" class="topic-card loksewa-choice" data-loksewa-commission="lumbini"><b>लुम्बिनी प्रदेश</b><small>प्रदेश लोक सेवा आयोग</small></button>
+      <button type="button" class="topic-card loksewa-choice" data-loksewa-commission="karnali"><b>कर्णाली प्रदेश</b><small>प्रदेश लोक सेवा आयोग</small></button>
+      <button type="button" class="topic-card loksewa-choice" data-loksewa-commission="sudurpashchim"><b>सुदूरपश्चिम प्रदेश</b><small>प्रदेश लोक सेवा आयोग</small></button>
     </div>
-    <p class="disclaimer">लोकसेवाको पाठ्यक्रम पद, तह, सेवा/समूह र विज्ञापनअनुसार फरक हुन सक्छ। आधिकारिक पाठ्यक्रमसँग मिलाएर मात्र प्रश्न बैंक बनाइनेछ।</p>
+    <div id="loksewaLevelPanel" class="notice hidden" style="margin-top:18px">
+      <h3 id="loksewaSelectedCommission">तह छनोट</h3><p>तयारी गर्न चाहेको तह छान्नुहोस्।</p>
+      <div class="topic-grid">
+        <button type="button" class="topic-card loksewa-level-choice" data-loksewa-level="4"><b>चौथो तह</b><small>Fourth Level Preparation</small></button>
+        <button type="button" class="topic-card loksewa-level-choice" data-loksewa-level="5"><b>पाँचौँ तह</b><small>Fifth Level Preparation</small></button>
+      </div>
+    </div>
+    <div id="loksewaSelectionStatus" class="notice hidden" role="status" aria-live="polite" style="margin-top:16px">
+      <b id="loksewaSelectionTitle">तयारी खण्ड</b><p id="loksewaSelectionMessage">आधिकारिक पाठ्यक्रम जाँच हुँदैछ।</p>
+    </div>
+    <p class="disclaimer">महत्त्वपूर्ण: सबै आयोग र तहको पाठ्यक्रम एउटै हुँदैन। सम्बन्धित विज्ञापनको आधिकारिक syllabus पुष्टि नभएसम्म उपलब्ध भएको भनेर देखाइने छैन। प्रश्न बैंक पनि पुष्टि भएको पाठ्यक्रमसँग मिलाएर मात्र प्रकाशित गरिनेछ।</p>
   </section>
 
+<script>
+/* Loksewa selector: commission first, then level. */
+(function(){
+ const root=document.getElementById("loksewaView");
+ if(!root || root.dataset.selectorReady==="1") return;
+ root.dataset.selectorReady="1";
+ const names={federal:"संघीय लोक सेवा आयोग",koshi:"कोशी प्रदेश",madhesh:"मधेश प्रदेश",bagmati:"बागमती प्रदेश",gandaki:"गण्डकी प्रदेश",lumbini:"लुम्बिनी प्रदेश",karnali:"कर्णाली प्रदेश",sudurpashchim:"सुदूरपश्चिम प्रदेश"};
+ let selected="";
+ root.addEventListener("click",function(event){
+  const c=event.target.closest("[data-loksewa-commission]");
+  if(c){selected=c.dataset.loksewaCommission;root.querySelectorAll("[data-loksewa-commission]").forEach(x=>x.setAttribute("aria-pressed",String(x===c)));root.querySelector("#loksewaSelectedCommission").textContent=names[selected]+" — तह छनोट";root.querySelector("#loksewaLevelPanel").classList.remove("hidden");root.querySelector("#loksewaSelectionStatus").classList.add("hidden");root.querySelector("#loksewaLevelPanel").scrollIntoView({behavior:"smooth",block:"nearest"});return;}
+  const l=event.target.closest("[data-loksewa-level]");
+  if(l&&selected){const level=l.dataset.loksewaLevel;root.querySelectorAll("[data-loksewa-level]").forEach(x=>x.setAttribute("aria-pressed",String(x===l)));root.querySelector("#loksewaSelectionTitle").textContent=names[selected]+" • "+(level==="4"?"चौथो तह":"पाँचौँ तह");root.querySelector("#loksewaSelectionMessage").textContent="यो आयोग र तहको सम्बन्धित विज्ञापनको आधिकारिक पाठ्यक्रम पुष्टि गरेर मात्र Notes, Practice MCQs र Mock Tests खोलिनेछन्। अहिले अपुष्ट प्रश्नहरू राखिएका छैनन्।";root.querySelector("#loksewaSelectionStatus").classList.remove("hidden");root.querySelector("#loksewaSelectionStatus").scrollIntoView({behavior:"smooth",block:"nearest"});}
+ });
+})();
+</script>
 </main>
 
 
