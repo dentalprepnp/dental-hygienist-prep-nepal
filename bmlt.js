@@ -52,7 +52,7 @@
   }
   function showApp() {
     status.classList.add("hidden"); app.classList.remove("hidden");
-    document.getElementById("bmltNotesCount").textContent=notes.length+" वटा विषय";
+    document.getElementById("bmltNotesCount").textContent=notes.length+" वटा Notes";
     document.getElementById("bmltPracticeCount").textContent=practiceQuestions.length+" अभ्यास प्रश्न";
     document.getElementById("bmltMockCount").textContent=mockBankQuestions.length+" प्रश्न • "+mockBankQuestions.length+" मिनेट";
     document.getElementById("bmltMockIntroText").textContent=mockBankQuestions.length+" प्रश्न • "+mockBankQuestions.length+" मिनेट • प्रत्येक प्रश्नको १ अंक";
