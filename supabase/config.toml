@@ -1,2 +1,5 @@
 [functions.student-help]
 verify_jwt = false
+
+[functions.admin-generate-exam-questions]
+verify_jwt = true
