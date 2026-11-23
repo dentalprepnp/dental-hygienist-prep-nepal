@@ -121,10 +121,31 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   }
   return "supplemental";
  };
+ // Remove exact duplicate stems before dividing the learning pools.
+ const uniqueQuestionMap=new Map();
+ bank.forEach(item=>{
+  const stem=String(item.q?.[0]||"").trim().toLocaleLowerCase().replace(/\s+/g," ");
+  if(stem&&!uniqueQuestionMap.has(stem))uniqueQuestionMap.set(stem,item);
+ });
+ bank.splice(0,bank.length,...uniqueQuestionMap.values());
  bank.forEach(item=>{item.examBlueprintSubject=assignBlueprintSubject(item);});
 
- const mcqBank=bank;
- const mockBank=bank;
+ // Keep a separate mock pool large enough for the 150-question syllabus blueprint.
+ const blueprintMockMinimums={human:8,oral:7,path:8,pharm:7,bpi:18,bpii:20,materials:12,radiography:10,basicMedical:8,dentalPublicHealth:22,healthEducation:5,epidemiology:10,officeManagement:7,environmentalHealth:5,nutrition:3};
+ const blueprintGroups=new Map();
+ bank.forEach(item=>{
+  const key=item.examBlueprintSubject||"supplemental";
+  if(!blueprintGroups.has(key))blueprintGroups.set(key,[]);
+  blueprintGroups.get(key).push(item);
+ });
+ const mcqBank=[],mockBank=[];
+ blueprintGroups.forEach((items,key)=>{
+  const mockCount=Math.min(Math.max(0,items.length-1),Math.max(Math.floor(items.length/2),blueprintMockMinimums[key]||0));
+  items.forEach((item,index)=>{
+   const goesToMock=Math.floor((index+1)*mockCount/items.length)>Math.floor(index*mockCount/items.length);
+   (goesToMock?mockBank:mcqBank).push(item);
+  });
+ });
  const setNHPCFocused=focused=>{
   const view=document.getElementById("nhpcView");
   if(!view)return;
@@ -412,7 +433,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
     <button class="feature-card" data-mock-size="50"><b>Mini Mock</b><strong>५० प्रश्न</strong><small>६० मिनेट</small></button>
     <button class="feature-card" data-mock-size="100"><b>Standard Mock</b><strong>१०० प्रश्न</strong><small>१२० मिनेट</small></button>
     <button class="feature-card" data-mock-size="150"><b>Advanced Mock</b><strong>१५० प्रश्न</strong><small>१८० मिनेट</small></button>
-    <button class="feature-card" data-mock-size="all"><b>Full Question Bank</b><strong>सबै प्रश्न</strong><small>पूरा उपलब्ध बैंक</small></button>
+    <button class="feature-card" data-mock-size="all"><b>Full Mock Bank</b><strong>सबै Mock प्रश्न</strong><small>Mock Bank का सबै प्रश्न</small></button>
    </div><p class="muted">विषयगत Mock मा छानिएको विषयका प्रश्न मात्र आउँछन्। प्रश्न संख्या उपलब्ध प्रश्नअनुसार सीमित हुन सक्छ। यो अभ्यास योजना हो, NHPC को आधिकारिक परीक्षा समय/प्रश्न संख्याको दाबी होइन।</p>`;
   mockRoot.scrollIntoView({behavior:"smooth",block:"start"});
   mockRoot.querySelector("#nhpcMockSubject").addEventListener("change",e=>{mockSubjectFilter=e.target.value;});
