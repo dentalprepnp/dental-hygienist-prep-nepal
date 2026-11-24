@@ -8,7 +8,7 @@
   <title>HL Preparation | Health License Preparation Nepal</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=294">
+  <link rel="stylesheet" href="styles.css?v=295">
 </head>
 <body data-app-page="home">
 <header class="topbar">
@@ -652,12 +652,16 @@
   if(target.matches(".track-card[data-tab]")){
    const view=document.getElementById(key+"View");
    if(view){
-    document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
+    document.querySelectorAll(".view").forEach(v=>{v.classList.add("hidden");v.style.removeProperty("display");v.setAttribute("aria-hidden","true");});
     view.classList.remove("hidden");
+    view.style.display="block";
+    view.setAttribute("aria-hidden","false");
+    document.body.dataset.appPage=key==="home"?"home":"faculty";
     document.body.classList.toggle("study-screen-open",key!=="home");
     const back=document.getElementById("facultyBackButton");
     if(back)back.classList.toggle("hidden",key==="home");
     document.querySelectorAll(".tab").forEach(tab=>tab.classList.toggle("active",tab.dataset.tab===key));
+    document.querySelectorAll("[data-bottom-nav]").forEach(item=>{const active=item.dataset.bottomNav===(key==="home"?"home":"courses");item.classList.toggle("is-active",active);if(active)item.setAttribute("aria-current","page");else item.removeAttribute("aria-current");});
     window.scrollTo({top:0,left:0,behavior:"auto"});
     view.scrollIntoView({behavior:"auto",block:"start"});
    }else{target.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true,view:window}));}
@@ -667,7 +671,7 @@
 })();
 </script>
 
-<script src="app.js?v=185"></script>
+<script src="app.js?v=186"></script>
 <script type="module" src="auth.js?v=12"></script>\n<script type="module" src="membership.js?v=2"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=6"></script>
