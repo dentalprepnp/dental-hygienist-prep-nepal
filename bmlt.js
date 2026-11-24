@@ -95,24 +95,58 @@
     document.getElementById("bmltAgain").addEventListener("click",()=>{document.getElementById("bmltMockIntro").classList.remove("hidden");area.innerHTML="";mock=[];});
   }
   async function loadSecureContent(){
-    statusMessage("Supabase बाट सुरक्षित BMLT NHPC Licensing सामग्री लोड हुँदैछ...");
+    status.replaceChildren();
+    statusMessage("BMLT सामग्री लोड हुँदैछ...");
     try{
       const {createClient}=await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
-      const client=createClient("https://jrivojhpdupxnpefevzm.supabase.co","sb_publishable_rj6oDSLkwQipLCXPfVoy9w_0r6vqR0u");
-      const {data:{session},error:sessionError}=await client.auth.getSession();
-      if(sessionError)throw sessionError;
-      if(!session?.user){
-        statusMessage("BMLT NHPC Licensing सामग्री हेर्न पहिले Login गर्नुहोस्। तलको Login / Create Account भाग खोल्नुहोस्।","warning");
-        const btn=document.createElement("button");btn.className="primary";btn.textContent="Login / Create Account";btn.addEventListener("click",()=>document.getElementById("accountPanel")?.scrollIntoView({behavior:"smooth",block:"center"}));status.appendChild(btn);
+      const client=createClient(
+        "https://jrivojhpdupxnpefevzm.supabase.co",
+        "sb_publishable_rj6oDSLkwQipLCXPfVoy9w_0r6vqR0u",
+        {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}
+      );
+      const {data:sessionData,error:sessionError}=await client.auth.getSession();
+      if(sessionError)throw new Error("Session: "+sessionError.message);
+      if(!sessionData?.session?.user){
+        statusMessage("BMLT सामग्री हेर्न पहिले Login गर्नुहोस्।","warning");
+        const btn=document.createElement("button");
+        btn.className="primary";btn.textContent="Login / Create Account";
+        btn.addEventListener("click",()=>{
+          const panel=document.getElementById("accountPanel");
+          panel?.classList.remove("hidden");
+          panel?.scrollIntoView({behavior:"smooth",block:"center"});
+        });
+        status.appendChild(btn);
         return;
       }
-      const {data,error}=await client.rpc("get_learning_content",{p_subject:"BMLT NHPC Licensing",p_content_type:null});
-      if(error)throw error;
-      if(!data?.length){statusMessage("BMLT पेज खुल्यो, तर Supabase बाट सामग्री आएन। BMLT content database मा import/publish भएको छ कि जाँच गर्नुहोस्।","warning");addRetryButton();return;}
-      convertRows(data);showApp();
+      const {data,error}=await client.rpc("get_learning_content",{
+        p_subject:"BMLT NHPC Licensing",
+        p_content_type:null
+      });
+      if(error){
+        const code=error.code?(" ["+error.code+"]"):"";
+        throw new Error("Supabase RPC"+code+": "+(error.message||"Request failed"));
+      }
+      if(!Array.isArray(data)){
+        throw new Error("RPC ले list फर्काएन। Supabase function को return type जाँच्नुहोस्।");
+      }
+      if(!data.length){
+        statusMessage("Login सफल छ, तर RPC ले BMLT का लागि कुनै row फर्काएन। Published/access_tier र get_learning_content function जाँच आवश्यक छ।","warning");
+        addRetryButton();return;
+      }
+      const valid=data.filter(row=>row&&["note","mcq","mock"].includes(row.content_type)&&row.content_data);
+      if(!valid.length){
+        const shape=Object.keys(data[0]||{}).join(", ")||"empty row";
+        throw new Error("RPC data structure मिलेन। प्राप्त fields: "+shape);
+      }
+      convertRows(valid);
+      if(!practiceQuestions.length&&!mockBankQuestions.length&&!notes.length){
+        throw new Error("Rows आए, तर Note/MCQ/Mock data parse भएन।");
+      }
+      showApp();
     }catch(error){
-      console.error("Secure BMLT NHPC Licensing:",error);
-      statusMessage("BMLT सामग्री load हुन सकेन। कृपया Internet/Login जाँच्नुहोस्। Error: "+(error.message||"Unknown error"),"error");addRetryButton();
+      console.error("BMLT secure content load failed:",error);
+      statusMessage("BMLT load error: "+(error.message||String(error)),"error");
+      addRetryButton();
     }
   }
   loadSecureContent();
