@@ -231,7 +231,7 @@ if(profileForm)profileForm.addEventListener("submit",e=>{
  renderStudentProfile();
 });
 function showTab(tab,fromBrowserBack=false){
-  $$(".view").forEach(v=>v.classList.add("hidden"));
+  $$(".view").forEach(v=>{v.classList.add("hidden");v.style.removeProperty("display");v.setAttribute("aria-hidden","true");});
   const target=$("#"+tab+"View");
   if(!target)return;
   if(!fromBrowserBack){try{history.pushState({hlpTab:tab},"");}catch(e){}}
