@@ -431,11 +431,17 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
     <button class="feature-card" data-mock-size="10"><b>Quick Test</b><strong>१० प्रश्न</strong><small>६० मिनेट</small></button>
     <button class="feature-card" data-mock-size="25"><b>Quick Mock</b><strong>२५ प्रश्न</strong><small>६० मिनेट</small></button>
     <button class="feature-card" data-mock-size="50"><b>Mini Mock</b><strong>५० प्रश्न</strong><small>६० मिनेट</small></button>
-    <button class="feature-card" data-mock-size="100"><b>Mock Set 1</b><strong>१०० प्रश्न • १०० अंक</strong><small>६० मिनेट</small></button>
+    <button class="feature-card" id="dhShowSets"><b>१०० प्रश्नका Sets</b><strong>\${dhSetCount} Sets</strong><small>प्रत्येक Set • १०० अंक</small></button>
     <button class="feature-card" data-mock-size="150"><b>Advanced Mock</b><strong>१५० प्रश्न</strong><small>६० मिनेट</small></button>
     <button class="feature-card" data-mock-size="all"><b>Full Mock Bank</b><strong>सबै Mock प्रश्न</strong><small>Mock Bank का सबै प्रश्न</small></button>
    </div><p class="muted">विषयगत Mock मा छानिएको विषयका प्रश्न मात्र आउँछन्। प्रश्न संख्या उपलब्ध प्रश्नअनुसार सीमित हुन सक्छ। यो अभ्यास योजना हो, NHPC को आधिकारिक परीक्षा समय/प्रश्न संख्याको दाबी होइन।</p>`;
   mockRoot.scrollIntoView({behavior:"smooth",block:"start"});
+  mockRoot.querySelector("#dhShowSets")?.addEventListener("click",()=>{
+   let p=mockRoot.querySelector("#dhSetsPanel");if(!p){p=document.createElement("section");p.id="dhSetsPanel";p.className="notice";mockRoot.appendChild(p);}
+   p.innerHTML="<h3>१०० प्रश्नका Sets</h3><p>प्रत्येक Set मा १०० प्रश्न = १०० अंक। बीचमा रोकिएमा Continue गरेर त्यही प्रश्नबाट पढ्न सकिन्छ।</p><div class='nextrow' id='dhSetButtons' style='flex-wrap:wrap'></div><button type='button' class='primary' id='dhResumeSet'>अधुरो Set Continue</button>";
+   const bs=p.querySelector("#dhSetButtons");for(let x=1;x<=dhSetCount;x++){const b=document.createElement("button");b.type="button";b.className="smallbtn";b.textContent="Set "+x;b.onclick=()=>dhStart(x);bs.appendChild(b);}
+   p.querySelector("#dhResumeSet").onclick=()=>{if(!dhResume())alert("अधुरो Set भेटिएन।");};p.scrollIntoView({behavior:"smooth",block:"start"});
+  });
   mockRoot.querySelector("#nhpcMockSubject").addEventListener("change",e=>{mockSubjectFilter=e.target.value;});
   mockRoot.querySelectorAll("[data-mock-size]").forEach(b=>b.addEventListener("click",()=>{mockTarget=b.dataset.mockSize==="all"?"all":Number(b.dataset.mockSize);beginNhpcMock()}));
  }
@@ -460,15 +466,16 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
    <article class="question"><div class="qtop"><span>${item.topic}</span><span>${selected===undefined?"उत्तर छान्नुहोस्":"उत्तर सुरक्षित भयो"}</span></div><h3>${q[0]}</h3><p class="translation">${q[1]}</p><div class="options">${q[2].map((o,i)=>`<button type="button" class="option ${selected===i?"selected":""}" data-full-answer="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div>
    <div class="nextrow"><button class="smallbtn" id="nhpcFullPrev" ${mockAt===0?"disabled":""}>अघिल्लो</button><span class="muted">${Object.keys(mockPicked).length}/${total} उत्तर</span><button class="smallbtn" id="nhpcFullNext">${mockAt===total-1?"परीक्षा बुझाउनुहोस्":"अर्को"}</button></div></article>
    <div class="nextrow"><button class="secondary" id="nhpcFullSubmit">अहिले नै परीक्षा बुझाउनुहोस्</button></div>`;
-  mockRoot.querySelectorAll("[data-full-answer]").forEach(b=>b.addEventListener("click",()=>{mockPicked[mockAt]=Number(b.dataset.fullAnswer);drawNhpcMock()}));
-  mockRoot.querySelectorAll("[data-jump]").forEach(b=>b.addEventListener("click",()=>{mockAt=Number(b.dataset.jump);drawNhpcMock()}));
-  mockRoot.querySelector("#nhpcFullPrev").addEventListener("click",()=>{mockAt=Math.max(0,mockAt-1);drawNhpcMock()});
-  mockRoot.querySelector("#nhpcFullNext").addEventListener("click",()=>{if(mockAt===total-1)finishNhpcMock(false);else{mockAt++;drawNhpcMock()}});
+  mockRoot.querySelectorAll("[data-full-answer]").forEach(b=>b.addEventListener("click",()=>{mockPicked[mockAt]=Number(b.dataset.fullAnswer);dhSave();drawNhpcMock()}));
+  mockRoot.querySelectorAll("[data-jump]").forEach(b=>b.addEventListener("click",()=>{mockAt=Number(b.dataset.jump);dhSave();drawNhpcMock()}));
+  mockRoot.querySelector("#nhpcFullPrev").addEventListener("click",()=>{mockAt=Math.max(0,mockAt-1);dhSave();drawNhpcMock()});
+  mockRoot.querySelector("#nhpcFullNext").addEventListener("click",()=>{if(mockAt===total-1)finishNhpcMock(false);else{mockAt++;dhSave();drawNhpcMock()}});
   mockRoot.querySelector("#nhpcFullSubmit").addEventListener("click",()=>{if(confirm("परीक्षा बुझाउने हो? बाँकी अनुत्तरित प्रश्न गलत मानिनेछन्।"))finishNhpcMock(false)});
  }
  function finishNhpcMock(auto){
   if(mockDone)return;mockDone=true;clearInterval(mockClock);mockClock=null;
   const total=mockSet.length,answered=Object.keys(mockPicked).length,score=mockSet.reduce((sum,item,i)=>sum+(mockPicked[i]===item.q[3]?1:0),0),wrong=answered-score,unanswered=total-answered,percent=Math.round(score/total*100),passed=percent>=50;
+  try{localStorage.removeItem(dhKey);const k="dhpn-nhpc-set-results-v1",h=JSON.parse(localStorage.getItem(k)||"[]");h.unshift({setNo:dhSetNo,score,total,percent,passed,date:new Date().toISOString()});localStorage.setItem(k,JSON.stringify(h.slice(0,50)));}catch(e){}
   const topicStats={};mockSet.forEach((item,i)=>{const key=item.topic||"अन्य";if(!topicStats[key])topicStats[key]={total:0,wrong:0};topicStats[key].total++;if(mockPicked[i]!==item.q[3])topicStats[key].wrong++;});const savedTopicStats={};Object.entries(topicStats).forEach(([name,v])=>{savedTopicStats[name]={right:v.total-v.wrong,total:v.total};});window.DHPNProgress?.recordMock?.("NHPC - PCL in Dental Hygiene",score,total,{subject:mockSubjectFilter,topicStats:savedTopicStats});renderNhpcProgress();
   const weakTopics=Object.entries(topicStats).filter(([,v])=>v.wrong>0).sort((a,b)=>(b[1].wrong/b[1].total)-(a[1].wrong/a[1].total));
   mockRoot.innerHTML=`<div class="result"><p>PCL IN DENTAL HYGIENE MOCK COMPLETED</p><strong>${score}/${total}</strong><b>${percent}%</b><p>${auto?"समय सकिएपछि परीक्षा स्वतः बुझाइयो।":"तपाईंको परीक्षा बुझाइयो।"} ${total-answered} प्रश्न अनुत्तरित थिए।</p><p><b>सही:</b> ${score} &nbsp; <b>गलत:</b> ${wrong} &nbsp; <b>अनुत्तरित:</b> ${unanswered}</p><h2>${passed?"🎉 Congratulations! तपाईं NHPC Dental Hygienist Mock Exam मा उत्तीर्ण हुनुभयो।":"अहिलेका लागि Fail — फेरि अभ्यास गरेर प्रयास गर्नुहोस्।"}</h2><p>Pass Mark: ५०% (${Math.ceil(total*0.5)} अंक) • तपाईंको नतिजा: ${passed?"PASS":"FAIL"}</p><h3>विषयगत नतिजा र सुधार गर्नुपर्ने क्षेत्र</h3><div>${Object.entries(topicStats).map(([name,v])=>`<p><b>${name}</b> — ${v.total-v.wrong}/${v.total} सही <span class="pill">${Math.round((v.total-v.wrong)/v.total*100)}%</span></p>`).join("")}</div><p><b>पहिले दोहोर्‍याएर पढ्नुहोस्:</b> ${weakTopics.length?weakTopics.slice(0,4).map(([name,v])=>name+" ("+v.wrong+" गलत)").join(" • "):"सबै उत्तर सही छन्!"}</p><section class="notice" style="margin:14px 0"><h3>तपाईंको व्यक्तिगत अभ्यास योजना</h3><p>सबैभन्दा कम अंक आएको विषयबाट सुरु गर्नुहोस्। तलको बटन थिच्दा त्यही विषयका MCQ मात्र देखिनेछन्।</p>${weakTopics.length?weakTopics.slice(0,4).map(([name,v])=>`<button type="button" class="smallbtn nhpc-weak-practice" data-weak-topic="${name}" style="margin:4px">${name} — ${v.wrong} गलत / ${v.total}</button>`).join(""):"<p>सबै उत्तर सही छन्। अब अर्को Mock Test दिएर अभ्यास जारी राख्नुहोस्।</p>"}</section><button class="primary" id="nhpcShowReview">उत्तर समीक्षा गर्नुहोस्</button> <button class="secondary" id="nhpcRetake">फेरि परीक्षा दिनुहोस्</button></div><div id="nhpcFullReview"></div>`;
@@ -476,7 +483,13 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   mockRoot.querySelector("#nhpcShowReview").addEventListener("click",()=>{mockRoot.querySelector("#nhpcFullReview").innerHTML=mockSet.map((item,i)=>{const q=item.q,ans=mockPicked[i];return `<article class="note answer-review ${ans===q[3]?"review-correct":"review-wrong"}"><p class="eyebrow">${i+1}. ${item.topic}</p><h3>${q[0]}</h3><p class="translation">${q[1]}</p><p>तपाईंको उत्तर: <b>${ans===undefined?"उत्तर नदिएको":q[2][ans]}</b></p><p>सही उत्तर: <b>${q[2][q[3]]}</b></p><p>${q[4]}</p><p class="np">${q[5]}</p>${q[6]?`<p><b>Clinical example:</b> ${q[6]}</p>`:""}<span class="pill">${ans===q[3]?"सही ✓":"गलत / अनुत्तरित"}</span></article>`}).join("")});
   mockRoot.querySelector("#nhpcRetake").addEventListener("click",openNhpcMock);
  }
- document.getElementById("nhpcStartFullMock")?.addEventListener("click",openNhpcMock);
+ // Numbered 100-question sets with autosave/resume.
+ const dhKey="dhpn-nhpc-active-set-v1",dhSetCount=Math.floor(mockBank.length/100);let dhSetNo=1;
+ const dhSave=()=>{if(mockDone||!mockSet.length)return;try{localStorage.setItem(dhKey,JSON.stringify({setNo:dhSetNo,questions:mockSet,picked:mockPicked,at:mockAt,seconds:mockSeconds}));}catch(e){}};
+ const dhStart=setNo=>{const qset=shuffleItems(mockBank).slice((setNo-1)*100,setNo*100);if(qset.length!==100){alert("यो Set मा १०० प्रश्न उपलब्ध छैन।");return;}clearInterval(mockClock);dhSetNo=setNo;mockSet=qset;mockAt=0;mockPicked={};mockSeconds=3600;mockDone=false;mockSubjectFilter="सबै विषय";mockRoot.classList.remove("hidden");document.getElementById("nhpcCloseMock")?.classList.remove("hidden");setNHPCFocused(true);document.getElementById("nhpcView")?.classList.add("nhpc-focused-mode");dhSave();drawNhpcMock();mockClock=setInterval(()=>{mockSeconds--;const t=mockRoot.querySelector("#nhpcFullTimer");if(t)t.textContent=fmtNhpcTime();dhSave();if(mockSeconds<=0)finishNhpcMock(true)},1000);};
+ const dhResume=()=>{let s;try{s=JSON.parse(localStorage.getItem(dhKey)||"null")}catch(e){}if(!s||!Array.isArray(s.questions)||!s.questions.length)return false;clearInterval(mockClock);dhSetNo=s.setNo||1;mockSet=s.questions;mockPicked=s.picked||{};mockAt=Math.min(s.at||0,mockSet.length-1);mockSeconds=Math.max(1,s.seconds||3600);mockDone=false;mockSubjectFilter="सबै विषय";mockRoot.classList.remove("hidden");document.getElementById("nhpcCloseMock")?.classList.remove("hidden");setNHPCFocused(true);document.getElementById("nhpcView")?.classList.add("nhpc-focused-mode");drawNhpcMock();mockClock=setInterval(()=>{mockSeconds--;const t=mockRoot.querySelector("#nhpcFullTimer");if(t)t.textContent=fmtNhpcTime();dhSave();if(mockSeconds<=0)finishNhpcMock(true)},1000);return true;};
+
+document.getElementById("nhpcStartFullMock")?.addEventListener("click",openNhpcMock);
  document.getElementById("nhpcCloseMock")?.addEventListener("click",()=>{clearInterval(mockClock);mockClock=null;mockRoot.classList.add("hidden");document.getElementById("nhpcCloseMock")?.classList.add("hidden");document.getElementById("nhpcView")?.classList.remove("nhpc-focused-mode");setNHPCFocused(false);document.getElementById("nhpcStartFullMock")?.focus()});
 
 
