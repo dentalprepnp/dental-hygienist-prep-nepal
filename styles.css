@@ -1150,3 +1150,29 @@ body.study-screen-open .premium-daily-notice{display:none!important}
 :root[data-theme="dark"] .premium-notice-copy>p:not(.eyebrow),:root[data-theme="dark"] .premium-notice-copy>small{color:#c0d5e2}
 :root[data-theme="dark"] .premium-notice-prices span{background:#10202d;border-color:#315c76;color:#c0d5e2}
 @media(max-width:520px){.premium-daily-notice{gap:10px;padding:14px;border-radius:16px}.premium-notice-icon{flex-basis:38px;height:38px;font-size:22px}.premium-notice-copy h2{font-size:16px}.premium-notice-prices{grid-template-columns:repeat(2,minmax(0,1fr))}.premium-notice-actions{display:grid;grid-template-columns:1fr 1fr}}
+
+
+/* Green premium membership refresh - mobile first */
+.membership-panel{background:linear-gradient(145deg,#f0fdf4 0%,#fff 52%,#dcfce7 100%);border:1px solid #86c99b;box-shadow:0 12px 30px rgba(22,101,52,.10)}
+.membership-panel .section-head h2,.membership-panel .section-head h3{color:#14532d}
+.membership-panel .membership-crown{background:#dcfce7;color:#166534}
+.membership-panel #trialProgress{background:linear-gradient(90deg,#16a34a,#84cc16)!important}
+.membership-panel .premium-tier-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.membership-panel .membership-plan-card{min-width:0;min-height:178px;padding:13px 10px!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:5px!important;border:1px solid #bbf7d0!important;border-radius:17px!important;text-align:center!important;color:#14532d!important;background:linear-gradient(155deg,#fff,#f0fdf4)!important;box-shadow:0 5px 15px rgba(22,101,52,.08);transition:transform .18s ease,box-shadow .18s ease}
+.membership-panel .membership-plan-card:active{transform:scale(.98)}
+.membership-panel .membership-plan-card.selected{border:2px solid #15803d!important;box-shadow:0 0 0 3px rgba(34,197,94,.17),0 8px 18px rgba(22,101,52,.12)}
+.membership-panel .tier-icon{font-size:27px;line-height:1.2}
+.membership-panel .tier-name{font-size:10px;letter-spacing:1.3px;font-weight:900;color:#15803d}
+.membership-panel .membership-plan-card strong{font-size:13px;color:#166534}
+.membership-panel .membership-plan-card b{font-size:21px;line-height:1.25;color:#14532d}
+.membership-panel .tier-caption{font-size:10px;color:#4b7559}
+.membership-panel .membership-plan-card .plan-select{width:100%;margin-top:5px;padding-top:8px;border-top:1px solid rgba(22,101,52,.14);font-size:10px;font-weight:800;color:#15803d}
+.membership-panel .premium-tier-platinum{background:linear-gradient(155deg,#fff,#f0fdf4 75%,#e2e8f0)!important}
+.membership-panel .premium-tier-diamond{background:linear-gradient(155deg,#fff,#ecfdf5 70%,#d1fae5)!important}
+.membership-panel .premium-tier-royal{background:linear-gradient(155deg,#f0fdf4,#dcfce7 70%,#bbf7d0)!important;border-color:#86c99b!important}
+:root[data-theme="dark"] .membership-panel{background:linear-gradient(145deg,#10291d,#142d22 55%,#173b29);border-color:#286b43}
+:root[data-theme="dark"] .membership-panel .section-head h2,:root[data-theme="dark"] .membership-panel .section-head h3{color:#dcfce7}
+:root[data-theme="dark"] .membership-panel .membership-plan-card{background:linear-gradient(155deg,#183b29,#1b4530)!important;border-color:#347a50!important;color:#e6ffed!important}
+:root[data-theme="dark"] .membership-panel .membership-plan-card strong,:root[data-theme="dark"] .membership-panel .membership-plan-card b{color:#e6ffed}
+:root[data-theme="dark"] .membership-panel .tier-name,:root[data-theme="dark"] .membership-panel .tier-caption,:root[data-theme="dark"] .membership-panel .membership-plan-card .plan-select{color:#a7f3c0}
+@media(max-width:360px){.membership-panel .premium-tier-grid{gap:8px}.membership-panel .membership-plan-card{min-height:168px;padding:11px 7px!important}.membership-panel .membership-plan-card b{font-size:19px}}
