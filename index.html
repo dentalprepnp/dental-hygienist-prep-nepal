@@ -605,8 +605,8 @@
   mlt:["mlt.js?v=151"],
   anesthesia:["bsc-anesthesia.js?v=151"],
   ha:["ha-general-medicine.js?v=160"],
-  nhpc:["nhpc.js?v=194"],
-  basicPeriodontology:["nhpc.js?v=194"],
+  nhpc:["nhpc.js?v=196"],
+  basicPeriodontology:["nhpc.js?v=196"],
   dha:["dha.js?v=148"],
   loksewa:[],
   oralPath:["oral-pathology.js?v=149"],
@@ -671,7 +671,7 @@
 })();
 </script>
 
-<script src="app.js?v=191"></script>
+<script src="app.js?v=192"></script>
 <script type="module" src="auth.js?v=12"></script>\n<script type="module" src="membership.js?v=2"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=6"></script>
@@ -714,7 +714,7 @@
   if(window.__hlpNHPCLoadPromise)return window.__hlpNHPCLoadPromise;
   window.__hlpNHPCLoadPromise=new Promise((resolve,reject)=>{
    var script=document.createElement("script");
-   script.src="nhpc.js?v=194";
+   script.src="nhpc.js?v=196";
    script.onload=resolve;
    script.onerror=()=>{window.__hlpNHPCLoadPromise=null;reject(new Error("NHPC module load failed"));};
    document.head.appendChild(script);
