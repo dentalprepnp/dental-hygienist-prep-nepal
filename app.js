@@ -236,7 +236,15 @@ function showTab(tab,fromBrowserBack=false){
   if(!target)return;
   if(!fromBrowserBack){try{history.pushState({hlpTab:tab},"");}catch(e){}}
   target.classList.remove("hidden");
+  // Faculty/course pages must take over the screen, even when entered from the Courses tab.
+  // This prevents the Courses-only CSS from hiding NHPC/HA/Dental Hygiene study panels.
   document.body.dataset.appPage=(tab==="notes"?"notes":(tab==="practice"||tab==="mock"?"practice":"faculty"));
+  if(!["notes","practice","mock","home"].includes(tab)){
+    document.body.dataset.appPage="faculty";
+    document.body.classList.add("study-screen-open");
+    target.style.display="block";
+    target.setAttribute("aria-hidden","false");
+  }
   document.body.classList.toggle("study-screen-open",tab!=="home");
   const facultyBack=$("#facultyBackButton");if(facultyBack)facultyBack.classList.toggle("hidden",tab==="home");
   $(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
