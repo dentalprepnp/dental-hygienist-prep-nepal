@@ -239,6 +239,7 @@ function showTab(tab,fromBrowserBack=false){
   document.body.classList.toggle("study-screen-open",tab!=="home");
   const facultyBack=$("#facultyBackButton");if(facultyBack)facultyBack.classList.toggle("hidden",tab==="home");
   $(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  document.querySelectorAll("[data-bottom-nav]").forEach(item=>{const key=item.dataset.bottomNav;const active=(key==="notes"&&tab==="notes")||(key==="practice"&&(tab==="practice"||tab==="mock"));item.classList.toggle("is-active",active);if(active)item.setAttribute("aria-current","page");else item.removeAttribute("aria-current");});
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
   // Every selected module opens at the very top, without leaving the home directory visible.
@@ -577,14 +578,11 @@ document.addEventListener("click",e=>{
   const back=document.getElementById("facultyBackButton");
   if(back)back.classList.add("hidden");
   if(destination==="home"){
-    try{history.pushState({hlpTab:"home"},"");}catch(e){}
     window.scrollTo({top:0,left:0,behavior:"smooth"});
   }else if(destination==="courses"){
-    try{history.pushState({hlpTab:"courses"},"");}catch(e){}
     const section=document.querySelector(".exam-tracks");
     if(section)section.scrollIntoView({behavior:"smooth",block:"start"});
   }else if(destination==="profile"){
-    try{history.pushState({hlpTab:"profile"},"");}catch(e){}
     const section=document.querySelector(".profile-card");
     if(section)section.scrollIntoView({behavior:"smooth",block:"start"});
   }
