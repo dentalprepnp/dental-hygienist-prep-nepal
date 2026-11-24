@@ -1,9 +1,9 @@
 /* Lightweight PWA cache: precache only the app shell.
    Faculty modules are cached on first use and served cache-first afterwards. */
-const CACHE="hl-preparation-v331-account-corner-login-logout-cache";
+const CACHE="hl-preparation-v332-faculty-card-navigation-fix-cache";
 const ASSETS=[
  "./","./index.html","./feedback.js?v=3",
- "./about.html","./privacy.html","./styles.css?v=279","./app.js?v=177","./auth.js?v=11",
+ "./about.html","./privacy.html","./styles.css?v=280","./app.js?v=177","./auth.js?v=11",
  "./progress-sync.js?v=4","./admin-dashboard.js?v=6","./student-help.js?v=1","./weekly-live-exam.js?v=1","./admin-exams.js?v=5",
  "./manifest.webmanifest","./icon.svg"
 ];
