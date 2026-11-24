@@ -677,7 +677,7 @@
     return candidates.slice().sort(()=>Math.random()-0.5).slice(0,count);
    });
   }
-  state.items=source.slice().sort(()=>Math.random()-0.5).slice(0,size);state.left=mode==="timed"?600:7200;
+  state.items=source.slice().sort(()=>Math.random()-0.5).slice(0,size);state.left=mode==="timed"?600:3600;
   renderQuestion();state.timer=setInterval(()=>{state.left--;const el=root.querySelector("#haTimer");if(el)el.textContent=fmt(state.left);if(state.left<=0)finish();},1000);
  }
  function fmt(n){return Math.floor(n/60).toString().padStart(2,"0")+":"+Math.max(0,n%60).toString().padStart(2,"0")}
