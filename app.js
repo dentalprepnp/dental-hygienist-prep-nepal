@@ -460,24 +460,13 @@ let activeDentalSubject="home";
 function showSubjectHub(id){
  const meta=subjectMeta[id];if(!meta)return;
  activeDentalSubject=id;
- const view=document.getElementById(id+"View");if(!view)return;
- // Every subject except Basic Periodontology has its own independent module.
- // Never overwrite that module: doing so used to replace its Notes/MCQ/Mock
- // with the generic Periodontology practice screen.
- if(id!=="basicPeriodontology"){
-  showTab(id);
+ // Open the real NHPC course view directly. Avoid the intermediate empty
+ // subject landing screen and its extra click that could strand learners.
+ if(id==="basicPeriodontology"){
+  showTab("nhpc");
   return;
  }
- view.classList.add("subject-landing");
- view.innerHTML=`<button class="module-back" type="button" data-back-subjects>← सबै विषयहरू</button>
-  <div class="subject-welcome"><span class="subject-welcome-icon">${meta[2]}</span><p class="eyebrow">PCL IN DENTAL HYGIENE • NHPC</p><h2>${meta[0]}</h2><p>${meta[1]}</p></div>
-  <h3 class="choose-action-title">आज के पढ्ने?</h3>
-  <div class="module-actions">
-   <button class="module-action-card notes-action" type="button" data-study-action="notes"><span>📖</span><b>Study Notes</b><small>पहिले विषय बुझौँ</small><i>खोल्नुहोस् →</i></button>
-   <button class="module-action-card mcq-action" type="button" data-study-action="practice"><span>✍️</span><b>MCQ Practice</b><small>प्रश्न हल गरेर सिकौँ</small><i>अभ्यास सुरु →</i></button>
-   <button class="module-action-card mock-action" type="button" data-study-action="mock"><span>⏱️</span><b>Mock Test</b><small>आफ्नो तयारी जाँचौँ</small><i>परीक्षा दिनुहोस् →</i></button>
-  </div>
-  <div class="study-tip"><b>💡 पढ्ने सजिलो तरिका</b><p>पहिले Notes पढ्नुहोस्, त्यसपछि MCQ अभ्यास गर्नुहोस् र अन्त्यमा Mock Test दिनुहोस्।</p></div>`;
+ const view=document.getElementById(id+"View");if(!view)return;
  showTab(id);
 }
 
