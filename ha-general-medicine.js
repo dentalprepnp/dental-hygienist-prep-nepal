@@ -678,27 +678,23 @@
    });
   }
   state.items=source.slice().sort(()=>Math.random()-0.5).slice(0,size);state.left=mode==="timed"?600:3600;
-  renderQuestion();state.timer=setInterval(()=>{state.left--;const el=root.querySelector("#haTimer");if(el)el.textContent=fmt(state.left);if(state.left<=0)finish();},1000);
+  renderQuestion();state.timer=setInterval(()=>{state.left--;const el=root.querySelector("#haTimer");if(el)el.textContent=fmt(state.left);if(state.left<=0)finish(true);},1000);
  }
  function fmt(n){return Math.floor(n/60).toString().padStart(2,"0")+":"+Math.max(0,n%60).toString().padStart(2,"0")}
  function renderQuestion(){
   const q=state.items[state.index],selected=state.answers[state.index];
   panel('<div class="ha-test-head"><span>'+(state.mode==="timed"?"TIMED PRACTICE":"FULL SYLLABUS PRACTICE MOCK")+'</span><b id="haTimer">'+fmt(state.left)+'</b></div><div class="ha-progress"><span style="width:'+((state.index+1)/state.items.length*100)+'%"></span></div><p class="muted">प्रश्न '+(state.index+1)+' / '+state.items.length+' • प्रत्येक १ अंक • जम्मा '+state.items.length+' अंक</p><article class="ha-question"><small>'+q[6]+'</small><h3>'+q[0]+'</h3><p class="np">'+q[1]+'</p><div class="ha-options">'+q[2].map((o,i)=>'<button class="'+(selected!==undefined&&i===q[3]?"correct":selected===i&&i!==q[3]?"wrong":"")+'" data-ha-option="'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>').join("")+'</div></article><div class="ha-nav"><button data-ha-prev '+(state.index===0?"disabled":"")+'>← अघिल्लो</button><button data-ha-next>'+(state.index===state.items.length-1?"Submit Test":"अर्को →")+'</button></div>');
  }
- function finish(){
-  clearInterval(state.timer);
-  let score=0;
-  const details=state.items.map((q,i)=>{const ok=state.answers[i]===q[3];if(ok)score++;return {q,selected:state.answers[i],ok}});
-  const pct=Math.round(score/state.items.length*100);
-  const passed=pct>=50;
-  const moduleName="NHPC HA – General Medicine";
-  if(window.DHPNProgress)window.DHPNProgress.recordMock(moduleName,score,state.items.length,{subject:"HA"});
-  let history=[];
-  try{history=JSON.parse(localStorage.getItem("dhpn-mock-history")||"[]").filter(x=>x.module===moduleName).sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,5)}catch(e){}
-  const historyHtml=history.length?'<h3>तपाईंको पछिल्लो Mock Test Record</h3>'+history.map((h,i)=>'<article class="ha-review"><b>प्रयास '+(history.length-i)+' • '+new Date(h.date).toLocaleString()+'</b><p><strong>'+h.score+' / '+h.total+'</strong> • '+h.percent+'%</p><p class="'+(h.percent>=50?'correct':'incorrect')+'">'+(h.percent>=50?'अभ्यासमा Pass':'अझै अभ्यास आवश्यक')+'</p></article>').join(""):'';
-  panel('<div class="ha-result '+(passed?'ha-pass':'ha-retry')+'"><h3>'+(passed?'🎉 बधाई छ! तपाईंले अभ्यास Mock Test पास गर्नुभयो।':'💪 निराश नहुनुहोस्! फेरि अभ्यास गरेर सुधार गर्न सक्नुहुन्छ।')+'</h3><div class="ha-score">'+score+' / '+state.items.length+'</div><b>'+pct+'% सही</b><p>सही उत्तर: '+score+' • गलत/छुटेका: '+(state.items.length-score)+'</p><p><strong>अभ्यास नतिजा: '+(passed?'PASS':'NEEDS MORE PRACTICE')+'</strong></p><p class="muted">यो App को अभ्यास benchmark (५०%) हो; NHPC को आधिकारिक pass/fail निर्णय वा उत्तीर्णाङ्क होइन।</p><button data-ha="retry">फेरि Mock Test दिनुहोस्</button><button data-ha="menu" class="smallbtn">मुख्य मेनुमा फर्कनुहोस्</button></div>'+historyHtml+'<h3>उत्तर समीक्षा</h3>'+details.map((d,i)=>'<article class="ha-review"><b>'+(i+1)+'. '+d.q[0]+'</b><p class="np">'+d.q[1]+'</p><p class="'+(d.ok?"correct":"incorrect")+'">'+(d.ok?"सही उत्तर":"गलत वा उत्तर नदिएको")+' • '+d.q[2][d.q[3]]+'</p><p>'+d.q[4]+'</p><p class="np">'+d.q[5]+'</p></article>').join(""));
- }
- function practice(){
+ function finish(auto=false){
+   clearInterval(state.timer);
+   let score=0,unanswered=0;
+   const details=state.items.map((q,i)=>{const selected=state.answers[i],ok=selected===q[3];if(ok)score++;if(selected===undefined)unanswered++;return {q,selected,ok};});
+   const total=state.items.length,wrong=total-score-unanswered,pct=Math.round(score/total*100),passed=pct>=50;
+   const moduleName="NHPC HA – General Medicine";
+   if(window.DHPNProgress)window.DHPNProgress.recordMock(moduleName,score,total,{subject:"HA"});
+   panel('<div class="ha-result '+(passed?'ha-pass':'ha-retry')+'"><h3>'+(auto?'समय समाप्त — ':'')+(passed?'🎉 बधाई छ! तपाईं NHPC HA Mock Exam मा पास हुनुभयो।':'💪 अझै अभ्यास आवश्यक — फेरि प्रयास गर्नुहोस्।')+'</h3><div class="ha-score">'+score+' / '+total+'</div><b>'+pct+'% • '+(passed?'PASS':'FAIL')+' (Pass Mark 50%)</b><p>सही: '+score+' • गलत: '+wrong+' • अनुत्तरित: '+unanswered+'</p><p class="muted">यो App को अभ्यास benchmark हो; NHPC को आधिकारिक pass/fail निर्णय होइन।</p><button data-ha="retry">फेरि Mock Test दिनुहोस्</button><button data-ha="menu" class="smallbtn">मुख्य मेनुमा फर्कनुहोस्</button></div><h3>उत्तर समीक्षा</h3>'+details.map((d,i)=>'<article class="ha-review"><b>'+(i+1)+'. '+d.q[0]+'</b><p class="np">'+d.q[1]+'</p><p class="'+(d.ok?'correct':'incorrect')+'">तपाईंको उत्तर: '+(d.selected===undefined?'उत्तर नदिएको':d.q[2][d.selected])+' • सही उत्तर: '+d.q[2][d.q[3]]+'</p><p>'+d.q[4]+'</p><p class="np">'+d.q[5]+'</p></article>').join(""));
+  }
+  function practice(){
   state.mode="practice";state.items=practiceQ;state.index=0;state.answers={};renderPracticeQ();
  }
  function renderPracticeQ(){
