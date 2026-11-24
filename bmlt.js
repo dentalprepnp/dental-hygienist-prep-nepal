@@ -22,6 +22,7 @@
   const status = document.getElementById("bmltSecureStatus");
   const app = document.getElementById("bmltSecureApp");
   let questions=[], practiceQuestions=[], mockBankQuestions=[], notes=[];
+  let contentLoaded=false, loadPromise=null;
   let pi=0, answers={}, mock=[], ma={}, mi=0, timer=null, remaining=0;
 
   function statusMessage(message, kind="info") {
@@ -94,7 +95,7 @@
     document.getElementById("bmltReview").addEventListener("click",()=>{document.getElementById("bmltReviewList").innerHTML=mock.map((q,i)=>`<article class="note"><h3>${i+1}. ${q[0]}</h3><p>Your answer: ${ma[i]===undefined?"Not answered":q[2][ma[i]]}</p><p><b>Correct: ${q[2][q[3]]}</b></p><p>${q[4]} ${q[5]}</p></article>`).join("");});
     document.getElementById("bmltAgain").addEventListener("click",()=>{document.getElementById("bmltMockIntro").classList.remove("hidden");area.innerHTML="";mock=[];});
   }
-  async function loadSecureContent(){
+  async function performSecureContentLoad(){
     status.replaceChildren();
     statusMessage("BMLT सामग्री लोड हुँदैछ...");
     try{
@@ -143,13 +144,20 @@
         throw new Error("Rows आए, तर Note/MCQ/Mock data parse भएन।");
       }
       showApp();
+      contentLoaded=true;
     }catch(error){
       console.error("BMLT secure content load failed:",error);
       statusMessage("BMLT load error: "+(error.message||String(error)),"error");
       addRetryButton();
     }
   }
+  function loadSecureContent(){
+    if(contentLoaded)return Promise.resolve();
+    if(loadPromise)return loadPromise;
+    loadPromise=performSecureContentLoad().finally(()=>{loadPromise=null;});
+    return loadPromise;
+  }
   loadSecureContent();
-  // Re-load after sign-in without exposing the content in the public JavaScript file.
-  window.addEventListener("dhpn-auth-changed",loadSecureContent);
+  // Ignore duplicate auth events once BMLT content has loaded.
+  window.addEventListener("dhpn-auth-changed",()=>{if(!contentLoaded)loadSecureContent();});
 })();
