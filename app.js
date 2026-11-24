@@ -245,6 +245,25 @@ function showTab(tab,fromBrowserBack=false){
   window.scrollTo({top:0,left:0,behavior:"instant"});
   requestAnimationFrame(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});target.scrollIntoView({behavior:"instant",block:"start"});});
 }
+document.addEventListener("click",e=>{
+  const category=e.target.closest("[data-exam-category]");
+  if(!category)return;
+  e.preventDefault();
+  const panel=document.getElementById(category.getAttribute("aria-controls"));
+  if(!panel)return;
+  const opening=panel.classList.contains("hidden");
+  panel.classList.toggle("hidden",!opening);
+  category.setAttribute("aria-expanded",String(opening));
+  category.classList.toggle("is-open",opening);
+  if(opening)requestAnimationFrame(()=>panel.scrollIntoView({behavior:"smooth",block:"nearest"}));
+});
+document.addEventListener("click",e=>{
+  const jump=e.target.closest("[data-scroll-nhpc-directory]");
+  if(!jump)return;
+  e.preventDefault();
+  const directory=document.querySelector(".nhpc-directory");
+  if(directory)directory.scrollIntoView({behavior:"smooth",block:"start"});
+});
 document.addEventListener("click",e=>{const tabButton=e.target.closest(".track-card[data-tab]");if(!tabButton)return;e.preventDefault();showTab(tabButton.dataset.tab);},true);
 document.addEventListener("click",e=>{const back=e.target.closest("#facultyBackButton");if(!back)return;e.preventDefault();if(history.state&&history.state.hlpTab)history.back();else showTab("home");});
 if(!window.__hlpPopstateBound){window.__hlpPopstateBound=true;try{if(!history.state||!history.state.hlpTab)history.replaceState({hlpTab:"home"},"");}catch(e){}window.addEventListener("popstate",e=>{const tab=e.state&&e.state.hlpTab;showTab(tab||"home",true);});}
