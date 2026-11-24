@@ -50,6 +50,7 @@ function showUser(user) {
     document.body.classList.remove("study-screen-open");
     if (topLoginButton) { topLoginButton.classList.remove("hidden"); topLoginButton.setAttribute("aria-label","Login"); topLoginButton.title="Login"; const icon=$("accountCornerIcon"); if(icon)icon.textContent="👤"; }
     authPanel?.classList.add("hidden");
+    if (document.body.dataset.appPage === "profile") authPanel?.classList.remove("hidden");
     signedInPanel?.classList.add("hidden");
     window.dispatchEvent(new Event("dhpn-auth-changed"));
     return;
