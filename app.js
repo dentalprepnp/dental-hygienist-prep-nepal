@@ -486,7 +486,7 @@ function ensureNHPCModuleLoaded(){
  if(window.__hlpNHPCModulePromise)return window.__hlpNHPCModulePromise;
  window.__hlpNHPCModulePromise=new Promise((resolve,reject)=>{
   const script=document.createElement("script");
-  script.src="nhpc.js?v=194";
+  script.src="nhpc.js?v=195";
   script.onload=()=>resolve();
   script.onerror=()=>{window.__hlpNHPCModulePromise=null;reject(new Error("NHPC module failed to load"));};
   document.head.appendChild(script);
