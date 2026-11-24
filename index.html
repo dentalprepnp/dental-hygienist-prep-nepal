@@ -200,26 +200,24 @@
  <p class="muted">नोट: Guest प्रयोगकर्तालाई Device/Browser session का रूपमा गनिन्छ; एउटै व्यक्तिका धेरै Device छुट्टाछुट्टै देखिन सक्छन्। Login नगरी Mock Test दिएका Guest को नाम/email देखिँदैन।</p>
 </section>
 
-<section class="free-access-panel" aria-label="Free access notice" style="margin:14px 12px;padding:18px;border:1px solid #86efac;border-radius:18px;background:linear-gradient(135deg,#ecfdf5,#eff6ff);color:#14532d">
-  <p class="eyebrow" style="margin:0 0 6px;font-weight:800">🎉 १००% FREE ACCESS</p>
-  <h2 style="margin:0 0 8px">HL Preparation अब सबैका लागि निःशुल्क</h2>
-  <p style="margin:0">सबै Faculty, Subject, MCQ Practice, Mock Test र Study Notes निःशुल्क छन्। पढ्नका लागि Login वा Register आवश्यक छ।</p>
-</section>
-
-
-
-
-
-
-
-
-  <section class="membership-panel" id="membershipPanel" aria-label="Free Trial and Membership">
+<section class="membership-panel" id="membershipPanel" aria-label="Free Trial and Membership">
   <div class="section-head"><div><p class="eyebrow">STUDENT MEMBERSHIP</p><h2>७ दिनको Free Trial</h2></div><span class="pill">एकपटक मात्र</span></div>
   <p id="membershipDetail">Login गरेपछि Trial विवरण देखिनेछ।</p>
   <p id="membershipStatus" role="status" aria-live="polite">Trial सबै Faculty का लागि एउटै हुनेछ।</p>
   <div style="height:8px;border-radius:99px;background:#dbeafe;overflow:hidden;margin:12px 0"><div id="trialProgress" style="height:100%;width:0%;background:linear-gradient(90deg,#2563eb,#0d9488);transition:width .3s"></div></div>
   <p id="membershipExpiry" class="muted"></p>
   <p class="membership-note">एक विद्यार्थीले जम्मा ७ दिन मात्र Trial पाउँछ। अर्को Faculty खोल्दा समय थपिँदैन। Trial पछि Premium चाहिन्छ; Trial सकिएपछि आफैँ रकम काटिँदैन।</p>
+  <div class="section-head" style="margin-top:20px"><div><p class="eyebrow">PREMIUM MEMBERSHIP</p><h3>आफ्नो योजना छान्नुहोस्</h3></div></div>
+  <div id="membershipPlanGrid" class="membership-plan-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin:12px 0">
+    <button type="button" class="membership-plan-card" style="padding:14px;border:1px solid #bfdbfe;border-radius:12px;background:#eff6ff;color:#0c4a6e;display:grid;gap:6px;text-align:center" data-plan-code="premium_30"><strong>१ महिना</strong><span>रु. ५००</span></button>
+    <button type="button" class="membership-plan-card" data-plan-code="premium_90"><strong>३ महिना</strong><span>रु. १,०००</span></button>
+    <button type="button" class="membership-plan-card" data-plan-code="premium_180"><strong>६ महिना</strong><span>रु. १,५००</span></button>
+    <button type="button" class="membership-plan-card" data-plan-code="premium_365"><strong>१ वर्ष</strong><span>रु. २,०००</span></button>
+  </div>
+  <div id="membershipCheckout" class="membership-checkout hidden" style="padding:14px;border:1px solid #bfdbfe;border-radius:14px"></div>
+  <h3 style="margin-top:18px">मेरो Payment Request</h3>
+  <div id="myPaymentRequests" class="muted">Login गरेपछि आफ्ना Payment Request देखिनेछन्।</div>
+
 </section>
 
 <section class="profile-card" aria-label="Student profile">
@@ -645,7 +643,7 @@
 </script>
 
 <script src="app.js?v=177"></script>
-<script type="module" src="auth.js?v=11"></script>\n<script type="module" src="membership.js?v=1"></script>
+<script type="module" src="auth.js?v=11"></script>\n<script type="module" src="membership.js?v=2"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=6"></script>
 <script type="module" src="feedback.js?v=3"></script>
