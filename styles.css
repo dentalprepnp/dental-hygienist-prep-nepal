@@ -1281,3 +1281,51 @@ body.study-screen-open .premium-daily-notice{display:none!important}
 :root[data-theme="dark"] #membershipPanel .tier-caption,
 :root[data-theme="dark"] #membershipPanel .membership-plan-card .plan-select{color:#a7f3c0!important}
 :root[data-theme="dark"] #membershipPanel .membership-note{background:#183b29;border-color:#347a50;color:#d1fae5}
+
+
+/* Green theme for the Home Premium notice */
+#premiumDailyNotice.premium-daily-notice{
+  align-items:flex-start;gap:14px;padding:18px;
+  border:1px solid #86c99b;border-radius:20px;
+  background:linear-gradient(135deg,#ecfdf3 0%,#f7fff9 55%,#dcfce7 100%);
+  box-shadow:0 10px 26px rgba(22,101,52,.12);color:#14532d;
+}
+#premiumDailyNotice .premium-notice-icon{
+  flex:0 0 48px;height:48px;border-radius:15px;
+  background:linear-gradient(145deg,#bbf7d0,#86efac);color:#166534;
+  box-shadow:inset 0 0 0 1px #86c99b;
+}
+#premiumDailyNotice .premium-notice-copy h2{color:#14532d}
+#premiumDailyNotice .premium-notice-copy>p:not(.eyebrow){color:#365c43}
+#premiumDailyNotice .premium-notice-copy .eyebrow{color:#15803d;font-weight:800;letter-spacing:.08em}
+#premiumDailyNotice .premium-notice-prices span{
+  background:#fff;border:1px solid #bbf7d0;color:#365c43;
+  border-radius:12px;box-shadow:0 2px 7px rgba(22,101,52,.05);
+}
+#premiumDailyNotice .premium-notice-prices b{color:#166534}
+#premiumDailyNotice .premium-notice-copy>small{color:#456b50}
+#premiumDailyNotice .premium-notice-actions button.primary{
+  background:linear-gradient(135deg,#16a34a,#15803d);border-color:#15803d;color:#fff;
+  box-shadow:0 4px 10px rgba(21,128,61,.18);
+}
+#premiumDailyNotice .premium-notice-actions button.secondary{
+  background:#fff;border:1px solid #86c99b;color:#166534;
+}
+@media(max-width:520px){
+  #premiumDailyNotice.premium-daily-notice{gap:10px;padding:14px;border-radius:16px}
+  #premiumDailyNotice .premium-notice-icon{flex-basis:40px;height:40px;font-size:22px}
+  #premiumDailyNotice .premium-notice-copy h2{font-size:16px;line-height:1.4}
+  #premiumDailyNotice .premium-notice-prices{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  #premiumDailyNotice .premium-notice-prices span{padding:10px 6px}
+  #premiumDailyNotice .premium-notice-actions{display:grid;grid-template-columns:1fr 1fr}
+  #premiumDailyNotice .premium-notice-actions button{padding:10px 8px;font-size:12px}
+}
+:root[data-theme="dark"] #premiumDailyNotice.premium-daily-notice{
+  background:linear-gradient(135deg,#10291d,#173b29);border-color:#347a50;color:#e6ffed;
+}
+:root[data-theme="dark"] #premiumDailyNotice .premium-notice-icon{background:#245b39;color:#dcfce7}
+:root[data-theme="dark"] #premiumDailyNotice .premium-notice-copy h2{color:#e6ffed}
+:root[data-theme="dark"] #premiumDailyNotice .premium-notice-copy>p:not(.eyebrow),
+:root[data-theme="dark"] #premiumDailyNotice .premium-notice-copy>small{color:#c3e8ce}
+:root[data-theme="dark"] #premiumDailyNotice .premium-notice-prices span{background:#183b29;border-color:#347a50;color:#d1fae5}
+:root[data-theme="dark"] #premiumDailyNotice .premium-notice-prices b{color:#a7f3c0}
