@@ -1024,3 +1024,58 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 .nhpc-directory-jump button{flex:0 0 auto;padding:9px 11px;font-size:11px}
 @media(max-width:620px){.exam-category-panel .track-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.exam-category-toggle{padding:12px 10px;gap:8px}.exam-category-icon{width:36px;height:36px;flex-basis:36px}.exam-category-copy b{font-size:12px}.exam-category-copy small{font-size:10px}.nhpc-directory-jump{align-items:flex-start;flex-direction:column}.nhpc-directory-jump button{width:100%}}
 @media(max-width:380px){.exam-category-panel .track-grid{grid-template-columns:1fr}}
+
+
+/* Four high-contrast exam group colours: visible on light and dark screens */
+.exam-category-group:has([data-exam-category="nhpc"]){border-color:#9bc7f7;background:#f0f6ff}
+.exam-category-group:has([data-exam-category="nhpc"]) .exam-category-toggle{background:linear-gradient(120deg,#dbeafe,#eff6ff);color:#173e76}
+.exam-category-group:has([data-exam-category="nhpc"]) .exam-category-toggle.is-open{background:#cfe3ff;border-color:#a8ccfa}
+.exam-category-group:has([data-exam-category="nhpc"]) .exam-category-icon{background:#bfdbfe;color:#1d4ed8}
+.exam-category-group:has([data-exam-category="nhpc"]) .exam-category-count{background:#1d4ed8;color:#fff}
+.exam-category-group:has([data-exam-category="nhpc"]) .exam-category-chevron{color:#1d4ed8}
+.exam-category-group:has([data-exam-category="nhpc"]) .track-card{background:linear-gradient(145deg,#e8f1ff,#fff);border-color:#bfd6fa}
+.exam-category-group:has([data-exam-category="nhpc"]) .track-icon{background:#d5e6ff}
+.exam-category-group:has([data-exam-category="nhpc"]) .track-action{color:#1d4ed8}
+.exam-category-group:has([data-exam-category="pharmacy"]){border-color:#d4b5f5;background:#faf5ff}
+.exam-category-group:has([data-exam-category="pharmacy"]) .exam-category-toggle{background:linear-gradient(120deg,#f3e8ff,#faf5ff);color:#5b218e}
+.exam-category-group:has([data-exam-category="pharmacy"]) .exam-category-toggle.is-open{background:#e9d5ff;border-color:#d8b4fe}
+.exam-category-group:has([data-exam-category="pharmacy"]) .exam-category-icon{background:#e9d5ff;color:#7e22ce}
+.exam-category-group:has([data-exam-category="pharmacy"]) .exam-category-count{background:#7e22ce;color:#fff}
+.exam-category-group:has([data-exam-category="pharmacy"]) .exam-category-chevron{color:#7e22ce}
+.exam-category-group:has([data-exam-category="pharmacy"]) .track-card{background:linear-gradient(145deg,#f3e8ff,#fff);border-color:#d8b4fe}
+.exam-category-group:has([data-exam-category="pharmacy"]) .track-icon{background:#e9d5ff}
+.exam-category-group:has([data-exam-category="pharmacy"]) .track-action{color:#7e22ce}
+.exam-category-group:has([data-exam-category="loksewa"]){border-color:#9bd8b1;background:#f0fdf4}
+.exam-category-group:has([data-exam-category="loksewa"]) .exam-category-toggle{background:linear-gradient(120deg,#dcfce7,#f0fdf4);color:#166534}
+.exam-category-group:has([data-exam-category="loksewa"]) .exam-category-toggle.is-open{background:#bbf7d0;border-color:#86efac}
+.exam-category-group:has([data-exam-category="loksewa"]) .exam-category-icon{background:#bbf7d0;color:#15803d}
+.exam-category-group:has([data-exam-category="loksewa"]) .exam-category-count{background:#15803d;color:#fff}
+.exam-category-group:has([data-exam-category="loksewa"]) .exam-category-chevron{color:#15803d}
+.exam-category-group:has([data-exam-category="loksewa"]) .track-card{background:linear-gradient(145deg,#dcfce7,#fff);border-color:#a7e6bb}
+.exam-category-group:has([data-exam-category="loksewa"]) .track-icon{background:#c8f3d5}
+.exam-category-group:has([data-exam-category="loksewa"]) .track-action{color:#15803d}
+.exam-category-group:has([data-exam-category="dha"]){border-color:#f4c18b;background:#fff7ed}
+.exam-category-group:has([data-exam-category="dha"]) .exam-category-toggle{background:linear-gradient(120deg,#ffedd5,#fff7ed);color:#9a3412}
+.exam-category-group:has([data-exam-category="dha"]) .exam-category-toggle.is-open{background:#fed7aa;border-color:#fdba74}
+.exam-category-group:has([data-exam-category="dha"]) .exam-category-icon{background:#fed7aa;color:#c2410c}
+.exam-category-group:has([data-exam-category="dha"]) .exam-category-count{background:#c2410c;color:#fff}
+.exam-category-group:has([data-exam-category="dha"]) .exam-category-chevron{color:#c2410c}
+.exam-category-group:has([data-exam-category="dha"]) .track-card{background:linear-gradient(145deg,#ffedd5,#fff);border-color:#fdc78f}
+.exam-category-group:has([data-exam-category="dha"]) .track-icon{background:#ffe0bd}
+.exam-category-group:has([data-exam-category="dha"]) .track-action{color:#c2410c}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]){background:#132b43;border-color:#315d89}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) .exam-category-toggle{background:#1b3d60;color:#e0efff}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) .exam-category-toggle.is-open{background:#244d78}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) .track-card{background:#193650;border-color:#315d89;color:#e0efff}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="pharmacy"]){background:#2a1c3e;border-color:#604080}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="pharmacy"]) .exam-category-toggle{background:#3b2855;color:#f3e8ff}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="pharmacy"]) .exam-category-toggle.is-open{background:#4b326b}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="pharmacy"]) .track-card{background:#332447;border-color:#604080;color:#f3e8ff}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="loksewa"]){background:#142e23;border-color:#326849}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="loksewa"]) .exam-category-toggle{background:#1d4431;color:#dcfce7}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="loksewa"]) .exam-category-toggle.is-open{background:#28583e}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="loksewa"]) .track-card{background:#1d3a2b;border-color:#326849;color:#dcfce7}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="dha"]){background:#3a2517;border-color:#80502c}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="dha"]) .exam-category-toggle{background:#57351e;color:#ffedd5}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="dha"]) .exam-category-toggle.is-open{background:#704526}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="dha"]) .track-card{background:#4a2e1d;border-color:#80502c;color:#ffedd5}
