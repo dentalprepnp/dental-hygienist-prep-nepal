@@ -1,6 +1,6 @@
 /* Lightweight PWA cache: precache only the app shell.
    Faculty modules are cached on first use and served cache-first afterwards. */
-const CACHE="hl-preparation-v350-course-screen-fix";
+const CACHE="hl-preparation-v351-fresh-faculty-modules";
 const ASSETS=[
  "./","./index.html","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=294","./app.js?v=185","./auth.js?v=11",
@@ -23,17 +23,19 @@ self.addEventListener("fetch",event=>{
  const request=event.request;
  if(request.method!=="GET"||new URL(request.url).origin!==self.location.origin)return;
  if(request.destination==="script"||request.destination==="style"){
+  // Try the latest faculty module/style first; use cache only when offline.
   event.respondWith((async()=>{
-   const cached=await caches.match(request);
-   if(cached)return cached;
    try{
-    const response=await fetch(request);
+    const response=await fetch(request,{cache:"no-store"});
     if(response&&response.ok){
      const copy=response.clone();
      caches.open(CACHE).then(cache=>cache.put(request,copy)).catch(()=>{});
     }
     return response;
-   }catch{return new Response("Offline: this module has not been downloaded yet.",{status:503,statusText:"Offline"});}
+   }catch{
+    const cached=await caches.match(request);
+    return cached||new Response("Offline: this module has not been downloaded yet.",{status:503,statusText:"Offline"});
+   }
   })());
   return;
  }
