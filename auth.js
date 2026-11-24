@@ -11,7 +11,16 @@ const authPanel = $("accountPanel");
 const signedInPanel = $("signedInPanel");
 const accountAccessButton = $("accountAccessButton");
 const topLoginButton = $("topLoginButton");
-topLoginButton?.addEventListener("click", () => {
+topLoginButton?.addEventListener("click", async () => {
+  if (window.HLPAuthUser) {
+    if (!window.confirm("के तपाईं आफ्नो Account बाट Logout गर्न चाहनुहुन्छ?")) return;
+    const { error } = await supabase.auth.signOut();
+    if (error) return message("Logout गर्न सकिएन: " + error.message, "error");
+    showUser(null);
+    authPanel?.classList.add("hidden");
+    message("तपाईं Logout हुनुभयो।", "success");
+    return;
+  }
   authPanel?.classList.remove("hidden");
   authPanel?.scrollIntoView({ behavior: "smooth", block: "center" });
   $("accountEmail")?.focus({ preventScroll: true });
@@ -39,14 +48,14 @@ function showUser(user) {
     document.querySelectorAll(".view").forEach((view) => view.classList.add("hidden"));
     document.getElementById("homeView")?.classList.remove("hidden");
     document.body.classList.remove("study-screen-open");
-    if (topLoginButton) topLoginButton.classList.remove("hidden");
+    if (topLoginButton) { topLoginButton.classList.remove("hidden"); topLoginButton.setAttribute("aria-label","Login"); topLoginButton.title="Login"; const icon=$("accountCornerIcon"); if(icon)icon.textContent="👤"; }
     authPanel?.classList.add("hidden");
     signedInPanel?.classList.add("hidden");
     window.dispatchEvent(new Event("dhpn-auth-changed"));
     return;
   }
   authPanel?.classList.add("hidden");
-  if (topLoginButton) topLoginButton.classList.add("hidden");
+  if (topLoginButton) { topLoginButton.classList.remove("hidden"); topLoginButton.setAttribute("aria-label","Logout"); topLoginButton.title="Logout"; const icon=$("accountCornerIcon"); if(icon)icon.textContent="↪"; }
   signedInPanel?.classList.remove("hidden");
   const email = $("signedInEmail");
   if (email) email.textContent = user.email || "Signed in";
