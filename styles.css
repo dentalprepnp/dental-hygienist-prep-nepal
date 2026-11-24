@@ -1415,3 +1415,20 @@ body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 body.study-screen-open main > section:not(.view){
   display:none!important;
 }
+
+
+/* Focused app pages: Home, Courses, Notes, Practice and Profile */
+body[data-app-page="home"] main>section:not(.hero):not(#premiumDailyNotice):not(.exam-tracks){display:none!important}
+body[data-app-page="courses"] main>section:not(.exam-tracks){display:none!important}
+body[data-app-page="notes"] main>section:not(#notesView){display:none!important}
+body[data-app-page="practice"] main>section:not(#practiceView):not(#mockView):not(#weeklyLiveExam){display:none!important}
+body[data-app-page="profile"] main>section:not(#accountPanel):not(#signedInPanel):not(#membershipPanel):not(.profile-card):not(.stats):not(#studentDashboard):not(#combinedExamReport):not(.study-goal){display:none!important}
+body[data-app-page="faculty"] main>section:not(.view){display:none!important}
+body[data-app-page="home"] .search-wrap,body[data-app-page="courses"] .search-wrap{display:block!important}
+body[data-app-page="notes"] .search-wrap,body[data-app-page="practice"] .search-wrap,body[data-app-page="profile"] .search-wrap,body[data-app-page="faculty"] .search-wrap{display:none!important}
+body[data-app-page="home"] #premiumDailyNotice{display:flex!important}
+body[data-app-page="profile"] .profile-card,body[data-app-page="profile"] .stats,body[data-app-page="profile"] #studentDashboard,body[data-app-page="profile"] #combinedExamReport,body[data-app-page="profile"] #membershipPanel{display:block!important}
+body[data-app-page="practice"] #practiceView,body[data-app-page="practice"] #mockView,body[data-app-page="practice"] #weeklyLiveExam{display:block!important}
+body[data-app-page="notes"] #notesView{display:block!important}
+#topLoginButton,#facultyBackButton,#accountAccessButton,.module-back{display:none!important}
+body[data-app-page="profile"] main>section{margin-top:14px}
