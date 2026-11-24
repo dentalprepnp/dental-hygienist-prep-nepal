@@ -561,6 +561,18 @@ document.addEventListener("click",event=>{if(event.target.closest("#showWrongAns
 
 
 
+/* Course-page shortcut to the scheduled live exam area. */
+document.addEventListener("click",event=>{
+  const button=event.target.closest("[data-open-weekly-exam]");
+  if(!button)return;
+  event.preventDefault();
+  if(typeof showAppPage==="function")showAppPage("practice");
+  requestAnimationFrame(()=>{
+    const live=document.getElementById("weeklyLiveExam");
+    if(live)live.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+});
+
 /* App page routing: each bottom item opens a focused, separate page */
 function showAppPage(page, push=true){
   const allowed=["home","courses","notes","practice","profile"];
