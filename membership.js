@@ -159,50 +159,63 @@ supabase.auth.onAuthStateChange((event, session) => {
 const { data: sessionData } = await supabase.auth.getSession();
 await loadMembership(sessionData?.session?.user || null);
 
+
 function setupPlanCheckout() {
   const grid = document.getElementById("membershipPlanGrid");
   const checkout = document.getElementById("membershipCheckout");
   if (!grid || !checkout || grid.dataset.bound === "true") return;
   grid.dataset.bound = "true";
+  const qrImageUrl = "";
+  async function loadMyPaymentRequests() {
+    const target = document.getElementById("myPaymentRequests");
+    if (!target) return;
+    const { data, error } = await supabase.from("manual_payment_requests")
+      .select("id,plan_code,amount_paisa,transaction_reference,status,created_at,admin_note")
+      .order("created_at", { ascending: false }).limit(20);
+    if (error) { target.textContent = "Payment विवरण लोड हुन सकेन।"; console.error(error); return; }
+    target.innerHTML = (data || []).map(row => {
+      const plan = PREMIUM_PLANS[row.plan_code];
+      const status = row.status === "approved" ? "स्वीकृत" : row.status === "rejected" ? "अस्वीकृत" : "जाँच हुँदैछ";
+      return '<div class="checkout-pending" style="margin:8px 0"><strong>' +
+        (plan ? plan.name : row.plan_code) + ' • ' + formatNPRFromPaisa(row.amount_paisa) +
+        '</strong><p>Transaction ID: ' + escapeHtml(row.transaction_reference) +
+        '<br>स्थिति: ' + status + '<br>पठाएको मिति: ' + formatDate(row.created_at) +
+        (row.admin_note ? '<br>Admin टिप्पणी: ' + escapeHtml(row.admin_note) : '') + '</p></div>';
+    }).join("") || "अहिलेसम्म Payment Request पठाइएको छैन।";
+  }
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
   grid.addEventListener("click", (event) => {
     const button = event.target.closest("[data-plan-code]");
     if (!button) return;
     const plan = PREMIUM_PLANS[button.dataset.planCode];
     if (!plan) return;
-    grid.querySelectorAll(".membership-plan-card").forEach(card => {
-      card.classList.toggle("selected", card === button);
-    });
+    grid.querySelectorAll(".membership-plan-card").forEach(card => card.classList.toggle("selected", card === button));
     checkout.innerHTML = [
-      '<div class="checkout-heading"><div><p class="eyebrow">SELECTED MEMBERSHIP</p><h3>Payment विवरण</h3></div><span class="checkout-lock" aria-hidden="true">🔒</span></div>',
-      '<div class="checkout-summary">',
-      '<div><span>छानिएको योजना</span><strong>' + plan.name + ' Premium</strong></div>',
+      '<div class="checkout-heading"><div><p class="eyebrow">MANUAL QR PAYMENT</p><h3>Payment विवरण</h3></div><span class="checkout-lock" aria-hidden="true">🔒</span></div>',
+      '<div class="checkout-summary"><div><span>छानिएको योजना</span><strong>' + plan.name + ' Premium</strong></div>',
       '<div><span>अवधि</span><strong>' + plan.days + ' दिन</strong></div>',
-      '<div class="checkout-total"><span>जम्मा तिर्नुपर्ने</span><strong>रु. ' + formatNPRFromPaisa(plan.pricePaisa) + '</strong></div>',
-      '</div>',
-      '<div class="checkout-pending" role="status"><strong>🧪 TEST MODE — Demo Checkout</strong><p>यो अभ्यासका लागि मात्र हो। कुनै वास्तविक Fonepay कारोबार वा रकम कटौती हुँदैन। Demo पूरा गर्दा Premium खुल्दैन।</p></div>',
-      '<button class="checkout-pay-button" type="button" id="runDemoPayment">Demo Payment परीक्षण गर्नुहोस् (रु. ०)</button>',
-      '<div id="demoPaymentResult" class="checkout-pending hidden" role="status" aria-live="polite"></div>',
+      '<div class="checkout-total"><span>जम्मा तिर्नुपर्ने</span><strong>' + formatNPRFromPaisa(plan.pricePaisa) + '</strong></div></div>',
+      qrImageUrl ? '<div style="text-align:center"><img src="' + qrImageUrl + '" alt="Premium payment QR" style="max-width:260px;width:100%;height:auto"></div>' :
+        '<div class="checkout-pending"><strong>भुक्तानी QR चाँडै उपलब्ध हुनेछ</strong><p>QR Code जडान नभएसम्म कृपया रकम नपठाउनुहोस्।</p></div>',
+      '<form id="manualPaymentForm" class="portal-form" style="max-width:560px;margin:12px auto">',
+      '<label for="paymentReference">Transaction ID / Reference Number</label><input id="paymentReference" maxlength="120" minlength="4" required placeholder="बैंक / Wallet बाट आएको Reference ID">',
+      '<label for="paymentPayerName">भुक्तानी गर्ने व्यक्तिको नाम (ऐच्छिक)</label><input id="paymentPayerName" maxlength="100" placeholder="नाम">',
+      '<label for="paymentPayerPhone">सम्पर्क नम्बर (ऐच्छिक)</label><input id="paymentPayerPhone" maxlength="30" inputmode="tel" placeholder="मोबाइल नम्बर">',
+      '<button class="checkout-pay-button" type="submit" disabled>QR जडान भएपछि खुल्नेछ</button>',
+      '<p id="manualPaymentMessage" role="status" aria-live="polite"></p></form>',
+      '<p class="portal-muted">Admin ले बैंकमा वास्तविक रकम आएको जाँच गरेपछि मात्र Premium खुल्नेछ। Screenshot मात्रले Premium खुल्दैन।</p>',
       '<button class="checkout-back-button" type="button" id="backToMembershipPlans">← अर्को योजना छान्नुहोस्</button>'
     ].join("");
     checkout.classList.remove("hidden");
     checkout.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    document.getElementById("runDemoPayment")?.addEventListener("click", () => {
-      const demoButton = document.getElementById("runDemoPayment");
-      const result = document.getElementById("demoPaymentResult");
-      if (!demoButton || !result) return;
-      demoButton.disabled = true;
-      demoButton.textContent = "Demo प्रक्रिया जाँच हुँदैछ...";
-      result.classList.remove("hidden");
-      result.innerHTML = '<strong>✓ Demo Checkout सफल भयो</strong><p>यो नक्कली परीक्षण नतिजा हो—कुनै पैसा तिरिएको छैन, कुनै Fonepay transaction बनेको छैन र Premium Membership सक्रिय गरिएको छैन। वास्तविक भुक्तानी Merchant Approval, server-side order creation र provider verification पछि मात्र उपलब्ध हुनेछ।</p>';
-      demoButton.textContent = "Demo परीक्षण पूरा भयो";
-    });
     document.getElementById("backToMembershipPlans")?.addEventListener("click", () => {
-      checkout.classList.add("hidden");
-      checkout.innerHTML = "";
+      checkout.classList.add("hidden"); checkout.innerHTML = "";
       grid.querySelectorAll(".membership-plan-card").forEach(card => card.classList.remove("selected"));
       grid.scrollIntoView({ behavior: "smooth", block: "nearest" });
     });
   });
+  loadMyPaymentRequests();
 }
 setupPlanCheckout();
-
