@@ -12,10 +12,10 @@ let activeUserId = null;
 
 // Supabase stores plan prices in paisa (100 paisa = NPR 1).
 const PREMIUM_PLANS = {
-  premium_30: { name: "१ महिना", days: 30, pricePaisa: 50000 },
-  premium_90: { name: "३ महिना", days: 90, pricePaisa: 100000 },
-  premium_180: { name: "६ महिना", days: 180, pricePaisa: 150000 },
-  premium_365: { name: "१ वर्ष", days: 365, pricePaisa: 200000 }
+  premium_30: { name: "१ महिना", days: 30, pricePaisa: 70000 },
+  premium_90: { name: "३ महिना", days: 90, pricePaisa: 150000 },
+  premium_180: { name: "६ महिना", days: 180, pricePaisa: 250000 },
+  premium_365: { name: "१ वर्ष", days: 365, pricePaisa: 400000 }
 };
 function formatNPRFromPaisa(pricePaisa) {
   const rupees = Math.round(Number(pricePaisa || 0) / 100);
