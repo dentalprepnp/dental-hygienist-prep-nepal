@@ -8,7 +8,7 @@
   <title>HL Preparation | Health License Preparation Nepal</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=279">
+  <link rel="stylesheet" href="styles.css?v=280">
 </head>
 <body>
 <header class="topbar">
@@ -623,7 +623,19 @@
   const ok=await loadDestination(key);
   if(!ok)return;
   target.dataset.hlpLazyReady="1";
-  target.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true,view:window}));
+  if(target.matches(".track-card[data-tab]")){
+   const view=document.getElementById(key+"View");
+   if(view){
+    document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
+    view.classList.remove("hidden");
+    document.body.classList.toggle("study-screen-open",key!=="home");
+    const back=document.getElementById("facultyBackButton");
+    if(back)back.classList.toggle("hidden",key==="home");
+    document.querySelectorAll(".tab").forEach(tab=>tab.classList.toggle("active",tab.dataset.tab===key));
+    window.scrollTo({top:0,left:0,behavior:"auto"});
+    view.scrollIntoView({behavior:"auto",block:"start"});
+   }else{target.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true,view:window}));}
+  }else{target.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true,view:window}));}
   delete target.dataset.hlpLazyReady;
  },true);
 })();
