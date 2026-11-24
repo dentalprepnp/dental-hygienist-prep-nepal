@@ -213,27 +213,16 @@
 
 
 
-  <section class="public-membership" aria-label="Free learning access" style="margin:14px 12px;padding:18px;border-radius:18px;background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #bfdbfe">
-  <div class="public-membership-heading"><div><p class="eyebrow">LEARN WITHOUT LIMITS</p><h2>सबै सुविधा निःशुल्क</h2><p>विद्यार्थीहरूका लागि कुनै शुल्क, Trial अवधि वा अनिवार्य Membership छैन।</p></div><span class="public-membership-icon">🎓</span></div>
-  <div class="membership-includes">
-    <ul>
-      <li>सबै Faculty र Subject मा पहुँच</li>
-      <li>MCQ Practice र Mock Test निःशुल्क</li>
-      <li>Study Notes, Bookmarks र Revision अभ्यास</li>
-      <li>Mock Test History र Progress Tracking</li>
-      <li>Login गरेपछि पढ्न र अभ्यास गर्न सकिने</li>
-    </ul>
-  </div>
-  <p class="public-membership-note">Login अनिवार्य छ; यसले विद्यार्थीको पढाइको प्रगति सुरक्षित राख्न मद्दत गर्छ। Premium Membership र Payment सुविधा पछि आवश्यक तयारी पूरा भएपछि मात्र ल्याइनेछ।</p>
+  <section class="membership-panel" id="membershipPanel" aria-label="Free Trial and Membership">
+  <div class="section-head"><div><p class="eyebrow">STUDENT MEMBERSHIP</p><h2>७ दिनको Free Trial</h2></div><span class="pill">एकपटक मात्र</span></div>
+  <p id="membershipDetail">Login गरेपछि Trial विवरण देखिनेछ।</p>
+  <p id="membershipStatus" role="status" aria-live="polite">Trial सबै Faculty का लागि एउटै हुनेछ।</p>
+  <div style="height:8px;border-radius:99px;background:#dbeafe;overflow:hidden;margin:12px 0"><div id="trialProgress" style="height:100%;width:0%;background:linear-gradient(90deg,#2563eb,#0d9488);transition:width .3s"></div></div>
+  <p id="membershipExpiry" class="muted"></p>
+  <p class="membership-note">एक विद्यार्थीले जम्मा ७ दिन मात्र Trial पाउँछ। अर्को Faculty खोल्दा समय थपिँदैन। Trial पछि Premium चाहिन्छ; Trial सकिएपछि आफैँ रकम काटिँदैन।</p>
 </section>
 
-  
-
-  
-
-    
-
-  <section class="profile-card" aria-label="Student profile">
+<section class="profile-card" aria-label="Student profile">
     <div class="section-head"><div><p class="eyebrow">STUDENT PROFILE</p><h2>विद्यार्थी प्रोफाइल</h2></div><span class="pill">Personal Learning</span></div>
     <form id="studentProfileForm" class="profile-form">
       <label for="studentName">तपाईंको नाम</label>
@@ -656,7 +645,7 @@
 </script>
 
 <script src="app.js?v=177"></script>
-<script type="module" src="auth.js?v=11"></script>
+<script type="module" src="auth.js?v=11"></script>\n<script type="module" src="membership.js?v=1"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=6"></script>
 <script type="module" src="feedback.js?v=3"></script>
