@@ -38,18 +38,66 @@
     button.addEventListener("click",loadSecureContent);
     status.appendChild(button);
   }
-  function shuffledQuestion(row) {
-    const q=[row.question,row.translation,[...row.options],Number(row.correctIndex),row.explanation||"",row.explanationNe||""];
+  function normalizeType(value) {
+    const type=String(value||"").toLowerCase().replace(/[ -]/g,"_");
+    if(["note","notes","study_note","study_notes"].includes(type))return "note";
+    if(["mcq","mcq_practice","practice","practice_mcq","question"].includes(type))return "mcq";
+    if(["mock","mock_test","mock_question","mock_questions"].includes(type))return "mock";
+    return type;
+  }
+  function normalizeQuestion(raw) {
+    const row=raw&&typeof raw==="object"?raw:{};
+    const options=Array.isArray(row.options)?row.options:
+      Array.isArray(row.choices)?row.choices:
+      [row.option_a??row.optionA??row.a,row.option_b??row.optionB??row.b,row.option_c??row.optionC??row.c,row.option_d??row.optionD??row.d];
+    const cleanOptions=options.filter(x=>x!==undefined&&x!==null).map(String);
+    const question=row.question??row.question_en??row.questionEn??row.question_text??row.prompt??row.title??"";
+    const translation=row.translation??row.question_ne??row.question_np??row.questionNe??row.questionNp??"";
+    let answer=row.correctIndex??row.correct_index??row.answer_index??row.correct_option_index;
+    let correctIndex=-1;
+    if(answer!==undefined&&answer!==null&&answer!==""){
+      const n=Number(answer);
+      if(Number.isInteger(n)&&n>=0&&n<cleanOptions.length)correctIndex=n;
+      else if(Number.isInteger(n)&&n>=1&&n<=cleanOptions.length&&String(answer).trim()===String(n))correctIndex=n-1;
+    }
+    if(correctIndex<0){
+      const answerText=String(row.correct_answer??row.correctAnswer??row.answer??row.correct_option??"").trim();
+      if(answerText){
+        const letter=answerText.toUpperCase().match(/^[A-D]$/);
+        if(letter)correctIndex=letter[0].charCodeAt(0)-65;
+        else correctIndex=cleanOptions.findIndex(option=>option.trim().toLowerCase()===answerText.toLowerCase());
+      }
+    }
+    const explanation=row.explanation??row.explanation_en??row.explanationEn??row.rationale??"";
+    const explanationNe=row.explanationNe??row.explanation_ne??row.explanation_np??row.explanationNp??row.rationale_ne??"";
+    return {question:String(question),translation:String(translation),options:cleanOptions,correctIndex,explanation:String(explanation),explanationNe:String(explanationNe)};
+  }
+  function shuffledQuestion(raw) {
+    const row=normalizeQuestion(raw);
+    if(!row.question||row.options.length<2||row.correctIndex<0||row.correctIndex>=row.options.length){
+      console.warn("Skipping invalid BMLT question row",row.question);
+      return null;
+    }
+    const q=[row.question,row.translation,[...row.options],row.correctIndex,row.explanation,row.explanationNe];
     const pairs=q[2].map((option,index)=>({option,index}));
     for(let i=pairs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pairs[i],pairs[j]]=[pairs[j],pairs[i]];}
     q[2]=pairs.map(x=>x.option);
     q[3]=pairs.findIndex(x=>x.index===q[3]);
     return q;
   }
+  function normalizeNote(raw) {
+    const n=raw&&typeof raw==="object"?raw:{};
+    return {
+      title:String(n.title??n.title_en??n.titleEn??n.heading??"BMLT Study Note"),
+      english:String(n.english??n.content_en??n.content??n.note_en??n.summary??""),
+      nepali:String(n.nepali??n.content_ne??n.content_np??n.note_ne??n.translation??"")
+    };
+  }
   function convertRows(rows) {
-    notes=rows.filter(x=>x.content_type==="note").map(x=>x.content_data);
-    practiceQuestions=rows.filter(x=>x.content_type==="mcq").sort((a,b)=>a.display_order-b.display_order).map(x=>shuffledQuestion(x.content_data));
-    mockBankQuestions=rows.filter(x=>x.content_type==="mock").sort((a,b)=>a.display_order-b.display_order).map(x=>shuffledQuestion(x.content_data));
+    const typed=rows.map(row=>({...row,normalizedType:normalizeType(row.content_type)}));
+    notes=typed.filter(x=>x.normalizedType==="note").map(x=>normalizeNote(x.content_data));
+    practiceQuestions=typed.filter(x=>x.normalizedType==="mcq").sort((a,b)=>(Number(a.display_order)||0)-(Number(b.display_order)||0)).map(x=>shuffledQuestion(x.content_data)).filter(Boolean);
+    mockBankQuestions=typed.filter(x=>x.normalizedType==="mock").sort((a,b)=>(Number(a.display_order)||0)-(Number(b.display_order)||0)).map(x=>shuffledQuestion(x.content_data)).filter(Boolean);
   }
   function showApp() {
     status.classList.add("hidden"); app.classList.remove("hidden");
@@ -134,7 +182,7 @@
         statusMessage("Login सफल छ, तर RPC ले BMLT का लागि कुनै row फर्काएन। Published/access_tier र get_learning_content function जाँच आवश्यक छ।","warning");
         addRetryButton();return;
       }
-      const valid=data.filter(row=>row&&["note","mcq","mock"].includes(row.content_type)&&row.content_data);
+      const valid=data.filter(row=>row&&normalizeType(row.content_type)&&row.content_data);
       if(!valid.length){
         const shape=Object.keys(data[0]||{}).join(", ")||"empty row";
         throw new Error("RPC data structure मिलेन। प्राप्त fields: "+shape);
