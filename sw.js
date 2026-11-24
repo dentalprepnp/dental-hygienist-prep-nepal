@@ -1,6 +1,6 @@
 /* Lightweight PWA cache: precache the app shell; fetch scripts/styles fresh first,
    with cached copies as an offline fallback. */
-const CACHE="hl-preparation-v363-ophthalmic-mock-sets";
+const CACHE="hl-preparation-v364-ophthalmic-mock-sets";
 const ASSETS=[
  "./","./index.html","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=294","./app.js?v=195","./auth.js?v=11",
