@@ -1,6 +1,6 @@
 /* Lightweight PWA cache: precache only the app shell.
    Faculty modules are cached on first use and served cache-first afterwards. */
-const CACHE="hl-preparation-v329-nhpc-faculty-colours-cache";
+const CACHE="hl-preparation-v330-bmlt-content-parser-cache";
 const ASSETS=[
  "./","./index.html","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=278","./app.js?v=177","./auth.js?v=10",
