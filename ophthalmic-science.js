@@ -164,7 +164,7 @@ mockBank.push(...ophthalmicMockNew.map((q,i)=>({q,section:q[6]||'Ocular Anatomy 
  function showFirstNotes(){active="notes";root.innerHTML=shell()+'<div class="ha-overview"><h3>Topic 1: Basic Preparatory / General Sciences — Detailed Notes</h3><div class="ha-kpis"><div><b>'+firstNotes.length+'</b><small>Detailed Notes</small></div><div><b>'+bank.length+'</b><small>MCQs</small></div><div><b>5%</b><small>NHPC Weightage</small></div></div><p>यो पहिलो topic को सुरुवाती विस्तृत अध्ययन सामग्री हो। अर्को चरणमा थप notes र प्रश्नहरू विस्तार गरिनेछन्।</p></div>'+firstNotes.map(n=>'<article class="ha-note"><h4>'+esc(n[0])+'</h4><p><b>English:</b> '+esc(n[1])+'</p><p class="np"><b>नेपाली:</b> '+esc(n[2])+'</p><div class="clinical-point"><b>Clinical / Ophthalmic link:</b> '+esc(n[3])+'</div></article>').join("")}
  
  let mockAnswers=[],mockIndex=0,mockSubmitted=false,mockDeadline=0,mockTimer=null;
- const MOCK_MINUTES=mockBank.length;
+ const MOCK_MINUTES=60;
  function stopMockTimer(){if(mockTimer){clearInterval(mockTimer);mockTimer=null;}}
  function showFullMock(){
   active="mock";
