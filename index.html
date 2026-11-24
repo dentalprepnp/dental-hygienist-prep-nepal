@@ -593,8 +593,8 @@
   mlt:["mlt.js?v=149"],
   anesthesia:["bsc-anesthesia.js?v=149"],
   ha:["ha-general-medicine.js?v=156"],
-  nhpc:["nhpc.js?v=193"],
-  basicPeriodontology:["nhpc.js?v=192"],
+  nhpc:["nhpc.js?v=194"],
+  basicPeriodontology:["nhpc.js?v=194"],
   dha:["dha.js?v=148"],
   loksewa:[],
   oralPath:["oral-pathology.js?v=149"],
@@ -606,7 +606,7 @@
   dentalEthics:["dental-ethics.js?v=148"],
   foodNutrition:["food-nutrition.js?v=151"],
   epidemiology:["epidemiology-community.js?v=151"],
-  bmlt:["bmlt.js?v=9"],
+  bmlt:["bmlt.js?v=10"],
   dpharm:["pharmacy-faculties.js?v=1"],
   bpharm:["pharmacy-faculties.js?v=1"]
  };
@@ -698,7 +698,7 @@
   if(window.__hlpNHPCLoadPromise)return window.__hlpNHPCLoadPromise;
   window.__hlpNHPCLoadPromise=new Promise((resolve,reject)=>{
    var script=document.createElement("script");
-   script.src="nhpc.js?v=192";
+   script.src="nhpc.js?v=194";
    script.onload=resolve;
    script.onerror=()=>{window.__hlpNHPCLoadPromise=null;reject(new Error("NHPC module load failed"));};
    document.head.appendChild(script);
