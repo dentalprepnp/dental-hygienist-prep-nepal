@@ -55,6 +55,32 @@ const mockAdditions = [["Pseudomembranous oral candidiasis often presents as:","
 const practiceQuestions = [...questions.slice(0, baseSplit), ...practiceAdditions];
 const mockBankQuestions = [...questions.slice(baseSplit), ...mockAdditions];
 
+  const guideData = {
+    title: "Oral Pathology and Microbiology",
+    notes: notes.map(n => ({title:n[0], en:n[1], ne:n[2]})),
+    points: [
+      {title:"Oral mucosa – 3 types",en:"Masticatory: gingiva and hard palate; lining: cheeks, lips, floor of mouth, soft palate and ventral tongue; specialized: dorsal tongue.",ne:"Masticatory = गिजा र hard palate; lining = गाला, ओठ, मुखको तल, soft palate र जिब्रोको तल्लो भाग; specialized = जिब्रोको माथिल्लो भाग।"},
+      {title:"Caries is multifactorial",en:"Dental biofilm, frequent free-sugar exposure, susceptible tooth/host factors and time contribute. Early non-cavitated lesions may be remineralized.",ne:"Caries एउटै जीवाणुले मात्र हुँदैन। Biofilm, बारम्बार चिनी, दाँत/host को अवस्था र समयले असर गर्छ। सुरुको non-cavitated lesion remineralize हुन सक्छ।"},
+      {title:"Common lesion associations",en:"Candida – oral candidiasis; Wickham striae – reticular lichen planus; areca nut – oral submucous fibrosis; unerupted tooth crown – dentigerous cyst.",ne:"Candida = candidiasis; Wickham striae = lichen planus; सुपारी = submucous fibrosis; ननिस्केको दाँतको crown = dentigerous cyst।"},
+      {title:"Red flags need referral",en:"A persistent non-healing ulcer, unexplained red/white patch, lump, dysphagia or neck lump needs prompt professional assessment. Visual inspection alone cannot confirm cancer.",ne:"ननिको हुने घाउ, कारण नखुलेको रातो/सेतो patch, गाँठो, निल्न गाह्रो वा घाँटीको गाँठो भए शीघ्र referral गर्नुहोस्। हेरेर मात्र cancer पुष्टि हुँदैन।"},
+      {title:"Infection prevention",en:"Standard precautions apply to every patient. Clean instruments first, then sterilize reusable critical instruments using a validated process.",ne:"सबै बिरामीमा standard precautions अपनाउनुहोस्। उपकरण पहिले सफा गर्ने, त्यसपछि पुनःप्रयोग हुने critical उपकरणलाई प्रमाणित विधिबाट sterilize गर्ने।"}
+    ],
+    tricks: [
+      {title:"M-L-S = Mucosa groups",en:"Masticatory – Lining – Specialized.",ne:"M-L-S सम्झनुहोस्: चपाउने भाग – मुख ढाक्ने भाग – स्वाद/स्पर्शमा विशेष जिब्रोको भाग।"},
+      {title:"Caries = B-S-H-T",en:"Biofilm + Sugar + Host + Time are key interacting factors.",ne:"B-S-H-T: Biofilm, Sugar, Host र Time — caries का मुख्य अन्तरक्रियात्मक कारक।"},
+      {title:"Wickham = White lace",en:"Lace-like white lines suggest reticular oral lichen planus.",ne:"Wickham striae देख्दा जालीजस्तो सेतो रेखा र lichen planus सम्झनुहोस्।"},
+      {title:"Persistent lesion = Refer",en:"Do not dismiss a persistent unexplained ulcer or red/white patch.",ne:"लामो समयको अस्पष्ट घाउ/patch लाई सामान्य भनेर नछोड्नुहोस्—जाँच र referral गर्नुहोस्।"}
+    ],
+    diagrams: [
+      {title:"Types of oral mucosa",en:"A quick location-based memory map.",ne:"मुखको भागअनुसार mucosa को वर्गीकरण।",html:'<svg viewBox="0 0 620 190" role="img" aria-label="Oral mucosa classification diagram"><rect x="8" y="8" width="190" height="174" rx="12" fill="#e0f2fe" stroke="#0284c7"/><rect x="215" y="8" width="190" height="174" rx="12" fill="#dcfce7" stroke="#16a34a"/><rect x="422" y="8" width="190" height="174" rx="12" fill="#fef3c7" stroke="#d97706"/><g font-family="Arial" text-anchor="middle" fill="#17324a"><text x="103" y="36" font-size="17" font-weight="bold">Masticatory</text><text x="103" y="72" font-size="14">Gingiva</text><text x="103" y="96" font-size="14">Hard palate</text><text x="310" y="36" font-size="17" font-weight="bold">Lining</text><text x="310" y="68" font-size="13">Cheek • Lips</text><text x="310" y="91" font-size="13">Floor • Soft palate</text><text x="310" y="114" font-size="13">Ventral tongue</text><text x="517" y="36" font-size="17" font-weight="bold">Specialized</text><text x="517" y="77" font-size="14">Dorsal tongue</text><text x="517" y="103" font-size="12">Taste papillae</text></g></svg>'},
+      {title:"Caries progression",en:"Simplified pathway from early enamel change to cavitation.",ne:"Enamel को सुरुवाती परिवर्तनदेखि cavitation सम्मको सरल क्रम।",html:'<svg viewBox="0 0 620 150" role="img" aria-label="Caries progression"><g font-family="Arial" text-anchor="middle"><rect x="8" y="28" width="136" height="82" rx="10" fill="#dcfce7" stroke="#16a34a"/><rect x="166" y="28" width="136" height="82" rx="10" fill="#fef3c7" stroke="#d97706"/><rect x="324" y="28" width="136" height="82" rx="10" fill="#ffedd5" stroke="#ea580c"/><rect x="482" y="28" width="130" height="82" rx="10" fill="#fee2e2" stroke="#dc2626"/><g fill="#17324a" font-size="14" font-weight="bold"><text x="76" y="60">White spot</text><text x="234" y="60">Enamel</text><text x="392" y="60">Dentin</text><text x="547" y="60">Cavitation</text></g><g fill="#475569" font-size="11"><text x="76" y="82">Early lesion</text><text x="234" y="82">Demineralization</text><text x="392" y="82">Deeper spread</text><text x="547" y="82">Cavity forms</text></g><g stroke="#64748b" stroke-width="2" fill="none"><path d="M145 69h18m-6 -5 6 5 -6 5M303 69h18m-6 -5 6 5 -6 5M461 69h18m-6 -5 6 5 -6 5"/></g></g></svg>'}
+    ],
+    examples: [
+      {title:"White-spot lesion during examination",en:"A patient has a chalky white, non-cavitated area near the gingival margin. Assess caries risk, plaque and sugar frequency; reinforce fluoride use and preventive care, then review.",ne:"गिजा नजिक चकजस्तो सेतो तर खाल्डो नभएको भाग देखिए caries risk, plaque र चिनी सेवनको आवृत्ति मूल्याङ्कन गर्नुहोस्। Fluoride र preventive care बारे सल्लाह दिई पुनःजाँच गर्नुहोस्।"},
+      {title:"Persistent oral ulcer",en:"A patient reports an ulcer that has not healed. Record site, size, duration and relevant history; arrange prompt referral rather than diagnosing cancer by appearance.",ne:"ननिको भएको ulcer भए स्थान, आकार, अवधि र आवश्यक history लेख्नुहोस्। हेरेर cancer घोषणा नगरी शीघ्र referral गर्नुहोस्।"},
+      {title:"Denture wearer with wipeable white plaques",en:"Consider pseudomembranous candidiasis among the differential diagnoses. Check contributing factors such as denture hygiene, dry mouth and medication history; refer for diagnosis and management.",ne:"Denture लगाउने व्यक्तिमा पुछेर हट्ने सेतो तह भए candidiasis सम्भावना विचार गर्नुहोस्। Denture सफाइ, मुख सुक्ने अवस्था र औषधिको history हेरी diagnosis/management का लागि referral गर्नुहोस्।"}
+    ]
+  };
   const root = document.getElementById("oralPathView");
   if (!root) return;
   let practiceIndex = 0, answers = {}, mockSet = [], mockAnswers = {}, mockIndex = 0, timer = null, remaining = 600;
@@ -63,11 +89,12 @@ const mockBankQuestions = [...questions.slice(baseSplit), ...mockAdditions];
     <p class="muted">मुखका रोग, oral microorganisms, संक्रमण र रोकथामसम्बन्धी अध्ययन सामग्री।</p>
     <div class="feature-grid module-actions"><button class="feature-card" data-op="notes"><span class="feature-icon">📘</span><b>Study Notes</b><small>११ वटा विषय</small></button><button class="feature-card" data-op="practice"><span class="feature-icon">📝</span><b>MCQ Practice</b><small>१३ अभ्यास प्रश्न</small></button><button class="feature-card" data-op="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small>१७ प्रश्न • १७ मिनेट</small></button></div>
 <div class="toolbar"><label for="opLanguage">Question language</label><select id="opLanguage"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
-    <div id="opNotes" class="op-panel hidden"><h2>Oral Pathology Notes</h2><div class="notes-list">${notes.map(n=>`<article class="note"><h3>${n[0]}</h3><p>${n[1]}</p><p class="np">${n[2]}</p></article>`).join("")}</div></div>
+    <div id="opNotes" class="op-panel hidden"><div id="opStudyGuide"></div></div>
     <div id="opPractice" class="op-panel hidden"><div class="section-head"><h2>MCQ Practice</h2><span class="pill" id="opCount"></span></div><div id="opQuestion"></div></div>
     <div id="opMock" class="op-panel hidden"><h2>Oral Pathology Mock Test</h2><p class="muted">१७ प्रश्न • १७ मिनेट • प्रत्येक प्रश्नको १ अंक</p><div id="opMockIntro" class="notice"><p>परीक्षा सुरु गरेपछि समय गणना हुन्छ। अन्त्यमा नतिजा र उत्तर समीक्षा देखाइनेछ।</p><button class="primary" id="opStartMock">Start Mock Test</button></div><div id="opMockArea"></div></div>
     <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो; आधिकारिक NHPC प्रश्नपत्र होइन। हालको आधिकारिक पाठ्यक्रम र clinical guidelines सँग मिलाएर अध्ययन गर्नुहोस्।</p>`;
   const $ = s => root.querySelector(s);
+  if (window.DHPNStudyGuide) $("#opStudyGuide").innerHTML = window.DHPNStudyGuide.render(guideData);
   function panel(name){root.querySelectorAll(".op-panel").forEach(p=>p.classList.add("hidden"));$("#op"+name[0].toUpperCase()+name.slice(1)).classList.remove("hidden");}
   root.querySelectorAll("[data-op]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.op);if(b.dataset.op==="practice")renderPractice()}));
   function bilingual(q){const mode=$("#opLanguage").value;return `${mode==="ne"?"":`<h3>${q[0]}</h3>`}${mode==="en"?"":`<p class="translation">${q[1]}</p>`}`;}
