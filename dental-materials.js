@@ -62,6 +62,7 @@ root.innerHTML=`
 <div id="dmPractice" class="op-panel hidden"><div class="section-head"><h2>MCQ Practice</h2><span class="pill" id="dmCount"></span></div><div id="dmQuestion"></div></div>
 <div id="dmMock" class="op-panel hidden"><h2>Dental Materials Mock Test</h2><p class="muted">१७ प्रश्न • १७ मिनेट • प्रत्येक प्रश्नको १ अंक</p><div id="dmMockIntro" class="notice"><p>परीक्षा सुरु गरेपछि समय गणना हुन्छ। अन्त्यमा नतिजा र उत्तर समीक्षा देखाइनेछ।</p><button class="primary" id="dmStart">Start Mock Test</button></div><div id="dmMockArea"></div></div>
 <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो; आधिकारिक NHPC प्रश्नपत्र होइन। हालको आधिकारिक पाठ्यक्रम र निर्माता निर्देशनसँग मिलाएर अध्ययन गर्नुहोस्।</p>`;
+const $=s=>root.querySelector(s);
 const guideData = {
  title:"Dental Materials, Instruments and Assisting",
  notes:notes.map(n=>({title:n[0],en:n[1],ne:n[2]})),
@@ -84,7 +85,6 @@ const guideData = {
 };
 const guideHost=$("#dmStudyGuide");
 if(guideHost && window.DHPNStudyGuide) guideHost.innerHTML=window.DHPNStudyGuide.render(guideData);
-const $=s=>root.querySelector(s);
 function panel(n){root.querySelectorAll(".op-panel").forEach(x=>x.classList.add("hidden"));$("#dm"+n[0].toUpperCase()+n.slice(1)).classList.remove("hidden")}
 root.querySelectorAll("[data-dm]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.dm);if(b.dataset.dm==="practice")renderPractice()}));
 function bilingual(q){const m=$("#dmLanguage").value;return `${m==="en"?"":`<h3>${q[0]}</h3>`}${m==="ne"?"":`<p class="translation">${q[1]}</p>`}`}
