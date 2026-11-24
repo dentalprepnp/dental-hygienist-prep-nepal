@@ -587,3 +587,29 @@ document.addEventListener("click",e=>{
     if(section)section.scrollIntoView({behavior:"smooth",block:"start"});
   }
 });
+
+
+/* Reliable capture-phase routing for the fixed bottom navigation */
+document.addEventListener("click",e=>{
+  const nav=e.target.closest&&e.target.closest("#hlBottomNav [data-bottom-nav]");
+  if(!nav)return;
+  const key=nav.dataset.bottomNav;
+  if(key!=="notes"&&key!=="practice")return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  document.querySelectorAll("#hlBottomNav [data-bottom-nav]").forEach(b=>{
+    const active=b===nav;b.classList.toggle("is-active",active);
+    if(active)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");
+  });
+  const view=document.getElementById(key+"View");
+  if(!view)return;
+  document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
+  view.classList.remove("hidden");
+  document.body.classList.add("study-screen-open");
+  const back=document.getElementById("facultyBackButton");
+  if(back)back.classList.remove("hidden");
+  try{if(key==="notes"&&typeof renderNotes==="function")renderNotes();}catch(err){console.error("Notes view:",err);}
+  try{if(key==="practice"&&typeof renderPractice==="function")renderPractice();}catch(err){console.error("Practice view:",err);}
+  try{history.pushState({hlpTab:key},"");}catch(err){}
+  window.scrollTo({top:0,left:0,behavior:"instant"});
+},true);
