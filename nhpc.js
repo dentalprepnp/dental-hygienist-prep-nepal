@@ -439,8 +439,8 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   mockRoot.scrollIntoView({behavior:"smooth",block:"start"});
   mockRoot.querySelector("#dhShowMCQSets")?.addEventListener("click",()=>{
    let p=mockRoot.querySelector("#dhMCQSetsPanel");if(!p){p=document.createElement("section");p.id="dhMCQSetsPanel";p.className="notice";mockRoot.appendChild(p);}
-   p.innerHTML="<h3>MCQ Practice का १०० प्रश्नका Sets</h3><p>प्रत्येक Set मा १०० प्रश्न। बीचमा रोकेपछि Continue गर्न सकिन्छ।</p><div class='nextrow' id='dhMCQSetButtons' style='flex-wrap:wrap'></div>";
-   const bs=p.querySelector("#dhMCQSetButtons");for(let x=1;x<=dhMCQSetCount;x++){const b=document.createElement("button");b.type="button";b.className="smallbtn";b.textContent="Set "+x;b.onclick=()=>dhStart(x,"mcq");bs.appendChild(b);}p.scrollIntoView({behavior:"smooth",block:"start"});
+   p.innerHTML="<h3>MCQ Practice का १०० प्रश्नका Sets</h3><p>प्रत्येक Set मा १०० प्रश्न। बीचमा रोकेपछि Continue गर्न सकिन्छ।</p><div class='nextrow' id='dhMCQSetButtons' style='flex-wrap:wrap'></div><button type='button' class='primary' id='dhMCQResume'>अधुरो Set Continue</button>";
+   const bs=p.querySelector("#dhMCQSetButtons");for(let x=1;x<=dhMCQSetCount;x++){const b=document.createElement("button");b.type="button";b.className="smallbtn";b.textContent="Set "+x;b.onclick=()=>dhStart(x,"mcq");bs.appendChild(b);}p.querySelector("#dhMCQResume").onclick=()=>{if(!dhResume())alert("अधुरो Set भेटिएन।");};p.scrollIntoView({behavior:"smooth",block:"start"});
   });
   mockRoot.querySelector("#dhShowSets")?.addEventListener("click",()=>{
    let p=mockRoot.querySelector("#dhSetsPanel");if(!p){p=document.createElement("section");p.id="dhSetsPanel";p.className="notice";mockRoot.appendChild(p);}
