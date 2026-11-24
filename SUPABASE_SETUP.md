@@ -21,6 +21,16 @@ Keep your database password private. Do not send it to anyone or add it to GitHu
 
 The SQL enables Row Level Security (RLS). Each student can access only their own private progress, mock attempts, bookmarks and wrong-answer records.
 
+## 2A. Enable the one-time 7-day Free Trial
+
+The app uses one membership row per authenticated student, so the trial is global across all faculties (not 7 days per faculty). To set up the trial, open **SQL Editor** and run these repository files in this exact order:
+
+1. `supabase/membership.sql`
+2. `supabase/fixed-membership-plans.sql`
+3. `supabase/explicit-trial-consent.sql`
+
+Run each file as a separate query and confirm it completes successfully. The final SQL replaces the old trial-start function with the explicit-consent version and disables the old no-consent RPC. The student must be email-verified and actively agree before the one-time trial starts. The browser does not store or renew the trial clock.
+
 ## 3. Enable email login
 
 1. In Supabase, open **Authentication → Providers**.
