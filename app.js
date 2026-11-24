@@ -236,6 +236,7 @@ function showTab(tab,fromBrowserBack=false){
   if(!target)return;
   if(!fromBrowserBack){try{history.pushState({hlpTab:tab},"");}catch(e){}}
   target.classList.remove("hidden");
+  document.body.dataset.appPage=(tab==="notes"?"notes":(tab==="practice"||tab==="mock"?"practice":"faculty"));
   document.body.classList.toggle("study-screen-open",tab!=="home");
   const facultyBack=$("#facultyBackButton");if(facultyBack)facultyBack.classList.toggle("hidden",tab==="home");
   $(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
@@ -559,57 +560,40 @@ $("#installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;d
 document.addEventListener("click",event=>{if(event.target.closest("#showWrongAnswers"))window.DHPNReviewWrongAnswers();});
 
 
-/* Persistent mobile bottom navigation */
-document.addEventListener("click",e=>{
-  const button=e.target.closest("[data-bottom-nav]");
-  if(!button)return;
-  const destination=button.dataset.bottomNav;
-  document.querySelectorAll("[data-bottom-nav]").forEach(item=>{
-    const active=item===button;
-    item.classList.toggle("is-active",active);
-    if(active)item.setAttribute("aria-current","page");else item.removeAttribute("aria-current");
-  });
-  if(destination==="notes"||destination==="practice"){
-    showTab(destination);
-    return;
-  }
-  document.querySelectorAll(".view").forEach(view=>view.classList.add("hidden"));
-  document.body.classList.remove("study-screen-open");
-  const back=document.getElementById("facultyBackButton");
-  if(back)back.classList.add("hidden");
-  if(destination==="home"){
-    window.scrollTo({top:0,left:0,behavior:"smooth"});
-  }else if(destination==="courses"){
-    const section=document.querySelector(".exam-tracks");
-    if(section)section.scrollIntoView({behavior:"smooth",block:"start"});
-  }else if(destination==="profile"){
-    const section=document.querySelector(".profile-card");
-    if(section)section.scrollIntoView({behavior:"smooth",block:"start"});
-  }
-});
 
-
-/* Reliable capture-phase routing for the fixed bottom navigation */
-document.addEventListener("click",e=>{
-  const nav=e.target.closest&&e.target.closest("#hlBottomNav [data-bottom-nav]");
-  if(!nav)return;
-  const key=nav.dataset.bottomNav;
-  if(key!=="notes"&&key!=="practice")return;
-  e.preventDefault();
-  e.stopImmediatePropagation();
+/* App page routing: each bottom item opens a focused, separate page */
+function showAppPage(page, push=true){
+  const allowed=["home","courses","notes","practice","profile"];
+  if(!allowed.includes(page))page="home";
+  document.body.dataset.appPage=page;
+  document.body.classList.toggle("study-screen-open",page==="notes"||page==="practice"||page==="faculty");
+  document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
+  if(page==="notes"){
+    const v=document.getElementById("notesView");if(v)v.classList.remove("hidden");
+    if(typeof renderNotes==="function")renderNotes();
+  }else if(page==="practice"){
+    ["practiceView","mockView"].forEach(id=>{const v=document.getElementById(id);if(v)v.classList.remove("hidden");});
+    if(typeof renderPractice==="function")renderPractice();
+  }
   document.querySelectorAll("#hlBottomNav [data-bottom-nav]").forEach(b=>{
-    const active=b===nav;b.classList.toggle("is-active",active);
+    const active=b.dataset.bottomNav===page;
+    b.classList.toggle("is-active",active);
     if(active)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");
   });
-  const view=document.getElementById(key+"View");
-  if(!view)return;
-  document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
-  view.classList.remove("hidden");
-  document.body.classList.add("study-screen-open");
-  const back=document.getElementById("facultyBackButton");
-  if(back)back.classList.remove("hidden");
-  try{if(key==="notes"&&typeof renderNotes==="function")renderNotes();}catch(err){console.error("Notes view:",err);}
-  try{if(key==="practice"&&typeof renderPractice==="function")renderPractice();}catch(err){console.error("Practice view:",err);}
-  try{history.pushState({hlpTab:key},"");}catch(err){}
-  window.scrollTo({top:0,left:0,behavior:"instant"});
+  const back=document.getElementById("facultyBackButton");if(back)back.classList.add("hidden");
+  if(push){try{history.pushState({hlpTab:page},"");}catch(e){}}
+  window.scrollTo({top:0,left:0,behavior:"auto"});
+}
+document.addEventListener("click",event=>{
+  const nav=event.target.closest&&event.target.closest("#hlBottomNav [data-bottom-nav]");
+  if(nav){event.preventDefault();event.stopImmediatePropagation();showAppPage(nav.dataset.bottomNav);return;}
+  const go=event.target.closest&&event.target.closest("[data-go]");
+  if(go&&["notes","practice","mock"].includes(go.dataset.go)){
+    event.preventDefault();event.stopImmediatePropagation();
+    showAppPage(go.dataset.go==="notes"?"notes":"practice");return;
+  }
 },true);
+window.addEventListener("popstate",event=>{
+  const page=event.state&&event.state.hlpTab;
+  if(page&&["home","courses","notes","practice","profile"].includes(page))showAppPage(page,false);
+});
