@@ -583,8 +583,16 @@ function showAppPage(page, push=true){
     if(active)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");
   });
   const back=document.getElementById("facultyBackButton");if(back)back.classList.add("hidden");
-  const accountPanel=document.getElementById("accountPanel");if(accountPanel)accountPanel.classList.toggle("hidden",!!window.HLPAuthUser);
+  const accountPanel=document.getElementById("accountPanel");
+  const signedInPanel=document.getElementById("signedInPanel");
+  // Keep all account actions inside the Profile page.
+  if(accountPanel)accountPanel.classList.toggle("hidden",!!window.HLPAuthUser);
+  if(signedInPanel)signedInPanel.classList.toggle("hidden",!window.HLPAuthUser);
   const loginPrompt=document.getElementById("profileLoginPrompt");if(loginPrompt)loginPrompt.classList.toggle("hidden",!!window.HLPAuthUser);
+  if(page==="profile"){
+    const profileHeading=document.querySelector(".profile-card h2");
+    if(profileHeading)profileHeading.textContent="विद्यार्थी प्रोफाइल र गतिविधि";
+  }
   if(push){try{history.pushState({hlpTab:page},"");}catch(e){}}
   window.scrollTo({top:0,left:0,behavior:"auto"});
 }
