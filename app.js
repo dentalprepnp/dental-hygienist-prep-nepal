@@ -240,7 +240,7 @@ function showTab(tab,fromBrowserBack=false){
   document.body.classList.toggle("study-screen-open",tab!=="home");
   const facultyBack=$("#facultyBackButton");if(facultyBack)facultyBack.classList.toggle("hidden",tab==="home");
   $(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
-  document.querySelectorAll("[data-bottom-nav]").forEach(item=>{const key=item.dataset.bottomNav;const active=(key==="notes"&&tab==="notes")||(key==="practice"&&(tab==="practice"||tab==="mock"));item.classList.toggle("is-active",active);if(active)item.setAttribute("aria-current","page");else item.removeAttribute("aria-current");});
+  document.querySelectorAll("[data-bottom-nav]").forEach(item=>{const key=item.dataset.bottomNav;const active=(key==="notes"&&tab==="notes")||(key==="practice"&&(tab==="practice"||tab==="mock"))||(key==="courses"&&document.body.dataset.appPage==="faculty");item.classList.toggle("is-active",active);if(active)item.setAttribute("aria-current","page");else item.removeAttribute("aria-current");});
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
   // Every selected module opens at the very top, without leaving the home directory visible.
@@ -571,6 +571,8 @@ function showAppPage(page, push=true){
   if(page==="notes"){
     const v=document.getElementById("notesView");if(v)v.classList.remove("hidden");
     if(typeof renderNotes==="function")renderNotes();
+    const heading=document.querySelector("#notesView h2");
+    if(heading&&typeof subjectMeta!=="undefined"&&subjectMeta[activeDentalSubject])heading.textContent=(subjectMeta[activeDentalSubject][0]||"Selected Subject")+" — Study Notes";
   }else if(page==="practice"){
     ["practiceView","mockView"].forEach(id=>{const v=document.getElementById(id);if(v)v.classList.remove("hidden");});
     if(typeof renderPractice==="function")renderPractice();
@@ -581,6 +583,8 @@ function showAppPage(page, push=true){
     if(active)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");
   });
   const back=document.getElementById("facultyBackButton");if(back)back.classList.add("hidden");
+  const accountPanel=document.getElementById("accountPanel");if(accountPanel)accountPanel.classList.toggle("hidden",!!window.HLPAuthUser);
+  const loginPrompt=document.getElementById("profileLoginPrompt");if(loginPrompt)loginPrompt.classList.toggle("hidden",!!window.HLPAuthUser);
   if(push){try{history.pushState({hlpTab:page},"");}catch(e){}}
   window.scrollTo({top:0,left:0,behavior:"auto"});
 }
