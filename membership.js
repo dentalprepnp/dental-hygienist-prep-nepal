@@ -169,6 +169,7 @@ function setupPlanCheckout() {
   async function loadMyPaymentRequests() {
     const target = document.getElementById("myPaymentRequests");
     if (!target) return;
+    if (!activeUserId) { target.textContent = "आफ्ना Payment Request हेर्न Login गर्नुहोस्।"; return; }
     const { data, error } = await supabase.from("manual_payment_requests")
       .select("id,plan_code,amount_paisa,transaction_reference,status,created_at,admin_note")
       .order("created_at", { ascending: false }).limit(20);
