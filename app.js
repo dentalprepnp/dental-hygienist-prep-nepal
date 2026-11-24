@@ -457,12 +457,24 @@ const subjectMeta={
  bmlt:["BMLT NHPC Licensing","Medical Microbiology • Clinical Biochemistry • Hematology","🧪"]
 };
 let activeDentalSubject="home";
-function showSubjectHub(id){
+function ensureNHPCModuleLoaded(){
+ if(typeof window.DHPNOpenNHPCStudyTopic==="function")return Promise.resolve();
+ if(window.__hlpNHPCModulePromise)return window.__hlpNHPCModulePromise;
+ window.__hlpNHPCModulePromise=new Promise((resolve,reject)=>{
+  const script=document.createElement("script");
+  script.src="nhpc.js?v=194";
+  script.onload=()=>resolve();
+  script.onerror=()=>{window.__hlpNHPCModulePromise=null;reject(new Error("NHPC module failed to load"));};
+  document.head.appendChild(script);
+ });
+ return window.__hlpNHPCModulePromise;
+}
+async function showSubjectHub(id){
  const meta=subjectMeta[id];if(!meta)return;
  activeDentalSubject=id;
- // Open the real NHPC course view directly. Avoid the intermediate empty
- // subject landing screen and its extra click that could strand learners.
  if(id==="basicPeriodontology"){
+  try{await ensureNHPCModuleLoaded();}
+  catch(error){alert("NHPC सामग्री लोड भएन। Internet जाँचेर फेरि प्रयास गर्नुहोस्।");return;}
   showTab("nhpc");
   return;
  }
