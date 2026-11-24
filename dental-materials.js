@@ -57,10 +57,33 @@ root.innerHTML=`
 <p class="muted">Dental materials, hand instruments, rotary instruments, chairside assisting र infection control सम्बन्धी अध्ययन सामग्री।</p>
 <div class="feature-grid module-actions"><button class="feature-card" data-dm="notes"><span class="feature-icon">📘</span><b>Study Notes</b><small>११ वटा विषय</small></button><button class="feature-card" data-dm="practice"><span class="feature-icon">📝</span><b>MCQ Practice</b><small>१३ अभ्यास प्रश्न</small></button><button class="feature-card" data-dm="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small>१७ प्रश्न • १७ मिनेट</small></button></div>
 <div class="toolbar"><label for="dmLanguage">Question language</label><select id="dmLanguage"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
-<div id="dmNotes" class="op-panel hidden"><h2>Dental Materials Notes</h2><div class="notes-list">${notes.map(n=>`<article class="note"><h3>${n[0]}</h3><p>${n[1]}</p><p class="np">${n[2]}</p></article>`).join("")}</div></div>
+<div id="dmNotes" class="op-panel hidden"><h2>Dental Materials • Complete Study Guide</h2>
+<div id="dmStudyGuide"></div><div class="notes-list">${notes.map(n=>`<article class="note"><h3>${n[0]}</h3><p>${n[1]}</p><p class="np">${n[2]}</p></article>`).join("")}</div></div>
 <div id="dmPractice" class="op-panel hidden"><div class="section-head"><h2>MCQ Practice</h2><span class="pill" id="dmCount"></span></div><div id="dmQuestion"></div></div>
 <div id="dmMock" class="op-panel hidden"><h2>Dental Materials Mock Test</h2><p class="muted">१७ प्रश्न • १७ मिनेट • प्रत्येक प्रश्नको १ अंक</p><div id="dmMockIntro" class="notice"><p>परीक्षा सुरु गरेपछि समय गणना हुन्छ। अन्त्यमा नतिजा र उत्तर समीक्षा देखाइनेछ।</p><button class="primary" id="dmStart">Start Mock Test</button></div><div id="dmMockArea"></div></div>
 <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो; आधिकारिक NHPC प्रश्नपत्र होइन। हालको आधिकारिक पाठ्यक्रम र निर्माता निर्देशनसँग मिलाएर अध्ययन गर्नुहोस्।</p>`;
+const guideData = {
+ title:"Dental Materials, Instruments and Assisting",
+ notes:notes.map(n=>({title:n[0],en:n[1],ne:n[2]})),
+ points:[
+  {title:"Impression materials",items:["Alginate is an irreversible hydrocolloid; it is commonly used for preliminary impressions.","Elastomeric materials include addition silicone and condensation silicone."]},
+  {title:"Gypsum products",items:["Type II: model plaster; Type III: dental stone; Type IV: high-strength, low-expansion dental stone.","Follow the manufacturer's water-to-powder ratio and mixing instructions."]},
+  {title:"Restorative materials",items:["Amalgam is a metal-based direct restorative material; mercury hygiene and waste handling require strict safety.","Composite resin is tooth-coloured and commonly requires bonding and adequate isolation.","Glass ionomer cement chemically bonds to tooth structure and can release fluoride."]},
+  {title:"Infection prevention",items:["Clean, package and sterilize reusable instruments according to validated clinic protocols.","Use appropriate PPE, surface barriers and safe sharps handling."]}
+ ],
+ tricks:[
+  {title:"Gypsum types: 2–3–4",en:"Remember: II = plaster, III = dental stone, IV = high-strength stone.",ne:"२ plaster, ३ dental stone, ४ high-strength dental stone भनेर सम्झनुहोस्।"},
+  {title:"GIC = Bond + Fluoride",en:"Glass ionomer cement chemically bonds to tooth and may release fluoride.",ne:"GIC ले दाँतसँग chemical bond बनाउँछ र fluoride release गर्न सक्छ।"},
+  {title:"Composite = Isolate + Bond + Cure",en:"Think of the common sequence: isolation, adhesive/bonding steps, then light curing as indicated.",ne:"Composite गर्दा isolation, bonding र आवश्यकताअनुसार light curing सम्झनुहोस्।"}
+ ],
+ diagrams:[{title:"Dental material selection pathway",html:`<svg viewBox="0 0 320 180" role="img" aria-label="Material selection pathway"><rect x="88" y="8" width="144" height="34" rx="8" fill="#dbeafe" stroke="#2563eb"/><text x="160" y="29" text-anchor="middle" font-size="12" fill="#17324d">Clinical indication</text><path d="M160 42V62M160 62H80V82M160 62H240V82" stroke="#476579" fill="none" stroke-width="2"/><rect x="12" y="82" width="136" height="38" rx="8" fill="#dcfce7" stroke="#16a34a"/><rect x="172" y="82" width="136" height="38" rx="8" fill="#fef3c7" stroke="#d97706"/><text x="80" y="105" text-anchor="middle" font-size="12" fill="#17324d">Impression / cast</text><text x="240" y="105" text-anchor="middle" font-size="12" fill="#17324d">Restoration</text><path d="M80 120V140M240 120V140" stroke="#476579" stroke-width="2"/><text x="80" y="157" text-anchor="middle" font-size="11" fill="#17324d">Alginate / gypsum</text><text x="240" y="157" text-anchor="middle" font-size="11" fill="#17324d">Composite / GIC</text></svg>`}],
+ examples:[
+  {title:"Alginate impression",en:"For a preliminary study cast, select alginate when appropriate, measure water and powder as directed, mix promptly and pour the impression within the recommended time.",ne:"Preliminary study cast का लागि उपयुक्त अवस्थामा alginate छान्नुहोस्, निर्देशनअनुसार पानी र powder नाप्नुहोस्, छिटो mix गरी तोकिएको समयमा pour गर्नुहोस्।"},
+  {title:"Composite restoration assistance",en:"Prepare the required instruments and curing light, maintain isolation, protect the eyes from curing-light exposure and follow the clinician's bonding protocol.",ne:"आवश्यक instrument र curing light तयार गर्नुहोस्, isolation कायम राख्नुहोस्, curing light बाट आँखाको सुरक्षा गर्नुहोस् र clinician को bonding protocol पालना गर्नुहोस्।"}
+ ]
+};
+const guideHost=$("#dmStudyGuide");
+if(guideHost && window.DHPNStudyGuide) guideHost.innerHTML=window.DHPNStudyGuide.render(guideData);
 const $=s=>root.querySelector(s);
 function panel(n){root.querySelectorAll(".op-panel").forEach(x=>x.classList.add("hidden"));$("#dm"+n[0].toUpperCase()+n.slice(1)).classList.remove("hidden")}
 root.querySelectorAll("[data-dm]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.dm);if(b.dataset.dm==="practice")renderPractice()}));
