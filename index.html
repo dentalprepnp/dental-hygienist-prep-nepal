@@ -755,11 +755,23 @@
   function openView(name){
     var target=document.getElementById(name+"View");
     if(!target){console.warn("HL Preparation: missing view",name+"View");return false;}
-    document.querySelectorAll(".view").forEach(function(view){view.classList.add("hidden");});
+    document.querySelectorAll(".view").forEach(function(view){
+      view.classList.add("hidden");
+      view.style.removeProperty("display");
+      view.setAttribute("aria-hidden","true");
+    });
     target.classList.remove("hidden");
+    target.style.display="block";
+    target.setAttribute("aria-hidden","false");
+    document.body.dataset.appPage=name==="home"?"home":"faculty";
     document.body.classList.toggle("study-screen-open",name!=="home");
-     var facultyBack=document.getElementById("facultyBackButton");if(facultyBack)facultyBack.classList.toggle("hidden",name==="home");
+    var facultyBack=document.getElementById("facultyBackButton");if(facultyBack)facultyBack.classList.toggle("hidden",name==="home");
     document.querySelectorAll(".tab").forEach(function(tab){tab.classList.toggle("active",tab.dataset.tab===name);});
+    document.querySelectorAll("[data-bottom-nav]").forEach(function(item){
+      var active=item.dataset.bottomNav===(name==="home"?"home":"courses");
+      item.classList.toggle("is-active",active);
+      if(active)item.setAttribute("aria-current","page");else item.removeAttribute("aria-current");
+    });
     window.scrollTo({top:0,left:0,behavior:"auto"});
     requestAnimationFrame(function(){target.scrollIntoView({behavior:"auto",block:"start"});});
     return true;
