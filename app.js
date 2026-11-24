@@ -255,6 +255,30 @@ function showTab(tab,fromBrowserBack=false){
   window.scrollTo({top:0,left:0,behavior:"instant"});
   requestAnimationFrame(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});target.scrollIntoView({behavior:"instant",block:"start"});});
 }
+/* Universal study back control: closes Notes/MCQ/Mock first, then returns to the previous screen. */
+(function(){
+ if(document.getElementById("dhpnUniversalBack"))return;
+ const back=document.createElement("button");
+ back.id="dhpnUniversalBack";back.type="button";back.textContent="← Back";
+ back.setAttribute("aria-label","Back to previous study screen");
+ back.style.cssText="position:fixed;left:12px;top:calc(env(safe-area-inset-top,0px) + 12px);z-index:10050;display:none;padding:10px 16px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#0f3b5d;font-weight:700;font-size:14px;box-shadow:0 4px 16px rgba(15,23,42,.18);";
+ document.body.appendChild(back);
+ const activePanel=()=>["nhpcNotesArea","nhpcMcqArea","nhpcFullMock"].find(id=>{const el=document.getElementById(id);return el&&!el.classList.contains("hidden")&&el.offsetParent!==null;});
+ const goBack=()=>{
+  const panel=activePanel();
+  if(panel){const close=document.getElementById(panel==="nhpcNotesArea"?"nhpcCloseNotes":panel==="nhpcMcqArea"?"nhpcCloseMcq":"nhpcCloseMock");if(close){close.click();return;}}
+  if(history.state&&history.state.hlpTab&&history.state.hlpTab!=="home"&&history.length>1){history.back();return;}
+  if(typeof showTab==="function")showTab("home");
+ };
+ back.addEventListener("click",goBack);
+ document.addEventListener("click",e=>{
+  if(e.target.closest("#nhpcStartNotes,#nhpcStartMcq,#nhpcStartFullMock")){try{history.pushState({...history.state,hlpSub:"study"},"");}catch(err){}}
+ },true);
+ const sync=()=>{back.style.display=document.body.classList.contains("study-screen-open")||!!activePanel()?"block":"none";};
+ new MutationObserver(sync).observe(document.body,{attributes:true,attributeFilter:["class","data-app-page"],subtree:true,childList:true});
+ sync();
+ window.__dhpnUniversalStudyBack=goBack;
+})();
 document.addEventListener("click",e=>{
   const category=e.target.closest("[data-exam-category]");
   if(!category)return;
@@ -276,7 +300,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("click",e=>{const tabButton=e.target.closest(".track-card[data-tab]");if(!tabButton)return;e.preventDefault();showTab(tabButton.dataset.tab);},true);
 document.addEventListener("click",e=>{const back=e.target.closest("#facultyBackButton");if(!back)return;e.preventDefault();if(history.state&&history.state.hlpTab)history.back();else showTab("home");});
-if(!window.__hlpPopstateBound){window.__hlpPopstateBound=true;try{if(!history.state||!history.state.hlpTab)history.replaceState({hlpTab:"home"},"");}catch(e){}window.addEventListener("popstate",e=>{const tab=e.state&&e.state.hlpTab;showTab(tab||"home",true);});}
+if(!window.__hlpPopstateBound){window.__hlpPopstateBound=true;try{if(!history.state||!history.state.hlpTab)history.replaceState({hlpTab:"home"},"");}catch(e){}window.addEventListener("popstate",e=>{const panel=["nhpcNotesArea","nhpcMcqArea","nhpcFullMock"].find(id=>{const el=document.getElementById(id);return el&&!el.classList.contains("hidden")&&el.offsetParent!==null;});if(panel){const close=document.getElementById(panel==="nhpcNotesArea"?"nhpcCloseNotes":panel==="nhpcMcqArea"?"nhpcCloseMcq":"nhpcCloseMock");close?.click();return;}const tab=e.state&&e.state.hlpTab;showTab(tab||"home",true);});}
 document.addEventListener("click",e=>{
   const back=e.target.closest("[data-back-exams]");
   if(!back)return;
