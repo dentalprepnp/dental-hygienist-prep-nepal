@@ -1409,3 +1409,9 @@ body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 :root[data-theme="dark"] .hl-bottom-nav{background:rgba(15,35,25,.97);border-color:#315d42}
 :root[data-theme="dark"] .hl-bottom-nav button{color:#b4c9ba}
 :root[data-theme="dark"] .hl-bottom-nav button.is-active{background:#1d4930;color:#a7f3c0}
+
+
+/* Focus mode: hide every non-view home section when a study view is active */
+body.study-screen-open main > section:not(.view){
+  display:none!important;
+}
