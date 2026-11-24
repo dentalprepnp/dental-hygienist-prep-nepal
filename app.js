@@ -551,24 +551,38 @@ if("serviceWorker" in navigator && location.protocol.startsWith("http")){
     });
   }).catch(()=>{});
 }
-// Put every faculty's selected Notes, MCQ Practice or Mock Test in the foreground.
+// Bring selected study content into the foreground across faculty modules.
 document.addEventListener("click",event=>{
- const button=event.target.closest("button");
+ const button=event.target.closest("button,[role=button],a");
  if(!button)return;
- const keys=["op","dm","oa","dph","dr","dp","de","fn","ec","rt","ott","pt","rad","oph","ha","mlt","an","dha","nhpc"];
- const entry=Object.entries(button.dataset).find(([key,value])=>
-   keys.includes(key) && /^(notes|practice|mock|imagingPractice|imagingMock|radiationPractice|radiationMock|equipmentPractice|equipmentMock|advancedPractice|advancedMock|corePractice|coreMock)$/i.test(String(value))
+ const facultyKeys=["op","dm","oa","dph","dr","dp","de","fn","ec","rt","ott","pt","rad","oph","ha","mlt","an","dha","nhpc"];
+ const action=Object.entries(button.dataset).find(([key,value])=>
+   (facultyKeys.includes(key)||/faculty|course|module/i.test(key)) &&
+   /^(notes|practice|mcq|mock|imagingPractice|imagingMock|radiationPractice|radiationMock|equipmentPractice|equipmentMock|advancedPractice|advancedMock|corePractice|coreMock)$/i.test(String(value))
  );
- if(!entry)return;
+ if(!action)return;
  const view=button.closest(".view");
  if(!view)return;
  view.classList.add("study-focused");
- requestAnimationFrame(()=>{
-  const panels=[...view.querySelectorAll(".op-panel:not(.hidden), .ha-overview, .ha-note, .ha-question, .dha-panel:not(.hidden), .question")];
-  const target=panels.find(el=>el.getClientRects().length)||view;
-  const y=target.getBoundingClientRect().top+window.scrollY-76;
-  window.scrollTo({top:Math.max(0,y),behavior:"auto"});
- });
+ // Allow faculty-specific handlers to render/unhide the selected MCQ first.
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  const selectors=[
+   ".op-panel:not(.hidden)",".ha-overview",".ha-note",".ha-question",
+   ".dha-panel:not(.hidden)","#practicePanel:not(.hidden)",
+   "#mcqPanel:not(.hidden)","#mockPanel:not(.hidden)",
+   ".mcq-container:not(.hidden)",".quiz-container:not(.hidden)",
+   ".question:not(.hidden)"
+  ];
+  let target=null;
+  for(const selector of selectors){
+   target=[...view.querySelectorAll(selector)].find(el=>el.getClientRects().length);
+   if(target)break;
+  }
+  // For modules with no dedicated panel wrapper, scroll the selected view to its top.
+  if(!target)target=view;
+  const y=target.getBoundingClientRect().top+window.scrollY-72;
+  window.scrollTo({top:Math.max(0,y),left:0,behavior:"auto"});
+ }));
 },false);
 
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").classList.remove("hidden")});
