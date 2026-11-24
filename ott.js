@@ -45,3 +45,4 @@ root.addEventListener("click",e=>{
 const oldMenu=menu;
 menu=function(){stopTimer();const sets=Math.ceil(Math.max(0,bank.length-205)/100);panel('<div class="notice"><b>NHPC Diploma in Operation Theatre Technology</b><p>'+bank.length+' bilingual MCQs • प्रत्येक Mock Set ६० मिनेट • Pass Mark ५०%</p></div><h3>MCQ Practice</h3><button data-ott="practice">MCQ Practice (205)</button><h3>Mock Exam Sets</h3><div class="ha-actions">'+Array.from({length:sets},(_,i)=>'<button data-ott-set="'+i+'">Mock Set '+(i+1)+' • '+Math.min(100,bank.length-205-i*100)+' प्रश्न • ६० मिनेट</button>').join("")+'</div><p class="disclaimer">Submit वा समय सकिएपछि नतिजा र गलत उत्तरको व्याख्या देखाइनेछ। यो स्वतन्त्र अभ्यास सामग्री हो।</p>');};
 menu();
+})();
