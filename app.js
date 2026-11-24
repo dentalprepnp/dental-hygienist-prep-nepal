@@ -556,3 +556,36 @@ $("#installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;d
 })();
 
 document.addEventListener("click",event=>{if(event.target.closest("#showWrongAnswers"))window.DHPNReviewWrongAnswers();});
+
+
+/* Persistent mobile bottom navigation */
+document.addEventListener("click",e=>{
+  const button=e.target.closest("[data-bottom-nav]");
+  if(!button)return;
+  const destination=button.dataset.bottomNav;
+  document.querySelectorAll("[data-bottom-nav]").forEach(item=>{
+    const active=item===button;
+    item.classList.toggle("is-active",active);
+    if(active)item.setAttribute("aria-current","page");else item.removeAttribute("aria-current");
+  });
+  if(destination==="notes"||destination==="practice"){
+    showTab(destination);
+    return;
+  }
+  document.querySelectorAll(".view").forEach(view=>view.classList.add("hidden"));
+  document.body.classList.remove("study-screen-open");
+  const back=document.getElementById("facultyBackButton");
+  if(back)back.classList.add("hidden");
+  if(destination==="home"){
+    try{history.pushState({hlpTab:"home"},"");}catch(e){}
+    window.scrollTo({top:0,left:0,behavior:"smooth"});
+  }else if(destination==="courses"){
+    try{history.pushState({hlpTab:"courses"},"");}catch(e){}
+    const section=document.querySelector(".exam-tracks");
+    if(section)section.scrollIntoView({behavior:"smooth",block:"start"});
+  }else if(destination==="profile"){
+    try{history.pushState({hlpTab:"profile"},"");}catch(e){}
+    const section=document.querySelector(".profile-card");
+    if(section)section.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+});
