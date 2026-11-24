@@ -412,7 +412,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   Object.entries(plan).forEach(([subject,count])=>{
    const pool=mockBank.filter(item=>item.examBlueprintSubject===subject);
    if(pool.length<count)throw new Error("NHPC blueprint pool short: "+subject+" needs "+count+", has "+pool.length);
-   selected.push(...shuffleItems(pool).slice(0,count));
+   selected.push(...pool.slice(0,count));
   });
   return shuffleItems(selected);
  };
@@ -431,7 +431,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
     <button class="feature-card" data-mock-size="10"><b>Quick Test</b><strong>१० प्रश्न</strong><small>१२ मिनेट</small></button>
     <button class="feature-card" data-mock-size="25"><b>Quick Mock</b><strong>२५ प्रश्न</strong><small>३० मिनेट</small></button>
     <button class="feature-card" data-mock-size="50"><b>Mini Mock</b><strong>५० प्रश्न</strong><small>६० मिनेट</small></button>
-    <button class="feature-card" data-mock-size="100"><b>Standard Mock</b><strong>१०० प्रश्न</strong><small>१२० मिनेट</small></button>
+    <button class="feature-card" data-mock-size="100"><b>Mock Set 1</b><strong>१०० प्रश्न • १०० अंक</strong><small>१२० मिनेट</small></button>
     <button class="feature-card" data-mock-size="150"><b>Advanced Mock</b><strong>१५० प्रश्न</strong><small>१८० मिनेट</small></button>
     <button class="feature-card" data-mock-size="all"><b>Full Mock Bank</b><strong>सबै Mock प्रश्न</strong><small>Mock Bank का सबै प्रश्न</small></button>
    </div><p class="muted">विषयगत Mock मा छानिएको विषयका प्रश्न मात्र आउँछन्। प्रश्न संख्या उपलब्ध प्रश्नअनुसार सीमित हुन सक्छ। यो अभ्यास योजना हो, NHPC को आधिकारिक परीक्षा समय/प्रश्न संख्याको दाबी होइन।</p>`;
@@ -457,7 +457,7 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   mockRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">PCL DENTAL HYGIENE MOCK TEST</p><h3>प्रश्न ${mockAt+1} / ${total}</h3></div><span class="timer" id="nhpcFullTimer">${fmtNhpcTime()}</span></div>
    <div class="mock-progress"><span style="width:${Object.keys(mockPicked).length/total*100}%"></span></div>
    <div class="mock-nav" aria-label="Question navigation">${mockSet.map((_,i)=>`<button type="button" class="${i===mockAt?"current":""} ${mockPicked[i]!==undefined?"answered":""}" data-jump="${i}">${i+1}</button>`).join("")}</div>
-   <article class="question"><div class="qtop"><span>${item.topic}</span><span>${selected===undefined?"उत्तर छान्नुहोस्":"उत्तर सुरक्षित भयो"}</span></div><h3>${q[0]}</h3><p class="translation">${q[1]}</p><div class="options">${q[2].map((o,i)=>`<button type="button" class="option ${selected!==undefined&&i===q[3]?"correct":selected===i&&i!==q[3]?"wrong":""}" data-full-answer="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div>
+   <article class="question"><div class="qtop"><span>${item.topic}</span><span>${selected===undefined?"उत्तर छान्नुहोस्":"उत्तर सुरक्षित भयो"}</span></div><h3>${q[0]}</h3><p class="translation">${q[1]}</p><div class="options">${q[2].map((o,i)=>`<button type="button" class="option ${selected===i?"selected":""}" data-full-answer="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div>
    <div class="nextrow"><button class="smallbtn" id="nhpcFullPrev" ${mockAt===0?"disabled":""}>अघिल्लो</button><span class="muted">${Object.keys(mockPicked).length}/${total} उत्तर</span><button class="smallbtn" id="nhpcFullNext">${mockAt===total-1?"परीक्षा बुझाउनुहोस्":"अर्को"}</button></div></article>
    <div class="nextrow"><button class="secondary" id="nhpcFullSubmit">अहिले नै परीक्षा बुझाउनुहोस्</button></div>`;
   mockRoot.querySelectorAll("[data-full-answer]").forEach(b=>b.addEventListener("click",()=>{mockPicked[mockAt]=Number(b.dataset.fullAnswer);drawNhpcMock()}));
