@@ -1,6 +1,6 @@
 /* Lightweight PWA cache: precache only the app shell.
    Faculty modules are cached on first use and served cache-first afterwards. */
-const CACHE="hl-preparation-v341-nhpc-faculty-mock-timers";
+const CACHE="hl-preparation-v342-ott-radiotherapy-mock";
 const ASSETS=[
  "./","./index.html","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=284","./app.js?v=177","./auth.js?v=11",
