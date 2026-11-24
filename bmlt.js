@@ -42,7 +42,7 @@
     const type=String(value||"").toLowerCase().replace(/[ -]/g,"_");
     if(["note","notes","study_note","study_notes"].includes(type))return "note";
     if(["mcq","mcq_practice","practice","practice_mcq","question"].includes(type))return "mcq";
-    if(["mock","mock_test","mock_question","mock_questions"].includes(type))return "mock";
+    if(["mock","mock_test","mock_question","mock_questions","mocktest","mock_test_questions","mocktest_questions","mock_exam","mock_exam_questions","mock_mcq","mock_test_mcq","mock_question_bank"].includes(type))return "mock";
     return type;
   }
   function normalizeQuestion(raw) {
@@ -98,6 +98,8 @@
     notes=typed.filter(x=>x.normalizedType==="note").map(x=>normalizeNote(x.content_data));
     practiceQuestions=typed.filter(x=>x.normalizedType==="mcq").sort((a,b)=>(Number(a.display_order)||0)-(Number(b.display_order)||0)).map(x=>shuffledQuestion(x.content_data)).filter(Boolean);
     mockBankQuestions=typed.filter(x=>x.normalizedType==="mock").sort((a,b)=>(Number(a.display_order)||0)-(Number(b.display_order)||0)).map(x=>shuffledQuestion(x.content_data)).filter(Boolean);
+    // If BMLT has practice MCQs but no separately tagged mock rows, reuse the practice bank for Mock Test.
+    if(!mockBankQuestions.length&&practiceQuestions.length)mockBankQuestions=practiceQuestions.map(q=>[q[0],q[1],[...q[2]],q[3],q[4],q[5]]);
   }
   function showApp() {
     status.classList.add("hidden"); app.classList.remove("hidden");
