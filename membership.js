@@ -165,7 +165,7 @@ function setupPlanCheckout() {
   const checkout = document.getElementById("membershipCheckout");
   if (!grid || !checkout || grid.dataset.bound === "true") return;
   grid.dataset.bound = "true";
-  const qrImageUrl = "";
+  const qrImageUrl = "./assets/qr-payment.png";
   async function loadMyPaymentRequests() {
     const target = document.getElementById("myPaymentRequests");
     if (!target) return;
