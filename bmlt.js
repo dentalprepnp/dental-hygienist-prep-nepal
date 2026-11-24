@@ -108,7 +108,7 @@
     document.getElementById("bmltMockCount").textContent=mockBankQuestions.length+" प्रश्न • "+mockBankQuestions.length+" मिनेट";
     document.getElementById("bmltMockIntroText").textContent=mockBankQuestions.length+" उपलब्ध Mock प्रश्न • प्रत्येक प्रश्नको १ अंक";
     const setRoot=document.getElementById("bmltMockSets");
-    if(mockBankQuestions.length){const setCount=Math.ceil(mockBankQuestions.length/100);setRoot.innerHTML=Array.from({length:setCount},(_,i)=>{const count=Math.min(100,mockBankQuestions.length-i*100);return `<button class="feature-card" type="button" data-bmlt-set="${i}"><b>Mock Set ${i+1}</b><strong>${count} प्रश्न • ${count} अंक</strong><small>${count} मिनेट</small></button>`}).join("");setRoot.querySelectorAll("[data-bmlt-set]").forEach(b=>b.addEventListener("click",()=>startMock(Number(b.dataset.bmltSet))));}else setRoot.textContent="अहिले Mock प्रश्न उपलब्ध छैन।";
+    if(mockBankQuestions.length){const setCount=Math.ceil(mockBankQuestions.length/100);setRoot.innerHTML=Array.from({length:setCount},(_,i)=>{const count=Math.min(100,mockBankQuestions.length-i*100);return `<button class="feature-card" type="button" data-bmlt-set="${i}"><b>Mock Set ${i+1}</b><strong>${count} प्रश्न • ${count} अंक</strong><small>६० मिनेट</small></button>`}).join("");setRoot.querySelectorAll("[data-bmlt-set]").forEach(b=>b.addEventListener("click",()=>startMock(Number(b.dataset.bmltSet))));}else setRoot.textContent="अहिले Mock प्रश्न उपलब्ध छैन।";
     document.getElementById("bmltNotesList").innerHTML=notes.map(n=>`<article class="note"><h3>${n.title}</h3><p>${n.english}</p><p class="np">${n.nepali}</p></article>`).join("");
     root.querySelectorAll("[data-bmlt]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.bmlt);if(b.dataset.bmlt==="practice")renderPractice();}));
     document.getElementById("bmltLanguage").addEventListener("change",()=>{if(!document.getElementById("bmltPractice").classList.contains("hidden"))renderPractice();if(!document.getElementById("bmltMock").classList.contains("hidden")&&mock.length)renderMock();});
@@ -127,7 +127,7 @@
   }
   function startMock(setIndex=0){
     clearInterval(timer);const start=setIndex*100;mock=mockBankQuestions.slice(start,start+100).map(q=>[...q]);for(let i=mock.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[mock[i],mock[j]]=[mock[j],mock[i]];}
-    ma={};mi=0;remaining=mock.length*60;
+    ma={};mi=0;remaining=60*60;
     document.getElementById("bmltMockIntro").classList.add("hidden");renderMock();
     timer=setInterval(()=>{remaining--;const t=document.getElementById("bmltTimer");if(t)t.textContent=`${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}`;if(remaining<=0)finish();},1000);
   }
@@ -140,11 +140,11 @@
   }
   function finish(){
     clearInterval(timer);if(!mock.length)return;
-    const score=mock.reduce((s,q,i)=>s+(ma[i]===q[3]?1:0),0);
+    const score=mock.reduce((s,q,i)=>s+(ma[i]===q[3]?1:0),0),answered=Object.keys(ma).length,wrong=answered-score,unanswered=mock.length-answered,percent=Math.round(score/mock.length*100),passed=percent>=50;
     window.DHPNProgress?.recordMock("BMLT NHPC Licensing",score,mock.length);
     const area=document.getElementById("bmltMockArea");
-    area.innerHTML=`<div class="result"><p>MOCK TEST COMPLETED</p><strong>${score}/${mock.length}</strong><b>${Math.round(score/mock.length*100)}%</b><p>${score>=Math.ceil(mock.length*.8)?"Excellent effort!":score>=Math.ceil(mock.length*.5)?"Good attempt. Review the notes.":"Keep practising and revise the notes."}</p><button class="primary" id="bmltReview">Review answers</button> <button class="secondary" id="bmltAgain">Try again</button></div><div id="bmltReviewList"></div>`;
-    document.getElementById("bmltReview").addEventListener("click",()=>{document.getElementById("bmltReviewList").innerHTML=mock.map((q,i)=>`<article class="note"><h3>${i+1}. ${q[0]}</h3><p>Your answer: ${ma[i]===undefined?"Not answered":q[2][ma[i]]}</p><p><b>Correct: ${q[2][q[3]]}</b></p><p>${q[4]} ${q[5]}</p></article>`).join("");});
+    area.innerHTML=`<div class="result"><p>BMLT NHPC MOCK RESULT</p><strong>${score}/${mock.length}</strong><b>${percent}%</b><p><b>सही:</b> ${score} • <b>गलत:</b> ${wrong} • <b>अनुत्तरित:</b> ${unanswered}</p><h2>${passed?"🎉 Congratulations! तपाईं BMLT NHPC Mock Exam मा उत्तीर्ण हुनुभयो।":"अहिलेका लागि Fail — फेरि अभ्यास गरेर प्रयास गर्नुहोस्।"}</h2><p>Result: <b>${passed?"PASS":"FAIL"}</b> • Pass Mark: ५०%</p><button class="primary" id="bmltReview">गलत उत्तर र सही उत्तर समीक्षा गर्नुहोस्</button> <button class="secondary" id="bmltAgain">Try again</button></div><div id="bmltReviewList"></div>`;
+    document.getElementById("bmltReview").addEventListener("click",()=>{document.getElementById("bmltReviewList").innerHTML=mock.map((q,i)=>`<article class="note answer-review ${ma[i]===q[3]?"review-correct":"review-wrong"}"><h3>${i+1}. ${q[0]}</h3><p class="translation">${q[1]}</p><p>तपाईंको उत्तर: <b>${ma[i]===undefined?"उत्तर नदिएको":q[2][ma[i]]}</b></p><p><b>सही उत्तर: ${q[2][q[3]]}</b></p><p>${q[4]}</p><p class="np">${q[5]}</p><span class="pill">${ma[i]===q[3]?"सही ✓":"गलत / अनुत्तरित"}</span></article>`).join("");});
     document.getElementById("bmltAgain").addEventListener("click",()=>{document.getElementById("bmltMockIntro").classList.remove("hidden");area.innerHTML="";mock=[];});
   }
   async function performSecureContentLoad(){
