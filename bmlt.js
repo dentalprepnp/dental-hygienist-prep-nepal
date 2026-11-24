@@ -16,7 +16,7 @@
       <div class="toolbar"><label for="bmltLanguage">Question language</label><select id="bmltLanguage"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
       <div id="bmltNotes" class="op-panel hidden"><h2>BMLT NHPC Licensing Notes</h2><div id="bmltNotesList" class="notes-list"></div></div>
       <div id="bmltPractice" class="op-panel hidden"><div class="section-head"><h2>MCQ Practice</h2><span class="pill" id="bmltCount"></span></div><div id="bmltQuestion"></div></div>
-      <div id="bmltMock" class="op-panel hidden"><h2>BMLT NHPC Licensing Mock Test</h2><p class="muted" id="bmltMockIntroText"></p><div id="bmltMockIntro" class="notice"><p>सबै प्रश्नको उत्तर दिएपछि वा समय सकिएपछि नतिजा देखिनेछ।</p><button class="primary" id="bmltStart">Start Mock Test</button></div><div id="bmltMockArea"></div></div>
+      <div id="bmltMock" class="op-panel hidden"><h2>BMLT NHPC Licensing Mock Test</h2><p class="muted" id="bmltMockIntroText"></p><div id="bmltMockIntro" class="notice"><p>प्रत्येक सेटमा अधिकतम १०० प्रश्न हुन्छन्। परीक्षा बुझाएपछि मात्र सही उत्तर र व्याख्या देखिन्छ।</p><div id="bmltMockSets" class="feature-grid"></div></div><div id="bmltMockArea"></div></div>
     </div>
     <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो; आधिकारिक NHPC प्रश्नपत्र वा prescribing guide होइन। औषधिको मात्रा, छनोट र प्रयोगमा हालको राष्ट्रिय guideline तथा अधिकृत prescriber को निर्देशन पालना गर्नुहोस्।</p>`;
   const status = document.getElementById("bmltSecureStatus");
@@ -106,11 +106,13 @@
     document.getElementById("bmltNotesCount").textContent=notes.length+" वटा Notes";
     document.getElementById("bmltPracticeCount").textContent=practiceQuestions.length+" अभ्यास प्रश्न";
     document.getElementById("bmltMockCount").textContent=mockBankQuestions.length+" प्रश्न • "+mockBankQuestions.length+" मिनेट";
-    document.getElementById("bmltMockIntroText").textContent=mockBankQuestions.length+" प्रश्न • "+mockBankQuestions.length+" मिनेट • प्रत्येक प्रश्नको १ अंक";
+    document.getElementById("bmltMockIntroText").textContent=mockBankQuestions.length+" उपलब्ध Mock प्रश्न • प्रत्येक प्रश्नको १ अंक";
+    const setRoot=document.getElementById("bmltMockSets");
+    if(mockBankQuestions.length){const setCount=Math.ceil(mockBankQuestions.length/100);setRoot.innerHTML=Array.from({length:setCount},(_,i)=>{const count=Math.min(100,mockBankQuestions.length-i*100);return `<button class="feature-card" type="button" data-bmlt-set="${i}"><b>Mock Set ${i+1}</b><strong>${count} प्रश्न • ${count} अंक</strong><small>${count} मिनेट</small></button>`}).join("");setRoot.querySelectorAll("[data-bmlt-set]").forEach(b=>b.addEventListener("click",()=>startMock(Number(b.dataset.bmltSet))));}else setRoot.textContent="अहिले Mock प्रश्न उपलब्ध छैन।";
     document.getElementById("bmltNotesList").innerHTML=notes.map(n=>`<article class="note"><h3>${n.title}</h3><p>${n.english}</p><p class="np">${n.nepali}</p></article>`).join("");
     root.querySelectorAll("[data-bmlt]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.bmlt);if(b.dataset.bmlt==="practice")renderPractice();}));
     document.getElementById("bmltLanguage").addEventListener("change",()=>{if(!document.getElementById("bmltPractice").classList.contains("hidden"))renderPractice();if(!document.getElementById("bmltMock").classList.contains("hidden")&&mock.length)renderMock();});
-    document.getElementById("bmltStart").addEventListener("click",startMock);
+
   }
   function panel(name){root.querySelectorAll(".op-panel").forEach(x=>x.classList.add("hidden"));document.getElementById("bmlt"+name[0].toUpperCase()+name.slice(1)).classList.remove("hidden");}
   function bilingual(q){const mode=document.getElementById("bmltLanguage").value;return `${mode==="ne"?"":`<h3>${q[0]}</h3>`}${mode==="en"?"":`<p class="translation">${q[1]}</p>`}`;}
@@ -123,8 +125,8 @@
     document.getElementById("bmltPrev").addEventListener("click",()=>{pi=Math.max(0,pi-1);renderPractice();});
     document.getElementById("bmltNext").addEventListener("click",()=>{if(pi===practiceQuestions.length-1){pi=0;answers={};}else pi++;renderPractice();});
   }
-  function startMock(){
-    clearInterval(timer);mock=mockBankQuestions.map(q=>[...q]);for(let i=mock.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[mock[i],mock[j]]=[mock[j],mock[i]];}
+  function startMock(setIndex=0){
+    clearInterval(timer);const start=setIndex*100;mock=mockBankQuestions.slice(start,start+100).map(q=>[...q]);for(let i=mock.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[mock[i],mock[j]]=[mock[j],mock[i]];}
     ma={};mi=0;remaining=mock.length*60;
     document.getElementById("bmltMockIntro").classList.add("hidden");renderMock();
     timer=setInterval(()=>{remaining--;const t=document.getElementById("bmltTimer");if(t)t.textContent=`${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}`;if(remaining<=0)finish();},1000);
@@ -132,8 +134,8 @@
   function renderMock(){
     if(mi>=mock.length){finish();return;}
     const q=mock[mi],area=document.getElementById("bmltMockArea"),mode=document.getElementById("bmltLanguage").value;
-    area.innerHTML=`<div class="qtop"><span>QUESTION ${mi+1} OF ${mock.length}</span><span class="timer" id="bmltTimer">${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}</span></div><article class="question">${bilingual(q)}<div class="options">${q[2].map((o,i)=>`<button class="option ${ma[mi]!==undefined&&i===q[3]?"correct":ma[mi]===i&&i!==q[3]?"wrong":""}" data-bmltm="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div><div class="nextrow"><span class="muted">Choose one answer</span><button class="smallbtn" id="bmltMockNext">${mi===mock.length-1?"Submit test":"Next"}</button></div></article>`;
-    area.querySelectorAll("[data-bmltm]").forEach(b=>b.addEventListener("click",()=>{ma[mi]=Number(b.dataset.bmltm);area.querySelectorAll("[data-bmltm]").forEach(x=>{x.classList.toggle("correct",Number(x.dataset.bmltm)===q[3]);x.classList.toggle("wrong",Number(x.dataset.bmltm)===ma[mi]&&ma[mi]!==q[3])});}));
+    area.innerHTML=`<div class="qtop"><span>QUESTION ${mi+1} OF ${mock.length}</span><span class="timer" id="bmltTimer">${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}</span></div><article class="question">${bilingual(q)}<div class="options">${q[2].map((o,i)=>`<button class="option ${ma[mi]===i?"selected":""}" data-bmltm="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div><div class="nextrow"><span class="muted">Choose one answer</span><button class="smallbtn" id="bmltMockNext">${mi===mock.length-1?"Submit test":"Next"}</button></div></article>`;
+    area.querySelectorAll("[data-bmltm]").forEach(b=>b.addEventListener("click",()=>{ma[mi]=Number(b.dataset.bmltm);area.querySelectorAll("[data-bmltm]").forEach(x=>x.classList.toggle("selected",Number(x.dataset.bmltm)===ma[mi]));}));
     document.getElementById("bmltMockNext").addEventListener("click",()=>{mi++;if(mi>=mock.length)finish();else renderMock();});
   }
   function finish(){
