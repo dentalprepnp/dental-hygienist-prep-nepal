@@ -203,13 +203,34 @@ function setupPlanCheckout() {
       '<label for="paymentReference">Transaction ID / Reference Number</label><input id="paymentReference" maxlength="120" minlength="4" required placeholder="बैंक / Wallet बाट आएको Reference ID">',
       '<label for="paymentPayerName">भुक्तानी गर्ने व्यक्तिको नाम (ऐच्छिक)</label><input id="paymentPayerName" maxlength="100" placeholder="नाम">',
       '<label for="paymentPayerPhone">सम्पर्क नम्बर (ऐच्छिक)</label><input id="paymentPayerPhone" maxlength="30" inputmode="tel" placeholder="मोबाइल नम्बर">',
-      '<button class="checkout-pay-button" type="submit" disabled>QR जडान भएपछि खुल्नेछ</button>',
+      '<button class="checkout-pay-button" type="submit" ' + (!qrImageUrl ? 'disabled' : '') + '>' + (qrImageUrl ? 'Payment Request पठाउनुहोस्' : 'QR जडान भएपछि खुल्नेछ') + '</button>',
       '<p id="manualPaymentMessage" role="status" aria-live="polite"></p></form>',
       '<p class="portal-muted">Admin ले बैंकमा वास्तविक रकम आएको जाँच गरेपछि मात्र Premium खुल्नेछ। Screenshot मात्रले Premium खुल्दैन।</p>',
       '<button class="checkout-back-button" type="button" id="backToMembershipPlans">← अर्को योजना छान्नुहोस्</button>'
     ].join("");
     checkout.classList.remove("hidden");
     checkout.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    document.getElementById("manualPaymentForm")?.addEventListener("submit", async (submitEvent) => {
+      submitEvent.preventDefault();
+      const form = submitEvent.currentTarget;
+      const submitButton = form.querySelector('button[type="submit"]');
+      const message = document.getElementById("manualPaymentMessage");
+      if (!activeUserId) { message.textContent = "पहिले Login गर्नुहोस्।"; return; }
+      submitButton.disabled = true; submitButton.textContent = "Request पठाउँदै...";
+      const { error } = await supabase.rpc("submit_manual_payment_request", {
+        p_plan_code: button.dataset.planCode,
+        p_transaction_reference: document.getElementById("paymentReference").value.trim(),
+        p_payer_name: document.getElementById("paymentPayerName").value.trim() || null,
+        p_payer_phone: document.getElementById("paymentPayerPhone").value.trim() || null
+      });
+      if (error) {
+        message.textContent = error.message || "Payment Request पठाउन सकिएन।";
+        submitButton.disabled = false; submitButton.textContent = "Payment Request पठाउनुहोस्"; return;
+      }
+      message.textContent = "Payment Request सुरक्षित भयो। Admin ले बैंकमा रकम जाँच गरेपछि निर्णय हुनेछ।";
+      form.reset(); submitButton.textContent = "Request पठाइयो";
+      await loadMyPaymentRequests();
+    });
     document.getElementById("backToMembershipPlans")?.addEventListener("click", () => {
       checkout.classList.add("hidden"); checkout.innerHTML = "";
       grid.querySelectorAll(".membership-plan-card").forEach(card => card.classList.remove("selected"));
