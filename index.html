@@ -33,6 +33,24 @@
     </div>
   </section>
 
+  <section id="premiumDailyNotice" class="premium-daily-notice" aria-label="Premium सूचना">
+    <div class="premium-notice-icon" aria-hidden="true">👑</div>
+    <div class="premium-notice-copy">
+      <p class="eyebrow">PREMIUM LEARNING</p>
+      <h2>आफ्नो तयारीलाई अझ प्रभावकारी बनाउनुहोस्!</h2>
+      <p>Premium सदस्य बनेर विस्तृत Notes, MCQ Practice र Mock Tests सहित आफ्नो परीक्षाको तयारी अगाडि बढाउनुहोस्।</p>
+      <div class="premium-notice-prices">
+        <span>१ महिना <b>रु. ७००</b></span><span>३ महिना <b>रु. १,५००</b></span>
+        <span>६ महिना <b>रु. २,५००</b></span><span>१ वर्ष <b>रु. ४,०००</b></span>
+      </div>
+      <small>सुरुमा ७ दिनको Free Trial पनि उपलब्ध छ। Trial सुरु गर्न Email Verify र आफ्नो सहमति आवश्यक हुन्छ।</small>
+      <div class="premium-notice-actions">
+        <button type="button" id="premiumNoticeView" class="primary">View Premium Plans</button>
+        <button type="button" id="premiumNoticeDismiss" class="secondary">पछि हेर्छु</button>
+      </div>
+    </div>
+  </section>
+
 <section class="exam-tracks" aria-label="Choose exam preparation">
     <div class="section-head"><div><p class="eyebrow">CHOOSE YOUR EXAM</p><h2>तयारीको भाग छान्नुहोस्</h2><p class="muted">NHPC का सबै Faculty एउटै समूहमा; अन्य परीक्षा छुट्टाछुट्टै।</p></div><span class="pill">4 Exam Groups</span></div>
 
@@ -760,5 +778,17 @@
 (function(){var el=document.getElementById("networkStatus");if(!el)return;function update(){var offline=!navigator.onLine;el.style.display="block";el.textContent=offline?"📴 Offline Mode: पहिले लोड/Cache भएका Notes, MCQ र Mock Test अभ्यास गर्न सक्नुहुन्छ। Progress फोनमै सुरक्षित हुन्छ; Sync का लागि Internet चाहिन्छ।":"🌐 Internet Connected: तपाईंको Progress Cloud मा Sync हुन सक्छ।";el.style.background=offline?"#fff7ed":"#ecfdf5";el.style.color=offline?"#9a3412":"#166534";}window.addEventListener("online",update);window.addEventListener("offline",update);update();})();
 </script>
 <script type="module" src="weekly-live-exam.js?v=1"></script>
+<script>
+(function(){
+ const card=document.getElementById("premiumDailyNotice");if(!card)return;
+ const today=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kathmandu"}).format(new Date());
+ function key(){return "hlp_premium_notice_dismissed_"+(window.HLPAuthUser?.id||"this_device");}
+ function refresh(){card.classList.toggle("hidden",localStorage.getItem(key())===today()||document.body.classList.contains("study-screen-open"));}
+ document.getElementById("premiumNoticeDismiss")?.addEventListener("click",()=>{localStorage.setItem(key(),today());card.classList.add("hidden");});
+ document.getElementById("premiumNoticeView")?.addEventListener("click",()=>document.getElementById("membershipPanel")?.scrollIntoView({behavior:"smooth",block:"start"}));
+ window.addEventListener("dhpn-auth-changed",refresh);window.addEventListener("pageshow",refresh);
+ new MutationObserver(refresh).observe(document.body,{attributes:true,attributeFilter:["class"]});refresh();
+})();
+</script>
 </body>
 </html>
