@@ -198,7 +198,7 @@ function setupPlanCheckout() {
       '<div class="checkout-summary"><div><span>छानिएको योजना</span><strong>' + plan.name + ' Premium</strong></div>',
       '<div><span>अवधि</span><strong>' + plan.days + ' दिन</strong></div>',
       '<div class="checkout-total"><span>जम्मा तिर्नुपर्ने</span><strong>' + formatNPRFromPaisa(plan.pricePaisa) + '</strong></div></div>',
-      qrImageUrl ? '<div style="text-align:center"><img src="' + qrImageUrl + '" alt="Premium payment QR" style="max-width:260px;width:100%;height:auto"></div>' :
+      qrImageUrl ? '<div style="text-align:center"><img src="' + qrImageUrl + '" alt="Premium payment QR" style="max-width:260px;width:100%;height:auto"></div><div class="checkout-pending" style="margin:12px auto;max-width:560px;text-align:left"><strong>भुक्तानी गर्ने तरिका</strong><p>आफ्नो बैंक वा डिजिटल वालेट (जस्तै eSewa/Khalti) खोल्नुहोस् र माथिको QR Code Scan गरेर छानिएको योजनाको रकम भुक्तानी गर्नुहोस्।</p><p>भुक्तानी सफल भएपछि प्राप्त Transaction ID / Reference Number तल राखेर Payment Request पठाउनुहोस्।</p><p>बैंकमा रकम आएको पुष्टि भएपछि मात्र Premium सक्रिय हुनेछ।</p></div>' :
         '<div class="checkout-pending"><strong>भुक्तानी QR चाँडै उपलब्ध हुनेछ</strong><p>QR Code जडान नभएसम्म कृपया रकम नपठाउनुहोस्।</p></div>',
       '<form id="manualPaymentForm" class="portal-form" style="max-width:560px;margin:12px auto">',
       '<label for="paymentReference">Transaction ID / Reference Number</label><input id="paymentReference" maxlength="120" minlength="4" required placeholder="बैंक / Wallet बाट आएको Reference ID">',
