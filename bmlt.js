@@ -39,8 +39,8 @@
     status.appendChild(button);
   }
   function normalizeType(value) {
-    const type=String(value||"").toLowerCase().replace(/[ -]/g,"_");
-    if(["note","notes","study_note","study_notes"].includes(type))return "note";
+    const type=String(value||"").trim().toLowerCase().replace(/[ -]+/g,"_");
+    if(["note","notes","study_note","study_notes","note_content","notes_content"].includes(type)||/(^|_)notes?($|_)/.test(type))return "note";
     if(["mcq","mcq_practice","practice","practice_mcq","question"].includes(type))return "mcq";
     if(["mock","mock_test","mock_question","mock_questions","mocktest","mock_test_questions","mocktest_questions","mock_exam","mock_exam_questions","mock_mcq","mock_test_mcq","mock_question_bank"].includes(type))return "mock";
     return type;
