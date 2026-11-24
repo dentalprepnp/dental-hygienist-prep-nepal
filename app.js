@@ -147,17 +147,23 @@ function renderExamReadiness(){
  mocks.forEach(r=>Object.entries(r.topicStats||{}).forEach(([n,v])=>{if(!topics[n])topics[n]={right:0,total:0};topics[n].right+=Number(v.right)||0;topics[n].total+=Number(v.total)||0}));
  const ranked=Object.entries(topics).filter(([,v])=>v.total>0).map(([name,v])=>({name,...v,rate:Math.round(v.right/v.total*100)})).sort((a,b)=>a.rate-b.rate||b.total-a.total);
  const topicHtml=ranked.length?ranked.slice(0,6).map(t=>'<article class="combined-topic"><div><b>'+escapeReportText(t.name)+'</b><span>'+t.right+'/'+t.total+' सही • '+t.rate+'%</span></div><div class="combined-topic-track"><i style="width:'+t.rate+'%"></i></div></article>').join(""):'<p class="muted">विषयगत रिपोर्टका लागि MCQ अभ्यास वा विषयगत Mock Test पूरा गर्नुहोस्।</p>';
- box.innerHTML='<div class="combined-report-head"><div><p class="eyebrow">NHPC • PERFORMANCE REPORT</p><h3>Mock Test + MCQ संयुक्त प्रगति</h3><p class="muted">अभ्यास रेकर्डका आधारमा स्वचालित विश्लेषण</p></div><span class="combined-level">'+level+'</span></div><div class="combined-metrics"><article><small>MCQ Accuracy</small><strong>'+mcqRate+'%</strong><span>'+mcq.length+' प्रश्न</span></article><article><small>Mock Average</small><strong>'+mockAvg+'%</strong><span>'+mocks.length+' परीक्षा</span></article><article><small>पछिल्ला Mock (५)</small><strong>'+recentAvg+'%</strong><span>'+recent.length+' परीक्षा</span></article><article><small>संयुक्त संकेत</small><strong>'+(combined===null?"—":combined+"%")+'</strong><span>'+(enough?"MCQ + Mock":"थप अभ्यास चाहिन्छ")+'</span></article></div><div class="combined-advice"><b>तपाईंको अर्को कदम</b><p>'+advice+'</p></div><div class="combined-topics"><h4>विषयअनुसार अभ्यास नतिजा</h4>'+topicHtml+'</div><p class="combined-footnote">यो व्यक्तिगत अभ्यासको अनुमानित सूचक मात्र हो। आधिकारिक NHPC नतिजा वा उत्तीर्ण हुने सम्भावनाको ग्यारेन्टी होइन।</p>';
+ box.innerHTML='<div class="combined-report-head"><div><p class="eyebrow">NHPC • PERFORMANCE REPORT</p><h3>Mock Test + MCQ संयुक्त प्रगति</h3><p class="muted">अभ्यास रेकर्डका आधारमा स्वचालित विश्लेषण</p></div><span class="combined-level">'+level+'</span></div><div class="combined-metrics"><article><small>MCQ Accuracy</small><strong>'+mcqRate+'%</strong><span>'+mcq.length+' प्रश्न</span></article><article><small>Mock Average</small><strong>'+mockAvg+'%</strong><span>'+mocks.length+' परीक्षा</span></article><article><small>पछिल्ला Mock (५)</small><strong>'+recentAvg+'%</strong><span>'+recent.length+' परीक्षा</span></article><article><small>संयुक्त संकेत</small><strong>'+(combined===null?"—":combined+"%")+'</strong><span>'+(enough?"MCQ + Mock":"थप अभ्यास चाहिन्छ")+'</span></article></div><div class="combined-advice"><b>तपाईंको अर्को कदम</b><p>'+advice+'</p></div><div class="combined-topics"><h4>विषयअनुसार अभ्यास नतिजा</h4>'+topicHtml+'</div><div class="combined-advice"><b>गलत उत्तर पुनरावलोकन</b><p>अभ्यासमा गलत भएका प्रश्न, सही उत्तर र व्याख्या फेरि हेर्नुहोस्।</p><button type="button" class="primary" id="showWrongAnswers">गलत उत्तर हेर्नुहोस् ('+readMCQHistory().filter(r=>!r.isCorrect&&Array.isArray(r.options)&&r.options.length&&Number.isInteger(r.correctIndex)).length+')</button><div id="wrongAnswerReview"></div></div><p class="combined-footnote">यो व्यक्तिगत अभ्यासको अनुमानित सूचक मात्र हो। आधिकारिक NHPC नतिजा वा उत्तीर्ण हुने सम्भावनाको ग्यारेन्टी होइन।</p>';
 }
 
 window.DHPNProgress=window.DHPNProgress||{};
 window.DHPNProgress.recordMCQ=function(moduleName,q,selected){
  const rows=readMCQHistory(),correct=selected===q[3];
- rows.push({module:moduleName,question:q[0],nepali:q[1],selected:q[2][selected],correctAnswer:q[2][q[3]],explanation:q[4],explanationNp:q[5],isCorrect:correct,date:new Date().toISOString()});
+ rows.push({module:moduleName,topic:q.topic||"अभ्यास",question:q[0],nepali:q[1],options:Array.isArray(q[2])?q[2]:[],selectedIndex:selected,selected:q[2][selected],correctIndex:q[3],correctAnswer:q[2][q[3]],explanation:q[4],explanationNp:q[5],isCorrect:correct,date:new Date().toISOString()});
  localStorage.setItem(MCQ_HISTORY_KEY,JSON.stringify(rows.slice(-500)));
  notifyCloudSync();
  renderMCQDashboard();
  renderDailyStudyGoal();
+ renderExamReadiness();
+};
+window.DHPNReviewWrongAnswers=function(){
+ const box=$("#wrongAnswerReview");if(!box)return;
+ const wrong=readMCQHistory().filter(r=>!r.isCorrect&&Array.isArray(r.options)&&r.options.length&&Number.isInteger(r.correctIndex)).slice(-100).reverse();
+ box.innerHTML=wrong.length?wrong.map((r,i)=>'<article class="note answer-review review-wrong"><h3>'+(i+1)+'. '+escapeReportText(r.question)+'</h3><p class="np">'+escapeReportText(r.nepali||"")+'</p><p><b>तपाईंको उत्तर:</b> '+escapeReportText(r.selected||"—")+'</p><p><b>सही उत्तर:</b> '+escapeReportText(r.correctAnswer||r.options[r.correctIndex])+'</p><p>'+escapeReportText(r.explanation||"")+'</p><p class="np">'+escapeReportText(r.explanationNp||"")+'</p><small>'+escapeReportText(r.module||"")+' • '+new Date(r.date).toLocaleDateString()+'</small></article>').join(""):'<p class="muted">अहिलेसम्म नयाँ गलत उत्तर रेकर्ड छैन। अब MCQ अभ्यास गर्दा गलत भएका प्रश्न यहाँ देखिनेछन्। पुराना रेकर्डमा विकल्प सुरक्षित नभएकाले ती प्रश्न देखिँदैनन्।';
 };
 const STUDY_GOAL_KEY="dhpn-study-goal";
 function readDailyGoal(){const n=Number(localStorage.getItem(STUDY_GOAL_KEY));return Number.isFinite(n)&&n>=1?Math.min(500,Math.floor(n)):20}
@@ -529,3 +535,5 @@ $("#installBtn").addEventListener("click",async()=>{if(!deferredInstall)return;d
  applyTheme(theme);
  if(button)button.addEventListener("click",()=>applyTheme(theme==="dark"?"light":"dark"));
 })();
+
+document.addEventListener("click",event=>{if(event.target.closest("#showWrongAnswers"))window.DHPNReviewWrongAnswers();});
