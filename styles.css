@@ -1079,3 +1079,36 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 :root[data-theme="dark"] .exam-category-group:has([data-exam-category="dha"]) .exam-category-toggle{background:#57351e;color:#ffedd5}
 :root[data-theme="dark"] .exam-category-group:has([data-exam-category="dha"]) .exam-category-toggle.is-open{background:#704526}
 :root[data-theme="dark"] .exam-category-group:has([data-exam-category="dha"]) .track-card{background:#4a2e1d;border-color:#80502c;color:#ffedd5}
+
+/* NHPC faculty/program cards: distinct, accessible colour identities */
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="ophthalmic"]{background:linear-gradient(145deg,#eef2ff,#fff);border-color:#c7d2fe}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="physiotherapy"]{background:linear-gradient(145deg,#ccfbf1,#fff);border-color:#99f6e4}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="ott"]{background:linear-gradient(145deg,#ffe4e6,#fff);border-color:#fecdd3}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="radiotherapy"]{background:linear-gradient(145deg,#ffedd5,#fff);border-color:#fed7aa}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="radiography"]{background:linear-gradient(145deg,#e0f2fe,#fff);border-color:#bae6fd}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="mlt"]{background:linear-gradient(145deg,#f3e8ff,#fff);border-color:#e9d5ff}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="anesthesia"]{background:linear-gradient(145deg,#cffafe,#fff);border-color:#a5f3fc}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="ha"]{background:linear-gradient(145deg,#dcfce7,#fff);border-color:#bbf7d0}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="nhpc"]{background:linear-gradient(145deg,#dbeafe,#fff);border-color:#bfdbfe}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="bmlt"]{background:linear-gradient(145deg,#ede9fe,#fff);border-color:#ddd6fe}
+.exam-category-group:has([data-exam-category="nhpc"]) .track-card .track-icon{border-radius:12px;padding:5px;background:#ffffffb8}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="ophthalmic"] .track-action{color:#4338ca}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="physiotherapy"] .track-action{color:#0f766e}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="ott"] .track-action{color:#be123c}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="radiotherapy"] .track-action{color:#c2410c}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="radiography"] .track-action{color:#0369a1}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="mlt"] .track-action{color:#7e22ce}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="anesthesia"] .track-action{color:#0e7490}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="ha"] .track-action{color:#15803d}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="nhpc"] .track-action{color:#1d4ed8}
+.exam-category-group:has([data-exam-category="nhpc"]) [data-tab="bmlt"] .track-action{color:#6d28d9}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) [data-tab="ophthalmic"]{background:#252747;border-color:#494d80;color:#e0e7ff}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) [data-tab="physiotherapy"]{background:#173b38;border-color:#286d65;color:#ccfbf1}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) [data-tab="ott"]{background:#45232d;border-color:#814052;color:#ffe4e6}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) [data-tab="radiotherapy"]{background:#482e1e;border-color:#85532c;color:#ffedd5}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) [data-tab="radiography"]{background:#17364a;border-color:#315d7a;color:#e0f2fe}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) [data-tab="mlt"]{background:#342447;border-color:#64458a;color:#f3e8ff}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) [data-tab="anesthesia"]{background:#163b43;border-color:#286a76;color:#cffafe}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) [data-tab="ha"]{background:#1d3a2b;border-color:#326849;color:#dcfce7}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) [data-tab="nhpc"]{background:#193650;border-color:#315d89;color:#dbeafe}
+:root[data-theme="dark"] .exam-category-group:has([data-exam-category="nhpc"]) [data-tab="bmlt"]{background:#302444;border-color:#5e4385;color:#ede9fe}
