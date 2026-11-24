@@ -16,6 +16,33 @@ questions.push(...[["A bitewing image is especially useful for assessing:","Bite
 const practiceQuestions = questions.slice(0, Math.ceil(questions.length / 2));
 const mockBankQuestions = questions.slice(Math.ceil(questions.length / 2));
 
+const guideData = {
+ title:"Dental Radiography and Photography",
+ notes:notes.map(n=>({title:n[0],en:n[1],ne:n[2]})),
+ points:[
+ {title:"Image selection",en:"Periapical: whole tooth and apex. Bitewing: posterior crowns, interproximal caries and crestal bone. Occlusal: broader local area. Panoramic: broad jaw overview.",ne:"Periapical = पूरा दाँत र apex; Bitewing = पछाडिका दाँतका crown, बीचको caries र crestal bone; Occlusal = ठूलो स्थानीय क्षेत्र; Panoramic = जबडाको overview।"},
+ {title:"Paralleling technique",en:"Place the receptor parallel to the tooth long axis and direct the central ray perpendicular to both.",ne:"Receptor दाँतको long axis सँग समानान्तर राखी central ray दुवैप्रति लम्बवत् पारिन्छ।"},
+ {title:"Common image errors",en:"Elongation: image too long; foreshortening: too short; cone-cut: beam misses part of receptor; motion blur: movement reduces sharpness.",ne:"Elongation = लामो image; foreshortening = छोटो image; cone-cut = beam ले receptor को भाग नछोप्नु; motion blur = चलेका कारण धमिलो।"},
+ {title:"Radiographic appearance",en:"Radiopaque structures appear relatively light; radiolucent structures appear relatively dark. Interpret with clinical findings.",ne:"Radiopaque भाग सेतो/उज्यालो र radiolucent भाग गाढा देखिन्छ। X-ray लाई clinical examination सँग मिलाएर व्याख्या गर्नुपर्छ।"},
+ {title:"Radiation safety",en:"Justify every exposure, optimize technique and dose, collimate appropriately, avoid unnecessary retakes, and follow current local rules for shielding and operator position.",ne:"हरेक exposure को औचित्य पुष्टि गर्ने, dose/technique अनुकूल बनाउने, उचित collimation गर्ने, retake नगर्ने र shielding/operator position का हालका नियम पालना गर्ने।"},
+ {title:"Dental photography",en:"Use standardized views, consistent camera distance/angle and lighting. Obtain consent and store identifiable clinical photographs securely.",ne:"Standard view, camera दूरी/कोण र lighting स्थिर राख्नुहोस्। Consent लिनुहोस् र पहिचान खुल्ने clinical photo सुरक्षित राख्नुहोस्。"}
+ ],
+ tricks:[
+ {title:"P-B-O-P",en:"Periapical = root/apex; Bitewing = between teeth; Occlusal = broad local area; Panoramic = jaw overview.",ne:"P-B-O-P: Periapical–जरा, Bitewing–बीचको caries, Occlusal–ठूलो भाग, Panoramic–जबडाको overview।"},
+ {title:"E-F-C-M",en:"Elongation long; Foreshortening short; Cone-cut beam misses; Motion blur movement.",ne:"E-F-C-M: लामो, छोटो, beam छुटेको, movement ले धमिलो।"},
+ {title:"White vs Dark",en:"Radiopaque = relatively white; Radiolucent = relatively dark.",ne:"Opaque ले X-ray रोक्छ = सेतो; Lucent बाट X-ray बढी जान्छ = गाढा।"},
+ {title:"J-O-R",en:"Justification, Optimization and Retake reduction; follow local dose-limitation rules.",ne:"J-O-R: औचित्य, dose optimization र retake घटाउने।"}
+ ],
+ diagrams:[
+ {title:"Radiograph selection guide",en:"Match the image to the clinical question.",ne:"कुन clinical प्रश्नमा कुन radiograph उपयोगी हुन्छ?",html:'<svg viewBox="0 0 620 190" role="img" aria-label="Dental radiograph selection"><g font-family="Arial" text-anchor="middle" fill="#17324a"><rect x="8" y="8" width="290" height="76" rx="10" fill="#e0f2fe" stroke="#0284c7"/><rect x="322" y="8" width="290" height="76" rx="10" fill="#dcfce7" stroke="#16a34a"/><rect x="8" y="106" width="290" height="76" rx="10" fill="#fef3c7" stroke="#d97706"/><rect x="322" y="106" width="290" height="76" rx="10" fill="#f3e8ff" stroke="#9333ea"/><g font-size="17" font-weight="bold"><text x="153" y="37">Periapical</text><text x="467" y="37">Bitewing</text><text x="153" y="135">Occlusal</text><text x="467" y="135">Panoramic</text></g><g font-size="12"><text x="153" y="59">Whole tooth + apex</text><text x="467" y="59">Interproximal caries</text><text x="153" y="157">Broader local area</text><text x="467" y="157">Jaw overview</text></g></g></svg>'},
+ {title:"Paralleling technique",en:"Receptor parallel to tooth; central ray perpendicular.",ne:"Receptor दाँतसँग समानान्तर र central ray लम्बवत्।",html:'<svg viewBox="0 0 600 140" role="img" aria-label="Paralleling technique"><rect x="55" y="12" width="150" height="105" rx="10" fill="#fef3c7" stroke="#d97706"/><rect x="395" y="12" width="150" height="105" rx="10" fill="#e0f2fe" stroke="#0284c7"/><path d="M130 28v72M470 28v72" stroke="#334155" stroke-width="5" stroke-linecap="round"/><path d="M300 5v125" stroke="#0f766e" stroke-width="3" stroke-dasharray="5 4"/><g fill="#17324a" font-family="Arial" text-anchor="middle" font-size="13"><text x="130" y="135">Tooth axis</text><text x="470" y="135">Receptor</text></g></svg>'}
+ ],
+ examples:[
+ {title:"Posterior interproximal caries",en:"If proximal caries is suspected but not visible clinically, a justified bitewing may help assess posterior interproximal surfaces. Correlate with examination and caries risk.",ne:"दाँतको बीचमा caries शंका भए र indication भए bitewing उपयोगी हुन सक्छ। जाँच र caries risk सँग मिलाउनुहोस्।"},
+ {title:"Periapical assessment",en:"For a suspected apical problem, a justified periapical image can show the whole tooth and surrounding tissues. Interpret with history and clinical tests.",ne:"Apex सम्बन्धी समस्या शंका भए उचित अवस्थामा periapical image ले पूरा दाँत र वरिपरिको tissue देखाउन सक्छ। History र clinical tests सँग मिलाउनुहोस्।"},
+ {title:"Preventing a cone-cut",en:"Align the beam with the receptor using the positioning device and check centering before exposure. Avoid retakes when the image is already diagnostic.",ne:"Exposure अघि positioning device प्रयोग गरी beam receptor मा केन्द्रित भएको जाँच्नुहोस्। Image निदानयोग्य छ भने अनावश्यक retake नगर्नुहोस्।"}
+ ]
+};
 const root=document.getElementById("dentalRadiologyView"); if(!root)return;
 let pi=0, answers={}, mock=[], ma={}, mi=0, timer=null, remaining=mock.length*60;
 root.innerHTML=`
@@ -23,11 +50,12 @@ root.innerHTML=`
 <p class="muted">Dental X-ray types, techniques, image errors, radiation safety, infection control र quality assurance सम्बन्धी अध्ययन सामग्री।</p>
 <div class="feature-grid module-actions"><button class="feature-card" data-dr="notes"><span class="feature-icon">📘</span><b>Study Notes</b><small>११ वटा विषय</small></button><button class="feature-card" data-dr="practice"><span class="feature-icon">📝</span><b>MCQ Practice</b><small>१३ अभ्यास प्रश्न</small></button><button class="feature-card" data-dr="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small>१२ प्रश्न • १२ मिनेट</small></button></div>
 <div class="toolbar"><label for="drLanguage">Question language</label><select id="drLanguage"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
-<div id="drNotes" class="op-panel hidden"><h2>Dental Radiography and Photography Notes</h2><div class="notes-list">${notes.map(n=>`<article class="note"><h3>${n[0]}</h3><p>${n[1]}</p><p class="np">${n[2]}</p></article>`).join("")}</div></div>
+<div id="drNotes" class="op-panel hidden"><div id="drStudyGuide"></div></div>
 <div id="drPractice" class="op-panel hidden"><div class="section-head"><h2>MCQ Practice</h2><span class="pill" id="drCount"></span></div><div id="drQuestion"></div></div>
 <div id="drMock" class="op-panel hidden"><h2>Dental Radiography and Photography Mock Test</h2><p class="muted">१२ प्रश्न • १२ मिनेट • प्रत्येक प्रश्नको १ अंक</p><div id="drMockIntro" class="notice"><p>परीक्षा सुरु गरेपछि समय गणना हुन्छ। अन्त्यमा नतिजा र उत्तर समीक्षा देखाइनेछ।</p><button class="primary" id="drStart">Start Mock Test</button></div><div id="drMockArea"></div></div>
 <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो; आधिकारिक NHPC प्रश्नपत्र होइन। एक्स–रे अभ्यास गर्दा आफ्नो अधिकारक्षेत्र, तालिम, उपकरणको निर्देशन र हालका राष्ट्रिय/स्थानीय radiation-safety नियम पालना गर्नुहोस्।</p>`;
 const $=s=>root.querySelector(s);
+if(window.DHPNStudyGuide)$("#drStudyGuide").innerHTML=window.DHPNStudyGuide.render(guideData);
 function panel(n){root.querySelectorAll(".op-panel").forEach(x=>x.classList.add("hidden"));$("#dr"+n[0].toUpperCase()+n.slice(1)).classList.remove("hidden")}
 root.querySelectorAll("[data-dr]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.dr);if(b.dataset.dr==="practice")renderPractice()}));
 function bilingual(q){const m=$("#drLanguage").value;return `${m==="ne"?"":`<h3>${q[0]}</h3>`}${m==="en"?"":`<p class="translation">${q[1]}</p>`}`}
