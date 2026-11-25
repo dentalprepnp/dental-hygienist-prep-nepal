@@ -1010,7 +1010,7 @@
  const mistakeKey="hl-ha-wrong-answers-v1",performanceKey="hl-ha-section-performance-v1";
  const getMistakes=()=>{try{const a=JSON.parse(localStorage.getItem(mistakeKey)||"[]");return Array.isArray(a)?a.filter(x=>Array.isArray(x.q)&&typeof x.q[0]==="string"):[]}catch(e){return[]}};
  const saveMistakes=a=>{try{localStorage.setItem(mistakeKey,JSON.stringify(a.slice(-500)))}catch(e){}};
- const addMistake=q=>{const a=getMistakes();if(!a.some(x=>x.q[0]===q[0]))a.push({q:Array.from(q),addedAt:Date.now()});saveMistakes(a)};
+ const addMistake=q=>{const a=getMistakes(),old=a.find(x=>x.q[0]===q[0]);if(old){old.attempts=(old.attempts||1)+1;old.lastAttemptAt=Date.now();}else a.push({q:Array.from(q),addedAt:Date.now(),lastAttemptAt:Date.now(),attempts:1});saveMistakes(a)};
  const removeMistake=stem=>saveMistakes(getMistakes().filter(x=>x.q[0]!==stem));
  const getPerformance=()=>{try{const a=JSON.parse(localStorage.getItem(performanceKey)||"[]");return Array.isArray(a)?a:[]}catch(e){return[]}};
  const recordPerformance=details=>{const sections={};details.forEach(d=>{const n=d.q[6]||"Other";if(!sections[n])sections[n]={correct:0,total:0};sections[n].total++;if(d.ok)sections[n].correct++});const a=getPerformance();a.push({date:Date.now(),mode:state.mode,setNo:state.setNo,sections});try{localStorage.setItem(performanceKey,JSON.stringify(a.slice(-20)))}catch(e){}};
@@ -1031,7 +1031,7 @@
  }
  function showWeakAnalysis(){
   clearInterval(state.timer);state.mode="weakAnalysis";
-  const attempts=getPerformance().filter(a=>(a.mode==="mock"||a.mode==="timed")&&a.sections&&Object.keys(a.sections).length).slice(-5);
+  const attempts=getPerformance().filter(a=>(a.mode==="mock"||a.mode==="timed"||a.mode==="weak")&&a.sections&&Object.keys(a.sections).length).slice(-5);
   const stats={};attempts.forEach(a=>Object.entries(a.sections).forEach(([n,x])=>{if(!stats[n])stats[n]={correct:0,total:0};stats[n].correct+=Number(x.correct)||0;stats[n].total+=Number(x.total)||0;}));
   const entries=Object.entries(stats).filter(([,x])=>x.total).map(([n,x])=>({name:n,...x,pct:Math.round(x.correct/x.total*100)})).sort((a,b)=>a.pct-b.pct);
   const w=entries[0];
@@ -1329,7 +1329,7 @@
    clearInterval(state.timer);
    let score=0,unanswered=0;
    const details=state.items.map((q,i)=>{const selected=state.answers[i],ok=selected===q[3];if(ok)score++;if(selected===undefined)unanswered++;return {q,selected,ok};});
-   details.forEach(d=>{if(!d.ok)addMistake(d.q)});recordPerformance(details);const total=state.items.length,wrong=total-score-unanswered,pct=Math.round(score/total*100),passed=pct>=50;
+   details.forEach(d=>{if(d.selected!==undefined&&!d.ok)addMistake(d.q);else if(d.ok)removeMistake(d.q[0]);});recordPerformance(details);const total=state.items.length,wrong=total-score-unanswered,pct=Math.round(score/total*100),passed=pct>=50;
    const moduleName="NHPC HA – General Medicine";
    if(window.DHPNProgress)window.DHPNProgress.recordMock(moduleName,score,total,{subject:"HA"});
    panel('<div class="ha-result '+(passed?'ha-pass':'ha-retry')+'"><h3>'+(auto?'समय समाप्त — ':'')+(state.mode==="case"?'Clinical Case Practice पूरा भयो।':passed?'🎉 बधाई छ! तपाईंको Mock अभ्यासमा राम्रो नतिजा।':'💪 अझै अभ्यास आवश्यक — फेरि प्रयास गर्नुहोस्।')+'</h3><div class="ha-score">'+score+' / '+total+'</div><b>'+pct+'%'+(state.mode==="case"?' • Practice score': ' • '+(passed?'PASS':'FAIL')+' (App practice benchmark 50%)')+'</b><p>सही: '+score+' • गलत: '+wrong+' • अनुत्तरित: '+unanswered+'</p><p class="muted">'+(state.mode==="case"?'यो clinical scenario अभ्यास हो; आधिकारिक परीक्षा वा OSCE नतिजा होइन।':'यो App को अभ्यास benchmark हो; NHPC को आधिकारिक pass/fail निर्णय होइन।')+'</p><button data-ha="retry">फेरि Mock Test दिनुहोस्</button><button data-ha="menu" class="smallbtn">मुख्य मेनुमा फर्कनुहोस्</button></div><h3>उत्तर समीक्षा</h3>'+details.map((d,i)=>'<article class="ha-review"><b>'+(i+1)+'. '+d.q[0]+'</b><p class="np">'+d.q[1]+'</p><p class="'+(d.ok?'correct':'incorrect')+'">तपाईंको उत्तर: '+(d.selected===undefined?'उत्तर नदिएको':d.q[2][d.selected])+' • सही उत्तर: '+d.q[2][d.q[3]]+'</p><p>'+d.q[4]+'</p><p class="np">'+d.q[5]+'</p></article>').join(""));
@@ -1346,7 +1346,7 @@
   const b=e.target.closest("button");if(!b)return;
   if(b.dataset.ha){const a=b.dataset.ha;if(a==="menu")menu();if(a==="mistakes")showMistakes();if(a==="weak")showWeakAnalysis();if(a==="readiness")showReadiness();if(a==="audit")showSyllabusAudit();if(a==="notes")showNotes();if(a==="practice")practice();if(a==="timed")start("timed");if(a==="mock")start("mock",1);if(a==="case")start("case");if(/^mock[1-5]$/.test(a))start("mock",Number(a.slice(4)));if(a==="retry")start(state.mode==="case"?"case":"mock",state.setNo||1);return;}
   if(b.dataset.haOption!==undefined){const idx=Number(b.dataset.haOption);if(state.mode==="practice"){state.answers[state.index]=idx;const q=practiceQ[state.index];if(idx!==q[3])addMistake(q);else removeMistake(q[0]);renderPracticeQ();if(window.DHPNProgress)window.DHPNProgress.recordMCQ("NHPC HA – General Medicine",q,idx);}else{state.answers[state.index]=idx;renderQuestion();}return;}
-  if(b.dataset.haRevise!==undefined){const [i,j]=b.dataset.haRevise.split(":").map(Number),a=getMistakes(),q=a[i]?.q;if(!q)return;const host=root.querySelector("#haRevEx"+i);if(j===q[3]){removeMistake(q[0]);if(host)host.innerHTML='<p class="correct">सही उत्तर! Revision list बाट हटाइयो।</p>';}else if(host)host.innerHTML='<p class="incorrect">फेरि प्रयास गर्नुहोस्। सही उत्तर: '+q[2][q[3]]+'</p>';return;}
+  if(b.dataset.haRevise!==undefined){const [i,j]=b.dataset.haRevise.split(":").map(Number),a=getMistakes(),q=a[i]?.q;if(!q)return;const host=root.querySelector("#haRevEx"+i);if(j===q[3]){removeMistake(q[0]);if(host)host.innerHTML='<p class="correct">सही उत्तर! Revision list बाट हटाइयो।</p>';}else if(host)host.innerHTML='<p class="incorrect">अझै सही भएन। सही उत्तर: '+q[2][q[3]]+'</p><p>'+q[4]+'</p><p class="np">'+q[5]+'</p><small>फेरि सम्झेर अर्को पटक सही उत्तर दिनुहोस्।</small>';return;}
   if(b.dataset.haWeak){startWeakPractice(b.dataset.haWeak);return;}
   if(b.dataset.haNext!==undefined){if(state.index===state.items.length-1)finish();else{state.index++;renderQuestion();}return;}
   if(b.dataset.haPrev!==undefined){state.index=Math.max(0,state.index-1);renderQuestion();return;}
