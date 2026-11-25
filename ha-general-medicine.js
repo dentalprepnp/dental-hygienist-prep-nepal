@@ -1353,5 +1353,18 @@
   if(b.dataset.haPracticeNext!==undefined){if(state.index===practiceQ.length-1){menu();return;}state.index++;renderPracticeQ();return;}
   if(b.dataset.haPracticePrev!==undefined){state.index=Math.max(0,state.index-1);renderPracticeQ();}
  });
- menu();
+ // Re-open the HA landing menu after the faculty view becomes visible.
+ // This avoids an empty study area when the module was initialized while hidden.
+ window.ensureHAMenu=function(){
+  const content=root.querySelector("#haContent");
+  if(!content)return false;
+  if(!content.innerHTML.trim())menu();
+  content.style.display="block";content.style.visibility="visible";
+  return !!content.innerHTML.trim();
+ };
+ try{menu();}catch(error){
+  console.error("HA landing menu failed to render:",error);
+  const content=root.querySelector("#haContent");
+  if(content)content.innerHTML='<div class="notice"><h3>HA अध्ययन सामग्री खुल्न सकेन</h3><p>कृपया पेज refresh गरेर HA फेरि खोल्नुहोस्। समस्या दोहोरिएमा Admin लाई जानकारी दिनुहोस्।</p></div>';
+ }
 })();
