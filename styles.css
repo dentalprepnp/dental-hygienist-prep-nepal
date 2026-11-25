@@ -923,11 +923,15 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
   background: var(--card,#fff);
 }
 
-/* Focused learning mode: selected Notes / MCQ / Mock content takes the front. */
-.view.study-focused > .module-actions,
+/* Focused learning mode: keep the study navigation available after opening content. */
 .view.study-focused .ha-actions,
-.view.study-focused .module-actions,
-.view.study-focused .ha-topic-list {display:none !important;}
+.view.study-focused .module-actions {
+  position: sticky;
+  top: 72px;
+  z-index: 4;
+  background: var(--bg);
+  padding: 8px 0;
+}
 .view.study-focused .ha-overview:first-of-type,
 .view.study-focused .ha-note:first-of-type,
 .view.study-focused .ha-question:first-of-type,
@@ -936,13 +940,16 @@ body.study-screen-open .hero,body.study-screen-open .public-membership,body.stud
 .view.study-focused .op-panel:not(.hidden) {scroll-margin-top:82px;}
 
 
-/* Universal focused study view for every faculty module. */
-.view.study-focused .module-actions,
-.view.study-focused .feature-grid.module-actions,
-.view.study-focused > .toolbar,
+/* Universal focused study view for every faculty module.
+   Do not hide course/action menus: students must be able to switch from Guide/Notes
+   to MCQ Practice and Mock Test without leaving the faculty. */
 .view.study-focused .ha-actions,
-.view.study-focused .ha-topic-list {
-  display: none !important;
+.view.study-focused .module-actions {
+  position: sticky;
+  top: 72px;
+  z-index: 4;
+  background: var(--bg);
+  padding: 8px 0;
 }
 .view.study-focused .op-panel:not(.hidden),
 .view.study-focused .ha-note,
