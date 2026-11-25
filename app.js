@@ -281,12 +281,21 @@ function showTab(tab,fromBrowserBack=false){
   // Faculty Back first returns to the module navigation instead of Home.
   if(document.body.dataset.appPage==="faculty"){
    const view=[...document.querySelectorAll(".view")].find(v=>!v.classList.contains("hidden")&&v.getAttribute("aria-hidden")!=="true");
-   const moduleRoot=view&&view.querySelector("#ophthalmicContent,#haContent,#physiotherapyContent,#bmltContent,#dentalMaterialsContent");
+   const moduleRoot=view&&view.querySelector("#ophthalmicContent,#haContent,#physiotherapyContent,#bmltContent,#dentalMaterialsContent,#dhaContent");
    const target=moduleRoot||view;
-   if(moduleRoot&&moduleRoot.id==="haContent"){
-    const haMenu=moduleRoot.querySelector('[data-ha="menu"]');
-    const haSubpage=moduleRoot.querySelector(".ha-study-toolbar,#haNotesResults,.ha-question,.ha-result");
-    if(haMenu&&haSubpage){haMenu.click();return;}
+   if(moduleRoot){
+    // Return to the active faculty's own landing/menu screen before leaving the faculty.
+    const menuButton=moduleRoot.querySelector('[data-ha="menu"],[data-mode="overview"],[data-oph="studyGuide"],[data-oph="syllabus"]');
+    if(menuButton){menuButton.click();return;}
+    // Panel-based faculties keep their feature/menu cards outside the content panels.
+    const panels=moduleRoot.querySelectorAll(".op-panel,.dha-panel");
+    if(panels.length){
+     panels.forEach(p=>p.classList.add("hidden"));
+     ["bmltMockIntro","dmMockIntro","dhaMockIntro"].forEach(id=>moduleRoot.querySelector("#"+id)?.classList.remove("hidden"));
+     const menuCard=moduleRoot.querySelector(".feature-card");
+     if(menuCard){menuCard.scrollIntoView({behavior:"smooth",block:"center"});return;}
+    }
+    target.scrollIntoView({behavior:"smooth",block:"start"});return;
    }
    if(target){target.scrollIntoView({behavior:"smooth",block:"start"});return;}
   }
