@@ -1,6 +1,6 @@
 /* Lightweight PWA cache: precache the app shell; fetch scripts/styles fresh first,
    with cached copies as an offline fallback. */
-const CACHE="hl-preparation-v381-renderer-string-svg-fix";
+const CACHE="hl-preparation-v382-ophthalmic-syntax-fix";
 const ASSETS=[
  "./","./index.html","./study-guide.js?v=3","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=294","./app.js?v=195","./auth.js?v=11",
