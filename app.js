@@ -733,3 +733,16 @@ window.addEventListener("popstate",event=>{
   const page=event.state&&event.state.hlpTab;
   if(page&&["home","courses","notes","practice","profile"].includes(page))showAppPage(page,false);
 });
+
+
+/* Faculty tap recovery: route card taps at window capture, before document-level
+   handlers or overlays can cancel the navigation. */
+window.addEventListener("click", function(event){
+  const card = event.target && event.target.closest ? event.target.closest(".track-card[data-tab]") : null;
+  if(!card) return;
+  const tab = card.getAttribute("data-tab");
+  if(!tab || !document.getElementById(tab + "View")) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  showTab(tab);
+}, true);
