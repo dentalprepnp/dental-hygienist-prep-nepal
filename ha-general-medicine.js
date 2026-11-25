@@ -3,7 +3,7 @@
    NHPC licensing blueprint: 2021 syllabus. CTEVT curriculum: 2024 revision.
    Timed mock format here is a learning simulation, not a claim about official exam duration/format. */
 (() => {
- const root=document.getElementById("haView"); if(!root || root.dataset.ready==="1") return; root.dataset.ready="1";
+ const root=document.getElementById("haView"); if(!root || window.HAStudyActions) return;
  const topics=[
   ["Anatomy & Physiology","10%","Body systems: integumentary, skeletal, muscular, nervous, endocrine, blood, cardiovascular, lymphatic/immunity, digestive, respiratory, urinary, reproductive systems and growth.","शरीरका प्रणाली, तिनको बनावट, काम, रक्तसञ्चार, श्वासप्रश्वास, पाचन, उत्सर्जन, प्रजनन र वृद्धि-विकास।"],
   ["Community Health","25%","Health education and promotion; environmental health; PHC and family health; epidemiology and disease control; nutrition; community diagnosis; health management.","स्वास्थ्य शिक्षा, वातावरणीय स्वास्थ्य, प्राथमिक स्वास्थ्य सेवा, परिवार स्वास्थ्य, महामारी विज्ञान, रोग नियन्त्रण, पोषण, समुदाय निदान र स्वास्थ्य व्यवस्थापन।"],
@@ -1379,9 +1379,14 @@
   content.style.display="block";content.style.visibility="visible";
   return !!content.innerHTML.trim();
  };
- try{menu();}catch(error){
+ try{
+  menu();
+  root.dataset.ready="1";
+ }catch(error){
+  delete window.HAStudyActions;
+  delete root.dataset.ready;
   console.error("HA landing menu failed to render:",error);
   const content=root.querySelector("#haContent");
-  if(content)content.innerHTML='<div class="notice"><h3>HA अध्ययन सामग्री खुल्न सकेन</h3><p>कृपया पेज refresh गरेर HA फेरि खोल्नुहोस्। समस्या दोहोरिएमा Admin लाई जानकारी दिनुहोस्।</p></div>';
+  if(content)content.innerHTML='<div class="notice"><h3>HA सामग्री सुरु हुन सकेन</h3><p>प्राविधिक समस्या भेटियो। कृपया refresh गर्नुहोस्।</p><small>Admin ले त्रुटि जाँच गर्न सक्छन्।</small></div>';
  }
 })();
