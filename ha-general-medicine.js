@@ -731,6 +731,10 @@ const practiceQ=Q.filter((_,i)=>i%2===0);
 ["Which action is appropriate when a patient is suspected of having an incarcerated or strangulated hernia?","Incarcerated वा strangulated hernia को शंका हुँदा कुन कदम उपयुक्त हुन्छ?",["Attempt repeated forceful reduction","Give food and fluids before assessment","Apply vigorous massage to the swelling","Arrange urgent surgical assessment and avoid forceful manipulation"],3,"Suspected strangulation is an emergency; avoid forceful manipulation and arrange urgent surgical assessment.","Strangulation को शंका आकस्मिक अवस्था हो; जबर्जस्ती भित्र धकेल्ने वा मिच्ने नगरी तुरुन्त शल्यचिकित्सकीय मूल्याङ्कन गराउनुहोस्।","General Surgery"]
 ]);
 
+ // Exclude bulk template-style items that only repeat the English answer as a Nepali explanation.
+ const _haCleanBank=bank=>{const seen=new Set();return bank.filter(q=>{if(!q||!Array.isArray(q)||q.length<7||/^सही उत्तर:/.test(String(q[5]||"")))return false;const stem=String(q[0]||"").trim().toLowerCase();if(!stem||seen.has(stem))return false;seen.add(stem);return true;});};
+ practiceQ.splice(0,practiceQ.length,..._haCleanBank(practiceQ));
+ mockQ.splice(0,mockQ.length,..._haCleanBank(mockQ));
  if (window.DHPNRandomizeQuestionBank) window.DHPNRandomizeQuestionBank([practiceQ,mockQ]);
 
  const state={mode:"",setNo:1,index:0,answers:{},timer:null,left:0,items:[]};
