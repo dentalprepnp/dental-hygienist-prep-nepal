@@ -1451,3 +1451,12 @@ body[data-app-page="profile"] main>section{margin-top:14px}
 #haView #haContent #haNotesResults.ha-notes-results{display:grid!important;visibility:visible!important;opacity:1!important;min-height:40px;gap:10px;}
 #haView #haContent #haNotesResults .ha-note{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;height:auto!important;max-height:none!important;overflow:visible!important;}
 #haView #haContent #haNotesResults .ha-note p{display:block!important;visibility:visible!important;}
+
+
+/* Faculty study screens must not sit underneath the fixed app bottom bar.
+   The bar was intercepting taps on the lowest HA/MCQ/Mock controls in the mobile app. */
+body[data-app-page="faculty"] .hl-bottom-nav{display:none!important;pointer-events:none!important}
+body[data-app-page="faculty"]{padding-bottom:0!important}
+body[data-app-page="faculty"] #haView:not(.hidden),
+body[data-app-page="faculty"] .view:not(.hidden){pointer-events:auto}
+body[data-app-page="faculty"] #haView button{pointer-events:auto;touch-action:manipulation}
