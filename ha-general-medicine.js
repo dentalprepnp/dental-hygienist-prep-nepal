@@ -680,11 +680,11 @@
 
  if (window.DHPNRandomizeQuestionBank) window.DHPNRandomizeQuestionBank([practiceQ,mockQ]);
 
- const state={mode:"",index:0,answers:{},timer:null,left:0,items:[]};
+ const state={mode:"",setNo:1,index:0,answers:{},timer:null,left:0,items:[]};
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  function panel(html){root.querySelector("#haContent").innerHTML=html;root.querySelector("#haContent").scrollIntoView({behavior:"smooth",block:"start"});}
  function menu(){
-  panel('<div class="ha-overview"><div class="ha-kpis"><div><b>'+notes.length+'</b><small>विस्तृत Notes</small></div><div><b>'+practiceQ.length+'</b><small>MCQ Practice</small></div><div><b>'+mockQ.length+'</b><small>Mock Bank</small></div></div><p>MCQ Practice र Mock Test का लागि छुट्टाछुट्टै प्रश्न बैंक छन्; एउटै प्रश्न दुवैमा दोहोरिँदैन। Full Syllabus Mock मा NHPC विषयगत weightage अनुसार Mock Bank बाट प्रश्न छानिन्छ।</p></div><div class="ha-actions"><button data-ha="notes">📚 Detailed Notes</button><button data-ha="practice">🧠 MCQ Practice</button><button data-ha="timed">⏱️ Timed Practice</button><button data-ha="mock">📝 Full Syllabus Mock</button></div><h3>NHPC Licensing Syllabus – Subject Weightage</h3><div class="ha-topic-list">'+topics.map(t=>'<article><div><b>'+t[0]+'</b><strong>'+t[1]+'</strong></div><p>'+t[2]+'</p><p class="np">'+t[3]+'</p></article>').join("")+'</div><div class="notice"><b>परीक्षा ढाँचाबारे स्पष्टता</b><p>NHPC को उपलब्ध HA licensing syllabus ले विषयगत भार १०%, २५%, २५%, १०%, २५%, ५% तोकेको छ। यसले MCQ संख्या, कुल परीक्षा समय वा negative marking निर्दिष्ट गरेको छैन। त्यसैले यहाँका timed practice र mock समय अभ्यासका लागि राखिएका हुन्, आधिकारिक परीक्षा समय होइनन्।</p></div>');
+  panel('<div class="ha-overview"><div class="ha-kpis"><div><b>'+notes.length+'</b><small>विस्तृत Notes</small></div><div><b>'+practiceQ.length+'</b><small>MCQ Practice</small></div><div><b>'+mockQ.length+'</b><small>Mock Bank</small></div></div><p>MCQ Practice र Mock Test का लागि छुट्टाछुट्टै प्रश्न बैंक छन्; एउटै प्रश्न दुवैमा दोहोरिँदैन। Full Syllabus Mock मा NHPC विषयगत weightage अनुसार Mock Bank बाट प्रश्न छानिन्छ।</p></div><div class="ha-actions"><button data-ha="notes">📚 Detailed Notes</button><button data-ha="practice">🧠 MCQ Practice</button><button data-ha="timed">⏱️ Timed Practice</button><button data-ha="mock">📝 Full Syllabus Mock</button></div><h3>१०० प्रश्नका Mock Sets</h3><div class="ha-actions"><button data-ha="mock1">Set 1 • 100 Q</button><button data-ha="mock2">Set 2 • 100 Q</button><button data-ha="mock3">Set 3 • 100 Q</button><button data-ha="mock4">Set 4 • 100 Q</button><button data-ha="mock5">Set 5 • 100 Q</button></div><h3>NHPC Licensing Syllabus – Subject Weightage</h3><div class="ha-topic-list">'+topics.map(t=>'<article><div><b>'+t[0]+'</b><strong>'+t[1]+'</strong></div><p>'+t[2]+'</p><p class="np">'+t[3]+'</p></article>').join("")+'</div><div class="notice"><b>परीक्षा ढाँचाबारे स्पष्टता</b><p>NHPC को उपलब्ध HA licensing syllabus ले विषयगत भार १०%, २५%, २५%, १०%, २५%, ५% तोकेको छ। यसले MCQ संख्या, कुल परीक्षा समय वा negative marking निर्दिष्ट गरेको छैन। त्यसैले यहाँका timed practice र mock समय अभ्यासका लागि राखिएका हुन्, आधिकारिक परीक्षा समय होइनन्।</p></div>');
  }
  function noteCards(list){return list.map(n=>'<article class="ha-note"><h4>'+n[0]+'</h4><p>'+n[1]+'</p><p class="np">'+n[2]+'</p></article>').join("");}
  function renderHAGuide(list){
@@ -748,15 +748,15 @@
   const content=root.querySelector("#haContent");if(content){content.style.display="block";content.style.visibility="visible";}
   renderHANotes(notes);
  }
- function start(mode){
-  clearInterval(state.timer);state.mode=mode;state.index=0;state.answers={};
+ function start(mode,setNo=1){
+  clearInterval(state.timer);state.mode=mode;state.setNo=setNo;state.index=0;state.answers={};
   const pool=mockQ;const size=mode==="timed"?Math.min(10,pool.length):Math.min(100,pool.length);
   let source=pool;
   if(mode==="mock"){
    const quotas=[["Anatomy & Physiology",10],["Community Health",25],["General Medicine",25],["Pharmacology & Pharmacy",10],["General Surgery",25],["Clinical Pathology",5]];
    source=quotas.flatMap(([topic,count])=>{
     const candidates=mockQ.filter(q=>topic==="Pharmacology & Pharmacy"?(q[6]==="Pharmacology"||q[6]==="Pharmacology & Pharmacy"):q[6]===topic);
-    return candidates.slice().sort(()=>Math.random()-0.5).slice(0,count);
+    return candidates.slice().sort((a,b)=>{const hash=q=>{let x=2166136261;for(const c of (String(state.setNo)+"|"+q[0])){x^=c.charCodeAt(0);x=Math.imul(x,16777619);}return x>>>0;};return hash(a)-hash(b);}).slice(0,count);
    });
   }
   state.items=source.slice().sort(()=>Math.random()-0.5).slice(0,size);state.left=mode==="timed"?600:3600;
@@ -786,7 +786,7 @@
  root.addEventListener("input",e=>{if(e.target.id==="haNotesSearch"){const term=e.target.value.trim().toLocaleLowerCase();const found=notes.filter(n=>n.join(" ").toLocaleLowerCase().includes(term));const count=root.querySelector("#haNotesCount");renderHANotes(found);if(count)count.textContent=found.length+" / "+notes.length+" वटा Notes भेटिए";}});
  root.addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;
-  if(b.dataset.ha){const a=b.dataset.ha;if(a==="menu")menu();if(a==="notes")showNotes();if(a==="practice")practice();if(a==="timed")start("timed");if(a==="mock")start("mock");if(a==="retry")start("mock");return;}
+  if(b.dataset.ha){const a=b.dataset.ha;if(a==="menu")menu();if(a==="notes")showNotes();if(a==="practice")practice();if(a==="timed")start("timed");if(a==="mock")start("mock",1);if(/^mock[1-5]$/.test(a))start("mock",Number(a.slice(4)));if(a==="retry")start("mock",state.setNo||1);return;}
   if(b.dataset.haOption!==undefined){const idx=Number(b.dataset.haOption);if(state.mode==="practice"){state.answers[state.index]=idx;renderPracticeQ();if(window.DHPNProgress)window.DHPNProgress.recordMCQ("NHPC HA – General Medicine",practiceQ[state.index],idx);}else{state.answers[state.index]=idx;renderQuestion();}return;}
   if(b.dataset.haNext!==undefined){if(state.index===state.items.length-1)finish();else{state.index++;renderQuestion();}return;}
   if(b.dataset.haPrev!==undefined){state.index=Math.max(0,state.index-1);renderQuestion();return;}
