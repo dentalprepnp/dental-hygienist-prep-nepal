@@ -266,6 +266,28 @@ function showTab(tab,fromBrowserBack=false){
   window.scrollTo({top:resumeY,left:0,behavior:"instant"});
   requestAnimationFrame(()=>{window.scrollTo({top:resumeY,left:0,behavior:"instant"});if(!resumeY)target.scrollIntoView({behavior:"instant",block:"start"});});
 }
+/* Universal faculty screen focus: whenever a faculty replaces its study view or opens a tab panel,
+   bring that selected content to the top so it is visible immediately on mobile and desktop. */
+(function(){
+ const roots="#physiotherapyContent,#haContent,#ophthalmicContent,#mltContent,#anesthesiaContent,#ottContent,#radiotherapyContent,#radiographyContent,#bmltContent,#dentalMaterialsContent,#dhaContent";
+ const focus=el=>{
+  if(!el||!el.isConnected||el.offsetParent===null)return;
+  requestAnimationFrame(()=>{
+   if(!el.isConnected||el.offsetParent===null)return;
+   const y=el.getBoundingClientRect().top+window.scrollY-8;
+   window.scrollTo({top:Math.max(0,y),left:0,behavior:"instant"});
+  });
+ };
+ document.querySelectorAll(roots).forEach(root=>{
+  new MutationObserver(records=>{
+   if(records.some(r=>r.type==="childList"&&r.target===root))focus(root);
+  }).observe(root,{childList:true});
+  new MutationObserver(()=>{
+   const visible=[...root.querySelectorAll(".op-panel,.dha-panel")].find(p=>!p.classList.contains("hidden")&&p.offsetParent!==null);
+   if(visible)focus(visible);else if(root.querySelector(".op-panel,.dha-panel"))focus(root);
+  }).observe(root,{subtree:true,attributes:true,attributeFilter:["class"]});
+ });
+})();
 /* Universal study back control: closes Notes/MCQ/Mock first, then returns to the previous screen. */
 (function(){
  if(document.getElementById("dhpnUniversalBack"))return;
