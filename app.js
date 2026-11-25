@@ -230,11 +230,20 @@ if(profileForm)profileForm.addEventListener("submit",e=>{
  localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));
  renderStudentProfile();
 });
+// Save each faculty's last study position for resume after visiting Home.
+const HLP_FACULTY_RESUME_KEY="dhpn-faculty-resume-v1";
+function readFacultyResume(){try{return JSON.parse(sessionStorage.getItem(HLP_FACULTY_RESUME_KEY)||"{}")}catch(e){return {}}}
+function writeFacultyResume(tab,y){try{const data=readFacultyResume();data[tab]={y:Math.max(0,Number(y)||0),savedAt:Date.now()};sessionStorage.setItem(HLP_FACULTY_RESUME_KEY,JSON.stringify(data))}catch(e){}}
+let hlpResumeTick=false;
+window.addEventListener("scroll",()=>{if(hlpResumeTick)return;hlpResumeTick=true;requestAnimationFrame(()=>{hlpResumeTick=false;const tab=window.__hlpLastFacultyTab;if(tab&&document.body.dataset.appPage==="faculty")writeFacultyResume(tab,window.scrollY);});},{passive:true});
 function showTab(tab,fromBrowserBack=false){
   $$(".view").forEach(v=>{v.classList.add("hidden");v.style.removeProperty("display");v.setAttribute("aria-hidden","true");});
   const target=$("#"+tab+"View");
   if(!target)return;
   if(!fromBrowserBack){try{history.pushState({hlpTab:tab},"");}catch(e){}}
+  const isFacultyTab=!['notes','practice','mock','home'].includes(tab);
+  if(isFacultyTab)window.__hlpLastFacultyTab=tab;
+  else if(tab==='home'&&document.body.dataset.appPage==='faculty'&&window.__hlpLastFacultyTab)writeFacultyResume(window.__hlpLastFacultyTab,window.scrollY);
   target.classList.remove("hidden");
   // Faculty/course pages must take over the screen, even when entered from the Courses tab.
   // This prevents the Courses-only CSS from hiding NHPC/HA/Dental Hygiene study panels.
@@ -252,8 +261,10 @@ function showTab(tab,fromBrowserBack=false){
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
   // Every selected module opens at the very top, without leaving the home directory visible.
-  window.scrollTo({top:0,left:0,behavior:"instant"});
-  requestAnimationFrame(()=>{window.scrollTo({top:0,left:0,behavior:"instant"});target.scrollIntoView({behavior:"instant",block:"start"});});
+  const resume=isFacultyTab?readFacultyResume()[tab]:null;
+  const resumeY=resume&&Number.isFinite(Number(resume.y))?Math.max(0,Number(resume.y)):0;
+  window.scrollTo({top:resumeY,left:0,behavior:"instant"});
+  requestAnimationFrame(()=>{window.scrollTo({top:resumeY,left:0,behavior:"instant"});if(!resumeY)target.scrollIntoView({behavior:"instant",block:"start"});});
 }
 /* Universal study back control: closes Notes/MCQ/Mock first, then returns to the previous screen. */
 (function(){
@@ -637,6 +648,7 @@ document.addEventListener("click",event=>{
 function showAppPage(page, push=true){
   const allowed=["home","courses","notes","practice","profile"];
   if(!allowed.includes(page))page="home";
+  if(document.body.dataset.appPage==="faculty"&&window.__hlpLastFacultyTab)writeFacultyResume(window.__hlpLastFacultyTab,window.scrollY);
   document.body.dataset.appPage=page;
   document.body.classList.toggle("study-screen-open",page==="notes"||page==="practice"||page==="faculty");
   document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
