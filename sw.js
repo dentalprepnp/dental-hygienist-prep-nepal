@@ -1,9 +1,9 @@
 /* Lightweight PWA cache: precache the app shell; fetch scripts/styles fresh first,
    with cached copies as an offline fallback. */
-const CACHE="hl-preparation-v388-study-navigation-visible";
+const CACHE="hl-preparation-v389-ha-notes-navigation";
 const ASSETS=[
  "./","./index.html","./study-guide.js?v=3","./feedback.js?v=3",
- "./about.html","./privacy.html","./styles.css?v=296","./app.js?v=199","./auth.js?v=11",
+ "./about.html","./privacy.html","./styles.css?v=297","./app.js?v=199","./auth.js?v=11",
  "./membership.js?v=3","./assets/qr-payment.png","./progress-sync.js?v=4","./admin-dashboard.js?v=6","./student-help.js?v=1","./weekly-live-exam.js?v=1","./admin-exams.js?v=5",
  "./manifest.webmanifest","./icon.svg"
 ];
