@@ -60,11 +60,31 @@ root.innerHTML=`
 <p class="muted">Oral health education, prevention, epidemiology, fluoride, community surveys र school dental health सम्बन्धी अध्ययन सामग्री।</p>
 <div class="feature-grid module-actions"><button class="feature-card" data-dph="notes"><span class="feature-icon">📘</span><b>Study Notes</b><small>११ वटा विषय</small></button><button class="feature-card" data-dph="practice"><span class="feature-icon">📝</span><b>MCQ Practice</b><small>१३ अभ्यास प्रश्न</small></button><button class="feature-card" data-dph="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small>१७ प्रश्न • १७ मिनेट</small></button></div>
 <div class="toolbar"><label for="dphLanguage">Question language</label><select id="dphLanguage"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
-<div id="dphNotes" class="op-panel hidden"><h2>Dental Public Health Notes</h2><div class="notes-list">${notes.map(n=>`<article class="note"><h3>${n[0]}</h3><p>${n[1]}</p><p class="np">${n[2]}</p></article>`).join("")}</div></div>
+<div id="dphNotes" class="op-panel hidden"><h2>Dental Public Health & Community Dentistry • Complete Study Guide</h2><div id="dphNotesGuide"></div></div>>
 <div id="dphPractice" class="op-panel hidden"><div class="section-head"><h2>MCQ Practice</h2><span class="pill" id="dphCount"></span></div><div id="dphQuestion"></div></div>
 <div id="dphMock" class="op-panel hidden"><h2>Dental Public Health Mock Test</h2><p class="muted">१७ प्रश्न • १७ मिनेट • प्रत्येक प्रश्नको १ अंक</p><div id="dphMockIntro" class="notice"><p>परीक्षा सुरु गरेपछि समय गणना हुन्छ। अन्त्यमा नतिजा र उत्तर समीक्षा देखाइनेछ।</p><button class="primary" id="dphStart">Start Mock Test</button></div><div id="dphMockArea"></div></div>
 <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो; आधिकारिक NHPC प्रश्नपत्र होइन। स्थानीय राष्ट्रिय निर्देशिका र हालको आधिकारिक पाठ्यक्रमसँग मिलाएर अध्ययन गर्नुहोस्।</p>`;
-const $=s=>root.querySelector(s);
+
+ const guideHost=root.querySelector("#dphNotesGuide");
+ if(guideHost){
+  const guideData={title:"Dental Public Health & Community Dentistry",notes:notes.map(n=>({title:n[0],en:n[1],ne:n[2]})),
+  points:[
+  {title:"Prevention levels",en:"Primordial prevents risk-factor emergence; primary prevents disease onset; secondary detects and treats early disease; tertiary limits disability and restores function.",ne:"Primordial ले जोखिम कारक आउन नदिने, primary ले रोग सुरु हुन नदिने, secondary ले चाँडै पत्ता लगाई उपचार गर्ने र tertiary ले अपाङ्गता घटाई कार्यक्षमता फर्काउने हो।"},
+  {title:"DMFT index",en:"DMFT records Decayed, Missing due to caries and Filled permanent teeth. Interpret results using the stated age group and survey method.",ne:"DMFT ले स्थायी दाँतमा caries का कारण बिग्रेका, हराएका र भरिएका दाँत गन्छ। उमेर समूह र survey विधि ध्यान दिनुहोस्।"},
+  {title:"Epidemiological triad",en:"Disease occurrence is commonly studied through agent, host and environment; time and context also matter.",ne:"रोगको अध्ययनमा agent, host र environment मुख्य पक्ष हुन्; समय र परिस्थितिसमेत विचार गर्नुपर्छ।"},
+  {title:"Screening principles",en:"Screening is for apparently healthy populations; positive results need confirmatory assessment and an accessible referral pathway.",ne:"Screening देखिने लक्षण नभएका समूहमा गरिन्छ; positive नतिजा पुष्टि गर्ने जाँच र referral व्यवस्था चाहिन्छ।"},
+  {title:"Community programme cycle",en:"Assess needs → set measurable objectives → plan → implement → monitor → evaluate and improve.",ne:"आवश्यकता पहिचान → मापनयोग्य लक्ष्य → योजना → कार्यान्वयन → अनुगमन → मूल्याङ्कन र सुधार।"}],
+  tricks:[
+  {title:"Prevention = P-P-S-T",en:"Primordial • Primary • Secondary • Tertiary.",ne:"रोकथामका चार तहको क्रम सम्झनुहोस्।"},
+  {title:"DMFT",en:"D = Decayed • M = Missing due to caries • F = Filled • T = Teeth.",ne:"DMFT मा M भनेको caries का कारण हराएको स्थायी दाँत हो।"},
+  {title:"Triad = A-H-E",en:"Agent • Host • Environment.",ne:"रोग उत्पन्न/फैलिन प्रभाव पार्ने तीन पक्ष।"},
+  {title:"Programme cycle",en:"Assess → Plan → Do → Check → Improve.",ne:"कार्यक्रमलाई निरन्तर सुधार्ने सरल चक्र।"}],
+  diagrams:[{title:"Levels of prevention",en:"A simple progression from preventing risk to limiting disability.",ne:"जोखिम रोक्नेदेखि अपाङ्गता घटाउनेसम्मका रोकथाम तह।",html:'<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px"><div style="padding:12px;background:#e8f5ff;border-radius:10px">Primordial</div><div style="padding:12px;background:#eaf8ef;border-radius:10px">Primary</div><div style="padding:12px;background:#fff5df;border-radius:10px">Secondary</div><div style="padding:12px;background:#f5edff;border-radius:10px">Tertiary</div></div>'}],
+  examples:[{title:"School oral-health programme",en:"Assess student needs, obtain appropriate permissions, provide age-appropriate education and prevention, document findings, refer urgent problems and evaluate outcomes.",ne:"विद्यार्थीको आवश्यकता जाँच्नुहोस्, आवश्यक अनुमति लिनुहोस्, उमेरअनुसार शिक्षा/रोकथाम दिनुहोस्, निष्कर्ष लेख्नुहोस्, आवश्यक referral गरी नतिजा मूल्याङ्कन गर्नुहोस्।"},{title:"High DMFT survey result",en:"Check sampling, calibration, age group and diagnostic criteria before comparing communities or planning interventions.",ne:"समुदाय तुलना वा कार्यक्रम बनाउनु अघि sample, examiner calibration, उमेर समूह र diagnostic criteria जाँच्नुहोस्।"}]};
+  if(window.DHPNStudyGuide)guideHost.innerHTML=window.DHPNStudyGuide.render(guideData);
+  else guideHost.innerHTML=notes.map(n=>'<article class="note"><h3>'+n[0]+'</h3><p>'+n[1]+'</p><p class="np">'+n[2]+'</p></article>').join("");
+ }
+ const $=s=>root.querySelector(s);
 function panel(n){root.querySelectorAll(".op-panel").forEach(x=>x.classList.add("hidden"));$("#dph"+n[0].toUpperCase()+n.slice(1)).classList.remove("hidden")}
 root.querySelectorAll("[data-dph]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.dph);if(b.dataset.dph==="practice")renderPractice()}));
 function bilingual(q){const m=$("#dphLanguage").value;return `${m==="ne"?"":`<h3>${q[0]}</h3>`}${m==="en"?"":`<p class="translation">${q[1]}</p>`}`}
