@@ -1040,6 +1040,15 @@
      {title:"Wound infection",en:"RED, HOT, SWOLLEN, PAINFUL, PUS or FEVER = assess infection.",ne:"रातो, तातो, सुन्निएको, दुख्ने, पिप वा ज्वरो = संक्रमण जाँच।"},
      {title:"Poisoning",en:"SAFE scene first; identify substance; call expert help; no induced vomiting by default.",ne:"पहिले सुरक्षित स्थान; पदार्थ पहिचान; विशेषज्ञ सहायता; सामान्यतया आफैं बान्ता नगराउने।"},
      {title:"Test accuracy",en:"Sensitivity = true positive among diseased; Specificity = true negative among non-diseased.",ne:"रोग भएकामा true positive = sensitivity; रोग नभएकामा true negative = specificity।"}
+,
+     {title:"Cardiac conduction",en:"SA → AV → His → Purkinje: the normal electrical pathway.",ne:"SA → AV → His → Purkinje: मुटुको सामान्य विद्युत् मार्ग।"},
+     {title:"Injection safety",en:"ONE patient • ONE needle • ONE syringe • ONE time.",ne:"एक बिरामी • एक needle • एक syringe • एक पटक मात्र।"},
+     {title:"Antibiotic rule",en:"Bacterial indication first; right drug, dose, route and duration; review response.",ne:"पहिले bacterial indication; सही औषधि, मात्रा, मार्ग, अवधि र प्रतिक्रिया समीक्षा।"},
+     {title:"Transfusion reaction",en:"STOP transfusion → assess ABC/vitals → notify responsible team → follow protocol.",ne:"Transfusion रोक्नुहोस् → ABC/vitals जाँच → जिम्मेवार टोलीलाई खबर → protocol पालना।"},
+     {title:"Head injury red flags",en:"WORSENING headache • repeated vomiting • seizure • confusion • reduced consciousness = urgent review.",ne:"बढ्दो टाउको दुखाइ • पटकपटक बान्ता • दौरा • अलमल • चेतना घट्नु = तत्काल जाँच।"},
+     {title:"Specimen quality",en:"RIGHT patient • RIGHT container • RIGHT label • RIGHT transport.",ne:"सही बिरामी • सही container • सही label • सही ढुवानी।"},
+     {title:"Triage",en:"SEVERITY, not sequence: prioritize the most unwell; reassess those waiting.",ne:"आएको क्रम होइन, गम्भीरता हेर्नुहोस्; पर्खिरहेका बिरामी पुनः जाँच्नुहोस्।"},
+     {title:"Fluid overload",en:"BREATH • CRACKLES • EDEMA • JVP • WEIGHT: watch during fluid therapy.",ne:"सास • crackles • सुन्निनु • JVP • तौल: fluid therapy मा निगरानी।"}
     ],
     diagrams:[
      {title:"ABCDE assessment",html:'<svg viewBox="0 0 300 170" role="img" aria-label="ABCDE assessment flow"><g font-family="Arial" font-size="12" text-anchor="middle" fill="#17435b"><rect x="70" y="5" width="160" height="26" rx="7" fill="#dbeafe" stroke="#2563eb"/><text x="150" y="22">A • Airway</text><path d="M150 31v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="41" width="160" height="26" rx="7" fill="#e0f2fe" stroke="#0284c7"/><text x="150" y="58">B • Breathing</text><path d="M150 67v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="77" width="160" height="26" rx="7" fill="#fef3c7" stroke="#d97706"/><text x="150" y="94">C • Circulation</text><path d="M150 103v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="113" width="160" height="26" rx="7" fill="#f3e8ff" stroke="#9333ea"/><text x="150" y="130">D • Disability</text><text x="150" y="158">E • Exposure</text></g></svg>'},
