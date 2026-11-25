@@ -1439,3 +1439,10 @@ body[data-app-page="practice"] #practiceView,body[data-app-page="practice"] #moc
 body[data-app-page="notes"] #notesView{display:block!important}
 #topLoginButton,#facultyBackButton,#accountAccessButton,.module-back{display:none!important}
 body[data-app-page="profile"] main>section{margin-top:14px}
+
+/* HA Notes: always-visible study navigation and readable empty state */
+.ha-study-toolbar{position:sticky;top:72px;z-index:8;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:8px 0;margin:0 0 12px;background:var(--bg)}
+.ha-study-toolbar button{min-width:0;border:1px solid var(--line);border-radius:10px;padding:9px 5px;background:var(--white);color:var(--ink);font-size:11px;font-weight:800}
+.ha-study-toolbar button:hover{border-color:var(--blue);background:var(--bg)}
+.ha-empty-notes{padding:14px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:13px}
+@media(max-width:520px){.ha-study-toolbar{gap:4px}.ha-study-toolbar button{font-size:10px;padding:9px 3px}}
