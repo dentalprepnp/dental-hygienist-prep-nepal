@@ -1347,21 +1347,15 @@
   timed:()=>start("timed"),
   mock:()=>start("mock",1),
   case:()=>start("case"),
-  mock1:()=>start("mock",1),mock2:()=>start("mock",2),mock3:()=>start("mock",3),mock4:()=>start("mock",4),mock5:()=>start("mock",5),
+  mock1:()=>start("mock",1),mock2:()=>start("mock",2),mock3:()=>start("mock",3),mock4:()=>start("mock",4),mock5:()=>start("mock",5),retry:()=>start(state.mode==="case"?"case":"mock",state.setNo||1),
   mistakes:showMistakes,weak:showWeakAnalysis,readiness:showReadiness,audit:showSyllabusAudit
  };
- root.addEventListener("click",e=>{
-  const b=e.target.closest("#haView [data-ha]");
-  if(!b)return;
-  const action=window.HAStudyActions&&window.HAStudyActions[b.dataset.ha];
-  if(typeof action!=="function")return;
-  e.preventDefault();e.stopImmediatePropagation();
-  try{action();}catch(error){console.error("HA action failed:",error);const c=root.querySelector("#haContent");if(c)c.innerHTML='<div class="notice"><h3>यो सुविधा खोल्न समस्या भयो</h3><p>कृपया refresh गरेर फेरि प्रयास गर्नुहोस्।</p></div>';}
- },true);
+
  root.addEventListener("input",e=>{if(e.target.id==="haNotesSearch"){const term=e.target.value.trim().toLocaleLowerCase();const found=notes.filter(n=>n.join(" ").toLocaleLowerCase().includes(term));const count=root.querySelector("#haNotesCount");renderHAGuide(found);if(count)count.textContent=found.length+" / "+notes.length+" वटा Notes भेटिए";}});
- root.addEventListener("click",e=>{
-  const b=e.target.closest("button");if(!b)return;
-  if(b.dataset.ha){const a=b.dataset.ha;if(a==="menu")menu();if(a==="mistakes")showMistakes();if(a==="weak")showWeakAnalysis();if(a==="readiness")showReadiness();if(a==="audit")showSyllabusAudit();if(a==="notes")showNotes();if(a==="practice")practice();if(a==="timed")start("timed");if(a==="mock")start("mock",1);if(a==="case")start("case");if(/^mock[1-5]$/.test(a))start("mock",Number(a.slice(4)));if(a==="retry")start(state.mode==="case"?"case":"mock",state.setNo||1);return;}
+ document.addEventListener("click",e=>{
+  const b=e.target.closest("#haView button");if(!b)return;
+  e.preventDefault();e.stopImmediatePropagation();
+  if(b.dataset.ha){const action=window.HAStudyActions&&window.HAStudyActions[b.dataset.ha];if(typeof action==="function"){try{action();}catch(error){console.error("HA action failed:",error);const content=root.querySelector("#haContent");if(content)content.innerHTML='<div class="notice"><h3>यो सुविधा खोल्न समस्या भयो</h3><p>कृपया पुनः प्रयास गर्नुहोस्।</p></div>';}}return;}
   if(b.dataset.haOption!==undefined){const idx=Number(b.dataset.haOption);if(state.mode==="practice"){state.answers[state.index]=idx;const q=practiceQ[state.index];if(idx!==q[3])addMistake(q);else removeMistake(q[0]);renderPracticeQ();if(window.DHPNProgress)window.DHPNProgress.recordMCQ("NHPC HA – General Medicine",q,idx);}else{state.answers[state.index]=idx;renderQuestion();}return;}
   if(b.dataset.haRevise!==undefined){const [i,j]=b.dataset.haRevise.split(":").map(Number),a=getMistakes(),q=a[i]?.q;if(!q)return;const host=root.querySelector("#haRevEx"+i);if(j===q[3]){removeMistake(q[0]);if(host)host.innerHTML='<p class="correct">सही उत्तर! Revision list बाट हटाइयो।</p>';}else if(host)host.innerHTML='<p class="incorrect">अझै सही भएन। सही उत्तर: '+q[2][q[3]]+'</p><p>'+q[4]+'</p><p class="np">'+q[5]+'</p><small>फेरि सम्झेर अर्को पटक सही उत्तर दिनुहोस्।</small>';return;}
   if(b.dataset.haWeak){startWeakPractice(b.dataset.haWeak);return;}
@@ -1369,7 +1363,7 @@
   if(b.dataset.haPrev!==undefined){state.index=Math.max(0,state.index-1);renderQuestion();return;}
   if(b.dataset.haPracticeNext!==undefined){if(state.index===practiceQ.length-1){menu();return;}state.index++;renderPracticeQ();return;}
   if(b.dataset.haPracticePrev!==undefined){state.index=Math.max(0,state.index-1);renderPracticeQ();}
- });
+ },true);
  // Re-open the HA landing menu after the faculty view becomes visible.
  // This avoids an empty study area when the module was initialized while hidden.
  window.ensureHAMenu=function(){
