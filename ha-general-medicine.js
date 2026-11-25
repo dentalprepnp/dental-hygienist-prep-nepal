@@ -1341,6 +1341,23 @@
   const q=practiceQ[state.index],selected=state.answers[state.index],done=selected!==undefined;
   panel('<p class="muted">MCQ '+(state.index+1)+' / '+practiceQ.length+' • '+q[6]+'</p><article class="ha-question"><h3>'+q[0]+'</h3><p class="np">'+q[1]+'</p><div class="ha-options">'+q[2].map((o,i)=>'<button class="'+(selected!==undefined&&i===q[3]?"correct":selected===i&&i!==q[3]?"wrong":"")+'" data-ha-option="'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>').join("")+'</div>'+(done?'<div class="ha-explain"><b>'+(selected===q[3]?"सही उत्तर!":"सही उत्तर: "+q[2][q[3]])+'</b><p>'+q[4]+'</p><p class="np">'+q[5]+'</p></div>':"")+'</article><div class="ha-nav"><button data-ha-practice-prev '+(state.index===0?"disabled":"")+'>← अघिल्लो</button><button data-ha-practice-next>'+(state.index===practiceQ.length-1?"समाप्त":"अर्को →")+'</button></div><button data-ha="menu" class="smallbtn">मुख्य मेनु</button>');
  }
+ // Robust document-level capture routing: supports the static landing buttons too.
+ window.HAStudyActions={
+  menu,showNotes,practice,
+  timed:()=>start("timed"),
+  mock:()=>start("mock",1),
+  case:()=>start("case"),
+  mock1:()=>start("mock",1),mock2:()=>start("mock",2),mock3:()=>start("mock",3),mock4:()=>start("mock",4),mock5:()=>start("mock",5),
+  mistakes:showMistakes,weak:showWeakAnalysis,readiness:showReadiness,audit:showSyllabusAudit
+ };
+ document.addEventListener("click",e=>{
+  const b=e.target.closest("#haView [data-ha]");
+  if(!b)return;
+  const action=window.HAStudyActions&&window.HAStudyActions[b.dataset.ha];
+  if(typeof action!=="function")return;
+  e.preventDefault();e.stopImmediatePropagation();
+  try{action();}catch(error){console.error("HA action failed:",error);const c=root.querySelector("#haContent");if(c)c.innerHTML='<div class="notice"><h3>यो सुविधा खोल्न समस्या भयो</h3><p>कृपया refresh गरेर फेरि प्रयास गर्नुहोस्।</p></div>';}
+ },true);
  root.addEventListener("input",e=>{if(e.target.id==="haNotesSearch"){const term=e.target.value.trim().toLocaleLowerCase();const found=notes.filter(n=>n.join(" ").toLocaleLowerCase().includes(term));const count=root.querySelector("#haNotesCount");renderHAGuide(found);if(count)count.textContent=found.length+" / "+notes.length+" वटा Notes भेटिए";}});
  root.addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;
