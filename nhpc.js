@@ -329,6 +329,8 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
  for(let i=nhpcNotes.length-1;i>=0;i--){if(!nhpcNotes[i])nhpcNotes.splice(i,1);}
 
 
+
+<style>.nhpc-study-block{background:var(--white,#fff);border:1px solid var(--line,#dce6ed);border-radius:14px;padding:14px;margin:12px 0}.nhpc-study-block h3{margin:0 0 10px}.nhpc-study-block ul{padding-left:22px;margin:8px 0}.nhpc-study-block li{margin:7px 0;line-height:1.55}.nhpc-flow{display:grid;grid-template-columns:1fr;gap:6px;max-width:420px;margin:10px auto;text-align:center}.nhpc-flow span{background:#eaf5fb;border:1px solid #cfe4ef;border-radius:10px;padding:10px;font-weight:700}.nhpc-flow b{color:#28734f}</style>
  const notesRoot=document.getElementById("nhpcNotesArea");
  function renderNhpcNotes(){
   setNHPCFocused(true);
@@ -340,7 +342,14 @@ const officialBank=[...mappedOriginal,...mappedAdded,...blueprintAdditions,...ex
   document.getElementById("nhpcCloseMock")?.classList.add("hidden");
   notesRoot.innerHTML=`<div class="section-head"><div><p class="eyebrow">BILINGUAL STUDY LIBRARY</p><h3>NHPC Detailed Study Notes</h3></div><span class="pill">१५ विषय</span></div><p class="muted">प्रत्येक विषयमा English concept, नेपाली व्याख्या र Clinical focus समावेश गरिएको छ।</p><input id="nhpcNotesSearch" type="search" class="form-control" placeholder="Search notes in English or नेपाली..." aria-label="Search study notes"><div class="dha-mcq-filters" id="nhpcNotesFilters">${nhpcNotes.map((t,i)=>`<button class="smallbtn ${i===0?"active":""}" data-notes-topic="${i}" type="button">${t[0]}</button>`).join("")}</div><div id="nhpcNotesContent" aria-live="polite"></div>`;
   const content=notesRoot.querySelector("#nhpcNotesContent");
-  const renderCards=(items,heading)=>{content.innerHTML=`<h3>${heading}</h3><div class="notes-list">${items.map(x=>`<article class="note"><h3>${x.topic?x.topic+" — ":""}${x.note[0]}</h3><p><b>English:</b> ${x.note[1]}</p><p class="np"><b>नेपाली:</b> ${x.note[2]}</p><div class="clinical-point"><b>Clinical focus:</b> ${x.note[3].replace("Clinical focus: ","")}</div></article>`).join("")}</div>`;};
+  const renderCards=(items,heading)=>{
+   const cards=items.map(x=>`<article class="note"><h3>${x.topic?x.topic+" — ":""}${x.note[0]}</h3><p><b>English:</b> ${x.note[1]}</p><p class="np"><b>नेपाली:</b> ${x.note[2]}</p><div class="clinical-point"><b>Clinical application:</b> ${x.note[3].replace("Clinical focus: ","")}</div></article>`).join("");
+   const important=items.map(x=>x.note[3].replace("Clinical focus: ","")).filter(Boolean);
+   content.innerHTML=`<section class="nhpc-study-block"><h3>⭐ Exam-focused Important Points</h3><ul>${important.map(x=>`<li>${x}</li>`).join("")}</ul></section>
+   <section class="nhpc-study-block"><h3>⚡ Short Trick — C-A-R-E</h3><p><b>C</b>oncept → <b>A</b>ssessment → <b>R</b>isk → <b>E</b>ducation</p><p class="np">पहिले मुख्य concept बुझ्नुहोस्, त्यसपछि assessment, risk factors र patient education सम्झनुहोस्। Dental Hygiene का धेरै clinical प्रश्नमा यो क्रम उपयोगी हुन्छ।</p></section>
+   <section class="nhpc-study-block"><h3>🧭 Clinical Learning Flow</h3><div class="nhpc-flow"><span>Understand concept</span><b>↓</b><span>Assess patient / condition</span><b>↓</b><span>Identify risk & findings</span><b>↓</b><span>Plan prevention, care or referral</span></div><p class="np">अवधारणा बुझ्ने → बिरामी/अवस्था मूल्याङ्कन → जोखिम र निष्कर्ष पहिचान → रोकथाम, हेरचाह वा referral योजना।</p></section>
+   <section class="nhpc-study-block"><h3>📘 Detailed Notes & Clinical Applications</h3><div class="notes-list">${cards}</div></section>`;
+  };
   const showTopic=i=>{const t=nhpcNotes[i];notesRoot.querySelectorAll("[data-notes-topic]").forEach(b=>b.classList.toggle("active",Number(b.dataset.notesTopic)===i));renderCards(t[1].map(note=>({note})),t[0]);};
   const search=notesRoot.querySelector("#nhpcNotesSearch");
   search.addEventListener("input",()=>{const q=search.value.trim().toLocaleLowerCase();if(!q){showTopic(0);return;}notesRoot.querySelectorAll("[data-notes-topic]").forEach(b=>b.classList.remove("active"));const matches=[];nhpcNotes.forEach(t=>t[1].forEach(note=>{if((t[0]+" "+note.join(" ")).toLocaleLowerCase().includes(q))matches.push({topic:t[0],note});}));renderCards(matches,matches.length?"Search results ("+matches.length+")":"No matching notes found");if(!matches.length)content.innerHTML='<p class="muted">यो शब्दसँग मिल्ने Notes भेटिएन। फरक शब्द प्रयोग गरेर खोज्नुहोस्।</p>';});
