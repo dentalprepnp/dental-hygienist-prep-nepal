@@ -34,15 +34,39 @@ function finish(auto=false){
  if(window.DHPNProgress)window.DHPNProgress.recordMock("NHPC Diploma in Operation Theatre Technology",score,total);
  panel('<div class="ha-result '+(passed?"ha-pass":"ha-retry")+'"><h3>'+(auto?"समय समाप्त — ":"")+(passed?"🎉 बधाई छ! तपाईं NHPC OTT Mock Exam मा पास हुनुभयो।":"अझै अभ्यास आवश्यक — फेरि प्रयास गर्नुहोस्।")+'</h3><div class="ha-score">'+score+' / '+total+'</div><b>'+pct+'% • '+(passed?"PASS":"FAIL")+' (Pass Mark 50%)</b><p>सही: '+score+' • गलत: '+wrong+' • अनुत्तरित: '+unanswered+'</p><p class="muted">यो App को अभ्यास benchmark हो; NHPC को आधिकारिक pass decision होइन।</p></div><h3>उत्तर समीक्षा</h3>'+rows.join("")+'<button data-ott="menu" class="smallbtn">मुख्य मेनुमा फर्कनुहोस्</button>');
 }
+function showOTTStudyGuide(){
+ stopTimer();
+ const nd=detailedNotes.map(n=>({title:n[0],en:n[1],ne:n[2]}));
+ if(!window.DHPNStudyGuide){panel('<h3>Detailed Notes</h3>'+detailedNotes.map(n=>'<article class="ha-note"><h4>'+h(n[0])+'</h4><p>'+h(n[1])+'</p><p class="np">'+h(n[2])+'</p></article>').join("")+'<button data-ott="menu">Back</button>');return;}
+ panel(window.DHPNStudyGuide.render({title:"Operation Theatre Technology (OTT) – NHPC",notes:nd,
+ points:[
+ {title:"Sterile field",en:"Keep sterile items within the sterile field; if sterility is uncertain, treat as contaminated and follow protocol.",ne:"Sterile सामग्री sterile field भित्र राख्नुहोस्; शंका भए contaminated मानी protocol पालना गर्नुहोस्।"},
+ {title:"Surgical safety",en:"Verify patient, procedure and site; use the surgical safety checklist and time-out.",ne:"बिरामी, procedure र site पुष्टि गरी safety checklist र time-out पालना गर्नुहोस्।"},
+ {title:"Instrument count",en:"Count instruments and swabs according to facility policy; report discrepancies immediately.",ne:"संस्थाको नियमअनुसार instrument र swab count गर्नुहोस्; फरक भए तुरुन्त रिपोर्ट गर्नुहोस्।"},
+ {title:"Infection prevention",en:"Hand hygiene, PPE, safe sharps and validated sterilization monitoring are essential.",ne:"Hand hygiene, PPE, सुरक्षित sharps र sterilization monitoring आवश्यक छन्।"},
+ {title:"Patient monitoring",en:"Observe airway, breathing, circulation and vital signs; alert the responsible clinician to changes.",ne:"Airway, breathing, circulation र vital signs हेर्नुहोस्; परिवर्तन भए clinician लाई जानकारी दिनुहोस्।"}],
+ tricks:[
+ {title:"Emergency ABC",en:"Airway • Breathing • Circulation; call for help and follow emergency protocol.",ne:"Airway • Breathing • Circulation; सहायता बोलाएर emergency protocol पालना गर्नुहोस्।"},
+ {title:"Instrument processing",en:"Clean → inspect → package → sterilize → monitor → store.",ne:"सफा → जाँच → प्याक → sterilize → monitor → भण्डारण।"},
+ {title:"Surgical time-out",en:"Right patient • right procedure • right site.",ne:"सही बिरामी • सही procedure • सही site।"}],
+ diagrams:[
+ {title:"OT patient safety pathway",en:"Verify → time-out → procedure → handover",ne:"पहिचान → time-out → procedure → handover",html:'<svg viewBox="0 0 700 100" role="img" aria-label="OT safety pathway" style="width:100%;height:auto"><g fill="#e8f5ff" stroke="#2582b8" stroke-width="2"><rect x="5" y="18" width="155" height="62" rx="10"/><rect x="180" y="18" width="155" height="62" rx="10"/><rect x="355" y="18" width="155" height="62" rx="10"/><rect x="530" y="18" width="165" height="62" rx="10"/></g><g fill="#17415b" font-size="17" font-weight="700" text-anchor="middle"><text x="82" y="55">Verify</text><text x="257" y="55">Time-out</text><text x="432" y="55">Procedure</text><text x="612" y="55">Handover</text></g><g stroke="#2582b8" stroke-width="3"><path d="M160 49h20m-7-7 7 7-7 7M335 49h20m-7-7 7 7-7 7M510 49h20m-7-7 7 7-7 7"/></g></svg>'},
+ {title:"Sterile processing",en:"Simplified reprocessing sequence",ne:"Instrument पुनःप्रक्रियाको क्रम",html:'<svg viewBox="0 0 700 80" role="img" aria-label="Sterile processing steps" style="width:100%;height:auto"><g fill="#effaf4" stroke="#2582b8" stroke-width="2"><rect x="5" y="15" width="130" height="50" rx="8"/><rect x="145" y="15" width="130" height="50" rx="8"/><rect x="285" y="15" width="130" height="50" rx="8"/><rect x="425" y="15" width="130" height="50" rx="8"/><rect x="565" y="15" width="130" height="50" rx="8"/></g><g fill="#17415b" font-size="15" font-weight="700" text-anchor="middle"><text x="70" y="45">Clean</text><text x="210" y="45">Inspect</text><text x="350" y="45">Package</text><text x="490" y="45">Sterilize</text><text x="630" y="45">Store</text></g></svg>'}],
+ examples:[
+ {title:"Wrong-site concern",en:"Pause, verify identity and site, and escalate any discrepancy through the safety checklist.",ne:"रोक्नुहोस्, पहिचान र site पुष्टि गर्नुहोस् र फरक भए safety checklist अनुसार जानकारी दिनुहोस्।"},
+ {title:"Count discrepancy",en:"Notify the team, repeat the count and follow the facility's search and documentation protocol.",ne:"Team लाई जानकारी दिनुहोस्, count दोहोर्याउनुहोस् र संस्थाको खोज/अभिलेख protocol पालना गर्नुहोस्।"},
+ {title:"Post-op handover",en:"Communicate procedure, observations, devices, specimens and pending concerns using approved handover format.",ne:"स्वीकृत handover format अनुसार procedure, observations, devices, specimens र बाँकी चिन्ता बताउनुहोस्।"}]
+ })+'<button data-ott="menu" class="smallbtn">← मुख्य मेनु</button>');
+}
 root.addEventListener("click",e=>{
  const b=e.target.closest("button");if(!b)return;
- if(b.dataset.ott){if(b.dataset.ott==="menu"){stopTimer();menu();}else if(b.dataset.ott==="practice")begin("practice");return;}
+ if(b.dataset.ott){if(b.dataset.ott==="menu"){stopTimer();menu();}else if(b.dataset.ott==="practice")begin("practice");else if(b.dataset.ott==="notes")showOTTStudyGuide();return;}
  if(b.dataset.ottSet!==undefined){begin("mock",Number(b.dataset.ottSet));return;}
  if(b.dataset.ottOption!==undefined){state.answers[state.index]=Number(b.dataset.ottOption);render();if(state.mode==="practice"&&window.DHPNProgress){const q=state.items[state.index];window.DHPNProgress.recordMCQ("NHPC Diploma in Operation Theatre Technology",[q[0],q[1],q[2],q[3],q[4],q[5]],state.answers[state.index]);}return;}
  if(b.dataset.ottPrev!==undefined){state.index=Math.max(0,state.index-1);render();return;}
  if(b.dataset.ottNext!==undefined){if(state.index===state.items.length-1){if(state.mode==="practice")menu();else finish(false);}else{state.index++;render();}}
 });
 const oldMenu=menu;
-menu=function(){stopTimer();const sets=Math.ceil(Math.max(0,bank.length-205)/100);panel('<div class="notice"><b>NHPC Diploma in Operation Theatre Technology</b><p>'+bank.length+' bilingual MCQs • प्रत्येक Mock Set ६० मिनेट • Pass Mark ५०%</p></div><h3>MCQ Practice</h3><button data-ott="practice">MCQ Practice (205)</button><h3>Mock Exam Sets</h3><div class="ha-actions">'+Array.from({length:sets},(_,i)=>'<button data-ott-set="'+i+'">Mock Set '+(i+1)+' • '+Math.min(100,bank.length-205-i*100)+' प्रश्न • ६० मिनेट</button>').join("")+'</div><p class="disclaimer">Submit वा समय सकिएपछि नतिजा र गलत उत्तरको व्याख्या देखाइनेछ। यो स्वतन्त्र अभ्यास सामग्री हो।</p>');};
+menu=function(){stopTimer();const sets=Math.ceil(Math.max(0,bank.length-205)/100);panel('<div class="notice"><b>NHPC Diploma in Operation Theatre Technology</b><p>'+bank.length+' bilingual MCQs • प्रत्येक Mock Set ६० मिनेट • Pass Mark ५०%</p></div><h3>Study Notes</h3><button data-ott="notes">📘 Notes • Important Points • Short Tricks</button><h3>MCQ Practice</h3><button data-ott="practice">MCQ Practice (205)</button><h3>Mock Exam Sets</h3><div class="ha-actions">'+Array.from({length:sets},(_,i)=>'<button data-ott-set="'+i+'">Mock Set '+(i+1)+' • '+Math.min(100,bank.length-205-i*100)+' प्रश्न • ६० मिनेट</button>').join("")+'</div><p class="disclaimer">Submit वा समय सकिएपछि नतिजा र गलत उत्तरको व्याख्या देखाइनेछ। यो स्वतन्त्र अभ्यास सामग्री हो।</p>');};
 menu();
 })();
