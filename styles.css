@@ -1460,3 +1460,7 @@ body[data-app-page="faculty"]{padding-bottom:0!important}
 body[data-app-page="faculty"] #haView:not(.hidden),
 body[data-app-page="faculty"] .view:not(.hidden){pointer-events:auto}
 body[data-app-page="faculty"] #haView button{pointer-events:auto;touch-action:manipulation}
+
+/* Keep the student feedback panel in Profile only; it must not cover Courses or faculty study screens. */
+body:not([data-app-page="profile"]) #studentFeedback{display:none!important}
+body[data-app-page="profile"] #studentFeedback:not(.hidden){display:block!important}
