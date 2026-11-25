@@ -45,6 +45,9 @@
     if(["mock","mock_test","mock_question","mock_questions","mocktest","mock_test_questions","mocktest_questions","mock_exam","mock_exam_questions","mock_mcq","mock_test_mcq","mock_question_bank"].includes(type))return "mock";
     return type;
   }
+  function contentTypeOf(row){return row?.content_type??row?.type??row?.contentType??row?.kind??row?.category??"";}
+  function contentDataOf(row){let value=row?.content_data??row?.data??row?.content??row?.payload??row?.body??null;if(typeof value==="string"){try{value=JSON.parse(value)}catch(e){}}return value;}
+  function contentOrderOf(row){return Number(row?.display_order??row?.order??row?.sort_order??row?.sequence??0)||0;}
   function normalizeQuestion(raw) {
     const row=raw&&typeof raw==="object"?raw:{};
     const options=Array.isArray(row.options)?row.options:
@@ -86,11 +89,14 @@
     return q;
   }
   function normalizeNote(raw) {
-    const n=raw&&typeof raw==="object"?raw:{};
+    const n=raw&&typeof raw==="object"?raw:{text:raw};
+    const sections=Array.isArray(n.sections)?n.sections:[];
+    const english=n.english??n.content_en??n.contentEn??n.note_en??n.summary??n.description??n.text??n.content??n.body??"";
+    const nepali=n.nepali??n.content_ne??n.content_np??n.note_ne??n.translation??n.explanation_ne??"";
     return {
-      title:String(n.title??n.title_en??n.titleEn??n.heading??"BMLT Study Note"),
-      english:String(n.english??n.content_en??n.content??n.note_en??n.summary??""),
-      nepali:String(n.nepali??n.content_ne??n.content_np??n.note_ne??n.translation??"")
+      title:String(n.title??n.title_en??n.titleEn??n.heading??n.topic??"BMLT Study Note"),
+      english:String(english||sections.map(x=>typeof x==="string"?x:(x?.english??x?.en??x?.content??"")).filter(Boolean).join("\\n\\n")),
+      nepali:String(nepali||sections.map(x=>typeof x==="object"?(x?.nepali??x?.ne??""):"").filter(Boolean).join("\\n\\n"))
     };
   }
   function renderBMLTGuide(){
@@ -124,10 +130,10 @@
     });
   }
   function convertRows(rows) {
-    const typed=rows.map(row=>({...row,normalizedType:normalizeType(row.content_type)}));
-    notes=typed.filter(x=>x.normalizedType==="note").map(x=>normalizeNote(x.content_data));
-    practiceQuestions=typed.filter(x=>x.normalizedType==="mcq").sort((a,b)=>(Number(a.display_order)||0)-(Number(b.display_order)||0)).map(x=>shuffledQuestion(x.content_data)).filter(Boolean);
-    mockBankQuestions=typed.filter(x=>x.normalizedType==="mock").sort((a,b)=>(Number(a.display_order)||0)-(Number(b.display_order)||0)).map(x=>shuffledQuestion(x.content_data)).filter(Boolean);
+    const typed=rows.map(row=>({...row,normalizedType:normalizeType(contentTypeOf(row)),normalizedData:contentDataOf(row),normalizedOrder:contentOrderOf(row)}));
+    notes=typed.filter(x=>x.normalizedType==="note").map(x=>normalizeNote(x.normalizedData)).filter(n=>n.title||n.english||n.nepali);
+    practiceQuestions=typed.filter(x=>x.normalizedType==="mcq").sort((a,b)=>a.normalizedOrder-b.normalizedOrder).map(x=>shuffledQuestion(x.normalizedData)).filter(Boolean);
+    mockBankQuestions=typed.filter(x=>x.normalizedType==="mock").sort((a,b)=>a.normalizedOrder-b.normalizedOrder).map(x=>shuffledQuestion(x.normalizedData)).filter(Boolean);
     // If BMLT has practice MCQs but no separately tagged mock rows, reuse the practice bank for Mock Test.
     if(!mockBankQuestions.length&&practiceQuestions.length)mockBankQuestions=practiceQuestions.map(q=>[q[0],q[1],[...q[2]],q[3],q[4],q[5]]);
   }
@@ -217,7 +223,7 @@
         statusMessage("Login सफल छ, तर RPC ले BMLT का लागि कुनै row फर्काएन। Published/access_tier र get_learning_content function जाँच आवश्यक छ।","warning");
         addRetryButton();return;
       }
-      const valid=data.filter(row=>row&&normalizeType(row.content_type)&&row.content_data);
+      const valid=data.filter(row=>row&&normalizeType(contentTypeOf(row))&&contentDataOf(row));
       if(!valid.length){
         const shape=Object.keys(data[0]||{}).join(", ")||"empty row";
         throw new Error("RPC data structure मिलेन। प्राप्त fields: "+shape);
