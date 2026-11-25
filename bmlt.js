@@ -95,8 +95,8 @@
     const nepali=n.nepali??n.content_ne??n.content_np??n.note_ne??n.translation??n.explanation_ne??"";
     return {
       title:String(n.title??n.title_en??n.titleEn??n.heading??n.topic??"BMLT Study Note"),
-      english:String(english||sections.map(x=>typeof x==="string"?x:(x?.english??x?.en??x?.content??"")).filter(Boolean).join("\\n\\n")),
-      nepali:String(nepali||sections.map(x=>typeof x==="object"?(x?.nepali??x?.ne??""):"").filter(Boolean).join("\\n\\n"))
+      english:String(english||sections.map(x=>typeof x==="string"?x:(x?.english??x?.en??x?.content??"")).filter(Boolean).join("\n\n")),
+      nepali:String(nepali||sections.map(x=>typeof x==="object"?(x?.nepali??x?.ne??""):"").filter(Boolean).join("\n\n"))
     };
   }
   function renderBMLTGuide(){
