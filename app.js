@@ -256,7 +256,7 @@ function showTab(tab,fromBrowserBack=false){
   }
   document.body.classList.toggle("study-screen-open",tab!=="home");
   const facultyBack=$("#facultyBackButton");if(facultyBack)facultyBack.classList.toggle("hidden",tab==="home");
-  $(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
   document.querySelectorAll("[data-bottom-nav]").forEach(item=>{const key=item.dataset.bottomNav;const active=(key==="notes"&&tab==="notes")||(key==="practice"&&(tab==="practice"||tab==="mock"))||(key==="courses"&&document.body.dataset.appPage==="faculty");item.classList.toggle("is-active",active);if(active)item.setAttribute("aria-current","page");else item.removeAttribute("aria-current");});
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
