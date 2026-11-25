@@ -690,35 +690,44 @@
  function noteCards(list){return list.map(n=>'<article class="ha-note"><h4>'+n[0]+'</h4><p>'+n[1]+'</p><p class="np">'+n[2]+'</p></article>').join("");}
  function renderHAGuide(list){
   const host=root.querySelector("#haNotesResults");if(!host)return;
-  if(!window.DHPNStudyGuide){host.innerHTML=noteCards(list);return;}
-  host.innerHTML=window.DHPNStudyGuide.render({
-   title:"PCL General Medicine (HA) • सामान्य चिकित्सा",
-   notes:list.map(n=>({title:n[0],en:n[1],ne:n[2]})),
-   points:[
-    {title:"ABCDE in emergency",en:"Airway, Breathing, Circulation, Disability, Exposure. Call for help and treat life threats first.",ne:"Airway, Breathing, Circulation, Disability, Exposure—सहयोग बोलाउनुहोस् र ज्यान जोखिमका समस्या पहिले सम्हाल्नुहोस्।"},
-    {title:"Vital signs",en:"Measure temperature, pulse, respiratory rate and blood pressure correctly; add SpO₂ when indicated and repeat abnormal readings.",ne:"तापक्रम, नाडी, श्वासदर र रक्तचाप सही विधिले मापन गर्नुहोस्; आवश्यकताअनुसार SpO₂ र असामान्य नतिजा पुनः जाँच्नुहोस्।"},
-    {title:"Danger signs",en:"Severe breathing difficulty, altered consciousness, shock, convulsions, major bleeding or neonatal danger signs need urgent assessment/referral.",ne:"सास कष्ट, चेतना परिवर्तन, shock, दौरा, धेरै रक्तस्राव वा नवजात खतरा संकेतमा तुरुन्त मूल्याङ्कन/referral।"},
-    {title:"Clinical documentation",en:"Record history, objective findings, units, time, treatment, response and referral; maintain confidentiality.",ne:"इतिहास, वस्तुगत निष्कर्ष, एकाइ, समय, उपचार, प्रतिक्रिया र referral लेख्नुहोस्; गोपनीयता कायम गर्नुहोस्।"},
-    {title:"Scope and safe medicines",en:"Use current national protocols and authorized prescriptions; verify allergy, dose, route, contraindications and interactions.",ne:"हालको राष्ट्रिय protocol र अधिकृत prescription पालना गर्नुहोस्; एलर्जी, मात्रा, मार्ग, निषेध र interaction जाँच्नुहोस्।"}
-   ],
-   tricks:[
-    {title:"ABCDE",en:"A-Airway • B-Breathing • C-Circulation • D-Disability • E-Exposure.",ne:"आपतकालीन प्राथमिक मूल्याङ्कनको क्रम सम्झनुहोस्।"},
-    {title:"Incidence vs prevalence",en:"Incidence = NEW cases; Prevalence = ALL existing cases.",ne:"Incidence = नयाँ केस; Prevalence = भएका सबै केस।"},
-    {title:"Shock clues",en:"Think: altered mentation + weak/rapid pulse + cool clammy skin; hypotension can be late.",ne:"चेतना परिवर्तन, कमजोर/छिटो नाडी र चिसो पसिनायुक्त छाला; hypotension ढिलो देखिन सक्छ।"},
-    {title:"Vital signs",en:"T-P-R-BP: Temperature, Pulse, Respiratory rate, Blood pressure.",ne:"तापक्रम, नाडी, श्वासदर, रक्तचाप।"}
-   ],
-   diagrams:[
-    {title:"ABCDE primary survey",en:"Initial assessment sequence",html:'<svg viewBox="0 0 300 170" role="img" aria-label="ABCDE assessment"><g font-family="Arial" font-size="12" text-anchor="middle" fill="#17435b"><rect x="70" y="5" width="160" height="26" rx="7" fill="#e0f2fe" stroke="#0284c7"/><text x="150" y="22">A • Airway</text><path d="M150 31v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="41" width="160" height="26" rx="7" fill="#dcfce7" stroke="#16a34a"/><text x="150" y="58">B • Breathing</text><path d="M150 67v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="77" width="160" height="26" rx="7" fill="#fef3c7" stroke="#d97706"/><text x="150" y="94">C • Circulation</text><path d="M150 103v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="113" width="160" height="26" rx="7" fill="#f3e8ff" stroke="#9333ea"/><text x="150" y="130">D • Disability</text><text x="150" y="158">E • Exposure</text></g></svg>'},
-    {title:"Incidence and prevalence",en:"New cases during a period versus all existing cases.",html:'<svg viewBox="0 0 300 90" role="img" aria-label="Incidence and prevalence"><g font-family="Arial" font-size="12" text-anchor="middle" fill="#17435b"><rect x="5" y="8" width="140" height="70" rx="8" fill="#e0f2fe" stroke="#0284c7"/><text x="75" y="29">INCIDENCE</text><text x="75" y="48">New cases</text><text x="75" y="64">over time</text><rect x="155" y="8" width="140" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/><text x="225" y="29">PREVALENCE</text><text x="225" y="48">All existing</text><text x="225" y="64">cases</text></g></svg>'}
-   ],
-   examples:[
-    {title:"Patient with chest pain",en:"Assess ABCDE and vital signs, seek urgent help for suspected acute coronary syndrome, monitor and refer without delay.",ne:"ABCDE र vital signs जाँच्नुहोस्; ACS शंका भए तत्काल सहायता, निगरानी र referral गर्नुहोस्।"},
-    {title:"Child with danger sign",en:"Poor feeding, convulsion or difficult breathing requires rapid assessment using current IMNCI guidance and urgent referral.",ne:"दूध नखाने, दौरा वा गाह्रो श्वासमा हालको IMNCI अनुसार शीघ्र जाँच र referral।"},
-    {title:"Community health survey",en:"Define the population and case definition, collect reliable data, calculate indicators, prioritize problems with community participation and plan follow-up.",ne:"जनसंख्या र case definition स्पष्ट गरी तथ्याङ्क संकलन, सूचक गणना, समुदायसँग प्राथमिकता र follow-up योजना बनाउनुहोस्।"}
-   ]
-  });
+  const fallback=()=>noteCards(list);
+  try{
+   if(!window.DHPNStudyGuide){host.innerHTML=fallback();return;}
+   const html=window.DHPNStudyGuide.render({
+    title:"PCL General Medicine (HA) • सामान्य चिकित्सा",
+    notes:list.map(n=>({title:n[0],en:n[1],ne:n[2]})),
+    points:[
+     {title:"ABCDE in emergency",en:"Airway, Breathing, Circulation, Disability, Exposure. Call for help and treat life threats first.",ne:"Airway, Breathing, Circulation, Disability, Exposure—सहयोग बोलाउनुहोस् र ज्यान जोखिमका समस्या पहिले सम्हाल्नुहोस्।"},
+     {title:"Vital signs",en:"Measure temperature, pulse, respiratory rate and blood pressure correctly; add SpO₂ when indicated and repeat abnormal readings.",ne:"तापक्रम, नाडी, श्वासदर र रक्तचाप सही विधिले मापन गर्नुहोस्; आवश्यकताअनुसार SpO₂ र असामान्य नतिजा पुनः जाँच्नुहोस्।"},
+     {title:"Danger signs",en:"Severe breathing difficulty, altered consciousness, shock, convulsions, major bleeding or neonatal danger signs need urgent assessment/referral.",ne:"सास कष्ट, चेतना परिवर्तन, shock, दौरा, धेरै रक्तस्राव वा नवजात खतरा संकेतमा तुरुन्त मूल्याङ्कन/referral।"},
+     {title:"Clinical documentation",en:"Record history, objective findings, units, time, treatment, response and referral; maintain confidentiality.",ne:"इतिहास, वस्तुगत निष्कर्ष, एकाइ, समय, उपचार, प्रतिक्रिया र referral लेख्नुहोस्; गोपनीयता कायम गर्नुहोस्।"},
+     {title:"Scope and safe medicines",en:"Use current national protocols and authorized prescriptions; verify allergy, dose, route, contraindications and interactions.",ne:"हालको राष्ट्रिय protocol र अधिकृत prescription पालना गर्नुहोस्; एलर्जी, मात्रा, मार्ग, निषेध र interaction जाँच्नुहोस्।"}
+    ],
+    tricks:[
+     {title:"ABCDE",en:"A-Airway • B-Breathing • C-Circulation • D-Disability • E-Exposure.",ne:"आपतकालीन प्राथमिक मूल्याङ्कनको क्रम सम्झनुहोस्।"},
+     {title:"Incidence vs prevalence",en:"Incidence = NEW cases; Prevalence = ALL existing cases.",ne:"Incidence = नयाँ केस; Prevalence = भएका सबै केस।"},
+     {title:"Shock clues",en:"Think: altered mentation + weak/rapid pulse + cool clammy skin; hypotension can be late.",ne:"चेतना परिवर्तन, कमजोर/छिटो नाडी र चिसो पसिनायुक्त छाला; hypotension ढिलो देखिन सक्छ।"},
+     {title:"Vital signs",en:"T-P-R-BP: Temperature, Pulse, Respiratory rate, Blood pressure.",ne:"तापक्रम, नाडी, श्वासदर, रक्तचाप।"}
+    ],
+    diagrams:[
+     {title:"ABCDE assessment",html:'<svg viewBox="0 0 300 170" role="img" aria-label="ABCDE assessment flow"><g font-family="Arial" font-size="12" text-anchor="middle" fill="#17435b"><rect x="70" y="5" width="160" height="26" rx="7" fill="#dbeafe" stroke="#2563eb"/><text x="150" y="22">A • Airway</text><path d="M150 31v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="41" width="160" height="26" rx="7" fill="#e0f2fe" stroke="#0284c7"/><text x="150" y="58">B • Breathing</text><path d="M150 67v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="77" width="160" height="26" rx="7" fill="#fef3c7" stroke="#d97706"/><text x="150" y="94">C • Circulation</text><path d="M150 103v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="113" width="160" height="26" rx="7" fill="#f3e8ff" stroke="#9333ea"/><text x="150" y="130">D • Disability</text><text x="150" y="158">E • Exposure</text></g></svg>'},
+     {title:"Incidence and prevalence",en:"New cases during a period versus all existing cases.",html:'<svg viewBox="0 0 300 90" role="img" aria-label="Incidence and prevalence"><g font-family="Arial" font-size="12" text-anchor="middle" fill="#17435b"><rect x="5" y="8" width="140" height="70" rx="8" fill="#e0f2fe" stroke="#0284c7"/><text x="75" y="29">INCIDENCE</text><text x="75" y="48">New cases</text><text x="75" y="64">over time</text><rect x="155" y="8" width="140" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/><text x="225" y="29">PREVALENCE</text><text x="225" y="48">All existing</text><text x="225" y="64">cases</text></g></svg>'}
+    ],
+    examples:[
+     {title:"Patient with chest pain",en:"Assess ABCDE and vital signs, seek urgent help for suspected acute coronary syndrome, monitor and refer without delay.",ne:"ABCDE र vital signs जाँच्नुहोस्; ACS शंका भए तत्काल सहायता, निगरानी र referral गर्नुहोस्।"},
+     {title:"Child with danger sign",en:"Poor feeding, convulsion or difficult breathing requires rapid assessment using current IMNCI guidance and urgent referral.",ne:"दूध नखाने, दौरा वा गाह्रो श्वासमा हालको IMNCI अनुसार शीघ्र जाँच र referral।"},
+     {title:"Community health survey",en:"Define the population and case definition, collect reliable data, calculate indicators, prioritize problems with community participation and plan follow-up.",ne:"जनसंख्या र case definition स्पष्ट गरी तथ्याङ्क संकलन, सूचक गणना, समुदायसँग प्राथमिकता र follow-up योजना बनाउनुहोस्।"}
+    ]
+   });
+   host.innerHTML=html;
+   if(!host.innerHTML.trim()||!host.querySelector(".dhsg-card"))host.innerHTML=fallback();
+  }catch(error){
+   console.error("HA Study Guide renderer failed; showing notes fallback",error);
+   host.innerHTML=fallback();
+  }
+  if(!list.length)host.innerHTML='<p class="ha-empty-notes">यो खोजसँग मिल्ने Notes भेटिएनन्। Search शब्द परिवर्तन गर्नुहोस्।</p>';
  }
- function showNotes(){panel('<h3>विस्तृत अध्ययन Notes</h3><p class="muted">English concept + नेपाली व्याख्या • Clinical safety focus</p><input id="haNotesSearch" type="search" placeholder="Notes खोज्नुहोस् — English वा नेपाली" aria-label="Search HA notes"><p id="haNotesCount" class="muted">कुल '+notes.length+' वटा Notes</p><div id="haNotesResults"></div><button data-ha="menu" class="smallbtn">← मुख्य मेनु</button>');renderHAGuide(notes);}
+ function showNotes(){panel('<div class="ha-study-toolbar" aria-label="HA study navigation"><button data-ha="notes">📚 Notes</button><button data-ha="practice">🧠 MCQ</button><button data-ha="timed">⏱️ Timed</button><button data-ha="mock">📝 Mock Test</button><button data-ha="menu">← मुख्य मेनु</button></div><h3>विस्तृत अध्ययन Notes</h3><p class="muted">English concept + नेपाली व्याख्या • Clinical safety focus</p><input id="haNotesSearch" type="search" placeholder="Notes खोज्नुहोस् — English वा नेपाली" aria-label="Search HA notes"><p id="haNotesCount" class="muted">कुल '+notes.length+' वटा Notes</p><div id="haNotesResults"></div>');renderHAGuide(notes);}
  function start(mode){
   clearInterval(state.timer);state.mode=mode;state.index=0;state.answers={};
   const pool=mockQ;const size=mode==="timed"?Math.min(10,pool.length):Math.min(100,pool.length);
