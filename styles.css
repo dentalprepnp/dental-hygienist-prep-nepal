@@ -1446,3 +1446,8 @@ body[data-app-page="profile"] main>section{margin-top:14px}
 .ha-study-toolbar button:hover{border-color:var(--blue);background:var(--bg)}
 .ha-empty-notes{padding:14px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:13px}
 @media(max-width:520px){.ha-study-toolbar{gap:4px}.ha-study-toolbar button{font-size:10px;padding:9px 3px}}
+
+/* HA Notes: force the study cards to remain visible on desktop and mobile. */
+#haView #haContent #haNotesResults.ha-notes-results{display:grid!important;visibility:visible!important;opacity:1!important;min-height:40px;gap:10px;}
+#haView #haContent #haNotesResults .ha-note{display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;height:auto!important;max-height:none!important;overflow:visible!important;}
+#haView #haContent #haNotesResults .ha-note p{display:block!important;visibility:visible!important;}
