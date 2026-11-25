@@ -1309,7 +1309,7 @@
    const quotas=[["Anatomy & Physiology",10],["Community Health",25],["General Medicine",25],["Pharmacology & Pharmacy",10],["General Surgery",25],["Clinical Pathology",5]];
    const shortages=[];
    source=quotas.flatMap(([topic,count])=>{
-    const candidates=mockQ.filter(q=>topic==="Pharmacology & Pharmacy"?(q[6]==="Pharmacology"||q[6]==="Pharmacology & Pharmacy"):q[6]===topic);
+    const candidates=practiceQ.concat(mockQ).filter(q=>topic==="Pharmacology & Pharmacy"?(q[6]==="Pharmacology"||q[6]==="Pharmacology & Pharmacy"):q[6]===topic);
     if(candidates.length<count)shortages.push(topic+" ("+candidates.length+"/"+count+")");
     return candidates.slice().sort((a,b)=>{const hash=q=>{let x=2166136261;for(const c of (String(state.setNo)+"|"+q[0])){x^=c.charCodeAt(0);x=Math.imul(x,16777619);}return x>>>0;};return hash(a)-hash(b);}).slice(0,count);
    });
