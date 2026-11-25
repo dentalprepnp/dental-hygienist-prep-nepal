@@ -8,14 +8,18 @@
   const list = items => (items || []).map(item =>
     `<li>${typeof item === "string" ? esc(item) : `<b>${esc(item.title || "")}</b> ${esc(item.text || "")}`}</li>`
   ).join("");
-  const cards = (items, kind) => (items || []).map(item => `
+  const cards = (items, kind) => (items || []).map(item => {
+    if (typeof item === "string") return `<article class="dhsg-card"><p>${esc(item)}</p></article>`;
+    const diagram = kind === "diagram" ? (item.html || item.svg || "") : "";
+    return `
     <article class="dhsg-card">
-      <h4>${esc(item.title || "")}</h4>
+      ${item.title ? `<h4>${esc(item.title)}</h4>` : ""}
       ${item.en ? `<p>${esc(item.en)}</p>` : ""}
       ${item.ne ? `<p class="dhsg-ne">${esc(item.ne)}</p>` : ""}
       ${item.items ? `<ul>${list(item.items)}</ul>` : ""}
-      ${kind === "diagram" && item.html ? `<div class="dhsg-diagram">${item.html}</div>` : ""}
-    </article>`).join("");
+      ${diagram ? `<div class="dhsg-diagram">${diagram}</div>` : ""}
+    </article>`;
+  }).join("");
   function render(data) {
     const d = data || {};
     return `
