@@ -678,16 +678,24 @@
    /* Load the module first, then use the app's single canonical faculty router.
       Do not redispatch the original click: that used to run two competing
       navigation paths and could leave a faculty panel hidden or blank. */
+   const view=document.getElementById(key+"View");
    if(typeof window.showTab==="function")window.showTab(key);
-   if(key==="ha"&&typeof window.ensureHAMenu==="function")window.ensureHAMenu();
-   else{
-    const view=document.getElementById(key+"View");
-    if(view){
-     document.querySelectorAll(".view").forEach(v=>{v.classList.add("hidden");v.style.removeProperty("display");v.setAttribute("aria-hidden","true");});
-     view.classList.remove("hidden");view.style.display="block";view.setAttribute("aria-hidden","false");
-     document.body.dataset.appPage="faculty";document.body.classList.add("study-screen-open");
-     window.scrollTo({top:0,left:0,behavior:"auto"});view.scrollIntoView({behavior:"auto",block:"start"});
+   else if(view){
+    document.querySelectorAll(".view").forEach(v=>{v.classList.add("hidden");v.style.removeProperty("display");v.setAttribute("aria-hidden","true");});
+    view.classList.remove("hidden");view.style.display="block";view.setAttribute("aria-hidden","false");
+    document.body.dataset.appPage="faculty";document.body.classList.add("study-screen-open");
+   }
+   if(view&&key==="ha"){
+    view.classList.remove("hidden");view.style.display="block";view.setAttribute("aria-hidden","false");
+    const content=view.querySelector("#haContent");
+    if(typeof window.ensureHAMenu==="function"){
+     const ready=window.ensureHAMenu();
+     if(!ready&&content)content.innerHTML='<div class="notice"><h3>HA मेनु तयार हुन सकेन</h3><p>पेजको script मा समस्या भेटियो। यो सूचना देखिएमा screenshot पठाउनुहोस्।</p></div>';
+    }else if(content&&!content.innerHTML.trim()){
+     content.innerHTML='<div class="notice"><h3>HA अध्ययन सामग्री लोड भएन</h3><p>HA module सुरु हुन सकेन। कृपया internet जाँचेर refresh गर्नुहोस्।</p></div>';
     }
+    document.body.dataset.appPage="faculty";document.body.classList.add("study-screen-open");
+    window.scrollTo({top:0,left:0,behavior:"auto"});view.scrollIntoView({behavior:"auto",block:"start"});
    }
   }else{
    target.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true,view:window}));
