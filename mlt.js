@@ -514,14 +514,14 @@ Q.push(...microbiologyAdvancedCaseBatch1); practiceQ.push(...microbiologyAdvance
   const bank=allBank(),seed=7300+setNo*7919;
   if(count!==100)return seededShuffle(bank,seed).slice(0,Math.min(count,bank.length));
   const blueprint=[
-   {tags:["Biochemistry","Clinical Biochemistry"],n:20},
+   {tags:["Biochemistry","Clinical Biochemistry","Clinical Biochemistry Calculations","Clinical Biochemistry & QC"],n:20},
    {tags:["Haematology","Clinical Haematology"],n:20},
-   {tags:["Microbiology","Clinical Microbiology and Immunology","Bacteriology","Mycology","Immunology","Serology"],n:20},
+   {tags:["Microbiology","Clinical Microbiology and Immunology","Bacteriology","Mycology","Immunology","Serology","Virology","Clinical Microbiology","Clinical Microbiology & AST","Clinical Microbiology & Specimen Collection","Clinical Microbiology & AST Quality"],n:20},
    {tags:["Histopathology","Cytology","Histo/Cytopathological Techniques"],n:10},
    {tags:["Anatomy & Physiology","Anatomy and Physiology"],n:10},
    {tags:["Parasitology","Clinical Parasitology"],n:5},
    {tags:["Instrumentation","Instrumentation and Automation"],n:5},
-   {tags:["Blood Banking"],n:5},
+   {tags:["Blood Banking","Blood Banking & Compatibility","Blood Banking & Transfusion Reactions"],n:5},
    {tags:["Pathology","Clinical Pathology","Laboratory Management","Quality Control","Laboratory Safety"],n:5}
   ];
   const selected=[];
