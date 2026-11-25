@@ -689,13 +689,11 @@ Q.push(...microbiologyAdvancedCaseBatch1); practiceQ.push(...microbiologyAdvance
   const practicalTerms=/microscop|objective|focus|centrifug|pipette|pipettor|spectrophot|colorimeter|autoclave|steriliz|gram stain|staining|culture|colony|agar|biochemical|oxidase|catalase|coagulase|kirby|susceptibility|mic|blood group|crossmatch|transfusion|blood film|blood smear|reticulocyte|haemocytometer|hemocytometer|urine|stool|ova|parasite|malaria|sputum|specimen|collection|transport|fixation|embedding|microtome|histopath|cytology|fnac|quality control|calibration|biosafety|spill|sharps|haemolysis|hemolysis|rbc|wbc|platelet/i;
   const visual=bank.filter(q=>!!q[8]);
   const practical=bank.filter(q=>practicalTerms.test(String(q[0])+" "+String(q[6]||"")));
-  const merged=Array.from(new Map([...visual,...practical,...bank].map(q=>[q[0],q])).values());
-  if(merged.length<100)throw new Error("Practical mock needs at least 100 unique questions; currently "+merged.length);
-  const seed=seededShuffle(merged,20261125);
-  const chosen=seed.slice(0,100);
-  // Ensure all available diagram/image questions are represented in the practical mock.
-  visual.forEach((q,i)=>{if(i<chosen.length&&!chosen.some(x=>x[0]===q[0]))chosen[chosen.length-1-i]=q});
-  return seededShuffle(chosen,20261125^0x45d9f3b);
+  const seed=20261125;
+  const chosen=Array.from(new Map([...visual,...seededShuffle(practical,seed),...seededShuffle(bank,seed^0x27d4eb2d)].map(q=>[q[0],q])).values()).slice(0,100);
+  if(chosen.length<100)throw new Error("Practical mock needs 100 unique questions; currently "+chosen.length);
+  // Image/diagram questions are placed first before the complete set is shuffled.
+  return seededShuffle(chosen,seed^0x45d9f3b);
  }
  function start(mode,setNo=1){clearInterval(state.timer);state.mode=mode;state.setNo=setNo;state.index=0;state.answers={};state.items=mode==="timed"?seededShuffle(allBank(),Date.now()).slice(0,10):mode==="practical"?pickMLTPracticalSet():pickMLTSet(setNo,100);state.left=mode==="timed"?600:3600;renderQuestion();if(mode!=="weak")state.timer=setInterval(()=>{state.left--;const el=root.querySelector("#mltTimer");if(el)el.textContent=fmt(state.left);if(state.left<=0)finish(true)},1000)}
  function renderQuestion(){const q=state.items[state.index],selected=state.answers[state.index],unanswered=state.items.filter((_,i)=>state.answers[i]===undefined).length;panel(screenBack()+'<div class="ha-test-head"><span>'+(state.mode==="timed"?"TIMED PRACTICE":state.mode==="weak"?"WEAK TOPIC PRACTICE":state.mode==="practical"?"PRACTICAL + IMAGE MOCK — 100 QUESTIONS":"MOCK SET "+state.setNo+" — 100 QUESTIONS")+' • '+(state.index+1)+'/'+state.items.length+'</span><b id="mltTimer">'+(state.mode==="weak"?"—":fmt(state.left))+'</b></div><div class="ha-progress"><span style="width:'+((state.index+1)/state.items.length*100)+'%"></span></div><article class="ha-question"><small>'+esc(q[6]||"MLT")+'</small><h3>'+esc(q[0])+'</h3><p class="np">'+esc(q[1])+'</p>'+questionVisualHTML(q)+'<div class="ha-options">'+q[2].map((o,i)=>'<button class="'+(selected===i?"selected":"")+'" data-mlt-option="'+i+'">'+String.fromCharCode(65+i)+'. '+esc(o)+'</button>').join("")+'</div></article><div class="ha-nav"><button data-mlt-prev '+(state.index===0?"disabled":"")+'>← Previous</button><button data-mlt-next '+(state.index===state.items.length-1&&unanswered>0?"disabled":"")+'>'+(state.index===state.items.length-1?"Submit Test":"Next →")+'</button></div><p class="muted">'+unanswered+' प्रश्नको उत्तर दिन बाँकी</p>')}
