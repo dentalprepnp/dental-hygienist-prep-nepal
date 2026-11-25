@@ -110,6 +110,23 @@
     {title:"Blood collection tubes: common additives",english:"EDTA is commonly used for CBC; sodium citrate for coagulation tests with a correct blood-to-additive ratio; heparin for selected chemistry tests; fluoride-containing tubes may help preserve glucose according to local methods. Follow the current tube guide and order of draw.",nepali:"CBC मा EDTA, coagulation मा सही blood:additive ratio सहित sodium citrate, केही chemistry मा heparin र glucose preservation का लागि स्थानीय विधिअनुसार fluoride tube प्रयोग हुन सक्छ। हालको tube guide र order of draw पालना गर्नुहोस्।"},
     {title:"Laboratory result verification and critical values",english:"Check patient identity, specimen suitability, units, reference interval, instrument flags and delta/previous results when available. Critical values require prompt communication to an authorized clinician, read-back when required, and documentation of time, recipient and action.",nepali:"Patient identity, नमुनाको उपयुक्तता, unit, reference interval, instrument flag र उपलब्ध भए previous/delta result जाँच्नुहोस्। Critical value अधिकृत clinician लाई तुरुन्त जानकारी दिनुहोस्; आवश्यक read-back गरी समय, प्राप्तकर्ता र action अभिलेख गर्नुहोस्।"}
   );
+  const localFallbackQuestions=[
+    {question:"Which anticoagulant is commonly used for CBC?",translation:"CBC का लागि सामान्यतया कुन anticoagulant प्रयोग हुन्छ?",options:["EDTA","Sodium citrate","Plain tube","Fluoride oxalate"],correctIndex:0,explanation:"EDTA preserves blood cell morphology and is commonly used for CBC.",explanationNe:"EDTA ले रक्तकोषको बनावट जोगाउँछ र CBC मा सामान्यतया प्रयोग हुन्छ।"},
+    {question:"Which tube is commonly used for PT/INR testing?",translation:"PT/INR परीक्षणमा कुन tube सामान्यतया प्रयोग हुन्छ?",options:["EDTA","Sodium citrate","Heparin","Fluoride"],correctIndex:1,explanation:"Citrate binds calcium reversibly; maintain the correct blood-to-citrate ratio.",explanationNe:"Citrate ले calcium लाई reversible रूपमा बाँध्छ; सही blood:citrate ratio आवश्यक हुन्छ।"},
+    {question:"What is the first step when receiving a specimen?",translation:"नमुना प्राप्त गर्दा पहिलो कदम के हो?",options:["Run the test immediately","Verify patient identifiers and label","Centrifuge every sample","Discard the request form"],correctIndex:1,explanation:"Match at least two identifiers and specimen label with the request.",explanationNe:"कम्तीमा दुई patient identifier र specimen label request सँग मिलाउनुहोस्।"},
+    {question:"Gram-positive bacteria usually appear which color after Gram staining?",translation:"Gram staining पछि Gram-positive bacteria सामान्यतया कुन रङ देखिन्छ?",options:["Green","Purple","Yellow","Colorless"],correctIndex:1,explanation:"Gram-positive cell walls retain crystal violet-iodine complex and appear purple.",explanationNe:"Gram-positive ले crystal violet-iodine complex राख्ने भएकाले बैजनी देखिन्छ।"},
+    {question:"What is the correct Gram stain sequence?",translation:"Gram stain को सही क्रम कुन हो?",options:["Safranin, iodine, crystal violet, alcohol","Crystal violet, iodine, decolorizer, safranin","Iodine, safranin, alcohol, crystal violet","Alcohol, crystal violet, safranin, iodine"],correctIndex:1,explanation:"The common sequence is crystal violet → iodine → decolorizer → safranin.",explanationNe:"सामान्य क्रम: Crystal violet → Iodine → Decolorizer → Safranin।"},
+    {question:"Which method uses steam under pressure for sterilization?",translation:"Sterilization का लागि pressure सहित steam कुन विधिमा प्रयोग हुन्छ?",options:["Hot air oven","Autoclave","Incubator","Water bath"],correctIndex:1,explanation:"Autoclaving uses a validated moist-heat cycle under pressure.",explanationNe:"Autoclave मा pressure सहित moist heat को प्रमाणित cycle प्रयोग हुन्छ।"},
+    {question:"Which blood film is generally more useful for detecting malaria parasites?",translation:"Malaria parasite पत्ता लगाउन कुन blood film बढी उपयोगी हुन्छ?",options:["Thick film","Thin film only","Buffy coat only","No blood film"],correctIndex:0,explanation:"Thick film concentrates blood and improves parasite detection; thin film helps species identification.",explanationNe:"Thick film मा रगत concentrate हुन्छ र parasite detection राम्रो हुन्छ; thin film species छुट्याउन उपयोगी हुन्छ।"},
+    {question:"Which stain is routinely used to demonstrate tissue architecture in histology?",translation:"Histology मा tissue architecture देखाउन कुन stain नियमित प्रयोग हुन्छ?",options:["Gram stain","Hematoxylin and eosin","Ziehl-Neelsen only","India ink"],correctIndex:1,explanation:"H&E is a routine stain: hematoxylin colors nuclei blue-purple and eosin colors cytoplasm pink.",explanationNe:"H&E routine stain हो; hematoxylin ले nucleus निलो-बैजनी र eosin ले cytoplasm गुलाबी बनाउँछ।"},
+    {question:"Which test is commonly used to assess the erythrocyte sedimentation rate?",translation:"ESR जाँच्न कुन परीक्षण प्रयोग हुन्छ?",options:["Westergren method","Kirby-Bauer method","Coombs test","Gram stain"],correctIndex:0,explanation:"The Westergren method is a commonly used standardized ESR method.",explanationNe:"Westergren विधि ESR मापनको सामान्य standardized method हो।"},
+    {question:"What does sensitivity measure?",translation:"Sensitivity ले के मापन गर्छ?",options:["True negatives among healthy people","True positives among people with disease","All false positives","Disease prevalence only"],correctIndex:1,explanation:"Sensitivity = true positives / all people who have the disease.",explanationNe:"Sensitivity = रोग भएका सबैमध्ये true positive को अनुपात।"},
+    {question:"Which specimen issue can falsely increase potassium?",translation:"कुन नमुना समस्याले potassium झुटो बढाउन सक्छ?",options:["Hemolysis","Correct fasting","Proper labeling","Light protection"],correctIndex:0,explanation:"Hemolysis releases intracellular potassium and may cause pseudohyperkalemia.",explanationNe:"Hemolysis हुँदा कोषभित्रको potassium बाहिर निस्केर झुटो बढ्न सक्छ।"},
+    {question:"What should be done when internal QC is out of acceptable range?",translation:"Internal QC स्वीकार्य सीमाभन्दा बाहिर भए के गर्नुपर्छ?",options:["Release patient results","Ignore the control","Hold affected results and investigate","Change patient result manually"],correctIndex:2,explanation:"Do not release affected results until the cause is investigated and QC is acceptable.",explanationNe:"कारण खोजी QC स्वीकार्य नहुँदासम्म प्रभावित patient result release नगर्नुहोस्।"},
+    {question:"Serum is obtained from blood that has:",translation:"Serum कुन रगतबाट प्राप्त हुन्छ?",options:["Been anticoagulated","Clotted and then separated","Been mixed with EDTA","Been diluted with saline"],correctIndex:1,explanation:"Serum is the liquid portion after clotting; plasma is obtained from anticoagulated blood.",explanationNe:"रगत जमिसकेपछि छुट्याइएको तरल serum हो; anticoagulant भएको रगतबाट plasma प्राप्त हुन्छ।"},
+    {question:"Which PCR step allows primers to bind the target sequence?",translation:"PCR मा primer लक्षित sequence सँग कुन चरणमा जोडिन्छ?",options:["Denaturation","Annealing","Extension","Fixation"],correctIndex:1,explanation:"During annealing, primers bind complementary target sequences.",explanationNe:"Annealing चरणमा primer complementary target sequence सँग जोडिन्छ।"},
+    {question:"What is the key safety action if a transfusion reaction is suspected?",translation:"Transfusion reaction शंका भए मुख्य safety action के हो?",options:["Increase the flow rate","Stop transfusion and follow protocol","Discard all records","Restart immediately"],correctIndex:1,explanation:"Stop the transfusion immediately and activate the institution's reaction protocol.",explanationNe:"Transfusion तुरुन्त रोक्नुहोस् र संस्थाको reaction protocol सुरु गर्नुहोस्।"}
+  ];
   function renderBMLTGuide(){
     const host=document.getElementById("bmltStudyGuide");
     if(!host)return;
@@ -201,6 +218,16 @@
     document.getElementById("bmltReview").addEventListener("click",()=>{document.getElementById("bmltReviewList").innerHTML=mock.map((q,i)=>`<article class="note answer-review ${ma[i]===q[3]?"review-correct":"review-wrong"}"><h3>${i+1}. ${q[0]}</h3><p class="translation">${q[1]}</p><p>तपाईंको उत्तर: <b>${ma[i]===undefined?"उत्तर नदिएको":q[2][ma[i]]}</b></p><p><b>सही उत्तर: ${q[2][q[3]]}</b></p><p>${q[4]}</p><p class="np">${q[5]}</p><span class="pill">${ma[i]===q[3]?"सही ✓":"गलत / अनुत्तरित"}</span></article>`).join("");});
     document.getElementById("bmltAgain").addEventListener("click",()=>{document.getElementById("bmltMockIntro").classList.remove("hidden");area.innerHTML="";mock=[];});
   }
+  function activateLocalFallback(message){
+    convertRows([]);
+    if(!practiceQuestions.length)practiceQuestions=localFallbackQuestions.map(shuffledQuestion).filter(Boolean);
+    if(!mockBankQuestions.length)mockBankQuestions=practiceQuestions.map(q=>[q[0],q[1],[...q[2]],q[3],q[4],q[5]]);
+    showApp();
+    status.textContent=message;
+    status.dataset.kind="warning";
+    status.classList.remove("hidden");
+    addRetryButton("Cloud सामग्री फेरि Load गर्नुहोस्");
+  }
   async function performSecureContentLoad(){
     status.replaceChildren();
     statusMessage("BMLT सामग्री लोड हुँदैछ...");
@@ -214,9 +241,9 @@
       const {data:sessionData,error:sessionError}=await client.auth.getSession();
       if(sessionError)throw new Error("Session: "+sessionError.message);
       if(!sessionData?.session?.user){
-        statusMessage("BMLT सामग्री हेर्न पहिले Login गर्नुहोस्।","warning");
+        activateLocalFallback("Login नभएकाले cloud प्रश्नहरू उपलब्ध छैनन्। तलका BMLT Notes र १५ वटा स्थानीय अभ्यास MCQ पढ्न सक्नुहुन्छ। Login गरेपछि cloud सामग्री पनि load गर्न सकिन्छ।");
         const btn=document.createElement("button");
-        btn.className="primary";btn.textContent="Login / Create Account";
+        btn.className="secondary";btn.textContent="Login / Create Account";
         btn.addEventListener("click",()=>{
           const panel=document.getElementById("accountPanel");
           panel?.classList.remove("hidden");
@@ -237,8 +264,8 @@
         throw new Error("RPC ले list फर्काएन। Supabase function को return type जाँच्नुहोस्।");
       }
       if(!data.length){
-        statusMessage("Login सफल छ, तर RPC ले BMLT का लागि कुनै row फर्काएन। Published/access_tier र get_learning_content function जाँच आवश्यक छ।","warning");
-        addRetryButton();return;
+        activateLocalFallback("Cloud database बाट BMLT rows आएनन्। त्यसैले Notes र १५ स्थानीय MCQ देखाइएको छ; cloud access/published rows छुट्टै जाँच्नुपर्छ।");
+        return;
       }
       const valid=data.filter(row=>row&&normalizeType(contentTypeOf(row))&&contentDataOf(row));
       if(!valid.length){
@@ -253,8 +280,7 @@
       contentLoaded=true;
     }catch(error){
       console.error("BMLT secure content load failed:",error);
-      statusMessage("BMLT load error: "+(error.message||String(error)),"error");
-      addRetryButton();
+      activateLocalFallback("Cloud BMLT load हुन सकेन। स्थानीय Notes र १५ अभ्यास MCQ देखाइएको छ। समस्या: "+(error.message||String(error)));
     }
   }
   function loadSecureContent(){
