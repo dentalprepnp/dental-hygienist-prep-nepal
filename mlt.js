@@ -113,7 +113,19 @@ const mockQ=Q.slice(Math.ceil(Q.length/2));
  function getPerformance(){try{const a=JSON.parse(localStorage.getItem(performanceKey)||"[]");return Array.isArray(a)?a:[]}catch(e){return[]}}
  function recordPerformance(details,mode,setNo){const sections={};details.forEach(d=>{const name=d.q[6]||"Other";if(!sections[name])sections[name]={correct:0,total:0};sections[name].total++;if(d.ok)sections[name].correct++});const a=getPerformance();a.push({date:Date.now(),mode,setNo,sections});try{localStorage.setItem(performanceKey,JSON.stringify(a.slice(-20)))}catch(e){}}
  const screenBack=()=>'<div class="ha-screen-back"><button type="button" data-mlt="menu">← MLT Faculty Menu</button></div>';
- function allBank(){return Array.from(new Map(practiceQ.concat(mockQ,Q).filter(q=>Array.isArray(q)&&q.length>=7&&Array.isArray(q[2])&&q[2].length===4&&Number.isInteger(q[3])&&q[3]>=0&&q[3]<4).map(q=>[q[0],q])).values())}
+ function allBank(){
+  const valid=practiceQ.concat(mockQ,Q).filter(q=>Array.isArray(q)&&q.length>=7&&Array.isArray(q[2])&&q[2].length===4&&Number.isInteger(q[3])&&q[3]>=0&&q[3]<4);
+  const uniqueStems=Array.from(new Map(valid.map(q=>[q[0],q])).values());
+  // Remove templated rewordings that test the exact same fact with identical explanations.
+  const seenLearningObjectives=new Set();
+  return uniqueStems.filter(q=>{
+   const explanation=String(q[4]||"").trim().toLowerCase().replace(/\\s+/g," ");
+   const nepali=String(q[5]||"").trim().replace(/\\s+/g," ");
+   const key=[String(q[6]||"").trim().toLowerCase(),explanation,nepali].join("|");
+   if(seenLearningObjectives.has(key))return false;
+   seenLearningObjectives.add(key);return true;
+  });
+ }
  function seededShuffle(input,seed){let x=(seed>>>0)||1;const rand=()=>{x=(x*1664525+1013904223)>>>0;return x/4294967296};const a=input.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
  function pickMLTSet(setNo,count=100){
   const bank=allBank(),seed=7300+setNo*7919;
