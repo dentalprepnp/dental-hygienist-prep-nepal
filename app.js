@@ -283,6 +283,11 @@ function showTab(tab,fromBrowserBack=false){
    const view=[...document.querySelectorAll(".view")].find(v=>!v.classList.contains("hidden")&&v.getAttribute("aria-hidden")!=="true");
    const moduleRoot=view&&view.querySelector("#ophthalmicContent,#haContent,#physiotherapyContent,#bmltContent,#dentalMaterialsContent");
    const target=moduleRoot||view;
+   if(moduleRoot&&moduleRoot.id==="haContent"){
+    const haMenu=moduleRoot.querySelector('[data-ha="menu"]');
+    const haSubpage=moduleRoot.querySelector(".ha-study-toolbar,#haNotesResults,.ha-question,.ha-result");
+    if(haMenu&&haSubpage){haMenu.click();return;}
+   }
    if(target){target.scrollIntoView({behavior:"smooth",block:"start"});return;}
   }
   if(history.state&&history.state.hlpTab&&history.state.hlpTab!=="home"&&history.length>1){history.back();return;}
