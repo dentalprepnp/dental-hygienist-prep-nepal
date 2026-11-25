@@ -131,36 +131,71 @@
     const host=document.getElementById("bmltStudyGuide");
     if(!host)return;
     const points=[
-      ["Specimen ID","Use two patient identifiers; match label and request form.","दुई patient identifier मिलाउनुहोस्; label र request form जाँच्नुहोस्।"],
-      ["CBC tube","EDTA is commonly used for CBC; mix gently as instructed.","CBC मा EDTA सामान्य; निर्देशनअनुसार बिस्तारै mix गर्नुहोस्।"],
-      ["Coagulation tube","Citrate for PT/INR and aPTT; fill to the mark.","PT/INR र aPTT मा citrate; mark सम्म भर्नुहोस्।"],
-      ["Gram stain","Gram-positive purple; Gram-negative pink/red.","Gram-positive बैजनी; Gram-negative गुलाबी/रातो।"],
-      ["Gram sequence","Crystal violet → iodine → decolorizer → safranin.","Crystal violet → iodine → decolorizer → safranin।"],
-      ["QC rule","If QC fails, hold affected results, investigate and document.","QC fail भए result रोक्नुहोस्, कारण खोज्नुहोस् र record गर्नुहोस्।"],
-      ["Malaria films","Thick film detects parasites; thin film helps species identification.","Thick film detection; thin film species छुट्याउन।"],
-      ["Histology H&E","Hematoxylin stains nuclei blue-purple; eosin stains cytoplasm pink.","Hematoxylin nucleus निलो-बैजनी; eosin cytoplasm गुलाबी।"],
-      ["PCR stages","Denaturation → annealing → extension.","Denaturation → annealing → extension।"],
-      ["Critical value","Verify per SOP, notify authorized clinician promptly, document.","SOP अनुसार verify, clinician लाई तुरुन्त notify र record गर्नुहोस्।"]
+      ["Specimen identification","Use at least two identifiers and match the tube label with the request form.","कम्तीमा दुई identifier मिलाउनुहोस् र tube label तथा request form जाँच्नुहोस्।"],
+      ["CBC specimen","EDTA whole blood is commonly used for CBC; gently invert as recommended.","CBC का लागि प्रायः EDTA whole blood; निर्देशनअनुसार बिस्तारै invert गर्नुहोस्।"],
+      ["Coagulation tests","Sodium citrate is used for PT/INR and aPTT; correct fill volume is essential.","PT/INR र aPTT मा sodium citrate; सही मात्रा भर्नु अत्यन्त आवश्यक।"],
+      ["Blood culture","Collect aseptically, preferably before antibiotics when clinically appropriate; send promptly.","Aseptic तरिकाले, उपयुक्त भए antibiotic अघि culture लिनुहोस् र तुरुन्त पठाउनुहोस्।"],
+      ["Gram stain result","Gram-positive bacteria appear purple; Gram-negative appear pink/red after counterstain.","Gram-positive बैजनी र Gram-negative गुलाबी/रातो देखिन्छ।"],
+      ["Gram stain order","Crystal violet → iodine → decolorizer → safranin.","Crystal violet → iodine → decolorizer → safranin।"],
+      ["Malaria microscopy","Thick film is more sensitive for detection; thin film helps species identification and parasitemia.","Thick film detection मा बढी संवेदनशील; thin film species र parasitemia बुझ्न।"],
+      ["Peripheral smear","A good smear has a feathered edge and a readable monolayer for morphology.","राम्रो smear मा feathered edge र morphology हेर्न मिल्ने monolayer हुन्छ।"],
+      ["Hematology indices","MCV classifies microcytic, normocytic and macrocytic patterns; correlate with Hb and smear.","MCV ले micro/normo/macrocytic pattern छुट्याउँछ; Hb र smear सँग मिलाएर हेर्नुहोस्।"],
+      ["Serum vs plasma","Serum is separated after clotting; plasma is separated from anticoagulated blood.","Clot भएपछि serum; anticoagulant भएको रगतबाट plasma।"],
+      ["QC failure","Hold affected patient results, investigate the cause, correct it and document before release.","QC fail भए result रोक्नुहोस्, कारण सुधार्नुहोस् र record गरेपछि मात्र release गर्नुहोस्।"],
+      ["Critical result","Verify according to SOP, promptly notify an authorized clinician and document communication.","SOP अनुसार पुष्टि गरी अधिकृत clinician लाई तुरुन्त जानकारी र अभिलेख गर्नुहोस्।"],
+      ["Urine microscopy","Examine a fresh, properly collected specimen; note cells, casts, crystals and organisms.","ताजा सही नमुना जाँच्नुहोस्; cells, casts, crystals र organisms टिप्नुहोस्।"],
+      ["Stool parasite exam","Use appropriate fresh/preserved stool and examine for ova, cysts and parasites as requested.","निर्देशनअनुसार fresh/preserved stool मा ova, cyst र parasite खोज्नुहोस्।"],
+      ["PCR principle","PCR amplifies a target nucleic-acid sequence; contamination control is crucial.","PCR ले target nucleic acid बढाउँछ; contamination control अत्यन्त महत्त्वपूर्ण।"],
+      ["Autoclave","Steam under pressure sterilizes; follow validated cycle and indicator/SOP requirements.","Pressure steam ले sterilize गर्छ; validated cycle र indicator/SOP पालना गर्नुहोस्।"],
+      ["Transfusion safety","Confirm patient identity, compatibility and component details at bedside per local protocol.","स्थानीय protocol अनुसार bedside मा patient ID, compatibility र component जाँच्नुहोस्।"],
+      ["Hemolysis","Hemolysis can falsely increase potassium and affect other analytes; assess specimen acceptability.","Hemolysis ले potassium झुटो बढाउन र अन्य analyte असर गर्न सक्छ; नमुना स्वीकार्यता जाँच्नुहोस्।"],
+      ["Sensitivity","Sensitivity = true positives / all diseased individuals.","Sensitivity = रोग भएका सबैमध्ये true positive।"],
+      ["Specificity","Specificity = true negatives / all non-diseased individuals.","Specificity = रोग नभएका सबैमध्ये true negative।"]
+    ];
+    const shortNotes=[
+      ["Pre-analytical phase","Patient preparation, collection, labeling and transport. Many avoidable lab errors occur here.","बिरामी तयारी, संकलन, labeling र transport। धेरै रोक्न सकिने त्रुटि यही चरणमा हुन्छ।"],
+      ["Analytical phase","Testing using validated method, calibrated equipment, suitable reagent and QC.","Validated विधि, calibrated उपकरण, सही reagent र QC सहित परीक्षण।"],
+      ["Post-analytical phase","Review, interpretation, critical notification, authorization and report delivery.","Review, व्याख्या, critical सूचना, authorization र report।"],
+      ["CBC essentials","Hb, RBC, Hct, RBC indices, WBC/differential and platelet count.","Hb, RBC, Hct, indices, WBC/differential र platelet count।"],
+      ["Anemia by MCV","Low MCV: microcytic; normal MCV: normocytic; high MCV: macrocytic.","MCV कम: microcytic; सामान्य: normocytic; बढी: macrocytic।"],
+      ["ABO basics","A antigen: anti-B in plasma; B antigen: anti-A; AB: both antigens; O: neither A nor B.","A मा anti-B; B मा anti-A; AB मा दुवै antigen; O मा A/B antigen हुँदैन।"],
+      ["Liver profile","Interpret ALT/AST, ALP, bilirubin, albumin and clinical context as a pattern.","ALT/AST, ALP, bilirubin, albumin र clinical context लाई pattern मा बुझ्नुहोस्।"],
+      ["Renal profile","Creatinine, urea and eGFR support kidney assessment; interpret with patient context.","Creatinine, urea र eGFR ले kidney assessment मा मद्दत गर्छ; clinical context आवश्यक।"],
+      ["Quality assurance","QA is the whole system; QC is a routine check within that system.","QA सम्पूर्ण system हो; QC त्यसभित्रको नियमित जाँच हो।"],
+      ["Microscope care","Clean lenses with lens paper; use oil only with the oil-immersion objective and clean after use.","Lens paper प्रयोग गर्नुहोस्; oil immersion objective मा मात्र oil र प्रयोगपछि सफा।"],
+      ["Lab waste","Segregate infectious, sharps, chemical and general waste according to local SOP.","Infectious, sharps, chemical र general waste स्थानीय SOP अनुसार छुट्याउनुहोस्।"],
+      ["Result reporting","Check patient ID, units, reference interval, flags and authorization before release.","Release अघि ID, unit, reference interval, flags र authorization जाँच्नुहोस्।"]
     ];
     const tricks=[
-      ["CBC: E-D-T-A","EDTA tube for CBC.","CBC = EDTA सम्झनुहोस्।"],
-      ["Gram: C-I-D-S","Crystal violet, Iodine, Decolorizer, Safranin.","C-I-D-S क्रम।"],
-      ["PCR: D-A-E","Denaturation, Annealing, Extension.","PCR = D-A-E।"],
-      ["Lab: P-A-P","Pre-analytical, Analytical, Post-analytical.","Lab का ३ phase P-A-P।"],
-      ["QC: H-I-R","Hold results, Investigate, Record corrective action.","QC fail: रोक, खोज, record।"],
-      ["Anemia: M-N-M","Low MCV microcytic; normal normocytic; high macrocytic.","MCV कम/सामान्य/बढी = Micro/Normo/Macro।"],
-      ["Serum vs plasma","Serum after clotting; plasma from anticoagulated blood.","Clot पछि serum; anticoagulant बाट plasma।"]
+      ["CBC = E-D-T-A","EDTA is the common anticoagulant for CBC.","CBC सम्झन EDTA।"],
+      ["Gram = C-I-D-S","Crystal violet, Iodine, Decolorizer, Safranin.","Gram stain क्रम C-I-D-S।"],
+      ["PCR = D-A-E","Denaturation, Annealing, Extension.","PCR तीन चरण D-A-E।"],
+      ["Lab phases = P-A-P","Pre-analytical, Analytical, Post-analytical.","Lab का ३ चरण P-A-P।"],
+      ["QC = H-I-R","Hold results, Investigate, Record corrective action.","QC fail: रोक, खोज, record।"],
+      ["MCV = M-N-M","Microcytic, Normocytic, Macrocytic.","MCV pattern M-N-M।"],
+      ["Serum / Plasma","Serum after clot; plasma from anticoagulated sample.","Clot पछिको serum; anticoagulant sample को plasma।"],
+      ["Thick / Thin film","Thick = detect; thin = identify species.","Thick पत्ता लगाउन; thin species छुट्याउन।"]
     ];
     const diagrams=[
-      ["Lab workflow","Patient/specimen ID → Collection & transport → Testing + QC → Verification → Report","पहिचान → संकलन/ढुवानी → परीक्षण/QC → verification → report"],
-      ["CBC overview","RBC/Hb + indices | WBC + differential | Platelets + smear","RBC/Hb र indices | WBC/differential | Platelet र smear"],
-      ["Transfusion safety","Identify → Group & compatibility → Check component → Monitor → Document","पहिचान → Group/compatibility → component check → monitor → record"]
+      {title:"Total laboratory testing process",steps:["Patient ID","Collect & label","Transport","Test + QC","Verify","Report"],ne:"पहिचान → संकलन/label → transport → test/QC → verify → report"},
+      {title:"Blood collection tube guide",steps:["EDTA","CBC / HbA1c*","Citrate","PT / INR / aPTT","Serum tube","Chemistry / serology*"],ne:"EDTA: hematology • Citrate: coagulation • Serum: धेरै chemistry/serology (test SOP अनुसार)"},
+      {title:"Gram stain sequence",steps:["Smear + fix","Crystal violet","Iodine","Decolorize","Safranin"],ne:"Smear/fix → primary stain → mordant → decolorize → counterstain"},
+      {title:"PCR cycle concept",steps:["Denature","Anneal primers","Extend","Repeat cycles","Detect product"],ne:"DNA छुट्याउने → primer जोड्ने → strand बनाउने → cycle दोहोर्‍याउने → product detect"},
+      {title:"Transfusion safety pathway",steps:["Check patient ID","Group + screen","Compatibility","Bedside check","Monitor + record"],ne:"ID → grouping/screening → compatibility → bedside check → monitor/record"}
     ];
-    const card=(title,en,ne)=>'<article class="note"><h3>'+title+'</h3><p>'+en+'</p><p class="np">'+ne+'</p></article>';
-    host.innerHTML='<h2>📚 BMLT Study Notes ('+notes.length+')</h2>'+notes.map((n,i)=>card((i+1)+'. '+n.title,n.english,n.nepali)).join('')+
-      '<h2>⭐ Important Points / महत्वपूर्ण बुँदा</h2>'+points.map(x=>card(x[0],x[1],x[2])).join('')+
+    const escapeHtml=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+    const card=(title,en,ne)=>'<article class="note"><h3>'+escapeHtml(title)+'</h3><p>'+escapeHtml(en)+'</p><p class="np">'+escapeHtml(ne)+'</p></article>';
+    const diagramCard=d=>{
+      const labels=d.steps, width=900, gap=12, boxW=(width-gap*(labels.length-1))/labels.length;
+      const boxes=labels.map((label,i)=>'<g><rect x="'+(i*(boxW+gap))+'" y="24" width="'+boxW+'" height="64" rx="12" fill="#e8f2ff" stroke="#3478c8" stroke-width="2"/><text x="'+(i*(boxW+gap)+boxW/2)+'" y="61" text-anchor="middle" font-size="17" font-weight="600" fill="#173b65">'+escapeHtml(label)+'</text></g>').join("");
+      const arrows=labels.slice(1).map((_,i)=>'<path d="M '+(i*(boxW+gap)+boxW+2)+' 56 h 8" stroke="#3478c8" stroke-width="3" fill="none"/><path d="M '+(i*(boxW+gap)+boxW+7)+' 50 l 6 6 -6 6" stroke="#3478c8" stroke-width="3" fill="none"/>').join("");
+      return '<article class="note"><h3>'+escapeHtml(d.title)+'</h3><div style="width:100%;overflow-x:auto"><svg role="img" aria-label="'+escapeHtml(d.title)+' diagram" viewBox="0 0 900 112" style="width:100%;min-width:560px;height:auto" xmlns="http://www.w3.org/2000/svg">'+boxes+arrows+'</svg></div><p class="np">'+escapeHtml(d.ne)+'</p></article>';
+    };
+    host.innerHTML='<h2>📘 BMLT Short Notes / छोटा अध्ययन नोट ('+shortNotes.length+')</h2>'+shortNotes.map(x=>card(x[0],x[1],x[2])).join('')+
+      '<h2>⭐ Important Points / महत्वपूर्ण बुँदा ('+points.length+')</h2>'+points.map(x=>card(x[0],x[1],x[2])).join('')+
       '<h2>⚡ Short Tricks / छिटो सम्झने तरिका</h2>'+tricks.map(x=>card(x[0],x[1],x[2])).join('')+
-      '<h2>🧩 Quick Flow Diagrams / प्रक्रिया चित्र</h2>'+diagrams.map(x=>card(x[0],x[1],x[2])).join('');
+      '<h2>🧩 BMLT Image Diagrams / प्रक्रिया चित्र</h2>'+diagrams.map(diagramCard).join('')+
+      '<h2>📚 Detailed Study Notes ('+notes.length+')</h2>'+notes.map((n,i)=>card((i+1)+'. '+n.title,n.english,n.nepali)).join('');
   }
   function convertRows(rows) {
     const typed=rows.map(row=>({...row,normalizedType:normalizeType(contentTypeOf(row)),normalizedData:contentDataOf(row),normalizedOrder:contentOrderOf(row)}));
