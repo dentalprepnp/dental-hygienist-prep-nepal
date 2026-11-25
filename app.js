@@ -232,8 +232,8 @@ if(profileForm)profileForm.addEventListener("submit",e=>{
 });
 // Save each faculty's last study position for resume after visiting Home.
 const HLP_FACULTY_RESUME_KEY="dhpn-faculty-resume-v1";
-function readFacultyResume(){try{return JSON.parse(sessionStorage.getItem(HLP_FACULTY_RESUME_KEY)||"{}")}catch(e){return {}}}
-function writeFacultyResume(tab,y){try{const data=readFacultyResume();data[tab]={y:Math.max(0,Number(y)||0),savedAt:Date.now()};sessionStorage.setItem(HLP_FACULTY_RESUME_KEY,JSON.stringify(data))}catch(e){}}
+function readFacultyResume(){try{return JSON.parse(localStorage.getItem(HLP_FACULTY_RESUME_KEY)||"{}")}catch(e){return {}}}
+function writeFacultyResume(tab,y){try{const data=readFacultyResume();data[tab]={y:Math.max(0,Number(y)||0),savedAt:Date.now()};localStorage.setItem(HLP_FACULTY_RESUME_KEY,JSON.stringify(data))}catch(e){}}
 let hlpResumeTick=false;
 window.addEventListener("scroll",()=>{if(hlpResumeTick)return;hlpResumeTick=true;requestAnimationFrame(()=>{hlpResumeTick=false;const tab=window.__hlpLastFacultyTab;if(tab&&document.body.dataset.appPage==="faculty")writeFacultyResume(tab,window.scrollY);});},{passive:true});
 function showTab(tab,fromBrowserBack=false){
