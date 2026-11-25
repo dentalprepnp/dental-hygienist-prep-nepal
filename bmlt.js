@@ -215,7 +215,7 @@
     document.getElementById("bmltMockCount").textContent=mockBankQuestions.length+" प्रश्न • "+mockBankQuestions.length+" मिनेट";
     document.getElementById("bmltMockIntroText").textContent=mockBankQuestions.length+" उपलब्ध Mock प्रश्न • प्रत्येक प्रश्नको १ अंक";
     const setRoot=document.getElementById("bmltMockSets");
-    if(mockBankQuestions.length){const setCount=Math.ceil(mockBankQuestions.length/100);setRoot.innerHTML=Array.from({length:setCount},(_,i)=>{const count=Math.min(100,mockBankQuestions.length-i*100);return `<button class="feature-card" type="button" data-bmlt-set="${i}"><b>Mock Set ${i+1}</b><strong>${count} प्रश्न • ${count} अंक</strong><small>६० मिनेट</small></button>`}).join("");setRoot.querySelectorAll("[data-bmlt-set]").forEach(b=>b.addEventListener("click",()=>startMock(Number(b.dataset.bmltSet))));}else setRoot.textContent="अहिले Mock प्रश्न उपलब्ध छैन।";
+    const completeMockSets=Math.floor(mockBankQuestions.length/100);if(completeMockSets>0){setRoot.innerHTML=Array.from({length:completeMockSets},(_,i)=>`<button class="feature-card" type="button" data-bmlt-set="${i}"><b>Mock Set ${i+1}</b><strong>१०० प्रश्न • १०० अंक</strong><small>६० मिनेट</small></button>`).join("");setRoot.querySelectorAll("[data-bmlt-set]").forEach(b=>b.addEventListener("click",()=>startMock(Number(b.dataset.bmltSet))));}else setRoot.textContent="पूर्ण Mock Set बनाउन कम्तीमा १०० वटा वैध प्रश्न आवश्यक छ। अभ्यास MCQ भने उपलब्ध प्रश्नबाट गर्न सक्नुहुन्छ।";
     document.getElementById("bmltNotesList").innerHTML="";
     renderBMLTGuide();
     root.querySelectorAll("[data-bmlt]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.bmlt);if(b.dataset.bmlt==="practice")renderPractice();}));
