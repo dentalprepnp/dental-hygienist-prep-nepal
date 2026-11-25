@@ -688,7 +688,37 @@
   panel('<div class="ha-overview"><div class="ha-kpis"><div><b>'+notes.length+'</b><small>विस्तृत Notes</small></div><div><b>'+practiceQ.length+'</b><small>MCQ Practice</small></div><div><b>'+mockQ.length+'</b><small>Mock Bank</small></div></div><p>MCQ Practice र Mock Test का लागि छुट्टाछुट्टै प्रश्न बैंक छन्; एउटै प्रश्न दुवैमा दोहोरिँदैन। Full Syllabus Mock मा NHPC विषयगत weightage अनुसार Mock Bank बाट प्रश्न छानिन्छ।</p></div><div class="ha-actions"><button data-ha="notes">📚 Detailed Notes</button><button data-ha="practice">🧠 MCQ Practice</button><button data-ha="timed">⏱️ Timed Practice</button><button data-ha="mock">📝 Full Syllabus Mock</button></div><h3>NHPC Licensing Syllabus – Subject Weightage</h3><div class="ha-topic-list">'+topics.map(t=>'<article><div><b>'+t[0]+'</b><strong>'+t[1]+'</strong></div><p>'+t[2]+'</p><p class="np">'+t[3]+'</p></article>').join("")+'</div><div class="notice"><b>परीक्षा ढाँचाबारे स्पष्टता</b><p>NHPC को उपलब्ध HA licensing syllabus ले विषयगत भार १०%, २५%, २५%, १०%, २५%, ५% तोकेको छ। यसले MCQ संख्या, कुल परीक्षा समय वा negative marking निर्दिष्ट गरेको छैन। त्यसैले यहाँका timed practice र mock समय अभ्यासका लागि राखिएका हुन्, आधिकारिक परीक्षा समय होइनन्।</p></div>');
  }
  function noteCards(list){return list.map(n=>'<article class="ha-note"><h4>'+n[0]+'</h4><p>'+n[1]+'</p><p class="np">'+n[2]+'</p></article>').join("");}
- function showNotes(){panel('<h3>विस्तृत अध्ययन Notes</h3><p class="muted">English concept + नेपाली व्याख्या • Clinical safety focus</p><input id="haNotesSearch" type="search" placeholder="Notes खोज्नुहोस् — English वा नेपाली" aria-label="Search HA notes"><p id="haNotesCount" class="muted">कुल '+notes.length+' वटा Notes</p><div id="haNotesResults">'+noteCards(notes)+'</div><button data-ha="menu" class="smallbtn">← मुख्य मेनु</button>');}
+ function renderHAGuide(list){
+  const host=root.querySelector("#haNotesResults");if(!host)return;
+  if(!window.DHPNStudyGuide){host.innerHTML=noteCards(list);return;}
+  host.innerHTML=window.DHPNStudyGuide.render({
+   title:"PCL General Medicine (HA) • सामान्य चिकित्सा",
+   notes:list.map(n=>({title:n[0],en:n[1],ne:n[2]})),
+   points:[
+    {title:"ABCDE in emergency",en:"Airway, Breathing, Circulation, Disability, Exposure. Call for help and treat life threats first.",ne:"Airway, Breathing, Circulation, Disability, Exposure—सहयोग बोलाउनुहोस् र ज्यान जोखिमका समस्या पहिले सम्हाल्नुहोस्।"},
+    {title:"Vital signs",en:"Measure temperature, pulse, respiratory rate and blood pressure correctly; add SpO₂ when indicated and repeat abnormal readings.",ne:"तापक्रम, नाडी, श्वासदर र रक्तचाप सही विधिले मापन गर्नुहोस्; आवश्यकताअनुसार SpO₂ र असामान्य नतिजा पुनः जाँच्नुहोस्।"},
+    {title:"Danger signs",en:"Severe breathing difficulty, altered consciousness, shock, convulsions, major bleeding or neonatal danger signs need urgent assessment/referral.",ne:"सास कष्ट, चेतना परिवर्तन, shock, दौरा, धेरै रक्तस्राव वा नवजात खतरा संकेतमा तुरुन्त मूल्याङ्कन/referral।"},
+    {title:"Clinical documentation",en:"Record history, objective findings, units, time, treatment, response and referral; maintain confidentiality.",ne:"इतिहास, वस्तुगत निष्कर्ष, एकाइ, समय, उपचार, प्रतिक्रिया र referral लेख्नुहोस्; गोपनीयता कायम गर्नुहोस्।"},
+    {title:"Scope and safe medicines",en:"Use current national protocols and authorized prescriptions; verify allergy, dose, route, contraindications and interactions.",ne:"हालको राष्ट्रिय protocol र अधिकृत prescription पालना गर्नुहोस्; एलर्जी, मात्रा, मार्ग, निषेध र interaction जाँच्नुहोस्।"}
+   ],
+   tricks:[
+    {title:"ABCDE",en:"A-Airway • B-Breathing • C-Circulation • D-Disability • E-Exposure.",ne:"आपतकालीन प्राथमिक मूल्याङ्कनको क्रम सम्झनुहोस्।"},
+    {title:"Incidence vs prevalence",en:"Incidence = NEW cases; Prevalence = ALL existing cases.",ne:"Incidence = नयाँ केस; Prevalence = भएका सबै केस।"},
+    {title:"Shock clues",en:"Think: altered mentation + weak/rapid pulse + cool clammy skin; hypotension can be late.",ne:"चेतना परिवर्तन, कमजोर/छिटो नाडी र चिसो पसिनायुक्त छाला; hypotension ढिलो देखिन सक्छ।"},
+    {title:"Vital signs",en:"T-P-R-BP: Temperature, Pulse, Respiratory rate, Blood pressure.",ne:"तापक्रम, नाडी, श्वासदर, रक्तचाप।"}
+   ],
+   diagrams:[
+    {title:"ABCDE primary survey",en:"Initial assessment sequence",html:'<svg viewBox="0 0 300 170" role="img" aria-label="ABCDE assessment"><g font-family="Arial" font-size="12" text-anchor="middle" fill="#17435b"><rect x="70" y="5" width="160" height="26" rx="7" fill="#e0f2fe" stroke="#0284c7"/><text x="150" y="22">A • Airway</text><path d="M150 31v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="41" width="160" height="26" rx="7" fill="#dcfce7" stroke="#16a34a"/><text x="150" y="58">B • Breathing</text><path d="M150 67v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="77" width="160" height="26" rx="7" fill="#fef3c7" stroke="#d97706"/><text x="150" y="94">C • Circulation</text><path d="M150 103v10" stroke="#0284c7" stroke-width="2"/><rect x="70" y="113" width="160" height="26" rx="7" fill="#f3e8ff" stroke="#9333ea"/><text x="150" y="130">D • Disability</text><text x="150" y="158">E • Exposure</text></g></svg>'},
+    {title:"Incidence and prevalence",en:"New cases during a period versus all existing cases.",html:'<svg viewBox="0 0 300 90" role="img" aria-label="Incidence and prevalence"><g font-family="Arial" font-size="12" text-anchor="middle" fill="#17435b"><rect x="5" y="8" width="140" height="70" rx="8" fill="#e0f2fe" stroke="#0284c7"/><text x="75" y="29">INCIDENCE</text><text x="75" y="48">New cases</text><text x="75" y="64">over time</text><rect x="155" y="8" width="140" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/><text x="225" y="29">PREVALENCE</text><text x="225" y="48">All existing</text><text x="225" y="64">cases</text></g></svg>'}
+   ],
+   examples:[
+    {title:"Patient with chest pain",en:"Assess ABCDE and vital signs, seek urgent help for suspected acute coronary syndrome, monitor and refer without delay.",ne:"ABCDE र vital signs जाँच्नुहोस्; ACS शंका भए तत्काल सहायता, निगरानी र referral गर्नुहोस्।"},
+    {title:"Child with danger sign",en:"Poor feeding, convulsion or difficult breathing requires rapid assessment using current IMNCI guidance and urgent referral.",ne:"दूध नखाने, दौरा वा गाह्रो श्वासमा हालको IMNCI अनुसार शीघ्र जाँच र referral।"},
+    {title:"Community health survey",en:"Define the population and case definition, collect reliable data, calculate indicators, prioritize problems with community participation and plan follow-up.",ne:"जनसंख्या र case definition स्पष्ट गरी तथ्याङ्क संकलन, सूचक गणना, समुदायसँग प्राथमिकता र follow-up योजना बनाउनुहोस्।"}
+   ]
+  });
+ }
+ function showNotes(){panel('<h3>विस्तृत अध्ययन Notes</h3><p class="muted">English concept + नेपाली व्याख्या • Clinical safety focus</p><input id="haNotesSearch" type="search" placeholder="Notes खोज्नुहोस् — English वा नेपाली" aria-label="Search HA notes"><p id="haNotesCount" class="muted">कुल '+notes.length+' वटा Notes</p><div id="haNotesResults"></div><button data-ha="menu" class="smallbtn">← मुख्य मेनु</button>');renderHAGuide(notes);}
  function start(mode){
   clearInterval(state.timer);state.mode=mode;state.index=0;state.answers={};
   const pool=mockQ;const size=mode==="timed"?Math.min(10,pool.length):Math.min(100,pool.length);
@@ -724,7 +754,7 @@
   const q=practiceQ[state.index],selected=state.answers[state.index],done=selected!==undefined;
   panel('<p class="muted">MCQ '+(state.index+1)+' / '+practiceQ.length+' • '+q[6]+'</p><article class="ha-question"><h3>'+q[0]+'</h3><p class="np">'+q[1]+'</p><div class="ha-options">'+q[2].map((o,i)=>'<button class="'+(selected!==undefined&&i===q[3]?"correct":selected===i&&i!==q[3]?"wrong":"")+'" data-ha-option="'+i+'">'+String.fromCharCode(65+i)+'. '+o+'</button>').join("")+'</div>'+(done?'<div class="ha-explain"><b>'+(selected===q[3]?"सही उत्तर!":"सही उत्तर: "+q[2][q[3]])+'</b><p>'+q[4]+'</p><p class="np">'+q[5]+'</p></div>':"")+'</article><div class="ha-nav"><button data-ha-practice-prev '+(state.index===0?"disabled":"")+'>← अघिल्लो</button><button data-ha-practice-next>'+(state.index===practiceQ.length-1?"समाप्त":"अर्को →")+'</button></div><button data-ha="menu" class="smallbtn">मुख्य मेनु</button>');
  }
- root.addEventListener("input",e=>{if(e.target.id==="haNotesSearch"){const term=e.target.value.trim().toLocaleLowerCase();const found=notes.filter(n=>n.join(" ").toLocaleLowerCase().includes(term));const results=root.querySelector("#haNotesResults");const count=root.querySelector("#haNotesCount");if(results)results.innerHTML=noteCards(found);if(count)count.textContent=found.length+" / "+notes.length+" वटा Notes भेटिए";}});
+ root.addEventListener("input",e=>{if(e.target.id==="haNotesSearch"){const term=e.target.value.trim().toLocaleLowerCase();const found=notes.filter(n=>n.join(" ").toLocaleLowerCase().includes(term));const count=root.querySelector("#haNotesCount");renderHAGuide(found);if(count)count.textContent=found.length+" / "+notes.length+" वटा Notes भेटिए";}});
  root.addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b)return;
   if(b.dataset.ha){const a=b.dataset.ha;if(a==="menu")menu();if(a==="notes")showNotes();if(a==="practice")practice();if(a==="timed")start("timed");if(a==="mock")start("mock");if(a==="retry")start("mock");return;}
