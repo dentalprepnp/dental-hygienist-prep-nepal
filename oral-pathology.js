@@ -95,7 +95,7 @@ const mockBankQuestions = [...questions.slice(baseSplit), ...mockAdditions];
     <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो; आधिकारिक NHPC प्रश्नपत्र होइन। हालको आधिकारिक पाठ्यक्रम र clinical guidelines सँग मिलाएर अध्ययन गर्नुहोस्।</p>`;
   const $ = s => root.querySelector(s);
   if (window.DHPNStudyGuide) $("#opStudyGuide").innerHTML = window.DHPNStudyGuide.render(guideData);
-  function panel(name){root.querySelectorAll(".op-panel").forEach(p=>p.classList.add("hidden"));$("#op"+name[0].toUpperCase()+name.slice(1)).classList.remove("hidden");}
+  function panel(name){root.querySelectorAll(".op-panel").forEach(p=>p.classList.add("hidden"));const target=$("#op"+name[0].toUpperCase()+name.slice(1));target.classList.remove("hidden");target.style.scrollMarginTop="90px";target.scrollIntoView({behavior:"smooth",block:"start"});}
   root.querySelectorAll("[data-op]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.op);if(b.dataset.op==="practice")renderPractice()}));
   function bilingual(q){const mode=$("#opLanguage").value;return `${mode==="ne"?"":`<h3>${q[0]}</h3>`}${mode==="en"?"":`<p class="translation">${q[1]}</p>`}`;}
   function renderPractice(){
