@@ -49,7 +49,36 @@
     document.getElementById("dpPracticeCount").textContent=practiceQuestions.length+" अभ्यास प्रश्न";
     document.getElementById("dpMockCount").textContent=mockBankQuestions.length+" प्रश्न • "+mockBankQuestions.length+" मिनेट";
     document.getElementById("dpMockIntroText").textContent=mockBankQuestions.length+" प्रश्न • "+mockBankQuestions.length+" मिनेट • प्रत्येक प्रश्नको १ अंक";
-    document.getElementById("dpNotesList").innerHTML=notes.map(n=>`<article class="note"><h3>${n.title}</h3><p>${n.english}</p><p class="np">${n.nepali}</p></article>`).join("");
+    const guideHost=document.getElementById("dpNotesList");
+    if(window.DHPNStudyGuide){
+      guideHost.innerHTML=window.DHPNStudyGuide.render({
+        title:"Dental Pharmacy • दन्त औषधि विज्ञान",
+        notes:notes.map(n=>({title:n.title,en:n.english,ne:n.nepali})),
+        points:[
+          {title:"Prescription safety",en:"Check patient, allergies, medicine, strength, route, frequency, duration and prescriber instructions.",ne:"बिरामी, एलर्जी, औषधि, शक्ति, मार्ग, आवृत्ति, अवधि र prescriber निर्देशन जाँच्नुहोस्।"},
+          {title:"Dose is patient-specific",en:"Never guess a dose. Verify current guideline, age, weight, organ function and authorized prescription.",ne:"मात्रा अनुमान नगर्नुहोस्; guideline, उमेर, तौल, अंगको अवस्था र prescription पुष्टि गर्नुहोस्।"},
+          {title:"Antibiotic stewardship",en:"Antibiotics are not needed for every dental pain; use only when clinically indicated and prescribed.",ne:"हरेक दाँत दुखाइमा antibiotic चाहिँदैन; indication र prescription अनुसार मात्र।"},
+          {title:"Severe adverse reaction",en:"Breathing difficulty, facial swelling or collapse needs immediate emergency response.",ne:"सास फेर्न गाह्रो, अनुहार सुन्निने वा बेहोस हुनेमा तुरुन्त emergency सहायता।"},
+          {title:"Storage and expiry",en:"Follow label storage, secure medicines, check expiry and rotate stock.",ne:"लेबलअनुसार भण्डारण, सुरक्षित राख्ने, expiry जाँच्ने र stock rotation गर्ने।"}
+        ],
+        tricks:[
+          {title:"7 rights",en:"Right patient, medicine, dose, route, time, documentation and reason.",ne:"सही बिरामी, औषधि, मात्रा, मार्ग, समय, अभिलेख र कारण।"},
+          {title:"ADR",en:"Recognize, respond, report and record adverse drug reactions.",ne:"औषधिको प्रतिकूल प्रतिक्रिया पहिचान, सहायता, रिपोर्ट र अभिलेख।"},
+          {title:"FEFO",en:"First Expiry, First Out: use earliest-expiring stock first.",ne:"पहिले म्याद सकिने औषधि पहिले प्रयोग/वितरण।"}
+        ],
+        diagrams:[
+          {title:"Safe medication workflow",en:"A safety sequence",html:'<svg viewBox="0 0 300 150" role="img" aria-label="Medication workflow"><g font-family="Arial" font-size="12" text-anchor="middle" fill="#17435b"><rect x="55" y="5" width="190" height="28" rx="7" fill="#e0f2fe" stroke="#0284c7"/><text x="150" y="23">Verify patient + allergy</text><path d="M150 33v15" stroke="#0284c7" stroke-width="2"/><rect x="55" y="48" width="190" height="28" rx="7" fill="#dcfce7" stroke="#16a34a"/><text x="150" y="66">Check prescription</text><path d="M150 76v15" stroke="#0284c7" stroke-width="2"/><rect x="55" y="91" width="190" height="28" rx="7" fill="#fef3c7" stroke="#d97706"/><text x="150" y="109">Prepare + double-check</text><text x="150" y="140">Document and monitor</text></g></svg>'},
+          {title:"Therapeutic and adverse effects",en:"Observe the intended response and any unwanted effect.",html:'<svg viewBox="0 0 300 100" role="img" aria-label="Drug effects"><g font-family="Arial" font-size="12" text-anchor="middle" fill="#17435b"><rect x="85" y="5" width="130" height="25" rx="7" fill="#e0f2fe" stroke="#0284c7"/><text x="150" y="22">Medicine</text><path d="M150 30v15H75v12M150 45h75v12" stroke="#0284c7" fill="none" stroke-width="2"/><rect x="5" y="57" width="140" height="30" rx="7" fill="#dcfce7" stroke="#16a34a"/><text x="75" y="76">Desired effect</text><rect x="155" y="57" width="140" height="30" rx="7" fill="#fee2e2" stroke="#dc2626"/><text x="225" y="76">Adverse effect</text></g></svg>'}
+        ],
+        examples:[
+          {title:"Before dental treatment",en:"Ask about allergies and current medicines; verify the dentist’s prescription before preparing medicine.",ne:"एलर्जी र हालका औषधि सोध्नुहोस्; औषधि तयार गर्नुअघि dentist को prescription पुष्टि गर्नुहोस्।"},
+          {title:"Possible severe allergy",en:"Breathing difficulty or rapidly increasing swelling after medicine requires immediate emergency response.",ne:"औषधिपछि सास फेर्न गाह्रो वा छिटो बढ्दो सुन्निनेमा तुरुन्त emergency response।"},
+          {title:"Stock check",en:"Separate expired or damaged products, document them and follow the approved disposal policy.",ne:"म्याद सकिएका/बिग्रिएका औषधि छुट्याई अभिलेख र approved disposal policy पालना।"}
+        ]
+      });
+    }else{
+      guideHost.innerHTML=notes.map(n=>`<article class="note"><h3>${n.title}</h3><p>${n.english}</p><p class="np">${n.nepali}</p></article>`).join("");
+    }
     root.querySelectorAll("[data-dp]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.dp);if(b.dataset.dp==="practice")renderPractice();}));
     document.getElementById("dpLanguage").addEventListener("change",()=>{if(!document.getElementById("dpPractice").classList.contains("hidden"))renderPractice();if(!document.getElementById("dpMock").classList.contains("hidden")&&mock.length)renderMock();});
     document.getElementById("dpStart").addEventListener("click",startMock);
