@@ -611,6 +611,8 @@ if("serviceWorker" in navigator && location.protocol.startsWith("http")){
 document.addEventListener("click",event=>{
  const button=event.target.closest("button,[role=button],a");
  if(!button)return;
+ // HA has its own delegated interaction controller; keep generic faculty navigation out.
+ if(button.closest("#haView"))return;
  // Ignore answer choices and question-to-question controls; those should not jump the page.
  if(button.matches('[data-answer],[data-mock],[data-bmlta],[data-bmltm],[data-dha-answer],[data-dha-mock],[data-ha-option],[data-oph-answer],[data-oph-mock-answer],[data-oph-mock-go]') ||
     /^(next|prev|previous|submit|review|restart|try again|retake)$/i.test((button.textContent||"").trim()))return;
