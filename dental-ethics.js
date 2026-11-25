@@ -23,11 +23,31 @@ root.innerHTML=`
 <p class="muted">Professional ethics, informed consent, confidentiality, patient communication, records, scope of practice र clinic management सम्बन्धी अध्ययन सामग्री।</p>
 <div class="feature-grid module-actions"><button class="feature-card" data-de="notes"><span class="feature-icon">📘</span><b>Study Notes</b><small>११ वटा विषय</small></button><button class="feature-card" data-de="practice"><span class="feature-icon">📝</span><b>MCQ Practice</b><small>१३ अभ्यास प्रश्न</small></button><button class="feature-card" data-de="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small>१२ प्रश्न • १२ मिनेट</small></button></div>
 <div class="toolbar"><label for="deLanguage">Question language</label><select id="deLanguage"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
-<div id="deNotes" class="op-panel hidden"><h2>Dental Ethics and Practice Management Notes</h2><div class="notes-list">${notes.map(n=>`<article class="note"><h3>${n[0]}</h3><p>${n[1]}</p><p class="np">${n[2]}</p></article>`).join("")}</div></div>
+<div id="deNotes" class="op-panel hidden"><h2>Dental Ethics & Practice Management • Complete Study Guide</h2><div id="deNotesGuide"></div></div>>
 <div id="dePractice" class="op-panel hidden"><div class="section-head"><h2>MCQ Practice</h2><span class="pill" id="deCount"></span></div><div id="deQuestion"></div></div>
 <div id="deMock" class="op-panel hidden"><h2>Dental Ethics Mock Test</h2><p class="muted">१२ प्रश्न • १२ मिनेट • प्रत्येक प्रश्नको १ अंक</p><div id="deMockIntro" class="notice"><p>परीक्षा सुरु गरेपछि समय गणना हुन्छ। अन्त्यमा नतिजा र उत्तर समीक्षा देखाइनेछ।</p><button class="primary" id="deStart">Start Mock Test</button></div><div id="deMockArea"></div></div>
 <p class="disclaimer">यो स्वतन्त्र शैक्षिक अभ्यास सामग्री हो; आधिकारिक NHPC प्रश्नपत्र वा कानुनी सल्लाह होइन। वास्तविक अभ्यासमा लागू कानून, NHPC का हालका निर्देशन, संस्थाको नीति र आफ्नो professional scope पालना गर्नुहोस्।</p>`;
-const $=s=>root.querySelector(s);
+
+ const guideHost=root.querySelector("#deNotesGuide");
+ if(guideHost){
+  const guideData={title:"Dental Ethics & Practice Management",notes:notes.map(n=>({title:n[0],en:n[1],ne:n[2]})),
+  points:[
+  {title:"Informed consent",en:"Explain the proposed care, material risks, expected benefits and reasonable alternatives in understandable language; consent must be voluntary and ongoing.",ne:"उपचार, महत्त्वपूर्ण जोखिम, अपेक्षित फाइदा र विकल्प बुझिने भाषामा बताउनुहोस्; सहमति स्वेच्छिक र निरन्तर हुनुपर्छ।"},
+  {title:"Confidentiality",en:"Access and share patient information only for legitimate care or lawful purposes; protect paper and electronic records.",ne:"बिरामीको जानकारी उपचार वा कानुनी प्रयोजनका लागि मात्र प्रयोग/साझा गर्नुहोस्; कागजी र डिजिटल अभिलेख सुरक्षित राख्नुहोस्।"},
+  {title:"Scope of practice",en:"Work within education, competence, registration and applicable law; seek supervision or refer when needs exceed scope.",ne:"शिक्षा, दक्षता, दर्ता र लागू कानुनभित्र काम गर्नुहोस्; आफ्नो कार्यक्षेत्रभन्दा बाहिर भए supervision वा referral लिनुहोस्।"},
+  {title:"Accurate documentation",en:"Record objective findings, consent, care, advice, referrals and follow-up promptly; correct errors transparently according to policy.",ne:"वस्तुगत निष्कर्ष, सहमति, उपचार, सल्लाह, referral र follow-up समयमै लेख्नुहोस्; गल्ती नीति अनुसार पारदर्शी रूपमा सच्याउनुहोस्।"},
+  {title:"Patient safety",en:"Verify identity, check allergies, use standard precautions, report incidents and learn from near misses.",ne:"पहिचान पुष्टि, allergy जाँच, standard precautions, incident report र near-miss बाट सिकाइ आवश्यक छ।"}],
+  tricks:[
+  {title:"Consent = I-R-A-V",en:"Information • Risks • Alternatives • Voluntary choice.",ne:"सहमति अघि जानकारी, जोखिम, विकल्प र स्वेच्छिक निर्णय सुनिश्चित गर्नुहोस्।"},
+  {title:"Confidentiality",en:"Need-to-know access only; secure, accurate and appropriate sharing.",ne:"आवश्यक व्यक्तिलाई मात्र पहुँच; सुरक्षित र उचित जानकारी आदानप्रदान।"},
+  {title:"Scope = E-C-R-L",en:"Education • Competence • Registration • Law.",ne:"आफ्नो कार्यक्षेत्र निर्धारण गर्ने चार आधार।"},
+  {title:"Safe handover",en:"Who • What happened • Current status • Next action.",ne:"Handover मा व्यक्ति, घटना, हालको अवस्था र आगामी कदम स्पष्ट गर्नुहोस्।"}],
+  diagrams:[{title:"Ethical decision pathway",en:"Identify concern, check facts and duties, consider options, act, document and review.",ne:"समस्या पहिचान, तथ्य/दायित्व जाँच, विकल्प विचार, कार्य, अभिलेख र समीक्षा।",html:'<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px"><div style="padding:12px;background:#e8f5ff;border-radius:10px">Identify</div><div style="padding:12px;background:#eaf8ef;border-radius:10px">Check duties</div><div style="padding:12px;background:#fff5df;border-radius:10px">Act safely</div><div style="padding:12px;background:#f5edff;border-radius:10px">Document & review</div></div>'}],
+  examples:[{title:"Patient refuses recommended treatment",en:"Check understanding, explain material risks and alternatives without pressure, respect a competent patient’s decision and document the discussion.",ne:"बिरामीले बुझेको सुनिश्चित गर्नुहोस्, दबाब नदिई जोखिम/विकल्प बताउनुहोस्, निर्णय क्षमतायुक्त बिरामीको निर्णय सम्मान गरी छलफल अभिलेख गर्नुहोस्।"},{title:"Finding outside hygienist scope",en:"Do not independently diagnose or provide unauthorized treatment; explain the concern and arrange timely referral or supervision.",ne:"आफैंले अधिकारबाहिर निदान वा उपचार नगर्नुहोस्; समस्या बुझाएर समयमै referral वा supervision मिलाउनुहोस्।"}]};
+  if(window.DHPNStudyGuide)guideHost.innerHTML=window.DHPNStudyGuide.render(guideData);
+  else guideHost.innerHTML=notes.map(n=>'<article class="note"><h3>'+n[0]+'</h3><p>'+n[1]+'</p><p class="np">'+n[2]+'</p></article>').join("");
+ }
+ const $=s=>root.querySelector(s);
 function panel(n){root.querySelectorAll(".op-panel").forEach(x=>x.classList.add("hidden"));$("#de"+n[0].toUpperCase()+n.slice(1)).classList.remove("hidden")}
 root.querySelectorAll("[data-de]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.de);if(b.dataset.de==="practice")renderPractice()}));
 function bilingual(q){const m=$("#deLanguage").value;return `${m==="ne"?"":`<h3>${q[0]}</h3>`}${m==="en"?"":`<p class="translation">${q[1]}</p>`}`}
