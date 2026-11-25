@@ -629,7 +629,7 @@
   radiography:["radiography.js?v=152"],
   mlt:["mlt.js?v=202"],
   anesthesia:["bsc-anesthesia.js?v=152"],
-  ha:["ha-general-medicine.js?v=231"],
+  ha:["ha-general-medicine.js?v=232"],
   nhpc:["nhpc.js?v=220"],
   basicPeriodontology:["nhpc.js?v=197"],
   dha:["dha.js?v=149"],
@@ -679,6 +679,7 @@
       Do not redispatch the original click: that used to run two competing
       navigation paths and could leave a faculty panel hidden or blank. */
    if(typeof window.showTab==="function")window.showTab(key);
+   if(key==="ha"&&typeof window.ensureHAMenu==="function")window.ensureHAMenu();
    else{
     const view=document.getElementById(key+"View");
     if(view){
