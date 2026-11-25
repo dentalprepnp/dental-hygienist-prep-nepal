@@ -1350,7 +1350,7 @@
   mock1:()=>start("mock",1),mock2:()=>start("mock",2),mock3:()=>start("mock",3),mock4:()=>start("mock",4),mock5:()=>start("mock",5),
   mistakes:showMistakes,weak:showWeakAnalysis,readiness:showReadiness,audit:showSyllabusAudit
  };
- document.addEventListener("click",e=>{
+ root.addEventListener("click",e=>{
   const b=e.target.closest("#haView [data-ha]");
   if(!b)return;
   const action=window.HAStudyActions&&window.HAStudyActions[b.dataset.ha];
