@@ -260,11 +260,13 @@ function showTab(tab,fromBrowserBack=false){
   document.querySelectorAll("[data-bottom-nav]").forEach(item=>{const key=item.dataset.bottomNav;const active=(key==="notes"&&tab==="notes")||(key==="practice"&&(tab==="practice"||tab==="mock"))||(key==="courses"&&document.body.dataset.appPage==="faculty");item.classList.toggle("is-active",active);if(active)item.setAttribute("aria-current","page");else item.removeAttribute("aria-current");});
   if(tab==="practice") renderPractice();
   if(tab==="notes") renderNotes();
-  // Every selected module opens at the very top, without leaving the home directory visible.
-  const resume=isFacultyTab?readFacultyResume()[tab]:null;
-  const resumeY=resume&&Number.isFinite(Number(resume.y))?Math.max(0,Number(resume.y)):0;
-  window.scrollTo({top:resumeY,left:0,behavior:"instant"});
-  requestAnimationFrame(()=>{window.scrollTo({top:resumeY,left:0,behavior:"instant"});if(!resumeY)target.scrollIntoView({behavior:"instant",block:"start"});});
+  // Always open a newly selected faculty from the top. Never restore the old
+  // faculty scroll offset here: it can land students halfway down a new study screen.
+  window.scrollTo({top:0,left:0,behavior:"instant"});
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    window.scrollTo({top:0,left:0,behavior:"instant"});
+    target.scrollIntoView({behavior:"instant",block:"start"});
+  }));
 }
 /* Universal faculty screen focus: whenever a faculty replaces its study view or opens a tab panel,
    bring that selected content to the top so it is visible immediately on mobile and desktop. */
