@@ -267,6 +267,13 @@ function showTab(tab,fromBrowserBack=false){
  const goBack=()=>{
   const panel=activePanel();
   if(panel){const close=document.getElementById(panel==="nhpcNotesArea"?"nhpcCloseNotes":panel==="nhpcMcqArea"?"nhpcCloseMcq":"nhpcCloseMock");if(close){close.click();return;}}
+  // Faculty Back first returns to the module navigation instead of Home.
+  if(document.body.dataset.appPage==="faculty"){
+   const view=[...document.querySelectorAll(".view")].find(v=>!v.classList.contains("hidden")&&v.getAttribute("aria-hidden")!=="true");
+   const moduleRoot=view&&view.querySelector("#ophthalmicContent,#haContent,#physiotherapyContent,#bmltContent,#dentalMaterialsContent");
+   const target=moduleRoot||view;
+   if(target){target.scrollIntoView({behavior:"smooth",block:"start"});return;}
+  }
   if(history.state&&history.state.hlpTab&&history.state.hlpTab!=="home"&&history.length>1){history.back();return;}
   if(typeof showTab==="function")showTab("home");
  };
