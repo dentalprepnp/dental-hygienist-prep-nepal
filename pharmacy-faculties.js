@@ -41,7 +41,37 @@
       q.options=pairs.map(x=>x.option);q.correctIndex=pairs.findIndex(x=>x.index===q.correctIndex);return q;
     }
     function bilingual(q) { const mode=$("language").value;return (mode==="ne"?"":`<h3>${esc(q.question)}</h3>`)+(mode==="en"?"":`<p class="translation">${esc(q.translation||"")}</p>`); }
-    function renderNotes() { $("notesList").innerHTML=notes.map(n=>`<article class="note"><h3>${esc(n.title)}</h3><p>${esc(n.english)}</p><p class="np">${esc(n.nepali)}</p></article>`).join("")||"<p>Notes क्रमशः थपिँदैछन्।</p>"; }
+    function renderNotes() {
+      const host=$("notesList");
+      if(!notes.length){host.innerHTML="<p>यस Faculty का Notes अझै database मा उपलब्ध छैनन्। सामग्री थपिएपछि यहाँ देखिनेछ।</p>";return;}
+      const guide={
+        title:config.title+" • Complete Study Guide",
+        notes:notes.map(n=>({title:n.title,en:n.english,ne:n.nepali})),
+        points:[
+          {title:"Patient and prescription verification",en:"Confirm patient identity, medicine name, strength, dosage form, route, directions, allergies and prescriber authorization before dispensing.",ne:"औषधि दिनुअघि बिरामीको पहिचान, औषधिको नाम, शक्ति, dosage form, route, निर्देशन, allergy र prescriber को अधिकार पुष्टि गर्नुहोस्।"},
+          {title:"Dose calculation safety",en:"Use the prescribed dose and a verified calculation method. Check units, concentration, age, weight and maximum dose where relevant; never guess missing information.",ne:"prescribed dose र पुष्टि गरिएको calculation प्रयोग गर्नुहोस्। unit, concentration, उमेर, तौल र आवश्यक maximum dose जाँच्नुहोस्; अपूरो जानकारी अनुमान नगर्नुहोस्।"},
+          {title:"Drug interactions and contraindications",en:"Review current medicines, allergies, relevant conditions and potential interactions; refer uncertainties to the authorized pharmacist or prescriber.",ne:"हालका औषधि, allergy, रोग अवस्था र सम्भावित interaction जाँच्नुहोस्; अन्योल भए अधिकृत pharmacist वा prescriber सँग परामर्श गर्नुहोस्।"},
+          {title:"Storage and quality",en:"Follow product-specific temperature, light and humidity requirements; monitor expiry, packaging integrity and stock rotation.",ne:"औषधिअनुसार तापक्रम, प्रकाश र चिस्यानको नियम पालना गर्नुहोस्; expiry, प्याकेटको अवस्था र stock rotation जाँच्नुहोस्।"},
+          {title:"Patient counselling",en:"Explain how to use the medicine, important precautions, storage, missed-dose advice from the approved label and when to seek help.",ne:"औषधि कसरी प्रयोग गर्ने, सावधानी, भण्डारण, label अनुसार छुटेको मात्रा सम्बन्धी निर्देशन र कहिले सहायता लिने बताउनुहोस्।"}
+        ],
+        tricks:[
+          {title:"7 Rights",en:"Right patient • medicine • dose • route • time • documentation • reason.",ne:"सही बिरामी, औषधि, मात्रा, मार्ग, समय, अभिलेख र कारण।"},
+          {title:"FEFO",en:"First Expiry, First Out — dispense stock with the earliest expiry first, where appropriate.",ne:"पहिले म्याद सकिने औषधि पहिले वितरण गर्ने।"},
+          {title:"LASA",en:"Look-Alike, Sound-Alike medicines need extra checking and clear separation/labeling.",ne:"देख्दा वा सुन्दा उस्तै औषधिमा थप जाँच र स्पष्ट छुट्याउने व्यवस्था चाहिन्छ।"},
+          {title:"Counselling = U-S-A",en:"Use • Safety • Action — explain use, safety precautions and what action to take if a problem occurs.",ne:"प्रयोग, सुरक्षा सावधानी र समस्या आएमा के गर्ने भन्ने कुरा बुझाउनुहोस्।"}
+        ],
+        diagrams:[
+          {title:"Safe dispensing sequence",en:"A general safety workflow; follow local law and institutional procedures.",ne:"सामान्य औषधि वितरण सुरक्षा क्रम; स्थानीय कानून र संस्थाको प्रक्रिया पालना गर्नुहोस्।",html:'<div style="display:grid;gap:7px;text-align:center"><div style="padding:10px;border-radius:9px;background:#e0f2fe">Receive prescription</div><b>↓</b><div style="padding:10px;border-radius:9px;background:#dcfce7">Verify patient, medicine & allergy</div><b>↓</b><div style="padding:10px;border-radius:9px;background:#fef3c7">Check dose, interactions & expiry</div><b>↓</b><div style="padding:10px;border-radius:9px;background:#f3e8ff">Dispense, counsel & document</div></div>'}
+        ],
+        examples:[
+          {title:"Unclear prescription",en:"Do not interpret an unclear strength or instruction by guessing. Pause dispensing and clarify with the authorized prescriber/pharmacist.",ne:"औषधिको शक्ति वा निर्देशन अस्पष्ट भए अनुमान नगर्नुहोस्। वितरण रोकेर अधिकृत prescriber/pharmacist सँग स्पष्ट गर्नुहोस्।"},
+          {title:"Possible allergy",en:"If a patient reports a previous serious reaction, record and escalate the information before dispensing; follow the approved clinical process.",ne:"बिरामीले पहिले गम्भीर allergy भएको बताएमा औषधि दिनुअघि अभिलेख गरी जिम्मेवार व्यक्तिलाई जानकारी दिनुहोस्।"},
+          {title:"Expired stock",en:"Separate expired stock from usable medicines, label and document it, then follow the approved return or disposal procedure.",ne:"म्याद सकिएको औषधि प्रयोगयोग्य stock बाट छुट्याई label/अभिलेख गर्नुहोस् र स्वीकृत फिर्ता वा नष्ट गर्ने प्रक्रिया अपनाउनुहोस्।"}
+        ]
+      };
+      if(window.DHPNStudyGuide)host.innerHTML=window.DHPNStudyGuide.render(guide);
+      else host.innerHTML=notes.map(n=>`<article class="note"><h3>${esc(n.title)}</h3><p>${esc(n.english)}</p><p class="np">${esc(n.nepali)}</p></article>`).join("");
+    }
     function renderPractice() {
       if(!practice.length){$("questionArea").textContent="MCQ सामग्री थपिँदैछ।";return;}
       const q=practice[pi],chosen=answers[pi];$("questionCount").textContent=(pi+1)+" / "+practice.length;
