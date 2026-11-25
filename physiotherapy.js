@@ -365,6 +365,30 @@ const newBatch25=[["Which connective tissue sheath surrounds an individual muscl
  {title:"Safe transfer",en:"Check weight-bearing status, balance, cognition and lines; explain the task, lock wheelchair brakes and use appropriate assistance.",ne:"Weight-bearing, balance, cognition र lines जाँच्नुहोस्; बुझाएर wheelchair brake lock गरी उचित सहयोग प्रयोग गर्नुहोस्।"}
  ]
  };
+ studyGuideData.points.push(
+ {title:"Neurovascular check",en:"After trauma or casting, compare distal colour, temperature, sensation, movement, capillary refill and pulse when indicated.",ne:"चोट वा cast पछि distal colour, temperature, sensation, movement, capillary refill र pulse जाँच्नुहोस्।"},
+ {title:"Red flag referral",en:"Sudden stroke signs, chest pain, severe breathlessness, suspected DVT/PE, cauda equina symptoms or acute neurovascular loss need urgent assessment.",ne:"Stroke संकेत, छाती दुखाइ, गम्भीर श्वासकष्ट, DVT/PE शंका, cauda equina लक्षण वा acute neurovascular loss मा urgent assessment चाहिन्छ।"},
+ {title:"Joint protection",en:"Respect healing tissues, surgical precautions, fracture stability and prescribed weight-bearing; never assume unrestricted loading.",ne:"Healing tissue, surgical precaution, fracture stability र weight-bearing निर्देशन पालना गर्नुहोस्।"},
+ {title:"Gait observation",en:"Observe step length, cadence, speed, base of support, symmetry, foot clearance and assistive-device use.",ne:"Step length, cadence, speed, base of support, symmetry, foot clearance र assistive device प्रयोग हेर्नुहोस्।"},
+ {title:"Transfer safety",en:"Prepare the environment, explain the movement, secure brakes, check lines and choose assistance based on ability and risk.",ne:"Environment तयार गर्नुहोस्, movement बुझाउनुहोस्, brake lock र lines जाँच गरी जोखिमअनुसार सहयोग छान्नुहोस्।"},
+ {title:"Pain reassessment",en:"Record pain before and after intervention, including location, intensity and effect on function.",ne:"उपचारअघि र पछि pain को स्थान, intensity र function मा असर अभिलेख गर्नुहोस्।"},
+ {title:"Exercise progression",en:"Progress load, repetitions, duration, complexity or balance demand gradually while monitoring response.",ne:"Load, repetition, duration, complexity वा balance demand क्रमशः बढाउँदै प्रतिक्रिया monitor गर्नुहोस्।"},
+ {title:"Documentation",en:"Document assessment, goals, intervention, dosage, response, education, consent and referral when relevant.",ne:"Assessment, goal, intervention, dosage, प्रतिक्रिया, education, consent र आवश्यक referral लेख्नुहोस्।"},
+ {title:"Patient-centred goal",en:"Write SMART goals: specific, measurable, achievable, relevant and time-bound, linked to a meaningful activity.",ne:"SMART goal: specific, measurable, achievable, relevant र time-bound; अर्थपूर्ण activity सँग जोड्नुहोस्।"}
+ );
+ studyGuideData.tricks.push(
+ {title:"Nerve roots",en:"Phrenic nerve: C3–C5—“3, 4, 5 keep the diaphragm alive.”",ne:"Phrenic nerve C3–C5: 3, 4, 5 ले diaphragm चलाउँछन्।"},
+ {title:"Sprain vs strain",en:"Sprain = ligament; strain = muscle/tendon.",ne:"Sprain = ligament चोट; strain = muscle/tendon चोट।"},
+ {title:"Foot movements",en:"Dorsiflexion toes up; plantarflexion toes down; inversion sole in; eversion sole out.",ne:"Dorsiflexion औँला माथि; plantarflexion तल; inversion तलुवा भित्र; eversion बाहिर।"},
+ {title:"Common nerve signs",en:"Radial—wrist drop; median—carpal tunnel; ulnar—finger abduction weakness; common fibular—foot drop.",ne:"Radial—wrist drop; median—carpal tunnel; ulnar—finger abduction कमजोरी; common fibular—foot drop।"},
+ {title:"Gait recall",en:"Stance = foot on ground; swing = foot advances. Comfortable walking is roughly 60% stance and 40% swing.",ne:"Stance = खुट्टा जमिनमा; swing = खुट्टा उठेर अगाडि। सामान्य गतिमा करिब 60% stance, 40% swing।"},
+ {title:"MMT recall",en:"Grade 3 means full available ROM against gravity, without added resistance.",ne:"MMT grade 3 = gravity विरुद्ध पूरा उपलब्ध ROM, थप resistance बिना।"},
+ {title:"SMART",en:"Specific, Measurable, Achievable, Relevant, Time-bound.",ne:"Specific, Measurable, Achievable, Relevant, Time-bound।"}
+ );
+ studyGuideData.diagrams.push(
+ {title:"MMT grading scale",en:"0 none; 1 trace; 2 gravity eliminated; 3 against gravity; 4 resistance; 5 normal.",ne:"0 contraction छैन; 1 trace; 2 gravity हटाएर; 3 gravity विरुद्ध; 4 resistance; 5 normal.",html:'<svg viewBox="0 0 500 92" role="img" aria-label="MMT grades zero to five"><g fill="#e8f5ff" stroke="#7caec7"><rect x="4" y="10" width="78" height="70" rx="8"/><rect x="87" y="10" width="78" height="70" rx="8"/><rect x="170" y="10" width="78" height="70" rx="8"/><rect x="253" y="10" width="78" height="70" rx="8"/><rect x="336" y="10" width="78" height="70" rx="8"/><rect x="419" y="10" width="78" height="70" rx="8"/></g><g fill="#18364b" font-size="12" text-anchor="middle"><text x="43" y="32">0</text><text x="43" y="52">None</text><text x="126" y="32">1</text><text x="126" y="52">Trace</text><text x="209" y="32">2</text><text x="209" y="52">Gravity off</text><text x="292" y="32">3</text><text x="292" y="52">Against G</text><text x="375" y="32">4</text><text x="375" y="52">Resistance</text><text x="458" y="32">5</text><text x="458" y="52">Normal</text></g></svg>'},
+ {title:"Gait cycle",en:"Stance: foot contact/support; swing: foot leaves the ground and advances.",ne:"Stance: खुट्टा जमिनमा contact/support; swing: खुट्टा उठेर अगाडि बढ्छ।",html:'<svg viewBox="0 0 420 90" role="img" aria-label="Gait stance and swing"><rect x="8" y="18" width="240" height="42" rx="8" fill="#e8f5ff" stroke="#7caec7"/><rect x="255" y="18" width="157" height="42" rx="8" fill="#effaf4" stroke="#8aa9b8"/><g fill="#18364b" font-size="14" text-anchor="middle"><text x="128" y="36">STANCE ~60%</text><text x="128" y="52">Foot on ground</text><text x="333" y="36">SWING ~40%</text><text x="333" y="52">Foot advances</text></g></svg>'}
+ );
  function showStudyGuide(){stop();st.mode="studyGuide";root.innerHTML=header()+window.DHPNStudyGuide.render(studyGuideData)}
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  const st={mode:"overview",list:[],answers:{},i:0,seconds:0,timer:null,setNo:1};
