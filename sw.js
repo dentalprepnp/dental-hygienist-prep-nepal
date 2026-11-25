@@ -1,6 +1,6 @@
 /* Lightweight PWA cache: precache the app shell; fetch scripts/styles fresh first,
    with cached copies as an offline fallback. */
-const CACHE="hl-preparation-v374-mlt-study-guide";
+const CACHE="hl-preparation-v375-ott-study-guide";
 const ASSETS=[
  "./","./index.html","./study-guide.js?v=1","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=294","./app.js?v=195","./auth.js?v=11",
