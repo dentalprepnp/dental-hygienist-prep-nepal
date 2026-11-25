@@ -14,7 +14,7 @@
         <button class="feature-card" data-bmlt="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small id="bmltMockCount">Timed test</small></button>
       </div>
       <div class="toolbar"><label for="bmltLanguage">Question language</label><select id="bmltLanguage"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
-      <div id="bmltNotes" class="op-panel hidden"><h2>BMLT NHPC Licensing Notes</h2><div id="bmltNotesList" class="notes-list"></div></div>
+      <div id="bmltNotes" class="op-panel hidden"><h2>BMLT NHPC Licensing Notes</h2><div id="bmltNotesList" class="notes-list"></div><div id="bmltStudyGuide"></div></div>
       <div id="bmltPractice" class="op-panel hidden"><div class="section-head"><h2>MCQ Practice</h2><span class="pill" id="bmltCount"></span></div><div id="bmltQuestion"></div></div>
       <div id="bmltMock" class="op-panel hidden"><h2>BMLT NHPC Licensing Mock Test</h2><p class="muted" id="bmltMockIntroText"></p><div id="bmltMockIntro" class="notice"><p>प्रत्येक सेटमा अधिकतम १०० प्रश्न हुन्छन्। परीक्षा बुझाएपछि मात्र सही उत्तर र व्याख्या देखिन्छ।</p><div id="bmltMockSets" class="feature-grid"></div></div><div id="bmltMockArea"></div></div>
     </div>
@@ -93,6 +93,36 @@
       nepali:String(n.nepali??n.content_ne??n.content_np??n.note_ne??n.translation??"")
     };
   }
+  function renderBMLTGuide(){
+    const host=document.getElementById("bmltStudyGuide");
+    if(!host||!window.DHPNStudyGuide)return;
+    host.innerHTML=window.DHPNStudyGuide.render({
+      title:"BMLT NHPC Licensing — Study Guide",
+      notes:notes.map(n=>({title:n.title,en:n.english,ne:n.nepali})),
+      points:[
+        {title:"Specimen integrity",en:"Correct patient identification, specimen type, container, labeling, transport and timing are essential before analysis.",ne:"सही बिरामी पहिचान, नमुनाको प्रकार, कन्टेनर, लेबल, ढुवानी र समय नमुना परीक्षणअघि अनिवार्य जाँच गर्नुहोस्।"},
+        {title:"Quality control",en:"Run and review internal quality control according to the laboratory SOP; do not release results when QC is unacceptable.",ne:"SOP अनुसार internal QC गर्नुहोस्; QC स्वीकार्य नभए परिणाम जारी नगर्नुहोस्।"},
+        {title:"CBC basics",en:"Interpret hemoglobin, RBC indices, WBC differential and platelet count together with clinical context and reference intervals.",ne:"Hb, RBC indices, WBC differential र platelet count लाई clinical context र reference range सँगै बुझ्नुहोस्।"},
+        {title:"Microbiology safety",en:"Use appropriate biosafety precautions, aseptic technique and validated methods; report critical findings promptly.",ne:"उचित biosafety, aseptic technique र प्रमाणित विधि अपनाउनुहोस्; critical finding तुरुन्त रिपोर्ट गर्नुहोस्।"},
+        {title:"Biochemistry",en:"Check sample suitability (e.g., hemolysis), calibration, reagent expiry and units before validating results.",ne:"Result validate गर्नु अघि नमुना (जस्तै hemolysis), calibration, reagent expiry र units जाँच्नुहोस्।"}
+      ],
+      tricks:[
+        {title:"Specimen pathway — I-T-T-A",en:"Identify → collect → transport → analyse.",ne:"पहिचान → संकलन → ढुवानी → परीक्षण।"},
+        {title:"CBC — H-R-W-P",en:"Hemoglobin, RBC indices, WBC, Platelets: review the four groups together.",ne:"Hb, RBC indices, WBC र Platelets चारै समूह सँगै हेर्नुहोस्।"},
+        {title:"QC — C-R-R",en:"Control → review → release (only when acceptable).",ne:"Control → review → QC ठीक भए मात्र release।"},
+        {title:"Culture — S-I-I",en:"Specimen quality → inoculation → incubation; follow organism-specific SOP.",ne:"नमुना गुणस्तर → inoculation → incubation; organism अनुसार SOP पालना।"}
+      ],
+      diagrams:[
+        {title:"Laboratory workflow / प्रयोगशाला प्रक्रिया",en:"Pre-analytical to post-analytical phases",ne:"नमुना प्राप्तिदेखि रिपोर्टसम्म",html:'<svg viewBox="0 0 620 125" role="img" aria-label="Laboratory workflow diagram"><g font-family="Arial" font-size="16" text-anchor="middle" fill="#164e63"><rect x="8" y="25" width="135" height="62" rx="12" fill="#e0f2fe" stroke="#0284c7"/><text x="75" y="50">Pre-analytical</text><text x="75" y="70" font-size="12">Collect / label</text><path d="M145 56 H165" stroke="#0284c7" stroke-width="3"/><path d="M159 49 L168 56 L159 63" fill="none" stroke="#0284c7" stroke-width="3"/><rect x="172" y="25" width="135" height="62" rx="12" fill="#dcfce7" stroke="#16a34a"/><text x="239" y="50">Analytical</text><text x="239" y="70" font-size="12">Test / QC</text><path d="M309 56 H329" stroke="#0284c7" stroke-width="3"/><path d="M323 49 L332 56 L323 63" fill="none" stroke="#0284c7" stroke-width="3"/><rect x="336" y="25" width="135" height="62" rx="12" fill="#fef3c7" stroke="#d97706"/><text x="403" y="50">Post-analytical</text><text x="403" y="70" font-size="12">Validate / report</text><path d="M473 56 H493" stroke="#0284c7" stroke-width="3"/><path d="M487 49 L496 56 L487 63" fill="none" stroke="#0284c7" stroke-width="3"/><rect x="500" y="25" width="112" height="62" rx="12" fill="#f3e8ff" stroke="#9333ea"/><text x="556" y="50">Result</text><text x="556" y="70" font-size="12">Communicate</text></g></svg>'},
+        {title:"CBC overview / CBC का आधार",en:"Relate cell counts and indices to the blood film and clinical context.",ne:"Cell count र indices लाई blood film र clinical अवस्थासँग मिलाएर हेर्नुहोस्।",html:'<svg viewBox="0 0 520 115" role="img" aria-label="CBC components diagram"><g font-family="Arial" text-anchor="middle" font-size="15"><rect x="8" y="22" width="155" height="70" rx="12" fill="#fee2e2" stroke="#dc2626"/><text x="85" y="49" fill="#991b1b">RBC / Hb</text><text x="85" y="70" fill="#991b1b" font-size="12">Anemia & indices</text><rect x="182" y="22" width="155" height="70" rx="12" fill="#dbeafe" stroke="#2563eb"/><text x="259" y="49" fill="#1e40af">WBC</text><text x="259" y="70" fill="#1e40af" font-size="12">Count & differential</text><rect x="356" y="22" width="156" height="70" rx="12" fill="#fef3c7" stroke="#d97706"/><text x="434" y="49" fill="#92400e">Platelets</text><text x="434" y="70" fill="#92400e" font-size="12">Number & morphology</text></g></svg>'}
+      ],
+      examples:[
+        {title:"Hemolyzed sample / Hemolysis",en:"A visibly hemolyzed sample may affect potassium and other analytes. Follow the laboratory rejection/recollection policy and document the action.",ne:"Hemolyzed नमुनाले potassium लगायत केही analyte प्रभावित गर्न सक्छ। Lab rejection/recollection policy अनुसार काम गरी अभिलेख राख्नुहोस्।"},
+        {title:"Blood culture collection",en:"Use correct patient identification, aseptic skin preparation, appropriate blood volume and timely transport according to SOP.",ne:"सही बिरामी पहिचान, aseptic skin preparation, उचित blood volume र SOP अनुसार छिटो ढुवानी गर्नुहोस्।"},
+        {title:"Critical result",en:"Verify the result according to policy, promptly notify the responsible clinician, and record who was informed and when.",ne:"Policy अनुसार result verify गरी जिम्मेवार clinician लाई तुरुन्त जानकारी दिनुहोस् र कसलाई/कहिले भनियो अभिलेख राख्नुहोस्।"}
+      ]
+    });
+  }
   function convertRows(rows) {
     const typed=rows.map(row=>({...row,normalizedType:normalizeType(row.content_type)}));
     notes=typed.filter(x=>x.normalizedType==="note").map(x=>normalizeNote(x.content_data));
@@ -109,7 +139,8 @@
     document.getElementById("bmltMockIntroText").textContent=mockBankQuestions.length+" उपलब्ध Mock प्रश्न • प्रत्येक प्रश्नको १ अंक";
     const setRoot=document.getElementById("bmltMockSets");
     if(mockBankQuestions.length){const setCount=Math.ceil(mockBankQuestions.length/100);setRoot.innerHTML=Array.from({length:setCount},(_,i)=>{const count=Math.min(100,mockBankQuestions.length-i*100);return `<button class="feature-card" type="button" data-bmlt-set="${i}"><b>Mock Set ${i+1}</b><strong>${count} प्रश्न • ${count} अंक</strong><small>६० मिनेट</small></button>`}).join("");setRoot.querySelectorAll("[data-bmlt-set]").forEach(b=>b.addEventListener("click",()=>startMock(Number(b.dataset.bmltSet))));}else setRoot.textContent="अहिले Mock प्रश्न उपलब्ध छैन।";
-    document.getElementById("bmltNotesList").innerHTML=notes.map(n=>`<article class="note"><h3>${n.title}</h3><p>${n.english}</p><p class="np">${n.nepali}</p></article>`).join("");
+    document.getElementById("bmltNotesList").innerHTML="";
+    renderBMLTGuide();
     root.querySelectorAll("[data-bmlt]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.bmlt);if(b.dataset.bmlt==="practice")renderPractice();}));
     document.getElementById("bmltLanguage").addEventListener("change",()=>{if(!document.getElementById("bmltPractice").classList.contains("hidden"))renderPractice();if(!document.getElementById("bmltMock").classList.contains("hidden")&&mock.length)renderMock();});
 
