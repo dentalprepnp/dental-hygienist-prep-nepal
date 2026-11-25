@@ -83,7 +83,7 @@
     document.getElementById("dpLanguage").addEventListener("change",()=>{if(!document.getElementById("dpPractice").classList.contains("hidden"))renderPractice();if(!document.getElementById("dpMock").classList.contains("hidden")&&mock.length)renderMock();});
     document.getElementById("dpStart").addEventListener("click",startMock);
   }
-  function panel(name){root.querySelectorAll(".op-panel").forEach(x=>x.classList.add("hidden"));document.getElementById("dp"+name[0].toUpperCase()+name.slice(1)).classList.remove("hidden");}
+  function panel(name){root.querySelectorAll(".op-panel").forEach(x=>x.classList.add("hidden"));const target=document.getElementById("dp"+name[0].toUpperCase()+name.slice(1));target.classList.remove("hidden");target.style.scrollMarginTop="90px";target.scrollIntoView({behavior:"smooth",block:"start"});}
   function bilingual(q){const mode=document.getElementById("dpLanguage").value;return `${mode==="ne"?"":`<h3>${q[0]}</h3>`}${mode==="en"?"":`<p class="translation">${q[1]}</p>`}`;}
   function renderPractice(){
     if(!practiceQuestions.length){document.getElementById("dpQuestion").textContent="यस Membership मा MCQ उपलब्ध छैन।";return;}
