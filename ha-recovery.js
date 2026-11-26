@@ -35,7 +35,11 @@
    catch(error){console.error("Original HA menu failed; using direct-action launcher",error);}
    originalLauncher();return true;
   };
-  try{window.ensureHAMenu();}catch(error){originalLauncher();}
+  try{window.ensureHAMenu();}catch(error){console.error("Original HA menu render failed",error);}
+  /* Always show direct shortcuts to the original full content. This makes the
+     old Study Guide, practice bank and all five original mock-set functions
+     reachable even if the original landing menu is stale or partially rendered. */
+  originalLauncher();
   return;
  }
  if(typeof window.ensureHAMenu==="function")return;
