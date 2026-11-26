@@ -1398,3 +1398,13 @@ const practiceQ=Q.filter((_,i)=>i%2===0);
   if(content)content.innerHTML='<div class="notice"><h3>HA सामग्री सुरु हुन सकेन</h3><p>प्राविधिक समस्या भेटियो। कृपया refresh गर्नुहोस्।</p><small>Admin ले त्रुटि जाँच गर्न सक्छन्।</small></div>';
  }
 })();
+/* HA direct click safety handler: route study buttons before page-level listeners can swallow them. */
+window.addEventListener("click",function(event){
+ const button=event.target&&event.target.closest&&event.target.closest("#haView button[data-ha]");
+ if(!button)return;
+ const action=window.HAStudyActions&&window.HAStudyActions[button.dataset.ha];
+ if(typeof action!=="function")return;
+ event.preventDefault();event.stopImmediatePropagation();
+ try{action();}
+ catch(error){console.error("HA direct action failed:",error);const content=document.querySelector("#haView #haContent");if(content)content.innerHTML='<div class="notice"><h3>यो सामग्री खोल्न समस्या भयो</h3><p>कृपया फेरि प्रयास गर्नुहोस्।</p></div>';}
+},true);
