@@ -1636,7 +1636,269 @@ const bmltAnatomyPhysiologyQuestions = [
 {"question":"Which part of the urinary system stores urine before micturition?","translation":"पिसाब त्याग्नुअघि urine कुन अंगमा जम्मा हुन्छ?","options":["Urinary bladder","Ureter","Kidney","Urethra"],"correctIndex":0,"explanation":"The urinary bladder temporarily stores urine before it is expelled through the urethra.","explanationNe":"Urinary bladder ले urethra बाट बाहिर निस्कनुअघि urine अस्थायी रूपमा जम्मा गर्छ।"},
 {"question":"What is the basic structural and functional unit of the kidney?","translation":"मिर्गौलाको आधारभूत संरचनात्मक तथा कार्यात्मक एकाइ कुन हो?","options":["Nephron","Neuron","Alveolus","Hepatocyte"],"correctIndex":0,"explanation":"Each kidney contains many nephrons that filter blood and modify filtrate to form urine.","explanationNe":"प्रत्येक kidney मा धेरै nephron हुन्छन्, जसले रगत filter गरी urine बनाउँछन्।"},
 {"question":"Which bone is the longest in the human body?","translation":"मानव शरीरको सबैभन्दा लामो हड्डी कुन हो?","options":["Femur","Humerus","Tibia","Fibula"],"correctIndex":0,"explanation":"The femur, or thigh bone, is the longest and one of the strongest bones in the body.","explanationNe":"Femur अर्थात् तिघ्राको हड्डी शरीरको सबैभन्दा लामो र बलियो हड्डीमध्ये एक हो।"},
-{"question":"Which cells form the myelin sheath in the peripheral nervous system?","translation":"Peripheral nervous system मा myelin sheath कुन कोशिकाले बनाउँछ?","options":["Schwann cells","Oligodendrocytes","Astrocytes","Microglia"],"correctIndex":0,"explanation":"Schwann cells form myelin around axons in the peripheral nervous system; oligodendrocytes do so in the CNS.","explanationNe":"Peripheral nervous system मा Schwann cell ले axon वरिपरि myelin बनाउँछ; CNS मा oligodendrocyte ले बनाउँछ।"}
+{"question":"Which cells form the myelin sheath in the peripheral nervous system?","translation":"Peripheral nervous system मा myelin sheath कुन कोशिकाले बनाउँछ?","options":["Schwann cells","Oligodendrocytes","Astrocytes","Microglia"],"correctIndex":0,"explanation":"Schwann cells form myelin around axons in the peripheral nervous system; oligodendrocytes do so in the CNS.","explanationNe":"Peripheral nervous system मा Schwann cell ले axon वरिपरि myelin बनाउँछ; CNS मा oligodendrocyte ले बनाउँछ।"},
+
+  {
+    "question": "Which structure connects the two cerebral hemispheres?",
+    "translation": "मस्तिष्कका दुई cerebral hemisphere लाई कुन संरचनाले जोड्छ?",
+    "options": [
+      "Corpus callosum",
+      "Cerebellar vermis",
+      "Pons",
+      "Optic chiasm"
+    ],
+    "correctIndex": 0,
+    "explanation": "The corpus callosum is a large bundle of nerve fibers connecting the cerebral hemispheres.",
+    "explanationNe": "Corpus callosum स्नायु तन्तुको ठूलो समूह हो, जसले मस्तिष्कका दुई hemisphere जोड्छ।"
+  },
+  {
+    "question": "Which gland produces thyroxine (T4)?",
+    "translation": "Thyroxine (T4) कुन ग्रन्थिले उत्पादन गर्छ?",
+    "options": [
+      "Thyroid gland",
+      "Adrenal cortex",
+      "Pituitary gland",
+      "Pancreatic islets"
+    ],
+    "correctIndex": 0,
+    "explanation": "Thyroid follicular cells synthesize and release thyroxine (T4) and triiodothyronine (T3).",
+    "explanationNe": "Thyroid का follicular cell ले thyroxine (T4) र triiodothyronine (T3) उत्पादन गर्छन्।"
+  },
+  {
+    "question": "Which hormone is mainly responsible for increasing blood calcium level?",
+    "translation": "रगतमा calcium को मात्रा बढाउन मुख्य भूमिका खेल्ने hormone कुन हो?",
+    "options": [
+      "Parathyroid hormone",
+      "Calcitonin",
+      "Insulin",
+      "Aldosterone"
+    ],
+    "correctIndex": 0,
+    "explanation": "Parathyroid hormone raises blood calcium through actions on bone, kidneys and indirectly the intestine.",
+    "explanationNe": "Parathyroid hormone ले हड्डी, मिर्गौला र अप्रत्यक्ष रूपमा आन्द्रामा असर गरी रगतको calcium बढाउँछ।"
+  },
+  {
+    "question": "Where does gas exchange occur in the lungs?",
+    "translation": "फोक्सोमा gas exchange कहाँ हुन्छ?",
+    "options": [
+      "Alveoli",
+      "Trachea",
+      "Bronchi",
+      "Pleural cavity"
+    ],
+    "correctIndex": 0,
+    "explanation": "Alveoli are thin-walled air sacs surrounded by capillaries where oxygen and carbon dioxide diffuse.",
+    "explanationNe": "Alveoli पातलो भित्तायुक्त वायु थैली हुन्; वरिपरिका capillary सँग oxygen र carbon dioxide को आदानप्रदान हुन्छ।"
+  },
+  {
+    "question": "Which muscle is the primary muscle of quiet inspiration?",
+    "translation": "सामान्य श्वास लिँदा मुख्य रूपमा काम गर्ने muscle कुन हो?",
+    "options": [
+      "Diaphragm",
+      "Rectus abdominis",
+      "Internal intercostal muscles",
+      "Trapezius"
+    ],
+    "correctIndex": 0,
+    "explanation": "Contraction of the diaphragm increases thoracic volume and helps draw air into the lungs during inspiration.",
+    "explanationNe": "Diaphragm खुम्चिँदा छातीको गुहा ठूलो हुन्छ र श्वास भित्र तान्न मद्दत गर्छ।"
+  },
+  {
+    "question": "Which chamber of the heart pumps oxygenated blood into the aorta?",
+    "translation": "मुटुको कुन chamber ले oxygen भएको रगत aorta मा पम्प गर्छ?",
+    "options": [
+      "Left ventricle",
+      "Right ventricle",
+      "Right atrium",
+      "Left atrium"
+    ],
+    "correctIndex": 0,
+    "explanation": "The left ventricle pumps oxygenated blood through the aortic valve into the aorta and systemic circulation.",
+    "explanationNe": "Left ventricle ले oxygen भएको रगत aortic valve हुँदै aorta र शरीरभरि पठाउँछ।"
+  },
+  {
+    "question": "What is the normal pacemaker of the human heart?",
+    "translation": "मानव मुटुको सामान्य pacemaker कुन हो?",
+    "options": [
+      "Sinoatrial (SA) node",
+      "Atrioventricular (AV) node",
+      "Bundle of His",
+      "Purkinje fibers"
+    ],
+    "correctIndex": 0,
+    "explanation": "The SA node normally initiates the electrical impulse that sets the heart rhythm.",
+    "explanationNe": "SA node ले सामान्यतया मुटुको धड्कन सुरु गर्ने electrical impulse उत्पन्न गर्छ।"
+  },
+  {
+    "question": "Which blood component is mainly responsible for clot formation?",
+    "translation": "रगत जमाउने प्रक्रियामा मुख्य भूमिका खेल्ने रक्तघटक कुन हो?",
+    "options": [
+      "Platelets",
+      "Erythrocytes",
+      "Albumin",
+      "Neutrophils"
+    ],
+    "correctIndex": 0,
+    "explanation": "Platelets adhere and aggregate at vessel injury and support the coagulation process.",
+    "explanationNe": "Platelet ले चोट लागेको रक्तनलीमा टाँसिने र जम्मा हुने काम गरी coagulation मा सहयोग गर्छ।"
+  },
+  {
+    "question": "Where does most nutrient absorption occur in the digestive tract?",
+    "translation": "पाचन प्रणालीमा धेरैजसो पोषक तत्त्व कहाँ अवशोषित हुन्छन्?",
+    "options": [
+      "Small intestine",
+      "Stomach",
+      "Large intestine",
+      "Esophagus"
+    ],
+    "correctIndex": 0,
+    "explanation": "Most digestion and nutrient absorption occur in the small intestine, aided by villi and microvilli.",
+    "explanationNe": "Villi र microvilli को सहयोगमा सानो आन्द्रामा धेरैजसो पाचन र पोषक तत्त्वको अवशोषण हुन्छ।"
+  },
+  {
+    "question": "Which enzyme begins protein digestion in the stomach?",
+    "translation": "पेटमा protein पचाउन सुरु गर्ने enzyme कुन हो?",
+    "options": [
+      "Pepsin",
+      "Amylase",
+      "Lipase",
+      "Trypsin"
+    ],
+    "correctIndex": 0,
+    "explanation": "Pepsin, activated from pepsinogen in acidic gastric conditions, begins protein digestion in the stomach.",
+    "explanationNe": "पेटको अम्लीय वातावरणमा pepsinogen बाट सक्रिय भएको pepsin ले protein पचाउन सुरु गर्छ।"
+  },
+  {
+    "question": "Which hormone increases water reabsorption in the kidney collecting ducts?",
+    "translation": "मिर्गौलाको collecting duct मा पानीको पुनःअवशोषण बढाउने hormone कुन हो?",
+    "options": [
+      "Antidiuretic hormone (ADH)",
+      "Insulin",
+      "Thyroxine",
+      "Glucagon"
+    ],
+    "correctIndex": 0,
+    "explanation": "ADH increases water permeability in collecting ducts, helping conserve body water.",
+    "explanationNe": "ADH ले collecting duct मा पानी पार हुने क्षमता बढाएर शरीरमा पानी जोगाउँछ।"
+  },
+  {
+    "question": "Which part of the skeleton protects the brain?",
+    "translation": "कंकालको कुन भागले मस्तिष्कलाई सुरक्षा दिन्छ?",
+    "options": [
+      "Cranium",
+      "Sternum",
+      "Pelvis",
+      "Vertebral column"
+    ],
+    "correctIndex": 0,
+    "explanation": "The cranium encloses and protects the brain.",
+    "explanationNe": "Cranium ले मस्तिष्कलाई घेरेर सुरक्षा दिन्छ।"
+  },
+  {
+    "question": "Which type of joint allows movement in many directions, as at the shoulder?",
+    "translation": "Shoulder मा जस्तै धेरै दिशामा चल्न सक्ने joint कुन प्रकारको हो?",
+    "options": [
+      "Ball-and-socket joint",
+      "Hinge joint",
+      "Pivot joint",
+      "Gliding joint"
+    ],
+    "correctIndex": 0,
+    "explanation": "The shoulder is a ball-and-socket joint that permits movement in multiple directions, including rotation.",
+    "explanationNe": "Shoulder ball-and-socket joint हो, जसले धेरै दिशामा चाल र rotation सम्भव बनाउँछ।"
+  },
+  {
+    "question": "Which part of the eye controls the amount of light entering the pupil?",
+    "translation": "आँखाको pupil भित्र जाने प्रकाशको मात्रा कुन भागले नियन्त्रण गर्छ?",
+    "options": [
+      "Iris",
+      "Retina",
+      "Cornea",
+      "Optic nerve"
+    ],
+    "correctIndex": 0,
+    "explanation": "The iris changes pupil diameter to regulate the amount of light entering the eye.",
+    "explanationNe": "Iris ले pupil को आकार परिवर्तन गरी आँखाभित्र जाने प्रकाशको मात्रा नियन्त्रण गर्छ।"
+  },
+  {
+    "question": "Which part of the brain regulates vital functions such as breathing and heart rate?",
+    "translation": "श्वासप्रश्वास र मुटुको धड्कनजस्ता जीवनका लागि आवश्यक कार्य कुन brain भागले नियन्त्रण गर्छ?",
+    "options": [
+      "Medulla oblongata",
+      "Cerebellum",
+      "Occipital lobe",
+      "Hippocampus"
+    ],
+    "correctIndex": 0,
+    "explanation": "The medulla oblongata contains centers involved in regulating breathing, heart rate and blood pressure.",
+    "explanationNe": "Medulla oblongata मा श्वासप्रश्वास, मुटुको धड्कन र रक्तचाप नियन्त्रणमा संलग्न केन्द्र हुन्छन्।"
+  },
+  {
+    "question": "Which wave on a normal ECG represents atrial depolarization?",
+    "translation": "सामान्य ECG मा कुन wave ले atrial depolarization जनाउँछ?",
+    "options": [
+      "P wave",
+      "QRS complex",
+      "T wave",
+      "U wave"
+    ],
+    "correctIndex": 0,
+    "explanation": "The P wave represents electrical depolarization of the atria.",
+    "explanationNe": "P wave ले atria को electrical depolarization जनाउँछ।"
+  },
+  {
+    "question": "Which blood vessel carries deoxygenated blood from the heart to the lungs?",
+    "translation": "मुटुबाट फोक्सोसम्म oxygen कम भएको रगत कुन रक्तनलीले लैजान्छ?",
+    "options": [
+      "Pulmonary artery",
+      "Pulmonary vein",
+      "Aorta",
+      "Coronary vein"
+    ],
+    "correctIndex": 0,
+    "explanation": "The pulmonary arteries carry deoxygenated blood from the right ventricle to the lungs.",
+    "explanationNe": "Pulmonary artery ले right ventricle बाट oxygen कम भएको रगत फोक्सोमा लैजान्छ।"
+  },
+  {
+    "question": "What is the main function of the large intestine?",
+    "translation": "ठूलो आन्द्राको मुख्य काम के हो?",
+    "options": [
+      "Absorption of water and electrolytes and formation of feces",
+      "Production of bile",
+      "Most protein digestion",
+      "Oxygen exchange"
+    ],
+    "correctIndex": 0,
+    "explanation": "The large intestine absorbs remaining water and electrolytes and helps form and store feces.",
+    "explanationNe": "ठूलो आन्द्राले बाँकी पानी र electrolyte अवशोषण गरी दिसा बनाउन र राख्न मद्दत गर्छ।"
+  },
+  {
+    "question": "Which movement propels food along the gastrointestinal tract?",
+    "translation": "पाचन नलीभित्र खाना अगाडि बढाउने चाललाई के भनिन्छ?",
+    "options": [
+      "Peristalsis",
+      "Filtration",
+      "Diffusion",
+      "Osmosis"
+    ],
+    "correctIndex": 0,
+    "explanation": "Peristalsis is a coordinated wave of smooth-muscle contraction that moves contents along the gastrointestinal tract.",
+    "explanationNe": "Peristalsis smooth muscle को क्रमिक खुम्चिने चाल हो, जसले पाचन नलीमा खाना अगाडि बढाउँछ।"
+  },
+  {
+    "question": "Which cells produce insulin in the pancreatic islets?",
+    "translation": "Pancreatic islet का कुन कोशिकाले insulin उत्पादन गर्छन्?",
+    "options": [
+      "Beta cells",
+      "Alpha cells",
+      "Delta cells",
+      "Acinar cells"
+    ],
+    "correctIndex": 0,
+    "explanation": "Beta cells of the islets of Langerhans synthesize and secrete insulin.",
+    "explanationNe": "Islets of Langerhans का beta cell ले insulin उत्पादन र स्राव गर्छन्।"
+  }
+
 ];
 
 const bmltHealthPolicyResearchPharmacologyEthicsQuestions = [
