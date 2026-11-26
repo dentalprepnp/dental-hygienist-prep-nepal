@@ -122,7 +122,11 @@
  stop();state.mode=mode;state.set=setNo;state.index=0;state.score=0;state.answered=false;
  state.seconds=mode==="full"?120*60:mode==="timed"?15*60:0;
  state.examAnswers=[];state.marked=[];
- state.bank=mode==="case"?caseQs:qs;state.items=state.bank.map((q,i)=>({q,i}));
+ state.bank=mode==="case"?caseQs:qs;
+ // Shuffle each attempt so students practise recall, not a memorised question order.
+ const order=state.bank.map((q,i)=>i);
+ for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+ state.items=order.map(i=>({q:state.bank[i],i}));
  if(mode==="mock")state.items=state.items.slice((setNo-1)*20,setNo*20);
  if(mode==="full"){state.items=state.items.slice(0,100);state.examAnswers=Array(100).fill(null);state.marked=Array(100).fill(false);}
  renderQ();
