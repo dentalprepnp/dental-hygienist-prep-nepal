@@ -736,11 +736,16 @@
 
 
 <script src="study-guide.js?v=3"></script>
-<script src="ha-general-medicine.js?v=251"></script>
+<script src="ha-general-medicine.js?v=252"></script>
 <script>
 /* HA fail-safe: visible static menu remains actionable even if the module missed initialization. */
 (function(){
  let retryPromise=null;
+ let lastHAError="";
+ window.addEventListener("error",function(event){
+  const filename=String(event.filename||"");
+  if(filename.includes("ha-general-medicine.js"))lastHAError=String(event.message||"Unknown JavaScript error");
+ },true);
  function invoke(button){
   const key=button.dataset.ha;
   const actions=window.HAStudyActions;
@@ -755,14 +760,14 @@
    const script=document.createElement("script");
    delete window.HAStudyActions;
    delete window.ensureHAMenu;
-   script.src="ha-general-medicine.js?v=251&retry=1";
+   script.src="ha-general-medicine.js?v=252&retry=1";
    script.onload=()=>resolve();
    script.onerror=()=>reject(new Error("HA module download failed"));
    document.head.appendChild(script);
   }).then(()=>{
    const action=window.HAStudyActions&&window.HAStudyActions[key];
    if(typeof action==="function")action();
-   else showError("HA module loaded, तर action register भएन। Internet/JavaScript error जाँच आवश्यक छ।");
+   else showError(lastHAError?"HA script मा JavaScript error: "+lastHAError:"HA module loaded, तर action register भएन। सम्भावित कारण: script initialization error वा stale cache.");
   }).catch(error=>showError(error.message)).finally(()=>{retryPromise=null;});
  }
  function showError(message){
