@@ -736,7 +736,7 @@
 
 
 <script src="study-guide.js?v=3"></script>
-<script src="ha-module-v2.js?v=37"></script>
+<script src="ha-module-v2.js?v=38"></script>
 <script>
 /* HA fail-safe: visible static menu remains actionable even if the module missed initialization. */
 (function(){
@@ -760,7 +760,7 @@
    const script=document.createElement("script");
    delete window.HAStudyActions;
    delete window.ensureHAMenu;
-   script.src="ha-module-v2.js?v=37&retry=1";
+   script.src="ha-module-v2.js?v=38&retry=1";
    script.onload=()=>resolve();
    script.onerror=()=>reject(new Error("HA module download failed"));
    document.head.appendChild(script);
