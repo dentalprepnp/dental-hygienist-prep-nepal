@@ -153,7 +153,21 @@
   {id:"path",name:"Clinical Pathology",ne:"क्लिनिकल प्याथोलोजी"}
  ];
  function topicForQuestion(q){
-  const t=(q[0]+" "+q[1].join(" ")+" "+q[3]).toLowerCase();
+  // Manual review overrides for the current 160-question bank.
+  // Question number is stable within this version of the bank.
+  const reviewedTopic={
+   5:"medicine",8:"surgery",9:"medicine",10:"community",11:"medicine",14:"medicine",16:"surgery",17:"community",
+   22:"ap",23:"ap",24:"ap",31:"community",34:"community",44:"path",45:"ap",46:"ap",47:"ap",50:"community",
+   56:"community",58:"community",59:"community",60:"community",61:"community",66:"community",76:"pharma",
+   87:"community",92:"path",94:"pharma",96:"community",97:"community",107:"surgery",108:"community",
+   111:"community",112:"surgery",113:"surgery",114:"surgery",115:"medicine",116:"medicine",117:"medicine",
+   120:"medicine",121:"medicine",122:"medicine",123:"community",124:"medicine",125:"medicine",128:"community",
+   131:"medicine",132:"medicine",135:"pharma",138:"pharma",139:"medicine",140:"path",143:"path",144:"medicine",
+   145:"path",147:"medicine",152:"community",153:"medicine",154:"community",158:"path"
+  };
+  const questionNumber=qs.indexOf(q)+1;
+  if(reviewedTopic[questionNumber]) return reviewedTopic[questionNumber];
+  const t=(q[0]+" "+q[3]).toLowerCase();
   if(/cbc|edta|blood group|blood pH|arterial blood|false positive|false negative|sensitivity|specificity|haemoglobin|hemoglobin|microscopy|diagnostic method|rbc|platelet|median|mode|screening test/.test(t))return "path";
   if(/insulin|glucagon|antibiotic|antidote|paracetamol|naloxone|n-acetylcysteine|adrenaline|aspirin|salbutamol|medicine|drug|dose|pharmac|vaccine|vaccine-specific/.test(t))return "pharma";
   if(/fracture|bleeding|burn|seizure|cpr|aed|trauma|first aid|nosebleed|chemical splash|wound|immobilis|anaphylaxis|shock|airway|breathlessness|stroke|emergency|gasping/.test(t))return "surgery";
