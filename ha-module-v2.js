@@ -146,7 +146,15 @@
  ];
  qs.push(
   ["A pregnant woman in late pregnancy develops convulsions with severe hypertension. What is the priority?",["Treat as possible eclampsia, call for emergency help and arrange urgent protocol-based care/referral","Give oral fluids and send home","Wait for the convulsions to stop without assessment","Advise routine follow-up next week"],0,"Convulsions with severe hypertension in pregnancy suggest eclampsia, a life-threatening obstetric emergency requiring immediate escalation and protocol-based care."],
-  ["A patient develops sudden severe eye pain, a red eye and blurred vision. What is the safest action?",["Urgent eye assessment and referral","Patch both eyes and wait several days","Use leftover steroid eye drops","Ignore it if there is no discharge"],0,"Sudden severe painful red eye with blurred vision can indicate acute angle-closure glaucoma or another sight-threatening condition and needs urgent assessment/referral."]
+  ["A patient develops sudden severe eye pain, a red eye and blurred vision. What is the safest action?",["Urgent eye assessment and referral","Patch both eyes and wait several days","Use leftover steroid eye drops","Ignore it if there is no discharge"],0,"Sudden severe painful red eye with blurred vision can indicate acute angle-closure glaucoma or another sight-threatening condition and needs urgent assessment/referral."],
+  ["A patient presents with urethral discharge and laboratory testing is not available on the same day. What is an appropriate service-level approach?",["Use the current national STI syndromic-management protocol, counsel the patient and address partner services","Give any available antibiotic without assessment","Wait indefinitely for symptoms to disappear","Advise the patient to avoid all fluids"],0,"Where timely quality-assured testing is unavailable, trained providers use the current nationally adapted syndromic protocol; counselling, prevention and partner services are important."],
+  ["Which statement about sexually transmitted infections (STIs) is correct?",["Some STIs may be asymptomatic, so risk-based testing and screening matter","Every STI always causes visible genital ulcers","A normal appearance rules out all STIs","Only men can have asymptomatic STIs"],0,"Many STIs can be asymptomatic. Appropriate testing and screening are important; a symptom-free person is not automatically infection-free."],
+  ["A patient has intense itching that is worse at night, with small burrows between the fingers. The likely condition is:",["Scabies","Psoriasis","Vitiligo","Acne vulgaris"],0,"Scabies commonly causes intense nocturnal itching and burrows, often in finger webs. Confirm diagnosis and manage close contacts according to local guidance."],
+  ["An itchy, ring-shaped scaly lesion with a clearer centre is most suggestive of:",["Tinea corporis","Vitiligo","Acne vulgaris","Urticaria"],0,"Tinea corporis is a dermatophyte fungal infection that often produces an annular, scaly lesion with central clearing."],
+  ["A patient reports hearing voices telling them to harm themselves or another person. What is the priority?",["Assess immediate safety and arrange urgent mental-health evaluation","Leave the patient alone without assessment","Tell the patient the voices are real instructions","Delay help until the next routine visit"],0,"Command hallucinations involving harm require immediate safety assessment, supervision as appropriate and urgent referral to qualified mental-health services."],
+  ["A patient with depressive symptoms says they have a specific plan to end their life. What is the safest response?",["Treat this as an urgent safety concern and arrange immediate assessment and support","Promise secrecy and send the patient home alone","Advise exercise only and review after one month","Ignore the statement unless an attempt has occurred"],0,"A stated suicide plan is an urgent safety concern. Do not leave the person unsupported; arrange immediate qualified assessment and follow local emergency procedures."],
+  ["In pharmacokinetics, the elimination half-life of a drug is the time required for:",["The plasma concentration to decrease by approximately 50%","The drug to reach its maximum dose","All drug effects to begin","The medicine to be absorbed completely"],0,"Elimination half-life is the time for the amount or plasma concentration of a drug to fall by about half during the elimination phase."],
+  ["Which information is essential on a correctly prepared medicine label for a patient?",["Medicine name, dose, route, frequency and clear use instructions","Only the colour of the tablet","Only the prescriber’s initials","The wholesale purchase price"],0,"A patient label should clearly identify the medicine and provide the prescribed dose, route, frequency and understandable directions; follow national and facility requirements."]
  );
  const topicDefs=[
   {id:"ap",name:"Anatomy & Physiology",ne:"शरीर रचना तथा शरीर क्रिया विज्ञान"},
@@ -157,7 +165,7 @@
   {id:"path",name:"Clinical Pathology",ne:"क्लिनिकल प्याथोलोजी"}
  ];
  function topicForQuestion(q){
-  // Manual review overrides for the current 162-question bank.
+  // Manual review overrides for the current 170-question bank.
   // Question number is stable within this version of the bank.
   const reviewedTopic={
    5:"medicine",8:"surgery",9:"medicine",10:"community",81:"surgery",82:"community",98:"surgery",11:"medicine",14:"medicine",16:"surgery",17:"community",
@@ -181,7 +189,7 @@
   return "ap";
  }
  function topicPracticeMenu(){
-  shell("Topic-wise MCQ Practice",'<p class="np">आफ्नो syllabus विषय छानेर त्यसैका प्रश्न अभ्यास गर्नुहोस्। हालको HA प्रश्न बैंकमा 162 वटा MCQ छन्।</p><div class="ha-actions">'+topicDefs.map(x=>'<button data-ha2-topic="'+x.id+'">'+esc(x.name)+'<br><small>'+esc(x.ne)+'</small><br><small>Available MCQs: '+qs.filter(q=>topicForQuestion(q)===x.id).length+'</small></button>').join('')+'</div><p class="np">प्रत्येक प्रयासमा प्रश्नको क्रम फेरिन्छ। विषयगत संख्या हालको प्रश्न बैंकको हो, आधिकारिक NHPC प्रश्न संख्या होइन।</p>');
+  shell("Topic-wise MCQ Practice",'<p class="np">आफ्नो syllabus विषय छानेर त्यसैका प्रश्न अभ्यास गर्नुहोस्। हालको HA प्रश्न बैंकमा 170 वटा MCQ छन्।</p><div class="ha-actions">'+topicDefs.map(x=>'<button data-ha2-topic="'+x.id+'">'+esc(x.name)+'<br><small>'+esc(x.ne)+'</small><br><small>Available MCQs: '+qs.filter(q=>topicForQuestion(q)===x.id).length+'</small></button>').join('')+'</div><p class="np">प्रत्येक प्रयासमा प्रश्नको क्रम फेरिन्छ। विषयगत संख्या हालको प्रश्न बैंकको हो, आधिकारिक NHPC प्रश्न संख्या होइन।</p>');
  }
  const state={mode:"",set:1,index:0,items:[],bank:qs,score:0,answered:false,timer:null,seconds:0,examAnswers:[],marked:[],wrongItems:[]};
  const stop=()=>{if(state.timer)clearInterval(state.timer);state.timer=null;};
