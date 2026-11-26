@@ -643,8 +643,8 @@
   radiography:["radiography.js?v=152"],
   mlt:["mlt.js?v=202"],
   anesthesia:["bsc-anesthesia.js?v=152"],
-  nhpc:["nhpc.js?v=224"],
-  basicPeriodontology:["nhpc.js?v=224"],
+  nhpc:["nhpc.js?v=225"],
+  basicPeriodontology:["nhpc.js?v=225"],
   dha:["dha.js?v=149"],
   loksewa:[],
   oralPath:["oral-pathology.js?v=152"],
@@ -824,7 +824,7 @@
   if(window.__hlpNHPCLoadPromise)return window.__hlpNHPCLoadPromise;
   window.__hlpNHPCLoadPromise=new Promise((resolve,reject)=>{
    var script=document.createElement("script");
-   script.src="nhpc.js?v=224";
+   script.src="nhpc.js?v=225";
    script.onload=resolve;
    script.onerror=()=>{window.__hlpNHPCLoadPromise=null;reject(new Error("NHPC module load failed"));};
    document.head.appendChild(script);
