@@ -1921,7 +1921,269 @@ const bmltHealthPolicyResearchPharmacologyEthicsQuestions = [
 {"question":"What is the main purpose of quality control in a clinical laboratory?","translation":"Clinical laboratory मा quality control को मुख्य उद्देश्य के हो?","options":["To monitor analytical performance and detect errors","To increase the number of reports regardless of accuracy","To replace staff training","To avoid equipment maintenance"],"correctIndex":0,"explanation":"Quality control monitors the reliability of analytical processes and helps detect problems before results are released.","explanationNe":"Quality control ले परीक्षण प्रक्रियाको विश्वसनीयता निगरानी गर्छ र report दिनुअघि त्रुटि पत्ता लगाउन मद्दत गर्छ।"},
 {"question":"What does sensitivity of a diagnostic test measure?","translation":"Diagnostic test को sensitivity ले के मापन गर्छ?","options":["Ability to correctly identify people who have the disease","Ability to correctly identify people without disease","The cost of the test","The time needed to collect a sample"],"correctIndex":0,"explanation":"Sensitivity is the proportion of people with the disease who test positive (true-positive rate).","explanationNe":"Sensitivity भनेको रोग भएका व्यक्तिमध्ये test positive आउने अनुपात हो (true-positive rate)।"},
 {"question":"What does specificity of a diagnostic test measure?","translation":"Diagnostic test को specificity ले के मापन गर्छ?","options":["Ability to correctly identify people without the disease","Ability to identify every mild symptom","The proportion of positive tests that are true","The prevalence of disease"],"correctIndex":0,"explanation":"Specificity is the proportion of people without the disease who test negative (true-negative rate).","explanationNe":"Specificity भनेको रोग नभएका व्यक्तिमध्ये test negative आउने अनुपात हो (true-negative rate)।"},
-{"question":"Which measure describes the number of new cases occurring in a population during a specified period?","translation":"निश्चित अवधिमा जनसंख्यामा देखिएका नयाँ रोगीको संख्या वा दरलाई के भनिन्छ?","options":["Incidence","Prevalence","Mortality proportion","Case fatality only"],"correctIndex":0,"explanation":"Incidence measures new cases occurring in a population at risk during a defined period.","explanationNe":"Incidence ले निश्चित अवधिमा जोखिममा रहेको जनसंख्यामा देखा परेका नयाँ case मापन गर्छ।"}
+{"question":"Which measure describes the number of new cases occurring in a population during a specified period?","translation":"निश्चित अवधिमा जनसंख्यामा देखिएका नयाँ रोगीको संख्या वा दरलाई के भनिन्छ?","options":["Incidence","Prevalence","Mortality proportion","Case fatality only"],"correctIndex":0,"explanation":"Incidence measures new cases occurring in a population at risk during a defined period.","explanationNe":"Incidence ले निश्चित अवधिमा जोखिममा रहेको जनसंख्यामा देखा परेका नयाँ case मापन गर्छ।"},
+
+  {
+    "question": "What does the median represent in an ordered data set?",
+    "translation": "क्रमबद्ध data set मा median ले के जनाउँछ?",
+    "options": [
+      "The middle value",
+      "The most frequent value",
+      "The difference between maximum and minimum",
+      "The arithmetic total"
+    ],
+    "correctIndex": 0,
+    "explanation": "The median is the middle observation after values are arranged in order; for an even number of observations it is the mean of the two middle values.",
+    "explanationNe": "Data लाई क्रमबद्ध गर्दा बीचमा पर्ने मान median हो; अवलोकन संख्या जोर भए बीचका दुई मानको औसत लिइन्छ।"
+  },
+  {
+    "question": "Which measure of central tendency is most affected by extreme values?",
+    "translation": "Central tendency को कुन मापन extreme value बाट सबैभन्दा बढी प्रभावित हुन्छ?",
+    "options": [
+      "Arithmetic mean",
+      "Median",
+      "Mode",
+      "Interquartile range"
+    ],
+    "correctIndex": 0,
+    "explanation": "The arithmetic mean uses every value and can be pulled toward unusually high or low observations.",
+    "explanationNe": "Arithmetic mean मा सबै मान समावेश हुने भएकाले असाधारण ठूलो वा सानो मानले यसलाई बढी असर गर्छ।"
+  },
+  {
+    "question": "What does standard deviation describe?",
+    "translation": "Standard deviation ले के वर्णन गर्छ?",
+    "options": [
+      "The spread of observations around the mean",
+      "The middle observation only",
+      "The most frequent category",
+      "The number of study participants"
+    ],
+    "correctIndex": 0,
+    "explanation": "Standard deviation quantifies dispersion of observations around their arithmetic mean.",
+    "explanationNe": "Standard deviation ले arithmetic mean वरिपरि data कति फैलिएको छ भन्ने मापन गर्छ।"
+  },
+  {
+    "question": "What is the null hypothesis in a statistical test?",
+    "translation": "Statistical test मा null hypothesis भनेको के हो?",
+    "options": [
+      "A statement that there is no effect or difference",
+      "A statement that the research hypothesis is always true",
+      "A list of study participants",
+      "A method of random sampling"
+    ],
+    "correctIndex": 0,
+    "explanation": "The null hypothesis commonly states that there is no effect, association or difference in the population being studied.",
+    "explanationNe": "Null hypothesis ले अध्ययन गरिएको population मा प्रभाव, सम्बन्ध वा भिन्नता छैन भन्ने मान्यता राख्छ।"
+  },
+  {
+    "question": "What does a p-value represent, under the null hypothesis?",
+    "translation": "Null hypothesis सही भएको अवस्थामा p-value ले के जनाउँछ?",
+    "options": [
+      "The probability of results at least as extreme as those observed",
+      "The probability that the null hypothesis is true",
+      "The size of the study population",
+      "The clinical importance of a treatment"
+    ],
+    "correctIndex": 0,
+    "explanation": "The p-value is the probability, assuming the null hypothesis and model assumptions, of observing results at least as extreme as the data.",
+    "explanationNe": "Null hypothesis र model का मान्यता सही मान्दा, प्राप्त नतिजाजत्तिकै वा अझ बढी extreme नतिजा आउने सम्भावना p-value हो।"
+  },
+  {
+    "question": "Which sampling method gives every eligible individual a known chance of selection?",
+    "translation": "योग्य प्रत्येक व्यक्तिलाई छनोट हुने ज्ञात सम्भावना दिने sampling method कुन हो?",
+    "options": [
+      "Probability sampling",
+      "Convenience sampling",
+      "Purposive sampling",
+      "Snowball sampling"
+    ],
+    "correctIndex": 0,
+    "explanation": "Probability sampling uses a random selection mechanism so each eligible unit has a known, non-zero selection probability.",
+    "explanationNe": "Probability sampling मा random छनोट प्रयोग हुन्छ र प्रत्येक योग्य एकाइको छनोट सम्भावना ज्ञात तथा शून्यभन्दा बढी हुन्छ।"
+  },
+  {
+    "question": "What is recall bias in a case-control study?",
+    "translation": "Case-control study मा recall bias भनेको के हो?",
+    "options": [
+      "Cases and controls remember past exposures differently",
+      "Participants are randomly assigned to groups",
+      "The laboratory instrument is poorly calibrated",
+      "The sample size is always too large"
+    ],
+    "correctIndex": 0,
+    "explanation": "Recall bias occurs when groups differ in how accurately or completely they remember previous exposures.",
+    "explanationNe": "विभिन्न समूहले विगतको exposure फरक रूपमा वा फरक शुद्धतासाथ सम्झँदा recall bias हुन्छ।"
+  },
+  {
+    "question": "Which Nepalese institution regulates and registers health professionals such as medical laboratory technologists?",
+    "translation": "Medical laboratory technologist जस्ता स्वास्थ्य पेशाकर्मीको दर्ता तथा नियमन गर्ने नेपाली संस्था कुन हो?",
+    "options": [
+      "Nepal Health Professional Council (NHPC)",
+      "Department of Roads",
+      "Nepal Rastra Bank",
+      "Election Commission"
+    ],
+    "correctIndex": 0,
+    "explanation": "The NHPC registers and regulates health professionals within its statutory scope; candidates should follow its current rules and notices.",
+    "explanationNe": "NHPC ले आफ्नो कानुनी अधिकारक्षेत्रभित्र स्वास्थ्य पेशाकर्मीको दर्ता तथा नियमन गर्छ; हालका नियम र सूचनाहरू पालना गर्नुपर्छ।"
+  },
+  {
+    "question": "Which level of Nepal's health system is generally the first point of contact for basic health services?",
+    "translation": "नेपालको स्वास्थ्य प्रणालीमा आधारभूत स्वास्थ्य सेवाको सामान्य पहिलो सम्पर्क बिन्दु कुन तह हो?",
+    "options": [
+      "Primary health care level",
+      "Tertiary referral hospital only",
+      "National specialist center only",
+      "Medical college only"
+    ],
+    "correctIndex": 0,
+    "explanation": "Primary health care facilities are intended to provide first-contact essential services and refer patients when higher-level care is needed.",
+    "explanationNe": "प्राथमिक स्वास्थ्य सेवा केन्द्रले पहिलो सम्पर्कका आधारभूत सेवा दिन्छन् र आवश्यक परे उच्च तहमा referral गर्छन्।"
+  },
+  {
+    "question": "Which document outlines a patient's diagnosis, investigations and treatment plan during a hospital stay?",
+    "translation": "अस्पताल बसाइमा बिरामीको diagnosis, investigation र treatment plan उल्लेख गर्ने कागजात कुन हो?",
+    "options": [
+      "Medical record",
+      "Stock ledger",
+      "Staff attendance register",
+      "Equipment maintenance log"
+    ],
+    "correctIndex": 0,
+    "explanation": "The medical record documents relevant clinical findings, investigations, treatment and care decisions for continuity and accountability.",
+    "explanationNe": "Medical record मा clinical finding, जाँच, उपचार र care decision लेखिन्छ, जसले निरन्तरता र जवाफदेहिता कायम गर्छ।"
+  },
+  {
+    "question": "Which pharmacokinetic term describes the time required for a drug concentration to fall by half?",
+    "translation": "औषधिको concentration आधा हुन लाग्ने समयलाई pharmacokinetics मा के भनिन्छ?",
+    "options": [
+      "Half-life",
+      "Onset time",
+      "Peak effect",
+      "Duration of prescription"
+    ],
+    "correctIndex": 0,
+    "explanation": "A drug's elimination half-life is the time required for its plasma concentration or amount in the body to decrease by 50% during the relevant elimination phase.",
+    "explanationNe": "औषधिको elimination half-life भनेको सम्बन्धित elimination चरणमा plasma concentration वा शरीरमा रहेको मात्रा ५०% घट्न लाग्ने समय हो।"
+  },
+  {
+    "question": "What is a loading dose intended to achieve?",
+    "translation": "Loading dose दिनुको उद्देश्य के हो?",
+    "options": [
+      "Reach the target drug concentration rapidly",
+      "Prevent all adverse drug reactions",
+      "Replace the maintenance dose permanently",
+      "Increase drug elimination"
+    ],
+    "correctIndex": 0,
+    "explanation": "A loading dose is a larger initial dose used when appropriate to reach a target concentration more quickly.",
+    "explanationNe": "उपयुक्त अवस्थामा loading dose सुरुमा दिइने ठूलो मात्रा हो, जसले लक्ष्य concentration छिटो हासिल गर्न मद्दत गर्छ।"
+  },
+  {
+    "question": "Which route of drug administration generally avoids first-pass hepatic metabolism?",
+    "translation": "औषधि दिने कुन route ले सामान्यतया first-pass hepatic metabolism छल्छ?",
+    "options": [
+      "Sublingual route",
+      "Oral route",
+      "Portal venous route",
+      "Rectal route always completely"
+    ],
+    "correctIndex": 0,
+    "explanation": "Sublingual absorption enters systemic venous circulation and generally bypasses initial portal delivery to the liver.",
+    "explanationNe": "Sublingual बाट अवशोषित औषधि systemic circulation मा पुग्ने भएकाले सामान्यतया सुरुको portal route हुँदै liver पुग्दैन।"
+  },
+  {
+    "question": "What is the safest action when a medication order is unclear or incomplete?",
+    "translation": "औषधिको आदेश अस्पष्ट वा अपूर्ण भए सबैभन्दा सुरक्षित कदम के हो?",
+    "options": [
+      "Clarify the order with the authorized prescriber before administration",
+      "Guess the intended dose",
+      "Ask another patient",
+      "Administer a usual dose without checking"
+    ],
+    "correctIndex": 0,
+    "explanation": "An unclear order should be clarified with the authorized prescriber and documented according to institutional policy before administration.",
+    "explanationNe": "अस्पष्ट आदेश भए औषधि दिनुअघि अधिकारप्राप्त prescriber सँग स्पष्ट पारेर संस्थाको नीतिअनुसार अभिलेख राख्नुपर्छ।"
+  },
+  {
+    "question": "Which ethical principle supports a person's right to make an informed decision about participation in research?",
+    "translation": "अनुसन्धानमा सहभागी हुने वा नहुनेबारे सूचित निर्णय गर्ने व्यक्तिको अधिकारलाई कुन नैतिक सिद्धान्तले समर्थन गर्छ?",
+    "options": [
+      "Respect for autonomy",
+      "Non-maleficence",
+      "Justice",
+      "Fidelity only"
+    ],
+    "correctIndex": 0,
+    "explanation": "Respect for autonomy requires honoring informed, voluntary decisions made by individuals with decision-making capacity.",
+    "explanationNe": "Autonomy को सम्मानले निर्णय क्षमता भएको व्यक्तिको सूचित र स्वेच्छिक निर्णयलाई मान्यता दिन्छ।"
+  },
+  {
+    "question": "What should a researcher do if a participant wishes to withdraw from a study?",
+    "translation": "अनुसन्धान सहभागीले अध्ययनबाट बाहिरिन चाहे अनुसन्धानकर्ताले के गर्नुपर्छ?",
+    "options": [
+      "Respect the withdrawal without undue pressure",
+      "Force the participant to complete the study",
+      "Threaten loss of routine care",
+      "Ignore the request"
+    ],
+    "correctIndex": 0,
+    "explanation": "Participation is voluntary; withdrawal should be respected without penalty or coercion, subject to clearly explained study procedures.",
+    "explanationNe": "अनुसन्धान सहभागिता स्वेच्छिक हुन्छ; स्पष्ट गरिएका अध्ययन प्रक्रियाको सीमाभित्र दण्ड वा दबाबबिना बाहिरिने निर्णय सम्मान गर्नुपर्छ।"
+  },
+  {
+    "question": "Which committee reviews the ethical aspects of research involving human participants?",
+    "translation": "मानव सहभागी भएको अनुसन्धानका नैतिक पक्षको समीक्षा कुन समितिले गर्छ?",
+    "options": [
+      "Institutional Review Committee or Ethics Review Committee",
+      "Hospital purchase committee",
+      "Transport management committee",
+      "Laboratory inventory committee"
+    ],
+    "correctIndex": 0,
+    "explanation": "An appropriately constituted ethics review committee evaluates risks, benefits, consent and participant protections before research begins.",
+    "explanationNe": "उचित रूपमा गठित ethics review committee ले अनुसन्धान सुरु हुनुअघि जोखिम, लाभ, consent र सहभागीको सुरक्षा समीक्षा गर्छ।"
+  },
+  {
+    "question": "What is the main purpose of a standard operating procedure (SOP) in a laboratory?",
+    "translation": "प्रयोगशालामा Standard Operating Procedure (SOP) को मुख्य उद्देश्य के हो?",
+    "options": [
+      "Ensure tasks are performed consistently and safely",
+      "Replace staff training completely",
+      "Allow each worker to use any method",
+      "Remove the need for quality control"
+    ],
+    "correctIndex": 0,
+    "explanation": "An SOP provides approved step-by-step instructions that support consistency, safety, traceability and quality.",
+    "explanationNe": "SOP ले स्वीकृत चरणबद्ध निर्देशन दिन्छ, जसले एकरूपता, सुरक्षा, traceability र quality कायम गर्छ।"
+  },
+  {
+    "question": "What is the main purpose of external quality assessment (EQA) in a clinical laboratory?",
+    "translation": "Clinical laboratory मा External Quality Assessment (EQA) को मुख्य उद्देश्य के हो?",
+    "options": [
+      "Compare laboratory performance with an external reference or peer group",
+      "Check staff attendance",
+      "Replace internal quality control",
+      "Determine patient identity"
+    ],
+    "correctIndex": 0,
+    "explanation": "EQA assesses comparability and accuracy by evaluating a laboratory's results against external targets or peer-laboratory results.",
+    "explanationNe": "EQA ले बाह्य target वा अन्य प्रयोगशालाको नतिजासँग तुलना गरी प्रयोगशालाको नतिजाको विश्वसनीयता मूल्याङ्कन गर्छ।"
+  },
+  {
+    "question": "Which indicator is commonly used to express the proportion of people with a disease at a specific time?",
+    "translation": "कुनै निश्चित समयमा रोग भएका मानिसको अनुपात जनाउन कुन indicator प्रयोग हुन्छ?",
+    "options": [
+      "Prevalence",
+      "Incidence rate",
+      "Case fatality rate",
+      "Crude birth rate"
+    ],
+    "correctIndex": 0,
+    "explanation": "Prevalence is the proportion of a population that has a condition at a specified point or period in time.",
+    "explanationNe": "Prevalence भनेको निश्चित समय वा अवधिमा कुनै रोग भएको जनसंख्याको अनुपात हो।"
+  }
+
 ];
 
 function convertRows(rows) {
