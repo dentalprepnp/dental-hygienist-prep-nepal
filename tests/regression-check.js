@@ -19,9 +19,9 @@ const html = fs.readFileSync(indexPath, "utf8");
 const app = fs.readFileSync(appPath, "utf8");
 
 // Every local script linked from index.html must exist.
-const scriptRefs = [...html.matchAll(/<script\\b[^>]*\\bsrc=["']([^"']+)["']/gi)].map(m => m[1]);
+const scriptRefs = [...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["']/gi)].map(m => m[1]);
 for (const ref of scriptRefs) {
-  if (/^(https?:)?\\/\\//i.test(ref) || ref.startsWith("data:")) continue;
+  if (/^(https?:)?\/\//i.test(ref) || ref.startsWith("data:")) continue;
   const local = decodeURIComponent(ref.split("?")[0].split("#")[0]);
   if (!fs.existsSync(path.join(root, local))) fail("index.html references missing script: " + ref);
 }
@@ -44,10 +44,10 @@ for (const file of coreFacultyFiles) {
 if (failures.length === 0) ok("all " + coreFacultyFiles.length + " core faculty files exist and are non-empty");
 
 // Ensure each subject hub's target view is present in the HTML.
-const subjectMetaBlock = app.match(/const subjectMeta\\s*=\\s*\\{[\\s\\S]*?\\n\\};/);
+const subjectMetaBlock = app.match(/const subjectMeta\s*=\s*\{[\s\S]*?\n\};/);
 if (!subjectMetaBlock) fail("subjectMeta registry not found in app.js");
 else {
-  const ids = [...subjectMetaBlock[0].matchAll(/^\\s*([A-Za-z0-9_]+)\\s*:/gm)].map(m => m[1]);
+  const ids = [...subjectMetaBlock[0].matchAll(/^\s*([A-Za-z0-9_]+)\s*:/gm)].map(m => m[1]);
   for (const id of ids) {
     if (!html.includes('id="' + id + 'View"')) fail("subject target view missing from index.html: " + id + "View");
   }
@@ -63,8 +63,8 @@ for (const file of jsFiles) {
 if (failures.length === 0) ok("JavaScript syntax check passed (" + jsFiles.length + " files)");
 
 if (failures.length) {
-  console.error("\\nREGRESSION CHECK FAILED:");
+  console.error("\nREGRESSION CHECK FAILED:");
   for (const message of failures) console.error("- " + message);
   process.exit(1);
 }
-console.log("\\nRegression guard passed. This is a static integrity check; it does not replace real phone/browser testing or payment-access testing.");
+console.log("\nRegression guard passed. This is a static integrity check; it does not replace real phone/browser testing or payment-access testing.");
