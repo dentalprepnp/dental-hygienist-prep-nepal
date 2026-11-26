@@ -753,7 +753,7 @@
   if(content)content.innerHTML='<div class="notice"><h3>HA module पुनः लोड हुँदैछ…</h3><p>कृपया केही क्षण पर्खनुहोस्।</p></div>';
   retryPromise=new Promise((resolve,reject)=>{
    const script=document.createElement("script");
-   script.src="ha-general-medicine.js?v=248&retry=1";
+   script.src="ha-general-medicine.js?v=249&retry=1";
    script.onload=()=>resolve();
    script.onerror=()=>reject(new Error("HA module download failed"));
    document.head.appendChild(script);
