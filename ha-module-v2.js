@@ -254,7 +254,7 @@
  ["A raised total leukocyte count is called:",["Leukocytosis","Leukopenia","Thrombocytopenia","Anaemia"],0,"Leukocytosis means an increased white blood cell count."],
  ["Which specimen is preferred for routine urine culture?",["Clean-catch midstream urine","Urine from an unclean container","Urine collected from floor","Any open cup left overnight"],0,"A clean-catch midstream specimen in a sterile container reduces contamination."]
  ];
- if(qs.length!==200) throw new Error("Expected 200 existing MCQs, found "+qs.length);
+ if(qs.length!==160) throw new Error("Expected 160 existing MCQs, found "+qs.length);
  qs.push(...next100);
  const caseQs=[
  ["A 50-year-old collapses, is unresponsive and has abnormal gasping. What should the HA do immediately?",["Give water","Call for help, assess breathing and start CPR/AED pathway if not breathing normally","Wait five minutes","Give oral medicine"],1,"Gasping is not normal breathing. Activate emergency response and follow BLS/CPR protocol."],
@@ -329,12 +329,12 @@
  ];
  function topicForQuestion(q){
   const qn=qs.indexOf(q)+1;
-  if(qn>=201&&qn<=210)return "ap";
-  if(qn>=211&&qn<=235)return "community";
-  if(qn>=236&&qn<=260)return "medicine";
-  if(qn>=261&&qn<=285)return "surgery";
-  if(qn>=286&&qn<=295)return "pharma";
-  if(qn>=296&&qn<=300)return "path";
+  if(qn>=161&&qn<=170)return "ap";
+  if(qn>=171&&qn<=195)return "community";
+  if(qn>=196&&qn<=220)return "medicine";
+  if(qn>=221&&qn<=245)return "surgery";
+  if(qn>=246&&qn<=255)return "pharma";
+  if(qn>=256&&qn<=260)return "path";
   // Manual review overrides for the current 200-question bank.
   // Question number is stable within this version of the bank.
   const reviewedTopic={
