@@ -736,7 +736,7 @@
 
 
 <script src="study-guide.js?v=3"></script>
-<script src="ha-general-medicine.js?v=252"></script>
+<script src="ha-general-medicine.js?v=253"></script>
 <script>
 /* HA fail-safe: visible static menu remains actionable even if the module missed initialization. */
 (function(){
@@ -767,7 +767,7 @@
   }).then(()=>{
    const action=window.HAStudyActions&&window.HAStudyActions[key];
    if(typeof action==="function")action();
-   else showError(lastHAError?"HA script मा JavaScript error: "+lastHAError:"HA module loaded, तर action register भएन। सम्भावित कारण: script initialization error वा stale cache.");
+   else showError(lastHAError?"HA script मा JavaScript error: "+lastHAError:"HA module को action register भएन। Browser ले script error वा पुरानो cached page प्रयोग गरेको हुन सक्छ।");
   }).catch(error=>showError(error.message)).finally(()=>{retryPromise=null;});
  }
  function showError(message){
