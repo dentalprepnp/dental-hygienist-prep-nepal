@@ -643,8 +643,8 @@
   radiography:["radiography.js?v=152"],
   mlt:["mlt.js?v=202"],
   anesthesia:["bsc-anesthesia.js?v=152"],
-  nhpc:["nhpc.js?v=221"],
-  basicPeriodontology:["nhpc.js?v=221"],
+  nhpc:["nhpc.js?v=222"],
+  basicPeriodontology:["nhpc.js?v=222"],
   dha:["dha.js?v=149"],
   loksewa:[],
   oralPath:["oral-pathology.js?v=152"],
@@ -716,29 +716,7 @@
 })();
 </script>
 
-<script>
-/* Direct, reliable entry points for Dental Hygiene and HA study controls. */
-(function(){
- window.addEventListener("click",function(event){
-  const dental=event.target.closest("#nhpcView #nhpcStartNotes,#nhpcView #nhpcStartMcq,#nhpcView #nhpcStartFullMock");
-  if(dental){
-   event.preventDefault();event.stopImmediatePropagation();
-   const mode=dental.id==="nhpcStartNotes"?"notes":dental.id==="nhpcStartMcq"?"practice":"mock";
-   const action=window.DHPNStudyActions&&window.DHPNStudyActions[mode];
-   if(typeof action==="function"){try{action();}catch(error){console.error("Dental Hygiene study action failed:",error);alert("Dental Hygiene सामग्री खोल्दा समस्या आयो। कृपया refresh गरेर फेरि प्रयास गर्नुहोस्।");}}
-   else alert("Dental Hygiene सामग्री अझै लोड हुँदैछ। एकपटक refresh गरेर फेरि प्रयास गर्नुहोस्।");
-   return;
-  }
-  const ha=event.target.closest("#haView button[data-ha]");
-  if(ha){
-   event.preventDefault();event.stopImmediatePropagation();
-   const action=window.HAStudyActions&&window.HAStudyActions[ha.dataset.ha];
-   if(typeof action==="function"){try{action();}catch(error){console.error("HA study action failed:",error);alert("HA सामग्री खोल्दा समस्या आयो। कृपया refresh गरेर फेरि प्रयास गर्नुहोस्।");}}
-   else alert("HA सामग्री लोड हुन सकेन। कृपया refresh गरेर फेरि प्रयास गर्नुहोस्।");
-  }
- },true);
-})();
-</script>
+
 <script src="study-guide.js?v=3"></script>
 <script src="ha-general-medicine.js?v=239"></script>
 <script src="app.js?v=207"></script>
@@ -784,7 +762,7 @@
   if(window.__hlpNHPCLoadPromise)return window.__hlpNHPCLoadPromise;
   window.__hlpNHPCLoadPromise=new Promise((resolve,reject)=>{
    var script=document.createElement("script");
-   script.src="nhpc.js?v=221";
+   script.src="nhpc.js?v=222";
    script.onload=resolve;
    script.onerror=()=>{window.__hlpNHPCLoadPromise=null;reject(new Error("NHPC module load failed"));};
    document.head.appendChild(script);
