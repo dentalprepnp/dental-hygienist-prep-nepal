@@ -678,12 +678,21 @@
   try{for(const src of files)await loadOne(src);return true;}
   catch(error){console.error("Faculty module loading failed:",error);alert("यो Faculty खोल्न आवश्यक सामग्री लोड हुन सकेन। Internet जाँचेर फेरि प्रयास गर्नुहोस्।");return false;}
  }
- document.addEventListener("click",async function(event){
+ window.addEventListener("click",async function(event){
   const target=event.target.closest(".track-card[data-tab], .subject-card[data-go], .search-result, [data-open-view], [data-go]");
   if(!target||target.dataset.hlpLazyReady==="1")return;
   const key=target.dataset.tab||target.dataset.go||target.dataset.openView;
   if(!Object.prototype.hasOwnProperty.call(byDestination,key))return;
   event.preventDefault();event.stopImmediatePropagation();
+  /* Run lazy loading before app.js faculty routing; preserve the login gate here. */
+  if(!window.HLPAuthUser){
+   const panel=document.getElementById("accountPanel");
+   if(panel){panel.classList.remove("hidden");panel.scrollIntoView({behavior:"smooth",block:"center"});}
+   const status=document.getElementById("accountStatus");
+   if(status){status.textContent="पढ्नका लागि पहिले Login वा Register गर्नुहोस्।";status.dataset.kind="info";status.classList.remove("hidden");}
+   document.getElementById("accountEmail")?.focus({preventScroll:true});
+   return;
+  }
   const ok=await loadDestination(key);
   if(!ok)return;
   target.dataset.hlpLazyReady="1";
