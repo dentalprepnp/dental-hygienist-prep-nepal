@@ -5,14 +5,37 @@
  const root=document.getElementById("haView");
  const host=root&&root.querySelector("#haContent");
  if(!root||!host)return;
- /* Restore the ORIGINAL HA menu and its full study bank whenever the main
-    module has registered its actions. Never replace its content with fallback UI. */
- if(window.HAStudyActions&&typeof window.HAStudyActions.menu==="function"){
+ /* Use the original HA action handlers whenever they exist. If its menu renderer
+    throws or fails, show a safe launcher that calls the original Notes/MCQ/Mock
+    functions directly instead of replacing their banks with the tiny recovery bank. */
+ const original=window.HAStudyActions;
+ const actionMap=original&&{
+  notes:original.showNotes||original.notes,
+  practice:original.practice,
+  timed:original.timed,
+  mock:original.mock,
+  case:original.case,
+  mock1:original.mock1,mock2:original.mock2,mock3:original.mock3,mock4:original.mock4,mock5:original.mock5,
+  mistakes:original.mistakes,weak:original.weak,readiness:original.readiness,audit:original.audit
+ };
+ function originalLauncher(){
+  host.innerHTML='<div class="ha-overview"><h2>HA पुरानो अध्ययन सामग्री</h2><p>पुरानो HA प्रश्न बैंक र Study Guide खोल्न तल छान्नुहोस्।</p><div class="ha-actions">'+
+   [['notes','📚 Detailed Notes'],['practice','🧠 MCQ Practice'],['timed','⏱️ Timed Practice'],['mock','📝 Full Syllabus Mock'],['case','🩺 Clinical Case Practice'],['mock1','Mock Set 1 • 100 Q'],['mock2','Mock Set 2 • 100 Q'],['mock3','Mock Set 3 • 100 Q'],['mock4','Mock Set 4 • 100 Q'],['mock5','Mock Set 5 • 100 Q'],['mistakes','My Mistakes'],['weak','Weak Topic Analysis'],['readiness','Exam Readiness'],['audit','Syllabus Audit']].map(x=>'<button type="button" data-ha-original="'+x[0]+'">'+x[1]+'</button>').join('')+'</div></div>';
+ }
+ if(original&&actionMap){
+  root.addEventListener("click",function(e){
+   const b=e.target.closest("[data-ha-original]");if(!b)return;
+   e.preventDefault();e.stopImmediatePropagation();
+   const fn=actionMap[b.dataset.haOriginal];
+   if(typeof fn==="function"){try{fn();}catch(err){console.error("Original HA action failed",err);originalLauncher();}}
+   else {originalLauncher();}
+  },true);
   window.ensureHAMenu=function(){
-   try{window.HAStudyActions.menu();return !!(host&&host.innerHTML.trim());}
-   catch(error){console.error("HA original menu restore failed:",error);return false;}
+   try{original.menu();if(host.innerHTML.trim()&&!host.querySelector(".ha-fallback-menu"))return true;}
+   catch(error){console.error("Original HA menu failed; using direct-action launcher",error);}
+   originalLauncher();return true;
   };
-  try{window.HAStudyActions.menu();}catch(error){console.error("HA original menu render failed:",error);}
+  try{window.ensureHAMenu();}catch(error){originalLauncher();}
   return;
  }
  if(typeof window.ensureHAMenu==="function")return;
