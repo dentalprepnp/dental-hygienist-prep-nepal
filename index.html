@@ -760,7 +760,7 @@
    const script=document.createElement("script");
    delete window.HAStudyActions;
    delete window.ensureHAMenu;
-   script.src="ha-general-medicine.js?v=252&retry=1";
+   script.src="ha-general-medicine.js?v=253&retry=1";
    script.onload=()=>resolve();
    script.onerror=()=>reject(new Error("HA module download failed"));
    document.head.appendChild(script);
