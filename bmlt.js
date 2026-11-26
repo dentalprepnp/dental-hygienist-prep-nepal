@@ -1351,7 +1351,269 @@
 {"question":"Which method is commonly used to demonstrate acid-fast bacilli in tissue sections?","translation":"Tissue section मा acid-fast bacilli देखाउन कुन विधि प्रयोग हुन्छ?","options":["Ziehl–Neelsen stain","H&E stain only","Pap stain","Perls' stain"],"correctIndex":0,"explanation":"Ziehl–Neelsen staining can demonstrate acid-fast organisms such as mycobacteria in tissue, although special methods may vary by laboratory.","explanationNe":"Ziehl–Neelsen stain ले tissue मा mycobacteria जस्ता acid-fast जीव देखाउन सक्छ; प्रयोगशालाअनुसार विशेष विधि फरक हुन सक्छ।"},
 {"question":"Which stain is commonly used to demonstrate fungi in tissue sections?","translation":"Tissue section मा fungus देखाउन सामान्यतया कुन stain प्रयोग हुन्छ?","options":["Periodic acid–Schiff (PAS)","Wright stain","Leishman stain","Reticulocyte stain"],"correctIndex":0,"explanation":"PAS highlights fungal cell walls and other carbohydrate-rich structures; Grocott methenamine silver is another useful fungal stain.","explanationNe":"PAS ले fungal cell wall र carbohydrate-rich संरचना देखाउँछ; Grocott methenamine silver पनि उपयोगी fungal stain हो।"},
 {"question":"What is decalcification used for in histopathology?","translation":"Histopathology मा decalcification किन गरिन्छ?","options":["Remove calcium salts from hard tissues before sectioning","Remove water from all tissues","Stain collagen fibers","Preserve blood cells"],"correctIndex":0,"explanation":"Decalcification removes mineral salts from bone or other calcified tissue so it can be sectioned; the method must preserve tissue morphology.","explanationNe":"Bone वा calcified tissue बाट mineral salt हटाएर section काट्न मिल्ने बनाउन decalcification गरिन्छ; tissue morphology जोगाउनुपर्छ।"},
-{"question":"Which type of specimen is commonly submitted for frozen section examination?","translation":"Frozen section परीक्षणका लागि सामान्यतया कस्तो नमुना पठाइन्छ?","options":["Fresh unfixed tissue requiring rapid intraoperative assessment","Old dried tissue","Serum sample","A fully processed paraffin block only"],"correctIndex":0,"explanation":"Frozen section uses fresh tissue rapidly frozen and sectioned to provide an urgent intraoperative diagnosis, subject to limitations.","explanationNe":"Frozen section मा fresh tissue तुरुन्त freeze गरेर section बनाइन्छ र operation कै समयमा छिटो जानकारी दिइन्छ; यसको केही सीमितता हुन्छन्।"}
+{"question":"Which type of specimen is commonly submitted for frozen section examination?","translation":"Frozen section परीक्षणका लागि सामान्यतया कस्तो नमुना पठाइन्छ?","options":["Fresh unfixed tissue requiring rapid intraoperative assessment","Old dried tissue","Serum sample","A fully processed paraffin block only"],"correctIndex":0,"explanation":"Frozen section uses fresh tissue rapidly frozen and sectioned to provide an urgent intraoperative diagnosis, subject to limitations.","explanationNe":"Frozen section मा fresh tissue तुरुन्त freeze गरेर section बनाइन्छ र operation कै समयमा छिटो जानकारी दिइन्छ; यसको केही सीमितता हुन्छन्।"},
+
+  {
+    "question": "Which fixative is routinely used for many histopathology tissue specimens?",
+    "translation": "धेरै histopathology tissue नमुनामा नियमित प्रयोग हुने fixative कुन हो?",
+    "options": [
+      "10% neutral buffered formalin",
+      "Distilled water",
+      "Normal saline",
+      "Absolute acetone"
+    ],
+    "correctIndex": 0,
+    "explanation": "10% neutral buffered formalin is a routine tissue fixative; prompt fixation helps preserve morphology and limit autolysis.",
+    "explanationNe": "10% neutral buffered formalin सामान्य tissue fixative हो; समयमै fixation गर्दा morphology जोगिन्छ र autolysis घट्छ।"
+  },
+  {
+    "question": "What is the main purpose of tissue fixation?",
+    "translation": "Tissue fixation को मुख्य उद्देश्य के हो?",
+    "options": [
+      "Preserve tissue structure and limit autolysis",
+      "Remove all cellular components",
+      "Increase bacterial growth",
+      "Cut tissue into thin sections"
+    ],
+    "correctIndex": 0,
+    "explanation": "Fixation stabilizes tissue components and preserves cellular and architectural detail for processing and staining.",
+    "explanationNe": "Fixation ले tissue का अंश स्थिर पारेर cell तथा tissue संरचना जोगाउँछ।"
+  },
+  {
+    "question": "Which step removes water from fixed tissue in routine paraffin processing?",
+    "translation": "Routine paraffin processing मा fixed tissue बाट पानी हटाउने चरण कुन हो?",
+    "options": [
+      "Dehydration",
+      "Clearing",
+      "Infiltration",
+      "Embedding"
+    ],
+    "correctIndex": 0,
+    "explanation": "Dehydration removes water, commonly using graded alcohols, before clearing.",
+    "explanationNe": "Dehydration ले clearing अघि graded alcohol प्रयोग गरी tissue बाट पानी हटाउँछ।"
+  },
+  {
+    "question": "Which reagent is a conventional clearing agent in paraffin processing?",
+    "translation": "Paraffin processing मा परम्परागत clearing agent कुन हो?",
+    "options": [
+      "Xylene",
+      "Hematoxylin",
+      "Eosin",
+      "EDTA"
+    ],
+    "correctIndex": 0,
+    "explanation": "Xylene is a conventional clearing agent that replaces alcohol and is miscible with paraffin; laboratories may use safer substitutes.",
+    "explanationNe": "Xylene परम्परागत clearing agent हो, जसले alcohol हटाएर paraffin सँग मिल्न मद्दत गर्छ; सुरक्षित विकल्प पनि प्रयोग हुन सक्छ।"
+  },
+  {
+    "question": "What is the purpose of paraffin infiltration?",
+    "translation": "Paraffin infiltration को उद्देश्य के हो?",
+    "options": [
+      "Allow molten paraffin to support tissue for sectioning",
+      "Remove calcium from bone",
+      "Stain nuclei",
+      "Measure tissue pH"
+    ],
+    "correctIndex": 0,
+    "explanation": "Molten paraffin enters tissue spaces after clearing and supports the tissue so thin sections can be cut.",
+    "explanationNe": "Clearing पछि पग्लिएको paraffin tissue भित्र प्रवेश गरी support दिन्छ, जसबाट पातला section काट्न सकिन्छ।"
+  },
+  {
+    "question": "Which instrument cuts thin sections from paraffin-embedded tissue blocks?",
+    "translation": "Paraffin block बाट पातला section काट्ने उपकरण कुन हो?",
+    "options": [
+      "Microtome",
+      "Centrifuge",
+      "Autoclave",
+      "Spectrophotometer"
+    ],
+    "correctIndex": 0,
+    "explanation": "A microtome cuts thin, relatively uniform sections from paraffin-embedded tissue blocks.",
+    "explanationNe": "Microtome ले paraffin block बाट पातला र लगभग समान मोटाइका section काट्छ।"
+  },
+  {
+    "question": "In H&E staining, which dye stains nuclei blue to purple?",
+    "translation": "H&E staining मा nucleus लाई नीलोदेखि बैजनी बनाउने dye कुन हो?",
+    "options": [
+      "Hematoxylin",
+      "Eosin",
+      "Safranin",
+      "Methylene blue"
+    ],
+    "correctIndex": 0,
+    "explanation": "Hematoxylin stains nuclei blue-purple, while eosin stains many cytoplasmic and extracellular proteins pink.",
+    "explanationNe": "Hematoxylin ले nucleus नीलो-बैजनी र eosin ले cytoplasm तथा धेरै extracellular protein गुलाबी बनाउँछ।"
+  },
+  {
+    "question": "In H&E staining, eosin primarily stains which structures?",
+    "translation": "H&E staining मा eosin ले मुख्यतः कुन संरचना stain गर्छ?",
+    "options": [
+      "Cytoplasm and extracellular proteins",
+      "Nuclei blue-purple",
+      "Calcium deposits only",
+      "Acid-fast bacilli only"
+    ],
+    "correctIndex": 0,
+    "explanation": "Eosin is an acidic dye that commonly stains cytoplasm, muscle and collagen in shades of pink.",
+    "explanationNe": "Eosin acidic dye हो; यसले cytoplasm, muscle र collagen लाई प्रायः गुलाबी रंग दिन्छ।"
+  },
+  {
+    "question": "What is the main purpose of mounting medium and a coverslip?",
+    "translation": "Mounting medium र coverslip को मुख्य उद्देश्य के हो?",
+    "options": [
+      "Protect the stained section and aid optical viewing",
+      "Decalcify the tissue",
+      "Remove paraffin from the block",
+      "Perform blood grouping"
+    ],
+    "correctIndex": 0,
+    "explanation": "Mounting medium and coverslip protect the stained section, improve optical viewing and help preserve the slide.",
+    "explanationNe": "Mounting medium र coverslip ले stained section जोगाउँछन् र microscope मा स्पष्ट देख्न मद्दत गर्छन्।"
+  },
+  {
+    "question": "Which procedure collects cells from a lump using a thin needle for cytological examination?",
+    "translation": "गाँठोबाट पातलो सुई प्रयोग गरी cytology का लागि cell संकलन गर्ने प्रक्रिया कुन हो?",
+    "options": [
+      "Fine-needle aspiration",
+      "Excisional biopsy",
+      "Punch biopsy",
+      "Curettage"
+    ],
+    "correctIndex": 0,
+    "explanation": "Fine-needle aspiration obtains cells using a thin needle; it samples cells rather than preserving intact tissue architecture.",
+    "explanationNe": "Fine-needle aspiration मा पातलो सुईबाट cell निकालिन्छ; यसले पूरा tissue architecture सुरक्षित राख्दैन।"
+  },
+  {
+    "question": "Which stain is widely used for cervical cytology smears?",
+    "translation": "Cervical cytology smear मा व्यापक रूपमा प्रयोग हुने stain कुन हो?",
+    "options": [
+      "Papanicolaou stain",
+      "Ziehl–Neelsen stain",
+      "Perls' Prussian blue",
+      "Gram stain"
+    ],
+    "correctIndex": 0,
+    "explanation": "Papanicolaou staining is widely used in cervical cytology because it provides useful nuclear and cytoplasmic detail.",
+    "explanationNe": "Papanicolaou stain cervical cytology मा प्रयोग हुन्छ, किनकि यसले nucleus र cytoplasm को detail स्पष्ट देखाउँछ।"
+  },
+  {
+    "question": "Which stain is commonly used for peripheral blood and bone marrow smears?",
+    "translation": "Peripheral blood र bone marrow smear मा सामान्यतया कुन stain प्रयोग हुन्छ?",
+    "options": [
+      "Wright–Giemsa stain",
+      "Masson's trichrome",
+      "Alizarin red",
+      "Oil Red O"
+    ],
+    "correctIndex": 0,
+    "explanation": "Wright–Giemsa staining demonstrates blood-cell morphology and is commonly used for blood and marrow smears.",
+    "explanationNe": "Wright–Giemsa stain ले रक्तकोषको बनावट देखाउँछ र blood तथा marrow smear मा प्रयोग हुन्छ।"
+  },
+  {
+    "question": "What does a PAS reaction commonly highlight in tissue sections?",
+    "translation": "Tissue section मा PAS reaction ले सामान्यतया के highlight गर्छ?",
+    "options": [
+      "Carbohydrate-rich structures such as glycogen and basement membranes",
+      "Iron deposits only",
+      "Calcium salts only",
+      "Acid-fast organisms only"
+    ],
+    "correctIndex": 0,
+    "explanation": "PAS highlights carbohydrate-rich structures, including glycogen and basement membranes; interpretation depends on tissue and controls.",
+    "explanationNe": "PAS ले glycogen र basement membrane जस्ता carbohydrate-rich संरचना देखाउँछ; tissue र control अनुसार व्याख्या गर्नुपर्छ।"
+  },
+  {
+    "question": "Which special stain demonstrates ferric iron such as hemosiderin?",
+    "translation": "Hemosiderin जस्तो ferric iron देखाउने special stain कुन हो?",
+    "options": [
+      "Perls' Prussian blue",
+      "Masson's trichrome",
+      "Papanicolaou",
+      "Alcian blue"
+    ],
+    "correctIndex": 0,
+    "explanation": "Perls' Prussian blue demonstrates ferric iron in tissue sections.",
+    "explanationNe": "Perls' Prussian blue ले tissue section मा ferric iron देखाउँछ।"
+  },
+  {
+    "question": "Which stain is commonly used to demonstrate collagen fibers?",
+    "translation": "Collagen fiber देखाउन सामान्यतया कुन stain प्रयोग हुन्छ?",
+    "options": [
+      "Masson's trichrome",
+      "Wright–Giemsa",
+      "Ziehl–Neelsen",
+      "Leishman"
+    ],
+    "correctIndex": 0,
+    "explanation": "Masson's trichrome differentiates collagen from muscle and other tissue elements; colors depend on the protocol.",
+    "explanationNe": "Masson's trichrome ले collagen लाई muscle र अन्य tissue बाट छुट्याउँछ; रंग protocol अनुसार फरक हुन सक्छ।"
+  },
+  {
+    "question": "What is the main purpose of a tissue biopsy?",
+    "translation": "Tissue biopsy को मुख्य उद्देश्य के हो?",
+    "options": [
+      "Obtain tissue for microscopic diagnosis",
+      "Measure serum electrolytes",
+      "Count circulating platelets",
+      "Determine blood group"
+    ],
+    "correctIndex": 0,
+    "explanation": "A biopsy provides tissue architecture and cells for histopathological examination to help diagnose disease.",
+    "explanationNe": "Biopsy ले रोग पहिचानका लागि histopathological परीक्षण गर्न tissue structure र cell उपलब्ध गराउँछ।"
+  },
+  {
+    "question": "What is an excisional biopsy?",
+    "translation": "Excisional biopsy भनेको के हो?",
+    "options": [
+      "Removal of the entire lesion for examination",
+      "Removal of only a small representative part",
+      "Collection of cells by swab",
+      "Aspiration of venous blood"
+    ],
+    "correctIndex": 0,
+    "explanation": "An excisional biopsy removes the entire lesion when feasible; an incisional biopsy samples only part of it.",
+    "explanationNe": "सम्भव हुँदा excisional biopsy मा पूरा lesion हटाइन्छ; incisional biopsy मा त्यसको केही भाग मात्र लिइन्छ।"
+  },
+  {
+    "question": "Why must histopathology specimens be labeled accurately at collection?",
+    "translation": "Histopathology नमुना संकलन गर्दा सही labeling किन आवश्यक छ?",
+    "options": [
+      "To maintain patient and specimen-site identity",
+      "To make staining faster",
+      "To increase section thickness",
+      "To replace fixation"
+    ],
+    "correctIndex": 0,
+    "explanation": "Accurate labeling links the specimen to the correct patient and anatomical site; errors can cause serious diagnostic harm.",
+    "explanationNe": "सही labeling ले नमुनालाई सही बिरामी र anatomical site सँग जोड्छ; त्रुटिले diagnosis मा गम्भीर हानि पुर्‍याउन सक्छ।"
+  },
+  {
+    "question": "What is the purpose of checking the endpoint of decalcification?",
+    "translation": "Decalcification को endpoint जाँच्नुको उद्देश्य के हो?",
+    "options": [
+      "Confirm adequate mineral removal before sectioning",
+      "Measure blood glucose",
+      "Determine blood group",
+      "Check paraffin color"
+    ],
+    "correctIndex": 0,
+    "explanation": "Endpoint assessment helps avoid under-decalcification, which impairs sectioning, and over-decalcification, which can damage morphology and staining.",
+    "explanationNe": "Endpoint जाँचले कम decalcification हुँदा section काट्न कठिन हुने र धेरै हुँदा morphology बिग्रने जोखिम घटाउँछ।"
+  },
+  {
+    "question": "Which practice best reduces cross-contamination between tissue specimens?",
+    "translation": "Tissue नमुनाबीच cross-contamination घटाउन कुन अभ्यास उत्तम हुन्छ?",
+    "options": [
+      "Clean or change instruments between specimens according to SOP",
+      "Reuse unclean blades for every sample",
+      "Put all samples in one container",
+      "Skip specimen identification"
+    ],
+    "correctIndex": 0,
+    "explanation": "Clean or appropriately change instruments and work surfaces between specimens, and follow specimen-tracking procedures and laboratory SOPs.",
+    "explanationNe": "नमुना अनुसार उपकरण र work surface सफा वा परिवर्तन गर्नुहोस् र specimen tracking तथा प्रयोगशालाको SOP पालना गर्नुहोस्।"
+  }
+
 ];
 
 const bmltAnatomyPhysiologyQuestions = [
