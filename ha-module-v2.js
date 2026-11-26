@@ -41,6 +41,29 @@
  ["Sensitivity is the proportion of:",["People without disease who test negative","People with disease who test positive","All people who test negative","False positives"],1,"Sensitivity = true positives among people who have the disease."],
  ["A suspected anaphylaxis after injection needs:",["Wait and observe at home","Immediate emergency response and protocol-based care","Only a cold compress","Routine appointment next week"],1,"Anaphylaxis can rapidly threaten airway and circulation; activate emergency protocol."]
  ];
+ const extraQs=[
+["Which hormone lowers blood glucose?",["Glucagon","Insulin","Cortisol","Adrenaline"],1,"Insulin lowers blood glucose."],
+["The functional unit of kidney is:",["Neuron","Nephron","Alveolus","Hepatic lobule"],1,"Nephron is the functional unit of kidney."],
+["Gas exchange mainly occurs in:",["Trachea","Bronchi","Alveoli","Pleura"],2,"Alveoli are the main gas-exchange surface."],
+["The natural pacemaker of the heart is:",["AV node","SA node","Bundle of His","Purkinje fibres"],1,"The SA node normally initiates cardiac rhythm."],
+["Vitamin C deficiency causes:",["Rickets","Scurvy","Pellagra","Beriberi"],1,"Vitamin C deficiency causes scurvy."],
+["Vitamin D deficiency in children causes:",["Scurvy","Rickets","Night blindness","Pellagra"],1,"Vitamin D deficiency causes rickets."],
+["Iron deficiency commonly causes:",["Microcytic hypochromic anaemia","Macrocytic anaemia","Polycythaemia","Leukocytosis"],0,"Iron deficiency usually causes microcytic hypochromic anaemia."],
+["Cholera mainly spreads through:",["Airborne droplets","Contaminated water/food","Vector bite","Blood transfusion"],1,"Cholera is faeco-orally transmitted."],
+["Tuberculosis is caused by:",["Vibrio cholerae","Mycobacterium tuberculosis","Salmonella typhi","Plasmodium vivax"],1,"TB is caused by Mycobacterium tuberculosis."],
+["Malaria is transmitted by:",["Male Anopheles","Female Anopheles mosquito","Aedes mosquito","Housefly"],1,"Female Anopheles mosquitoes transmit malaria."],
+["Dengue is mainly transmitted by:",["Aedes mosquito","Anopheles mosquito","Sandfly","Tick"],0,"Aedes mosquitoes transmit dengue."],
+["Rabies exposure first aid includes:",["Wait for symptoms","Wash wound thoroughly and seek prompt PEP assessment","Apply mud","Close wound tightly"],1,"Wash with soap and water and promptly seek rabies PEP assessment."],
+["Exclusive breastfeeding is recommended for:",["2 months","4 months","6 months","12 months"],2,"Exclusive breastfeeding is recommended for the first 6 months."],
+["Cold chain means:",["Any room temperature","Maintain vaccine-specific recommended temperature","Direct sunlight","Freeze all vaccines"],1,"Keep vaccines within their specified temperature range; avoid inappropriate freezing."],
+["HIV is NOT transmitted by:",["Sharing needles","Unprotected sex","Mosquito bites","Infected blood"],2,"HIV is not transmitted by mosquitoes."],
+["A false positive means:",["Positive test, disease absent","Negative test, disease present","Correct positive","Correct negative"],0,"False positive: positive result in a person without disease."],
+["A false negative means:",["Negative test despite disease","Positive test without disease","All results correct","No test done"],0,"False negative: disease is present but test is negative."],
+["The median is:",["Middle value in ordered data","Arithmetic average","Most frequent value","Range"],0,"Median is the middle observation after ordering."],
+["The mode is:",["Most frequent value","Middle value","Sum divided by count","Lowest value"],0,"Mode is the most frequently occurring value."],
+["A screening test is used mainly to:",["Identify possible cases for further assessment","Confirm every diagnosis alone","Replace treatment","Measure mortality only"],0,"Screening identifies people who may need further diagnostic assessment."]
+ ];
+ qs.push(...extraQs);
  const caseQs=[
  ["A 50-year-old collapses, is unresponsive and has abnormal gasping. What should the HA do immediately?",["Give water","Call for help, assess breathing and start CPR/AED pathway if not breathing normally","Wait five minutes","Give oral medicine"],1,"Gasping is not normal breathing. Activate emergency response and follow BLS/CPR protocol."],
  ["A pregnant woman at 32 weeks has severe headache, blurred vision and upper abdominal pain. Best action?",["Review next week","Urgently assess BP and refer for possible severe pre-eclampsia","Give only oral fluids","Reassure and discharge"],1,"These are danger signs of severe pre-eclampsia and need urgent assessment/referral."],
@@ -59,7 +82,7 @@
  function answer(j){if(state.answered)return;state.answered=true;const q=state.bank[state.items[state.index].i],correct=j===q[2];if(correct)state.score++;host.querySelectorAll("[data-ha2-answer]").forEach(b=>{b.disabled=true;if(Number(b.dataset.ha2Answer)===q[2])b.classList.add("correct");});const f=document.getElementById("ha2feedback");if(f)f.innerHTML='<div class="notice"><b>'+(correct?'Correct ✓':'Incorrect ✗')+'</b><p>'+esc(q[3])+'</p></div>';const n=document.getElementById("ha2next");if(n)n.disabled=false;}
  function next(){state.index++;renderQ();}
  function finish(){stop();shell("Practice Result",'<div class="ha-kpis"><div><b>'+state.score+'/'+state.items.length+'</b><small>Correct</small></div><div><b>'+Math.round(state.score/state.items.length*100)+'%</b><small>Score</small></div></div><p>गलत प्रश्नका explanation पुनः पढ्नुहोस् र फेरि अभ्यास गर्नुहोस्।</p><button data-ha2="practice">Practice फेरि</button><button data-ha2="mock">Mock Sets</button>');}
- function mocks(){shell("HA Mock Sets",'<p>Set छान्नुहोस्—हरेक set मा 20 प्रश्नको अभ्यास।</p><div class="ha-actions">'+[1,2,3,4,5].map(n=>'<button data-ha2-mock="'+n+'">Mock Set '+n+'</button>').join('')+'</div><p class="np">यो अभ्यास प्रश्न बैंक हो, आधिकारिक NHPC प्रश्नपत्र होइन।</p>');}
+ function mocks(){shell("HA Mock Sets",'<p>Set छान्नुहोस्—हरेक set मा छुट्टाछुट्टै 20 प्रश्न (कुल 40 प्रश्न बैंक)।</p><div class="ha-actions">'+[1,2].map(n=>'<button data-ha2-mock="'+n+'">Mock Set '+n+'</button>').join('')+'</div><p class="np">यो अभ्यास प्रश्न बैंक हो, आधिकारिक NHPC प्रश्नपत्र होइन।</p>');}
  function cases(){chooseMode("case");}
  const actions={menu,notes:showNotes,practice:()=>chooseMode("practice"),timed:()=>chooseMode("timed"),mock:mocks,case:cases,mock1:()=>chooseMode("mock",1),mock2:()=>chooseMode("mock",2),mock3:()=>chooseMode("mock",3),mock4:()=>chooseMode("mock",4),mock5:()=>chooseMode("mock",5)};
  host.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.ha2){e.preventDefault();const a=actions[b.dataset.ha2];if(a)a();}else if(b.dataset.ha2Mock){e.preventDefault();chooseMode("mock",Number(b.dataset.ha2Mock));}else if(b.dataset.ha2Answer!==undefined){e.preventDefault();answer(Number(b.dataset.ha2Answer));}else if(b.id==="ha2next"){e.preventDefault();next();}});
