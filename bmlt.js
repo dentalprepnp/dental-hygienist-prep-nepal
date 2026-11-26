@@ -341,8 +341,11 @@
     const practiceSeen=new Set(practiceQuestions.map(q=>q[0].trim().toLowerCase()));
     medicalMicrobiologyQuestions.map(shuffledQuestion).filter(Boolean).forEach(q=>{const key=q[0].trim().toLowerCase();if(!practiceSeen.has(key)){practiceSeen.add(key);practiceQuestions.push(q);}});
     mockBankQuestions=typed.filter(x=>x.normalizedType==="mock").sort((a,b)=>a.normalizedOrder-b.normalizedOrder).map(x=>shuffledQuestion(x.normalizedData)).filter(Boolean);
-    // If BMLT has practice MCQs but no separately tagged mock rows, reuse the practice bank for Mock Test.
+    // If no separately tagged mock rows exist, start from the practice bank.
     if(!mockBankQuestions.length&&practiceQuestions.length)mockBankQuestions=practiceQuestions.map(q=>[q[0],q[1],[...q[2]],q[3],q[4],q[5]]);
+    // Add curated Medical Microbiology questions to Mock Test too; avoid duplicate English stems.
+    const mockSeen=new Set(mockBankQuestions.map(q=>q[0].trim().toLowerCase()));
+    medicalMicrobiologyQuestions.map(shuffledQuestion).filter(Boolean).forEach(q=>{const key=q[0].trim().toLowerCase();if(!mockSeen.has(key)){mockSeen.add(key);mockBankQuestions.push(q);}});
   }
   function showApp() {
     status.classList.add("hidden"); app.classList.remove("hidden");
@@ -414,7 +417,7 @@
       const {data:sessionData,error:sessionError}=await client.auth.getSession();
       if(sessionError)throw new Error("Session: "+sessionError.message);
       if(!sessionData?.session?.user){
-        activateLocalFallback("Login नभएकाले cloud प्रश्नहरू उपलब्ध छैनन्। तलका BMLT Notes र ५० वटा Medical Microbiology अभ्यास MCQ पढ्न सक्नुहुन्छ। Login गरेपछि cloud सामग्री पनि load गर्न सकिन्छ।");
+        activateLocalFallback("Login नभएकाले cloud प्रश्नहरू उपलब्ध छैनन्। तलका BMLT Notes र ${medicalMicrobiologyQuestions.length} वटा Medical Microbiology अभ्यास MCQ पढ्न सक्नुहुन्छ। Login गरेपछि cloud सामग्री पनि load गर्न सकिन्छ।");
         const btn=document.createElement("button");
         btn.className="secondary";btn.textContent="Login / Create Account";
         btn.addEventListener("click",()=>{
@@ -437,7 +440,7 @@
         throw new Error("RPC ले list फर्काएन। Supabase function को return type जाँच्नुहोस्।");
       }
       if(!data.length){
-        activateLocalFallback("Cloud database बाट BMLT rows आएनन्। त्यसैले Notes र २५ Medical Microbiology MCQ देखाइएको छ; cloud access/published rows छुट्टै जाँच्नुपर्छ।");
+        activateLocalFallback("Cloud database बाट BMLT rows आएनन्। त्यसैले Notes र ${medicalMicrobiologyQuestions.length} Medical Microbiology MCQ देखाइएको छ; cloud access/published rows छुट्टै जाँच्नुपर्छ।");
         return;
       }
       const valid=data.filter(row=>row&&normalizeType(contentTypeOf(row))&&contentDataOf(row));
@@ -453,7 +456,7 @@
       contentLoaded=true;
     }catch(error){
       console.error("BMLT secure content load failed:",error);
-      activateLocalFallback("Cloud BMLT load हुन सकेन। स्थानीय Notes र २५ Medical Microbiology अभ्यास MCQ देखाइएको छ। समस्या: "+(error.message||String(error)));
+      activateLocalFallback("Cloud BMLT load हुन सकेन। स्थानीय Notes र ${medicalMicrobiologyQuestions.length} Medical Microbiology अभ्यास MCQ देखाइएको छ। समस्या: "+(error.message||String(error)));
     }
   }
   function loadSecureContent(){
