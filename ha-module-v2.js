@@ -328,30 +328,15 @@
   {id:"path",name:"Clinical Pathology",ne:"क्लिनिकल प्याथोलोजी"}
  ];
  function topicForQuestion(q){
-  const qn=qs.indexOf(q)+1;
-  if(qn>=161&&qn<=170)return "ap";
-  if(qn>=171&&qn<=195)return "community";
-  if(qn>=196&&qn<=220)return "medicine";
-  if(qn>=221&&qn<=245)return "surgery";
-  if(qn>=246&&qn<=255)return "pharma";
-  if(qn>=256&&qn<=260)return "path";
-  // Manual review overrides for the current 200-question bank.
-  // Question number is stable within this version of the bank.
-  const reviewedTopic={
-   171:"medicine",172:"medicine",173:"surgery",174:"medicine",175:"surgery",176:"medicine",177:"pharma",178:"path",179:"ap",180:"ap",181:"ap",182:"community",183:"community",184:"community",185:"community",186:"community",187:"medicine",188:"medicine",189:"medicine",190:"medicine",191:"medicine",192:"surgery",193:"surgery",194:"surgery",195:"surgery",196:"pharma",197:"pharma",198:"pharma",199:"path",200:"path",
-   163:"community",164:"community",165:"medicine",166:"medicine",167:"medicine",168:"medicine",169:"pharma",170:"pharma",
-   5:"medicine",8:"surgery",9:"medicine",10:"community",81:"surgery",82:"community",98:"surgery",11:"medicine",14:"medicine",16:"surgery",17:"community",
-   22:"ap",23:"ap",24:"ap",31:"community",34:"community",44:"path",45:"ap",46:"ap",47:"ap",50:"community",
-   56:"community",58:"community",59:"community",60:"community",61:"community",66:"community",76:"pharma",
-   87:"community",92:"path",94:"pharma",96:"community",97:"community",107:"surgery",108:"community",
-   111:"community",112:"surgery",113:"surgery",114:"surgery",115:"medicine",116:"medicine",117:"medicine",
-   120:"medicine",121:"medicine",122:"medicine",123:"community",124:"medicine",125:"medicine",128:"community",
-   131:"medicine",132:"medicine",135:"pharma",138:"pharma",139:"medicine",140:"path",143:"path",144:"medicine",
-   145:"path",147:"medicine",152:"community",153:"medicine",154:"community",158:"path"
-  };
   const questionNumber=qs.indexOf(q)+1;
-  if(questionNumber===162) return "surgery";
+  const reviewedTopic={"1":"surgery","2":"medicine","3":"community","4":"community","5":"medicine","6":"medicine","7":"surgery","8":"surgery","9":"medicine","10":"surgery","11":"medicine","12":"medicine","13":"pharma","14":"medicine","15":"surgery","16":"surgery","17":"medicine","18":"surgery","19":"path","20":"surgery","21":"pharma","22":"ap","23":"ap","24":"ap","25":"community","26":"community","27":"path","28":"community","29":"path","30":"community","31":"community","32":"surgery","33":"community","34":"community","35":"community","36":"path","37":"path","38":"path","39":"path","40":"community","41":"medicine","42":"medicine","43":"ap","44":"ap","45":"ap","46":"ap","47":"ap","48":"ap","49":"ap","50":"community","51":"community","52":"community","53":"community","54":"community","55":"community","56":"community","57":"path","58":"path","59":"community","60":"community","61":"community","62":"community","63":"community","64":"community","65":"community","66":"community","67":"medicine","68":"medicine","69":"medicine","70":"medicine","71":"surgery","72":"surgery","73":"surgery","74":"surgery","75":"surgery","76":"pharma","77":"pharma","78":"pharma","79":"path","80":"path","81":"community","82":"community","83":"community","84":"community","85":"community","86":"community","87":"community","88":"path","89":"path","90":"path","91":"path","92":"path","93":"pharma","94":"pharma","95":"pharma","96":"surgery","97":"surgery","98":"surgery","99":"community","100":"community","101":"medicine","102":"ap","103":"ap","104":"path","105":"path","106":"community","107":"surgery","108":"community","109":"community","110":"community","111":"community","112":"surgery","113":"surgery","114":"surgery","115":"medicine","116":"medicine","117":"surgery","118":"surgery","119":"surgery","120":"medicine","121":"medicine","122":"medicine","123":"community","124":"medicine","125":"medicine","126":"surgery","127":"community","128":"surgery","129":"community","130":"community","131":"medicine","132":"medicine","133":"pharma","134":"pharma","135":"pharma","136":"pharma","137":"pharma","138":"pharma","139":"medicine","140":"path","141":"path","142":"path","143":"path","144":"path","145":"path","146":"medicine","147":"medicine","148":"surgery","149":"surgery","150":"surgery","151":"surgery","152":"medicine","153":"medicine","154":"community","155":"pharma","156":"pharma","157":"pharma","158":"path","159":"path","160":"path"};
   if(reviewedTopic[questionNumber]) return reviewedTopic[questionNumber];
+  if(questionNumber>=161&&questionNumber<=170)return "ap";
+  if(questionNumber>=171&&questionNumber<=195)return "community";
+  if(questionNumber>=196&&questionNumber<=220)return "medicine";
+  if(questionNumber>=221&&questionNumber<=245)return "surgery";
+  if(questionNumber>=246&&questionNumber<=255)return "pharma";
+  if(questionNumber>=256&&questionNumber<=260)return "path";
   const t=(q[0]+" "+q[3]).toLowerCase();
   if(/cbc|edta|blood group|blood pH|arterial blood|false positive|false negative|sensitivity|specificity|haemoglobin|hemoglobin|microscopy|diagnostic method|rbc|platelet|median|mode|screening test/.test(t))return "path";
   if(/insulin|glucagon|antibiotic|antidote|paracetamol|naloxone|n-acetylcysteine|adrenaline|aspirin|salbutamol|medicine|drug|dose|pharmac|vaccine|vaccine-specific/.test(t))return "pharma";
