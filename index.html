@@ -635,7 +635,7 @@
 /* Load faculty modules only when a student opens that faculty or subject. */
 (function(){
  const byDestination={
-  ha:["ha-general-medicine.js?v=244"],
+  ha:["ha-general-medicine.js?v=245"],
   ophthalmic:["ophthalmic-science.js?v=154"],
   physiotherapy:["physiotherapy.js?v=167"],
   ott:["ott.js?v=23"],
@@ -715,7 +715,15 @@
      const ready=window.ensureHAMenu();
      if(!ready&&content)content.innerHTML='<div class="notice"><h3>HA मेनु तयार हुन सकेन</h3><p>HA module loaded तर menu render भएन। पुनः प्रयास बटन थिच्नुहोस्।</p><button type="button" onclick="window.ensureHAMenu&&window.ensureHAMenu()">पुनः प्रयास</button></div>';
     }else if(content){
-     content.innerHTML='<div class="notice"><h3>HA सामग्री लोड भएन</h3><p>HA module उपलब्ध छैन। Internet जाँचेर पुनः प्रयास गर्नुहोस्।</p><button type="button" onclick="location.reload()">पुनः लोड</button></div>';
+     /* Compatibility fallback: older cached HA module may expose its menu action
+        but not the newer ensureHAMenu helper. Call the menu directly. */
+     const menuAction=window.HAStudyActions&&window.HAStudyActions.menu;
+     if(typeof menuAction==="function"){
+      try{menuAction();}catch(error){console.error("HA menu fallback failed:",error);}
+     }
+     if(!content.innerHTML.trim()||content.querySelector(".ha-load-error")){
+      content.innerHTML='<div class="notice ha-load-error"><h3>HA सामग्री लोड भएन</h3><p>HA module ले मेनु उपलब्ध गराएन। पुनः प्रयास गर्नुहोस्।</p><button type="button" onclick="location.reload()">पुनः लोड</button></div>';
+     }
     }
    }
   }else{
@@ -728,7 +736,7 @@
 
 
 <script src="study-guide.js?v=3"></script>
-<script src="ha-general-medicine.js?v=244"></script>
+<script src="ha-general-medicine.js?v=245"></script>
 <script src="app.js?v=208"></script>
 <script type="module" src="auth.js?v=12"></script>\n<script type="module" src="membership.js?v=2"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
