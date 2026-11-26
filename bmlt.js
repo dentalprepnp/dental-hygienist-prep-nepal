@@ -1067,7 +1067,269 @@
 {"question":"What is the main purpose of a major crossmatch?","translation":"Major crossmatch को मुख्य उद्देश्य के हो?","options":["Check donor red-cell compatibility with recipient plasma","Check donor plasma with recipient platelets","Measure donor hemoglobin","Determine recipient blood glucose"],"correctIndex":0,"explanation":"A major crossmatch assesses compatibility between donor red cells and recipient plasma or serum before transfusion.","explanationNe":"Major crossmatch ले transfusion अघि donor RBC र recipient plasma/serum बीच compatibility जाँच्छ।"},
 {"question":"Which immunohematology test detects antibodies or complement already attached to red cells in vivo?","translation":"शरीरभित्रै RBC मा टाँसिएका antibody वा complement पत्ता लगाउने test कुन हो?","options":["Direct antiglobulin test (DAT)","Indirect antiglobulin test (IAT)","Bleeding time","Osmotic fragility test"],"correctIndex":0,"explanation":"DAT detects immunoglobulin and/or complement coating red cells in vivo.","explanationNe":"DAT ले शरीरभित्र RBC मा टाँसिएको immunoglobulin र/वा complement पत्ता लगाउँछ।"},
 {"question":"Which blood component is rich in fibrinogen and factor VIII?","translation":"कुन blood component मा fibrinogen र factor VIII धेरै हुन्छ?","options":["Cryoprecipitate","Packed red cells","Washed red cells","Platelet-poor plasma"],"correctIndex":0,"explanation":"Cryoprecipitate contains concentrated fibrinogen and also factor VIII, von Willebrand factor and factor XIII.","explanationNe":"Cryoprecipitate मा fibrinogen बढी हुन्छ र factor VIII, von Willebrand factor तथा factor XIII पनि हुन्छन्।"},
-{"question":"What is the immediate first action when an acute transfusion reaction is suspected?","translation":"Acute transfusion reaction शंका हुँदा तुरुन्त पहिलो कदम के हो?","options":["Stop the transfusion","Increase the transfusion rate","Discard the blood bag without reporting","Give another unit immediately"],"correctIndex":0,"explanation":"Stop the transfusion immediately, maintain venous access with compatible saline according to protocol, assess the patient and notify the responsible team/blood bank.","explanationNe":"तुरुन्त transfusion रोक्नुहोस्, protocol अनुसार saline बाट venous access कायम राख्नुहोस्, बिरामी जाँच्नुहोस् र जिम्मेवार टोली/blood bank लाई खबर गर्नुहोस्।"}
+{"question":"What is the immediate first action when an acute transfusion reaction is suspected?","translation":"Acute transfusion reaction शंका हुँदा तुरुन्त पहिलो कदम के हो?","options":["Stop the transfusion","Increase the transfusion rate","Discard the blood bag without reporting","Give another unit immediately"],"correctIndex":0,"explanation":"Stop the transfusion immediately, maintain venous access with compatible saline according to protocol, assess the patient and notify the responsible team/blood bank.","explanationNe":"तुरुन्त transfusion रोक्नुहोस्, protocol अनुसार saline बाट venous access कायम राख्नुहोस्, बिरामी जाँच्नुहोस् र जिम्मेवार टोली/blood bank लाई खबर गर्नुहोस्।"},
+
+  {
+    "question": "Which RBC index represents the average volume of a red blood cell?",
+    "translation": "RBC को औसत आयतन जनाउने index कुन हो?",
+    "options": [
+      "MCV",
+      "MCH",
+      "MCHC",
+      "RDW"
+    ],
+    "correctIndex": 0,
+    "explanation": "MCV is mean corpuscular volume, expressed in femtolitres; it helps classify anemia by cell size.",
+    "explanationNe": "MCV भनेको RBC को औसत आयतन हो, femtolitre मा व्यक्त गरिन्छ; यसले cell size अनुसार anemia वर्गीकरण गर्छ।"
+  },
+  {
+    "question": "A reduced MCV is characteristic of which red-cell pattern?",
+    "translation": "कम MCV कुन प्रकारको RBC pattern को विशेषता हो?",
+    "options": [
+      "Microcytosis",
+      "Macrocytosis",
+      "Normocytosis",
+      "Reticulocytosis"
+    ],
+    "correctIndex": 0,
+    "explanation": "Reduced MCV indicates microcytosis; iron deficiency and thalassemia are common causes requiring further assessment.",
+    "explanationNe": "कम MCV ले microcytosis जनाउँछ; iron deficiency र thalassemia सामान्य कारण हुन् र थप परीक्षण चाहिन्छ।"
+  },
+  {
+    "question": "Which test assesses the bone marrow response to anemia?",
+    "translation": "Anemia मा bone marrow को प्रतिक्रिया कुन परीक्षणले देखाउँछ?",
+    "options": [
+      "Reticulocyte count",
+      "Basophil count",
+      "Platelet count",
+      "ESR"
+    ],
+    "correctIndex": 0,
+    "explanation": "Reticulocytes are young red cells; their count helps distinguish reduced production from increased loss or destruction.",
+    "explanationNe": "Reticulocyte अपरिपक्व RBC हुन्; तिनको संख्याले उत्पादन कमी र रक्तस्राव/विनाश छुट्याउन मद्दत गर्छ।"
+  },
+  {
+    "question": "Which anticoagulant is routinely used for a CBC specimen?",
+    "translation": "CBC नमुनामा सामान्यतया कुन anticoagulant प्रयोग हुन्छ?",
+    "options": [
+      "EDTA",
+      "Sodium citrate",
+      "Heparin",
+      "Sodium fluoride"
+    ],
+    "correctIndex": 0,
+    "explanation": "EDTA binds calcium and preserves blood-cell morphology, making it the routine anticoagulant for CBC.",
+    "explanationNe": "EDTA ले calcium बाँध्छ र रक्तकोषको बनावट जोगाउँछ, त्यसैले CBC मा प्रयोग हुन्छ।"
+  },
+  {
+    "question": "Which test assesses the extrinsic and common coagulation pathways?",
+    "translation": "Extrinsic र common coagulation pathway कुन test ले जाँच्छ?",
+    "options": [
+      "PT/INR",
+      "aPTT",
+      "ESR",
+      "Reticulocyte count"
+    ],
+    "correctIndex": 0,
+    "explanation": "PT evaluates the extrinsic and common pathways; INR standardizes PT for monitoring vitamin K antagonist therapy.",
+    "explanationNe": "PT ले extrinsic र common pathway जाँच्छ; vitamin K antagonist उपचारमा INR प्रयोग हुन्छ।"
+  },
+  {
+    "question": "Which test primarily evaluates intrinsic and common coagulation pathways?",
+    "translation": "Intrinsic र common coagulation pathway मुख्य रूपमा कुन test ले जाँच्छ?",
+    "options": [
+      "aPTT",
+      "PT/INR",
+      "Bleeding time",
+      "Platelet count"
+    ],
+    "correctIndex": 0,
+    "explanation": "aPTT assesses intrinsic and common pathway factors and may be used to monitor unfractionated heparin.",
+    "explanationNe": "aPTT ले intrinsic र common pathway का factor जाँच्छ र unfractionated heparin निगरानीमा प्रयोग हुन सक्छ।"
+  },
+  {
+    "question": "Which protein is converted by thrombin into fibrin?",
+    "translation": "Thrombin ले कुन protein लाई fibrin मा बदल्छ?",
+    "options": [
+      "Fibrinogen",
+      "Albumin",
+      "Transferrin",
+      "Globulin"
+    ],
+    "correctIndex": 0,
+    "explanation": "Thrombin converts fibrinogen into fibrin strands that form the clot framework.",
+    "explanationNe": "Thrombin ले fibrinogen लाई fibrin धागोमा बदल्छ जसले clot को संरचना बनाउँछ।"
+  },
+  {
+    "question": "D-dimer is produced during degradation of which substance?",
+    "translation": "कुन पदार्थ टुक्रिँदा D-dimer उत्पन्न हुन्छ?",
+    "options": [
+      "Cross-linked fibrin",
+      "Albumin",
+      "Hemoglobin",
+      "Platelet membrane"
+    ],
+    "correctIndex": 0,
+    "explanation": "D-dimer is released when cross-linked fibrin is degraded; it is sensitive but nonspecific.",
+    "explanationNe": "Cross-linked fibrin टुक्रिँदा D-dimer निस्कन्छ; यो sensitive तर nonspecific हुन्छ।"
+  },
+  {
+    "question": "In ABO forward grouping, which material is reacted with anti-A and anti-B?",
+    "translation": "ABO forward grouping मा anti-A र anti-B सँग कुन पदार्थ प्रतिक्रिया गराइन्छ?",
+    "options": [
+      "Patient red cells",
+      "Patient serum",
+      "Donor plasma",
+      "Urine"
+    ],
+    "correctIndex": 0,
+    "explanation": "Forward grouping identifies A and B antigens on patient red cells using known antisera.",
+    "explanationNe": "Forward grouping मा ज्ञात antisera प्रयोग गरी बिरामीका RBC मा A र B antigen पहिचान गरिन्छ।"
+  },
+  {
+    "question": "In ABO reverse grouping, what is tested against known A1 and B cells?",
+    "translation": "ABO reverse grouping मा ज्ञात A1 र B cell सँग के जाँचिन्छ?",
+    "options": [
+      "Patient serum or plasma",
+      "Patient red cells",
+      "Platelet concentrate",
+      "Bone marrow"
+    ],
+    "correctIndex": 0,
+    "explanation": "Reverse grouping detects expected anti-A and anti-B antibodies in patient serum or plasma.",
+    "explanationNe": "Reverse grouping मा बिरामीको serum वा plasma मा अपेक्षित anti-A र anti-B antibody जाँचिन्छ।"
+  },
+  {
+    "question": "Which ABO group expresses both A and B antigens on red cells?",
+    "translation": "कुन ABO समूहका RBC मा A र B दुवै antigen हुन्छन्?",
+    "options": [
+      "AB",
+      "A",
+      "B",
+      "O"
+    ],
+    "correctIndex": 0,
+    "explanation": "Group AB red cells express both A and B antigens; plasma normally lacks anti-A and anti-B.",
+    "explanationNe": "AB समूहका RBC मा A र B दुवै antigen हुन्छन्; plasma मा सामान्यतया anti-A र anti-B हुँदैन।"
+  },
+  {
+    "question": "Which antigen is the principal determinant of RhD status?",
+    "translation": "RhD status निर्धारण गर्ने मुख्य antigen कुन हो?",
+    "options": [
+      "D antigen",
+      "C antigen",
+      "E antigen",
+      "K antigen"
+    ],
+    "correctIndex": 0,
+    "explanation": "The D antigen is highly immunogenic and is used to classify RhD-positive and RhD-negative status.",
+    "explanationNe": "D antigen अत्यधिक immunogenic हुन्छ र RhD-positive तथा RhD-negative वर्गीकरणमा प्रयोग हुन्छ।"
+  },
+  {
+    "question": "What does the indirect antiglobulin test detect in pre-transfusion testing?",
+    "translation": "Pre-transfusion testing मा indirect antiglobulin test ले के पत्ता लगाउँछ?",
+    "options": [
+      "Unexpected antibodies in patient serum or plasma",
+      "Antibodies coating red cells in vivo",
+      "Platelet number",
+      "Fibrinogen level"
+    ],
+    "correctIndex": 0,
+    "explanation": "IAT detects free antibodies in serum or plasma that may react with red-cell antigens in vitro; it supports antibody screening and compatibility testing.",
+    "explanationNe": "IAT ले serum वा plasma मा रहेका RBC antigen सँग in vitro प्रतिक्रिया गर्न सक्ने free antibody पत्ता लगाउँछ।"
+  },
+  {
+    "question": "What does the direct antiglobulin test detect?",
+    "translation": "Direct antiglobulin test ले के पत्ता लगाउँछ?",
+    "options": [
+      "Immunoglobulin or complement bound to red cells in vivo",
+      "Free antibodies in serum only",
+      "Clotting time",
+      "Reticulocyte percentage"
+    ],
+    "correctIndex": 0,
+    "explanation": "DAT detects immunoglobulin and/or complement already attached to red cells in the patient.",
+    "explanationNe": "DAT ले बिरामीको RBC मा शरीरभित्रै जोडिएको immunoglobulin र/वा complement पत्ता लगाउँछ।"
+  },
+  {
+    "question": "Which component is generally used to improve oxygen-carrying capacity in anemia?",
+    "translation": "Anemia मा oxygen बोक्ने क्षमता बढाउन सामान्यतया कुन component प्रयोग हुन्छ?",
+    "options": [
+      "Packed red blood cells",
+      "Fresh frozen plasma",
+      "Platelet concentrate",
+      "Cryoprecipitate"
+    ],
+    "correctIndex": 0,
+    "explanation": "Packed red cells increase oxygen-carrying capacity; transfusion decisions depend on clinical status and protocol.",
+    "explanationNe": "Packed RBC ले oxygen बोक्ने क्षमता बढाउँछ; transfusion निर्णय clinical अवस्था र protocol अनुसार हुन्छ।"
+  },
+  {
+    "question": "Which component is used for selected patients with clinically significant thrombocytopenia?",
+    "translation": "Clinically significant thrombocytopenia भएका छानिएका बिरामीलाई कुन component दिइन्छ?",
+    "options": [
+      "Platelet concentrate",
+      "Packed red cells",
+      "Fresh frozen plasma",
+      "Albumin"
+    ],
+    "correctIndex": 0,
+    "explanation": "Platelet components may be indicated for selected patients with low platelet counts or platelet dysfunction, based on bleeding risk.",
+    "explanationNe": "कम platelet वा platelet dysfunction भएका छानिएका बिरामीमा bleeding risk अनुसार platelet component दिन सकिन्छ।"
+  },
+  {
+    "question": "Which component contains multiple coagulation factors and is thawed before administration?",
+    "translation": "धेरै coagulation factor हुने र दिनुअघि thaw गरिने component कुन हो?",
+    "options": [
+      "Fresh frozen plasma",
+      "Packed red cells",
+      "Washed red cells",
+      "Platelet-poor serum"
+    ],
+    "correctIndex": 0,
+    "explanation": "Fresh frozen plasma provides multiple coagulation factors for selected coagulopathy cases when clinically indicated.",
+    "explanationNe": "Fresh frozen plasma ले clinically indicated coagulopathy का छानिएका अवस्थामा धेरै coagulation factor उपलब्ध गराउँछ।"
+  },
+  {
+    "question": "What is the first action when an acute transfusion reaction is suspected?",
+    "translation": "Acute transfusion reaction शंका हुँदा पहिलो कदम के हो?",
+    "options": [
+      "Stop the transfusion immediately",
+      "Increase the transfusion rate",
+      "Wait until the unit is finished",
+      "Start another unit"
+    ],
+    "correctIndex": 0,
+    "explanation": "Stop transfusion, maintain IV access with compatible saline per protocol, assess the patient and notify the clinician and blood bank promptly.",
+    "explanationNe": "Transfusion रोक्नुहोस्, protocol अनुसार compatible saline बाट IV access कायम राख्नुहोस्, बिरामी जाँच्नुहोस् र clinician तथा blood bank लाई तुरुन्त खबर गर्नुहोस्।"
+  },
+  {
+    "question": "Why are donated blood units screened for transfusion-transmitted infections?",
+    "translation": "दान गरिएको रगतलाई transfusion बाट सर्ने संक्रमणका लागि किन जाँचिन्छ?",
+    "options": [
+      "To reduce infection transmission risk",
+      "To determine recipient blood group",
+      "To increase donor hemoglobin",
+      "To measure platelet function"
+    ],
+    "correctIndex": 0,
+    "explanation": "Screening required by national regulations reduces risks from infections such as HIV, hepatitis B, hepatitis C and syphilis, but cannot make risk zero.",
+    "explanationNe": "राष्ट्रिय नियमअनुसार screening ले HIV, hepatitis B, hepatitis C र syphilis जस्ता संक्रमणको जोखिम घटाउँछ तर शून्य बनाउँदैन।"
+  },
+  {
+    "question": "Which smear finding is typical of iron deficiency anemia?",
+    "translation": "Iron deficiency anemia मा smear मा कुन finding सामान्य हुन्छ?",
+    "options": [
+      "Microcytic hypochromic red cells",
+      "Macro-ovalocytes and hypersegmented neutrophils",
+      "Spherocytes only",
+      "Sickle cells only"
+    ],
+    "correctIndex": 0,
+    "explanation": "Iron deficiency commonly causes microcytic, hypochromic red cells, often with anisopoikilocytosis; correlate with ferritin and iron studies.",
+    "explanationNe": "Iron deficiency मा प्रायः microcytic, hypochromic RBC र anisopoikilocytosis देखिन्छ; ferritin तथा iron studies सँग मिलाएर हेर्नुपर्छ।"
+  }
+
 ];
   const bmltHistocytopathologyQuestions = [
 {"question":"Which fixative is commonly used for routine histopathology tissue specimens?","translation":"सामान्य histopathology tissue specimen fix गर्न कुन fixative प्रयोग हुन्छ?","options":["10% neutral buffered formalin","Absolute methanol","Normal saline","Distilled water"],"correctIndex":0,"explanation":"10% neutral buffered formalin is the routine fixative for most histopathology specimens; it preserves tissue architecture.","explanationNe":"१०% neutral buffered formalin धेरैजसो histopathology नमुनाको नियमित fixative हो; यसले tissue को बनावट जोगाउँछ।"},
