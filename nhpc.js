@@ -746,5 +746,11 @@ document.getElementById("nhpcStartFullMock")?.addEventListener("click",openNhpcM
  document.getElementById("nhpcCloseMock")?.addEventListener("click",()=>{clearInterval(mockClock);mockClock=null;mockRoot.classList.add("hidden");document.getElementById("nhpcCloseMock")?.classList.add("hidden");document.getElementById("nhpcView")?.classList.remove("nhpc-focused-mode");setNHPCFocused(false);document.getElementById("nhpcStartFullMock")?.focus()});
 
 
+  /* Stable public entry points for the faculty action router. */
+  window.DHPNStudyActions={
+   notes:renderNhpcNotes,
+   practice:()=>{setNHPCFocused(true);root.classList.remove("hidden");document.getElementById("nhpcCloseMcq")?.classList.remove("hidden");show();root.scrollIntoView({behavior:"smooth",block:"start"});},
+   mock:openNhpcMock
+  };
   if (window.DHPNRandomizeQuestionBank) window.DHPNRandomizeQuestionBank(bank);
 })();
