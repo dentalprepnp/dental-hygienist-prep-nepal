@@ -111,7 +111,7 @@
  ["A patient has sudden one-sided weakness 30 minutes ago. What should be recorded and done?",["Last-known-well time and urgent stroke referral","Wait until symptoms resolve","Give food and drink","Schedule routine visit"],0,"Stroke is time-critical; record last-known-well and urgently transfer."],
  ["A patient has fever, fast breathing, low BP and confusion after infection. Suspect:",["Sepsis; urgent escalation and protocol-based care","Simple allergy","Stable chronic disease","Minor viral illness only"],0,"Possible sepsis with organ dysfunction needs immediate assessment and escalation."]
  ];
- const state={mode:"",set:1,index:0,items:[],bank:qs,score:0,answered:false,timer:null,seconds:0};
+ const state={mode:"",set:1,index:0,items:[],bank:qs,score:0,answered:false,timer:null,seconds:0,examAnswers:[],marked:[]};
  const stop=()=>{if(state.timer)clearInterval(state.timer);state.timer=null;};
  function shell(title,body){host.innerHTML='<div class="ha-rebuild"><button type="button" data-ha2="menu">← HA मुख्य मेनु</button><h3>'+esc(title)+'</h3>'+body+'</div>';host.scrollIntoView({behavior:"smooth",block:"start"});}
  function menu(){stop();state.mode="";host.innerHTML='<div class="ha-overview"><h3>HA License Preparation — नयाँ module</h3><p>Notes, MCQ Practice र Mock Set छान्नुहोस्।</p><div class="ha-actions"><button data-ha2="notes">📚 Study Notes</button><button data-ha2="guide">📖 Exam Study Guide</button><button data-ha2="highYield">⭐ Important Points & Short Tricks</button><button data-ha2="practice">🧠 MCQ Practice</button><button data-ha2="timed">⏱️ Timed Practice</button><button data-ha2="mock">📝 Mock Sets 1–5</button><button data-ha2="case">🩺 Clinical Cases</button></div><p class="muted">नयाँ module • स्वतन्त्र अभ्यास सामग्री</p></div>'; }
@@ -121,27 +121,47 @@
  function chooseMode(mode,setNo=1){
  stop();state.mode=mode;state.set=setNo;state.index=0;state.score=0;state.answered=false;
  state.seconds=mode==="full"?120*60:mode==="timed"?15*60:0;
+ state.examAnswers=[];state.marked=[];
  state.bank=mode==="case"?caseQs:qs;state.items=state.bank.map((q,i)=>({q,i}));
  if(mode==="mock")state.items=state.items.slice((setNo-1)*20,setNo*20);
- if(mode==="full")state.items=state.items.slice(0,100);
+ if(mode==="full"){state.items=state.items.slice(0,100);state.examAnswers=Array(100).fill(null);state.marked=Array(100).fill(false);}
  renderQ();
- if(mode==="timed"||mode==="full"){state.timer=setInterval(()=>{state.seconds--;const t=document.getElementById("ha2time");if(t)t.textContent=Math.floor(state.seconds/60)+":"+String(state.seconds%60).padStart(2,"0");if(state.seconds<=0){stop();finish();}},1000);}
+ if(mode==="timed"||mode==="full"){state.timer=setInterval(()=>{state.seconds--;const t=document.getElementById("ha2time");if(t)t.textContent=Math.floor(state.seconds/60)+":"+String(state.seconds%60).padStart(2,"0");if(state.seconds<=0){stop();if(state.mode==="full")submitExam(true);else finish();}},1000);}
  }
  function renderQ(){
  if(state.index>=state.items.length){finish();return;}
+ if(state.mode==="full"){renderExamQuestion();return;}
  const q=state.bank[state.items[state.index].i];state.answered=false;
- const label=state.mode==="mock"?"Mock Set "+state.set:state.mode==="full"?"Full NHPC License Mock":state.mode==="case"?"Clinical Case Practice":state.mode==="timed"?"Timed Practice":"MCQ Practice";
- const timed=state.mode==="timed"||state.mode==="full";
- const timeHtml=timed?' • <b id="ha2time">'+(state.mode==="full"?"120:00":"15:00")+'</b>':'';
+ const label=state.mode==="mock"?"Mock Set "+state.set:state.mode==="case"?"Clinical Case Practice":state.mode==="timed"?"Timed Practice":"MCQ Practice";
+ const timed=state.mode==="timed";
+ const timeHtml=timed?' • <b id="ha2time">'+Math.floor(state.seconds/60)+":"+String(state.seconds%60).padStart(2,"0")+'</b>':'';
  shell(label,'<p><b>Question '+(state.index+1)+' / '+state.items.length+'</b> • Score: '+state.score+timeHtml+'</p><article class="ha-question"><h4>'+esc(q[0])+'</h4><div class="ha-options">'+q[1].map((o,j)=>'<button type="button" data-ha2-answer="'+j+'">'+String.fromCharCode(65+j)+'. '+esc(o)+'</button>').join('')+'</div><div id="ha2feedback"></div><button type="button" id="ha2next" disabled>Next →</button></article>');
  }
- function answer(j){if(state.answered)return;state.answered=true;const q=state.bank[state.items[state.index].i],correct=j===q[2];if(correct)state.score++;host.querySelectorAll("[data-ha2-answer]").forEach(b=>{b.disabled=true;if(Number(b.dataset.ha2Answer)===q[2])b.classList.add("correct");});const f=document.getElementById("ha2feedback");if(f)f.innerHTML='<div class="notice"><b>'+(correct?'Correct ✓':'Incorrect ✗')+'</b><p>'+esc(q[3])+'</p></div>';const n=document.getElementById("ha2next");if(n)n.disabled=false;}
- function next(){state.index++;renderQ();}
- function finish(){stop();shell("Practice Result",'<div class="ha-kpis"><div><b>'+state.score+'/'+state.items.length+'</b><small>Correct</small></div><div><b>'+Math.round(state.score/state.items.length*100)+'%</b><small>Score</small></div></div><p>गलत प्रश्नका explanation पुनः पढ्नुहोस् र फेरि अभ्यास गर्नुहोस्।</p><button data-ha2="practice">Practice फेरि</button><button data-ha2="mock">Mock Sets</button>');}
+ function renderExamQuestion(){
+ const q=state.bank[state.items[state.index].i],chosen=state.examAnswers[state.index],marked=state.marked[state.index];
+ const time=Math.floor(state.seconds/60)+":"+String(state.seconds%60).padStart(2,"0");
+ const nav=state.items.map((it,i)=>'<button type="button" class="ha-exam-nav '+(i===state.index?'current ':'')+(state.examAnswers[i]!==null?'answered ':'')+(state.marked[i]?'review':'')+'" data-exam-go="'+i+'">'+(i+1)+(state.marked[i]?' ⚑':'')+'</button>').join('');
+ const opts=q[1].map((o,j)=>'<button type="button" class="ha-exam-option '+(chosen===j?'selected':'')+'" data-exam-answer="'+j+'">'+String.fromCharCode(65+j)+'. '+esc(o)+'</button>').join('');
+ shell("NHPC-style Full Mock Exam",'<div class="ha-exam-head"><b>Question '+(state.index+1)+' / 100</b><b>Time: <span id="ha2time">'+time+'</span></b></div><p class="np">Choose one answer. You can change it, move between questions, or mark for review. Answers and explanations appear after submission.</p><article class="ha-question"><h4>'+esc(q[0])+'</h4><div class="ha-options">'+opts+'</div><p><button type="button" data-exam-mark="1">'+(marked?'⚑ Unmark review':'⚐ Mark for review')+'</button> <button type="button" data-exam-clear="1">Clear answer</button></p><div class="ha-exam-controls"><button type="button" data-exam-prev="1" '+(state.index===0?'disabled':'')+'>← Previous</button><button type="button" data-exam-next="1">'+(state.index===99?'Review / Submit':'Save & Next →')+'</button></div></article><details class="ha-exam-question-map" open><summary>Question navigator (answered '+state.examAnswers.filter(x=>x!==null).length+'/100 • review '+state.marked.filter(Boolean).length+')</summary><div class="ha-exam-grid">'+nav+'</div></details><button type="button" data-exam-submit="1">Submit Exam</button><p class="np">Practice simulation for NHPC licensing preparation; not an official NHPC paper.</p>');
+ }
+ function selectExamAnswer(j){state.examAnswers[state.index]=j;renderQ();}
+ function toggleExamMark(){state.marked[state.index]=!state.marked[state.index];renderQ();}
+ function submitExam(auto=false){
+ if(state.mode!=="full")return;
+ stop();
+ const total=state.items.length;
+ state.score=state.items.reduce((sum,it,i)=>sum+(state.examAnswers[i]===state.bank[it.i][2]?1:0),0);
+ const pct=Math.round(state.score/total*100),unanswered=state.examAnswers.filter(x=>x===null).length,marked=state.marked.filter(Boolean).length;
+ const review=state.items.map((it,i)=>{const q=state.bank[it.i],a=state.examAnswers[i],ok=a===q[2];return '<article class="ha-note"><b>Q'+(i+1)+'. '+esc(q[0])+'</b><p>Your answer: '+(a===null?'Not answered':String.fromCharCode(65+a)+'. '+esc(q[1][a]))+'</p><p><b>Correct: '+String.fromCharCode(65+q[2])+'. '+esc(q[1][q[2]])+'</b></p><p>'+esc(q[3])+'</p></article>';}).join('');
+ shell(auto?"Time ended — Exam Result":"Full Mock Exam Result",'<div class="ha-kpis"><div><b>'+state.score+'/100</b><small>Correct</small></div><div><b>'+pct+'%</b><small>Score</small></div></div><p>Unanswered: '+unanswered+' • Marked for review: '+marked+'</p><p>'+(pct>=80?'Strong practice result. Keep revising weak areas.':pct>=50?'Good effort. Review mistakes and repeat weak topics.':'Read study notes and rebuild topic basics before retrying.')+'</p><p class="np">Practice score only; not an official NHPC result or pass guarantee.</p><details><summary>Review all 100 answers with explanations</summary>'+review+'</details><button data-ha2="full">Retake Full Mock</button><button data-ha2="mock">Mock Sets</button>');
+ }
+ function answer(j){if(state.mode==="full"||state.answered)return;state.answered=true;const q=state.bank[state.items[state.index].i],correct=j===q[2];if(correct)state.score++;host.querySelectorAll("[data-ha2-answer]").forEach(b=>{b.disabled=true;if(Number(b.dataset.ha2Answer)===q[2])b.classList.add("correct");});const f=document.getElementById("ha2feedback");if(f)f.innerHTML='<div class="notice"><b>'+(correct?'Correct ✓':'Incorrect ✗')+'</b><p>'+esc(q[3])+'</p></div>';const n=document.getElementById("ha2next");if(n)n.disabled=false;}
+ function next(){if(state.mode==="full"){if(state.index<99){state.index++;renderQ();}else submitExam(false);return;}state.index++;renderQ();}
+ function finish(){if(state.mode==="full"){submitExam(false);return;}stop();shell("Practice Result",'<div class="ha-kpis"><div><b>'+state.score+'/'+state.items.length+'</b><small>Correct</small></div><div><b>'+Math.round(state.score/state.items.length*100)+'%</b><small>Score</small></div></div><p>गलत प्रश्नका explanation पुनः पढ्नुहोस् र फेरि अभ्यास गर्नुहोस्।</p><button data-ha2="practice">Practice फेरि</button><button data-ha2="mock">Mock Sets</button>');}
  function mocks(){shell("HA Mock Sets",'<p>5 वटा 20-question set र 100-question full license mock (120 min).</p><div class="ha-actions">'+[1,2,3,4,5].map(n=>'<button data-ha2-mock="'+n+'">Mock Set '+n+'</button>').join('')+'<button data-ha2="full">Full License Mock (100)</button></div><p class="np">NHPC syllabus-weighted practice bank; official past paper होइन।</p>');}
  function cases(){chooseMode("case");}
  const actions={menu,notes:showNotes,guide:studyGuide,highYield,full:()=>chooseMode("full"),practice:()=>chooseMode("practice"),timed:()=>chooseMode("timed"),mock:mocks,case:cases,mock1:()=>chooseMode("mock",1),mock2:()=>chooseMode("mock",2),mock3:()=>chooseMode("mock",3),mock4:()=>chooseMode("mock",4),mock5:()=>chooseMode("mock",5)};
- host.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.ha2){e.preventDefault();const a=actions[b.dataset.ha2];if(a)a();}else if(b.dataset.ha2Mock){e.preventDefault();chooseMode("mock",Number(b.dataset.ha2Mock));}else if(b.dataset.ha2Answer!==undefined){e.preventDefault();answer(Number(b.dataset.ha2Answer));}else if(b.id==="ha2next"){e.preventDefault();next();}});
+ host.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.ha2){e.preventDefault();const a=actions[b.dataset.ha2];if(a)a();}else if(b.dataset.ha2Mock){e.preventDefault();chooseMode("mock",Number(b.dataset.ha2Mock));}else if(b.dataset.examAnswer!==undefined){e.preventDefault();selectExamAnswer(Number(b.dataset.examAnswer));}else if(b.dataset.examGo!==undefined){e.preventDefault();state.index=Number(b.dataset.examGo);renderQ();}else if(b.dataset.examMark!==undefined){e.preventDefault();toggleExamMark();}else if(b.dataset.examClear!==undefined){e.preventDefault();state.examAnswers[state.index]=null;renderQ();}else if(b.dataset.examPrev!==undefined){e.preventDefault();if(state.index>0){state.index--;renderQ();}}else if(b.dataset.examNext!==undefined){e.preventDefault();next();}else if(b.dataset.examSubmit!==undefined){e.preventDefault();if(window.confirm("Submit the exam now? You cannot change answers after submission."))submitExam(false);}else if(b.dataset.ha2Answer!==undefined){e.preventDefault();answer(Number(b.dataset.ha2Answer));}else if(b.id==="ha2next"){e.preventDefault();next();}});
  window.HAStudyActions=actions;
  window.ensureHAMenu=()=>{menu();return true;};
  menu();
