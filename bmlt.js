@@ -1011,7 +1011,7 @@
     document.getElementById("bmltMockCount").textContent=mockBankQuestions.length+" प्रश्न • "+mockBankQuestions.length+" मिनेट";
     document.getElementById("bmltMockIntroText").textContent=mockBankQuestions.length+" उपलब्ध Mock प्रश्न • प्रत्येक प्रश्नको १ अंक";
     const setRoot=document.getElementById("bmltMockSets");
-    const completeMockSets=Math.floor(mockBankQuestions.length/100);if(completeMockSets>0){setRoot.innerHTML=Array.from({length:completeMockSets},(_,i)=>`<button class="feature-card" type="button" data-bmlt-set="${i}"><b>Mock Set ${i+1}</b><strong>१०० प्रश्न • १०० अंक</strong><small>६० मिनेट</small></button>`).join("");setRoot.querySelectorAll("[data-bmlt-set]").forEach(b=>b.addEventListener("click",()=>startMock(Number(b.dataset.bmltSet))));}else setRoot.textContent="पूर्ण Mock Set बनाउन कम्तीमा १०० वटा वैध प्रश्न आवश्यक छ। अभ्यास MCQ भने उपलब्ध प्रश्नबाट गर्न सक्नुहुन्छ।";
+    const totalMockSets=Math.ceil(mockBankQuestions.length/100);if(totalMockSets>0){setRoot.innerHTML=Array.from({length:totalMockSets},(_,i)=>{const n=Math.min(100,mockBankQuestions.length-i*100),mins=Math.max(10,Math.ceil(n*0.6));return `<button class="feature-card" type="button" data-bmlt-set="${i}"><b>Mock Set ${i+1}</b><strong>${n} प्रश्न • ${n} अंक</strong><small>${mins} मिनेट${n<100?" • अभ्यास सेट":""}</small></button>`;}).join("");setRoot.querySelectorAll("[data-bmlt-set]").forEach(b=>b.addEventListener("click",()=>startMock(Number(b.dataset.bmltSet))));}else setRoot.textContent="Mock Test का लागि प्रश्न उपलब्ध छैन।";
     document.getElementById("bmltNotesList").innerHTML="";
     renderBMLTGuide();
     root.querySelectorAll("[data-bmlt]").forEach(b=>b.addEventListener("click",()=>{panel(b.dataset.bmlt);if(b.dataset.bmlt==="practice")renderPractice();}));
@@ -1031,7 +1031,7 @@
   }
   function startMock(setIndex=0){
     clearInterval(timer);const start=setIndex*100;mock=mockBankQuestions.slice(start,start+100).map(q=>[...q]);for(let i=mock.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[mock[i],mock[j]]=[mock[j],mock[i]];}
-    ma={};mi=0;remaining=60*60;
+    ma={};mi=0;remaining=Math.max(10*60,Math.ceil(mock.length*0.6)*60);
     document.getElementById("bmltMockIntro").classList.add("hidden");renderMock();
     timer=setInterval(()=>{remaining--;const t=document.getElementById("bmltTimer");if(t)t.textContent=`${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}`;if(remaining<=0)finish();},1000);
   }
