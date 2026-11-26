@@ -1343,7 +1343,7 @@
  }
  // Robust document-level capture routing: supports the static landing buttons too.
  window.HAStudyActions={
-  menu,showNotes,practice,
+  menu,showNotes,notes:showNotes,practice,
   timed:()=>start("timed"),
   mock:()=>start("mock",1),
   case:()=>start("case"),
