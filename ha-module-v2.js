@@ -168,6 +168,7 @@
   // Manual review overrides for the current 170-question bank.
   // Question number is stable within this version of the bank.
   const reviewedTopic={
+   163:"community",164:"community",165:"medicine",166:"medicine",167:"medicine",168:"medicine",169:"pharma",170:"pharma",
    5:"medicine",8:"surgery",9:"medicine",10:"community",81:"surgery",82:"community",98:"surgery",11:"medicine",14:"medicine",16:"surgery",17:"community",
    22:"ap",23:"ap",24:"ap",31:"community",34:"community",44:"path",45:"ap",46:"ap",47:"ap",50:"community",
    56:"community",58:"community",59:"community",60:"community",61:"community",66:"community",76:"pharma",
