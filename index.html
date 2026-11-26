@@ -703,9 +703,19 @@
    if(key==="ha"){
     const view=document.getElementById("haView");
     const content=view&&view.querySelector("#haContent");
+    /* Force the HA view to become visible after its module is ready.
+       Do not rely only on the generic faculty router's synthetic click. */
+    if(view){
+     view.classList.remove("hidden");
+     view.style.removeProperty("display");
+     view.setAttribute("aria-hidden","false");
+     document.body.dataset.appPage="faculty";
+    }
     if(typeof window.ensureHAMenu==="function"){
      const ready=window.ensureHAMenu();
-     if(!ready&&content)content.innerHTML='<div class="notice"><h3>HA मेनु तयार हुन सकेन</h3><p>पेजको script मा समस्या भेटियो। यो सूचना देखिएमा screenshot पठाउनुहोस्।</p></div>';
+     if(!ready&&content)content.innerHTML='<div class="notice"><h3>HA मेनु तयार हुन सकेन</h3><p>HA module loaded तर menu render भएन। पुनः प्रयास बटन थिच्नुहोस्।</p><button type="button" onclick="window.ensureHAMenu&&window.ensureHAMenu()">पुनः प्रयास</button></div>';
+    }else if(content){
+     content.innerHTML='<div class="notice"><h3>HA सामग्री लोड भएन</h3><p>HA module उपलब्ध छैन। Internet जाँचेर पुनः प्रयास गर्नुहोस्।</p><button type="button" onclick="location.reload()">पुनः लोड</button></div>';
     }
    }
   }else{
