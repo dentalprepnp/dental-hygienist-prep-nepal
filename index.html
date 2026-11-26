@@ -350,11 +350,11 @@
         <h3>HA License Preparation – अध्ययन सुरु गर्नुहोस्</h3>
         <p>तलको विकल्पबाट Notes, MCQ Practice वा Mock Test खोल्नुहोस्।</p>
         <div class="ha-actions">
-          <button type="button" data-ha="notes">📚 Detailed Notes</button>
-          <button type="button" data-ha="practice">🧠 MCQ Practice</button>
-          <button type="button" data-ha="timed">⏱️ Timed Practice</button>
-          <button type="button" data-ha="mock">📝 Full Syllabus Mock</button>
-          <button type="button" data-ha="case">🩺 Clinical Case Practice</button>
+          <button type="button" data-ha-v2="notes">📚 Detailed Notes</button>
+          <button type="button" data-ha-v2="practice">🧠 MCQ Practice</button>
+          <button type="button" data-ha-v2="timed">⏱️ Timed Practice</button>
+          <button type="button" data-ha-v2="mock">📝 Full Syllabus Mock</button>
+          <button type="button" data-ha-v2="case">🩺 Clinical Case Practice</button>
         </div>
         <p class="muted">यदि सामग्री लोड हुन केही समय लागेमा पेज refresh गर्नुहोस्।</p>
       </div>
@@ -736,7 +736,7 @@
 
 
 <script src="study-guide.js?v=3"></script>
-<script src="ha-general-medicine.js?v=253"></script>
+<script src="ha-module-v2.js?v=1"></script>
 <script>
 /* HA fail-safe: visible static menu remains actionable even if the module missed initialization. */
 (function(){
@@ -744,10 +744,10 @@
  let lastHAError="";
  window.addEventListener("error",function(event){
   const filename=String(event.filename||"");
-  if(filename.includes("ha-general-medicine.js"))lastHAError=String(event.message||"Unknown JavaScript error");
+  if(filename.includes("ha-module-v2.js"))lastHAError=String(event.message||"Unknown JavaScript error");
  },true);
  function invoke(button){
-  const key=button.dataset.ha;
+  const key=button.dataset.haV2;
   const actions=window.HAStudyActions;
   if(actions&&typeof actions[key]==="function"){
    try{actions[key]();return;}
@@ -760,7 +760,7 @@
    const script=document.createElement("script");
    delete window.HAStudyActions;
    delete window.ensureHAMenu;
-   script.src="ha-general-medicine.js?v=253&retry=1";
+   script.src="ha-module-v2.js?v=1&retry=1";
    script.onload=()=>resolve();
    script.onerror=()=>reject(new Error("HA module download failed"));
    document.head.appendChild(script);
@@ -775,7 +775,7 @@
   if(content)content.innerHTML='<div class="notice"><h3>HA सामग्री खोल्न सकेन</h3><p>'+String(message).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))+'</p><button type="button" onclick="location.reload()">पुनः लोड</button></div>';
  }
  window.addEventListener("click",function(event){
-  const button=event.target&&event.target.closest&&event.target.closest("#haView button[data-ha]");
+  const button=event.target&&event.target.closest&&event.target.closest("#haView button[data-ha-v2]");
   if(!button)return;
   event.preventDefault();event.stopImmediatePropagation();invoke(button);
  },true);
