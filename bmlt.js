@@ -8,13 +8,19 @@
     <p class="muted">Medical Microbiology • Clinical Biochemistry • Hematology • Laboratory Diagnostics।</p>
     <div id="bmltSecureStatus" class="notice">BMLT NHPC Licensing सामग्री सुरक्षित रूपमा लोड हुँदैछ...</div>
     <div id="bmltSecureApp" class="hidden">
-      <div class="feature-grid module-actions">
-        <button class="feature-card" data-bmlt="notes"><span class="feature-icon">📘</span><b>Study Notes</b><small id="bmltNotesCount">Notes</small></button>
+      <div class="feature-grid module-actions bmlt-study-menu">
+        <button class="feature-card" data-bmlt="notes"><span class="feature-icon">📘</span><b>Study Notes</b><small id="bmltNotesCount">विस्तृत अध्ययन</small></button>
+        <button class="feature-card" data-bmlt="important"><span class="feature-icon">⭐</span><b>Important Points</b><small>परीक्षाका मुख्य तथ्य</small></button>
+        <button class="feature-card" data-bmlt="tricks"><span class="feature-icon">⚡</span><b>Short Tricks</b><small>छिटो सम्झने सूत्र</small></button>
+        <button class="feature-card" data-bmlt="diagrams"><span class="feature-icon">🧩</span><b>Images & Diagrams</b><small>चित्र र प्रक्रिया</small></button>
         <button class="feature-card" data-bmlt="practice"><span class="feature-icon">📝</span><b>MCQ Practice</b><small id="bmltPracticeCount">Practice questions</small></button>
         <button class="feature-card" data-bmlt="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small id="bmltMockCount">Timed test</small></button>
       </div>
       <div class="toolbar"><label for="bmltLanguage">Question language</label><select id="bmltLanguage"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
-      <div id="bmltNotes" class="op-panel hidden"><h2>BMLT NHPC Licensing Notes</h2><div id="bmltNotesList" class="notes-list"></div><div id="bmltStudyGuide"></div></div>
+      <div id="bmltNotes" class="op-panel hidden"><h2>BMLT NHPC Licensing Notes</h2><div id="bmltNotesList" class="notes-list"></div><div id="bmltQuickNotes"></div><div id="bmltDetailedNotes"></div></div>
+      <div id="bmltImportant" class="op-panel hidden"><h2>⭐ Important Points / महत्वपूर्ण बुँदा</h2><div id="bmltImportantPoints"></div></div>
+      <div id="bmltTricks" class="op-panel hidden"><h2>⚡ Short Tricks / छिटो सम्झने तरिका</h2><div id="bmltShortTricks"></div></div>
+      <div id="bmltDiagrams" class="op-panel hidden"><h2>🧩 Images & Diagrams / चित्र तथा रेखाचित्र</h2><div id="bmltDiagramGallery"></div></div>
       <div id="bmltPractice" class="op-panel hidden"><div class="section-head"><h2>MCQ Practice</h2><span class="pill" id="bmltCount"></span></div><div id="bmltQuestion"></div></div>
       <div id="bmltMock" class="op-panel hidden"><h2>BMLT NHPC Licensing Mock Test</h2><p class="muted" id="bmltMockIntroText"></p><div id="bmltMockIntro" class="notice"><p>प्रत्येक सेटमा अधिकतम १०० प्रश्न हुन्छन्। परीक्षा बुझाएपछि मात्र सही उत्तर र व्याख्या देखिन्छ।</p><div id="bmltMockSets" class="feature-grid"></div></div><div id="bmltMockArea"></div></div>
     </div>
@@ -975,11 +981,11 @@
       const arrows=labels.slice(1).map((_,i)=>'<path d="M '+(i*(boxW+gap)+boxW+2)+' 56 h 8" stroke="#3478c8" stroke-width="3" fill="none"/><path d="M '+(i*(boxW+gap)+boxW+7)+' 50 l 6 6 -6 6" stroke="#3478c8" stroke-width="3" fill="none"/>').join("");
       return '<article class="note"><h3>'+escapeHtml(d.title)+'</h3><div style="width:100%;overflow-x:auto"><svg role="img" aria-label="'+escapeHtml(d.title)+' diagram" viewBox="0 0 900 112" style="width:100%;min-width:560px;height:auto" xmlns="http://www.w3.org/2000/svg">'+boxes+arrows+'</svg></div><p class="np">'+escapeHtml(d.ne)+'</p></article>';
     };
-    host.innerHTML='<h2>📘 BMLT Short Notes / छोटा अध्ययन नोट ('+shortNotes.length+')</h2>'+shortNotes.map(x=>card(x[0],x[1],x[2])).join('')+
-      '<h2>⭐ Important Points / महत्वपूर्ण बुँदा ('+points.length+')</h2>'+points.map(x=>card(x[0],x[1],x[2])).join('')+
-      '<h2>⚡ Short Tricks / छिटो सम्झने तरिका</h2>'+tricks.map(x=>card(x[0],x[1],x[2])).join('')+
-      '<h2>🧩 BMLT Image Diagrams / प्रक्रिया चित्र</h2>'+diagrams.map(diagramCard).join('')+
-      '<h2>📚 Detailed Study Notes ('+notes.length+')</h2>'+notes.map((n,i)=>card((i+1)+'. '+n.title,n.english,n.nepali)).join('');
+    document.getElementById("bmltQuickNotes").innerHTML='<h3>📘 Quick Study Notes / छोटा अध्ययन नोट ('+shortNotes.length+')</h3>'+shortNotes.map(x=>card(x[0],x[1],x[2])).join('');
+    document.getElementById("bmltImportantPoints").innerHTML=points.map(x=>card(x[0],x[1],x[2])).join('');
+    document.getElementById("bmltShortTricks").innerHTML=tricks.map(x=>card(x[0],x[1],x[2])).join('');
+    document.getElementById("bmltDiagramGallery").innerHTML=diagrams.map(diagramCard).join('');
+    document.getElementById("bmltDetailedNotes").innerHTML='<h3>📚 Detailed Study Notes ('+notes.length+')</h3>'+notes.map((n,i)=>card((i+1)+'. '+n.title,n.english,n.nepali)).join('');
   }
   function convertRows(rows) {
     const typed=rows.map(row=>({...row,normalizedType:normalizeType(contentTypeOf(row)),normalizedData:contentDataOf(row),normalizedOrder:contentOrderOf(row)}));
