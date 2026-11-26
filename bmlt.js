@@ -259,6 +259,9 @@
     databaseNotes.forEach(n=>noteMap.set(n.title,n));
     notes=[...noteMap.values()];
     practiceQuestions=typed.filter(x=>x.normalizedType==="mcq").sort((a,b)=>a.normalizedOrder-b.normalizedOrder).map(x=>shuffledQuestion(x.normalizedData)).filter(Boolean);
+    // Always include the curated bilingual Medical Microbiology bank in practice, even when cloud content loads.
+    const practiceSeen=new Set(practiceQuestions.map(q=>q[0].trim().toLowerCase()));
+    medicalMicrobiologyQuestions.map(shuffledQuestion).filter(Boolean).forEach(q=>{const key=q[0].trim().toLowerCase();if(!practiceSeen.has(key)){practiceSeen.add(key);practiceQuestions.push(q);}});
     mockBankQuestions=typed.filter(x=>x.normalizedType==="mock").sort((a,b)=>a.normalizedOrder-b.normalizedOrder).map(x=>shuffledQuestion(x.normalizedData)).filter(Boolean);
     // If BMLT has practice MCQs but no separately tagged mock rows, reuse the practice bank for Mock Test.
     if(!mockBankQuestions.length&&practiceQuestions.length)mockBankQuestions=practiceQuestions.map(q=>[q[0],q[1],[...q[2]],q[3],q[4],q[5]]);
@@ -333,7 +336,7 @@
       const {data:sessionData,error:sessionError}=await client.auth.getSession();
       if(sessionError)throw new Error("Session: "+sessionError.message);
       if(!sessionData?.session?.user){
-        activateLocalFallback("Login नभएकाले cloud प्रश्नहरू उपलब्ध छैनन्। तलका BMLT Notes र २५ वटा Medical Microbiology अभ्यास MCQ पढ्न सक्नुहुन्छ। Login गरेपछि cloud सामग्री पनि load गर्न सकिन्छ।");
+        activateLocalFallback("Login नभएकाले cloud प्रश्नहरू उपलब्ध छैनन्। तलका BMLT Notes र ५० वटा Medical Microbiology अभ्यास MCQ पढ्न सक्नुहुन्छ। Login गरेपछि cloud सामग्री पनि load गर्न सकिन्छ।");
         const btn=document.createElement("button");
         btn.className="secondary";btn.textContent="Login / Create Account";
         btn.addEventListener("click",()=>{
