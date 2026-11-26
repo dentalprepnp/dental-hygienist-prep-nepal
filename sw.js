@@ -1,6 +1,6 @@
 /* Lightweight PWA cache: precache the app shell; fetch scripts/styles fresh first,
    with cached copies as an offline fallback. */
-const CACHE="hl-preparation-v613-ha-rebuild";
+const CACHE="hl-preparation-v614-ha-content";
 const ASSETS=[
  "./","./index.html","./study-guide.js?v=3","./feedback.js?v=3","./ha-module-v2.js?v=2",
  "./about.html","./privacy.html","./styles.css?v=299","./app.js?v=208","./auth.js?v=11",
