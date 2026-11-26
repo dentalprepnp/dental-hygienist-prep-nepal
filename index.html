@@ -736,7 +736,44 @@
 
 
 <script src="study-guide.js?v=3"></script>
-<script src="ha-general-medicine.js?v=247"></script>
+<script src="ha-general-medicine.js?v=248"></script>
+<script>
+/* HA fail-safe: visible static menu remains actionable even if the module missed initialization. */
+(function(){
+ let retryPromise=null;
+ function invoke(button){
+  const key=button.dataset.ha;
+  const actions=window.HAStudyActions;
+  if(actions&&typeof actions[key]==="function"){
+   try{actions[key]();return;}
+   catch(error){console.error("HA menu action error",error);showError("Action error: "+(error&&error.message||error));return;}
+  }
+  if(retryPromise)return;
+  const content=document.getElementById("haContent");
+  if(content)content.innerHTML='<div class="notice"><h3>HA module पुनः लोड हुँदैछ…</h3><p>कृपया केही क्षण पर्खनुहोस्।</p></div>';
+  retryPromise=new Promise((resolve,reject)=>{
+   const script=document.createElement("script");
+   script.src="ha-general-medicine.js?v=248&retry=1";
+   script.onload=()=>resolve();
+   script.onerror=()=>reject(new Error("HA module download failed"));
+   document.head.appendChild(script);
+  }).then(()=>{
+   const action=window.HAStudyActions&&window.HAStudyActions[key];
+   if(typeof action==="function")action();
+   else showError("HA module loaded, तर action register भएन। Internet/JavaScript error जाँच आवश्यक छ।");
+  }).catch(error=>showError(error.message)).finally(()=>{retryPromise=null;});
+ }
+ function showError(message){
+  const content=document.getElementById("haContent");
+  if(content)content.innerHTML='<div class="notice"><h3>HA सामग्री खोल्न सकेन</h3><p>'+String(message).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))+'</p><button type="button" onclick="location.reload()">पुनः लोड</button></div>';
+ }
+ window.addEventListener("click",function(event){
+  const button=event.target&&event.target.closest&&event.target.closest("#haView button[data-ha]");
+  if(!button)return;
+  event.preventDefault();event.stopImmediatePropagation();invoke(button);
+ },true);
+})();
+</script>
 <script src="app.js?v=208"></script>
 <script type="module" src="auth.js?v=12"></script>\n<script type="module" src="membership.js?v=2"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
