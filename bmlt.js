@@ -973,6 +973,43 @@
       {title:"PCR cycle concept",steps:["Denature","Anneal primers","Extend","Repeat cycles","Detect product"],ne:"DNA छुट्याउने → primer जोड्ने → strand बनाउने → cycle दोहोर्‍याउने → product detect"},
       {title:"Transfusion safety pathway",steps:["Check patient ID","Group + screen","Compatibility","Bedside check","Monitor + record"],ne:"ID → grouping/screening → compatibility → bedside check → monitor/record"}
     ];
+    points.push(
+      ["ABO forward and reverse grouping","Forward grouping tests red cells with anti-A and anti-B; reverse grouping tests plasma/serum with known A and B cells. Resolve discrepancies before reporting.","Forward grouping मा RBC लाई anti-A/anti-B सँग; reverse grouping मा plasma/serum लाई known A/B cells सँग जाँचिन्छ। Discrepancy समाधानपछि मात्र report गर्नुहोस्।"],
+      ["Crossmatch purpose","Compatibility testing helps detect clinically significant incompatibility; follow the current blood-bank protocol.","Crossmatch ले clinically significant incompatibility पत्ता लगाउन मद्दत गर्छ; हालको blood-bank protocol पालना गर्नुहोस्।"],
+      ["Reticulocyte interpretation","Reticulocytes reflect marrow response; interpret with hemoglobin, clinical history and other findings.","Reticulocyte ले marrow response देखाउँछ; Hb, history र अन्य नतिजासँग व्याख्या गर्नुहोस्।"],
+      ["Primary hemostasis","Platelet adhesion, activation and aggregation form the initial platelet plug.","Platelet adhesion, activation र aggregation ले प्रारम्भिक platelet plug बनाउँछ।"],
+      ["Secondary hemostasis","Coagulation factors generate fibrin to stabilize the platelet plug.","Coagulation factors ले fibrin बनाएर platelet plug स्थिर बनाउँछन्।"],
+      ["PT and aPTT","PT assesses the extrinsic and common pathways; aPTT assesses the intrinsic and common pathways.","PT ले extrinsic/common pathway र aPTT ले intrinsic/common pathway मूल्याङ्कन गर्छ।"],
+      ["HbA1c","HbA1c reflects average glycemia over roughly the preceding 2–3 months; interpret with clinical context and assay limitations.","HbA1c ले करिब पछिल्ला २–३ महिनाको औसत glucose अवस्थाको संकेत दिन्छ; clinical अवस्था र assay limitation विचार गर्नुहोस्।"],
+      ["Thyroid profile","Interpret TSH with free T4 and the clinical context; patterns vary with primary and central thyroid disorders.","TSH लाई free T4 र clinical अवस्थासँग व्याख्या गर्नुहोस्; primary र central thyroid disorder मा pattern फरक हुन सक्छ।"],
+      ["Lipid profile","Interpret total cholesterol, LDL-C, HDL-C and triglycerides with cardiovascular risk and applicable guidance.","Total cholesterol, LDL-C, HDL-C र triglycerides लाई cardiovascular risk तथा guideline अनुसार बुझ्नुहोस्।"],
+      ["Electrolyte sample quality","Hemolysis may falsely raise potassium; check specimen quality and laboratory rejection criteria.","Hemolysis ले potassium झुटो बढाउन सक्छ; नमुनाको गुणस्तर र rejection criteria जाँच्नुहोस्।"],
+      ["Acid-base assessment","Interpret pH with PaCO2 and bicarbonate; assess compensation and clinical context.","pH लाई PaCO2 र bicarbonate सँग हेर्नुहोस्; compensation र clinical अवस्था मूल्याङ्कन गर्नुहोस्।"],
+      ["Malaria films","Thick film improves parasite detection; thin film supports species identification and parasite quantification.","Thick film ले parasite detection सुधार्छ; thin film species पहिचान र parasite quantification मा उपयोगी हुन्छ।"],
+      ["Mycology specimen","Collect appropriate skin, hair, nail or other specimen aseptically and use suitable microscopy/culture methods.","छाला, कपाल, नङ वा अन्य उपयुक्त नमुना aseptic रूपमा संकलन गरी सही microscopy/culture विधि अपनाउनुहोस्।"],
+      ["Antimicrobial susceptibility","Use standardized inoculum, medium, incubation and interpretation criteria; report according to current standards.","Standard inoculum, medium, incubation र interpretation criteria पालना गरी हालको standard अनुसार report गर्नुहोस्।"],
+      ["Molecular test contamination","Separate pre- and post-amplification areas and use validated controls to reduce PCR contamination.","PCR contamination घटाउन pre/post amplification क्षेत्र छुट्याउनुहोस् र प्रमाणित control प्रयोग गर्नुहोस्।"]
+    );
+    tricks.push(
+      ["PT = E + C; aPTT = I + C","PT: extrinsic + common; aPTT: intrinsic + common pathways.","PT = extrinsic/common; aPTT = intrinsic/common।"],
+      ["Platelet plug = A-A-A","Adhesion → Activation → Aggregation.","Platelet plug: Adhesion → Activation → Aggregation।"],
+      ["HbA1c = about 3 months","It reflects average glycemia over roughly 2–3 months, not a single meal.","HbA1c ले एकपटकको खाना होइन, करिब २–३ महिनाको औसत देखाउँछ।"],
+      ["Thick detects; thin identifies","Thick film helps detect malaria; thin film helps identify species.","Thick = parasite पत्ता लगाउने; thin = species छुट्याउने।"],
+      ["H&E = N-P","Hematoxylin stains nuclei blue-purple; eosin stains cytoplasm pink.","Hematoxylin = nucleus निलो-बैजनी; eosin = cytoplasm गुलाबी।"],
+      ["Forward = cells; reverse = serum","Forward ABO uses patient red cells; reverse ABO uses patient serum/plasma.","Forward मा बिरामीका RBC; reverse मा serum/plasma।"],
+      ["QA is whole; QC is check","Quality assurance covers the system; quality control monitors test performance.","QA सम्पूर्ण system; QC परीक्षणको नियमित निगरानी।"],
+      ["Hemolysis → K up","Cell lysis can release intracellular potassium into serum/plasma.","कोष फुट्दा potassium बाहिर निस्केर नतिजा बढ्न सक्छ।"],
+      ["pH first, CO2/HCO3 next","Start acid-base interpretation with pH, then assess PaCO2 and bicarbonate.","Acid-base बुझ्दा पहिले pH, त्यसपछि PaCO2 र bicarbonate हेर्नुहोस्।"],
+      ["PCR = D-A-E","Denaturation → Annealing → Extension.","PCR क्रम: Denaturation → Annealing → Extension।"]
+    );
+    diagrams.push(
+      {title:"Hemostasis overview",steps:["Vessel injury","Platelet adhesion","Platelet plug","Fibrin formation","Stable clot"],ne:"नलीमा चोट → platelet adhesion → platelet plug → fibrin निर्माण → स्थिर clot"},
+      {title:"Coagulation pathways",steps:["Intrinsic pathway","Factor XII","Common pathway","Factor X → II → I","Fibrin clot"],ne:"Intrinsic र extrinsic pathway common pathway मा मिल्छन्; अन्त्यमा fibrin clot बन्छ।"},
+      {title:"ABO grouping concept",steps:["Patient RBC","Anti-A / Anti-B","Agglutination","Reverse grouping","Interpret together"],ne:"Forward grouping र reverse grouping दुवैको नतिजा मिलाएर ABO group व्याख्या गर्नुहोस्।"},
+      {title:"Histology H&E staining",steps:["Fix tissue","Process + embed","Section","Hematoxylin","Eosin + mount"],ne:"Tissue fix → process/embed → section → hematoxylin → eosin र mount"},
+      {title:"Urine examination workflow",steps:["Fresh sample","Physical exam","Chemical strip","Microscopy","Report"],ne:"ताजा नमुना → physical → chemical → microscopy → report"},
+      {title:"Internal QC response",steps:["QC out of range","Hold affected results","Investigate cause","Correct + rerun QC","Document + release"],ne:"QC असफल → result रोक → कारण खोज → सुधार/पुनः QC → अभिलेखपछि मात्र release"}
+    );
     const escapeHtml=s=>String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
     const card=(title,en,ne)=>'<article class="note"><h3>'+escapeHtml(title)+'</h3><p>'+escapeHtml(en)+'</p><p class="np">'+escapeHtml(ne)+'</p></article>';
     const diagramCard=d=>{
