@@ -3,7 +3,7 @@
    NHPC licensing blueprint: 2021 syllabus. CTEVT curriculum: 2024 revision.
    Timed mock format here is a learning simulation, not a claim about official exam duration/format. */
 (() => {
- const root=document.getElementById("haView"); if(!root || window.HAStudyActions) return;
+ const root=document.getElementById("haView"); const requiredHAActions=["menu","notes","practice","timed","mock","case","mock1","mock2","mock3","mock4","mock5"]; if(!root || (window.HAStudyActions && requiredHAActions.every(key=>typeof window.HAStudyActions[key]==="function"))) return;
  const topics=[
   ["Anatomy & Physiology","10%","Body systems: integumentary, skeletal, muscular, nervous, endocrine, blood, cardiovascular, lymphatic/immunity, digestive, respiratory, urinary, reproductive systems and growth.","शरीरका प्रणाली, तिनको बनावट, काम, रक्तसञ्चार, श्वासप्रश्वास, पाचन, उत्सर्जन, प्रजनन र वृद्धि-विकास।"],
   ["Community Health","25%","Health education and promotion; environmental health; PHC and family health; epidemiology and disease control; nutrition; community diagnosis; health management.","स्वास्थ्य शिक्षा, वातावरणीय स्वास्थ्य, प्राथमिक स्वास्थ्य सेवा, परिवार स्वास्थ्य, महामारी विज्ञान, रोग नियन्त्रण, पोषण, समुदाय निदान र स्वास्थ्य व्यवस्थापन।"],
