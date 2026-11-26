@@ -643,8 +643,8 @@
   radiography:["radiography.js?v=152"],
   mlt:["mlt.js?v=202"],
   anesthesia:["bsc-anesthesia.js?v=152"],
-  nhpc:["nhpc.js?v=222"],
-  basicPeriodontology:["nhpc.js?v=222"],
+  nhpc:["nhpc.js?v=223"],
+  basicPeriodontology:["nhpc.js?v=223"],
   dha:["dha.js?v=149"],
   loksewa:[],
   oralPath:["oral-pathology.js?v=152"],
@@ -762,7 +762,7 @@
   if(window.__hlpNHPCLoadPromise)return window.__hlpNHPCLoadPromise;
   window.__hlpNHPCLoadPromise=new Promise((resolve,reject)=>{
    var script=document.createElement("script");
-   script.src="nhpc.js?v=222";
+   script.src="nhpc.js?v=223";
    script.onload=resolve;
    script.onerror=()=>{window.__hlpNHPCLoadPromise=null;reject(new Error("NHPC module load failed"));};
    document.head.appendChild(script);
@@ -861,5 +861,33 @@
  new MutationObserver(refresh).observe(document.body,{attributes:true,attributeFilter:["class"]});refresh();
 })();
 </script>
+
+<script>
+<!-- Reliable study-button routing for Dental Hygiene and HA; only intercept when the module exposes its action. -->
+(function(){
+ window.addEventListener("click",function(event){
+  const el=event.target instanceof Element?event.target:null;
+  if(!el)return;
+  const dh=el.closest("#nhpcView #nhpcStartNotes, #nhpcView #nhpcStartMcq, #nhpcView #nhpcStartFullMock");
+  if(dh){
+   const mode=dh.id==="nhpcStartNotes"?"notes":dh.id==="nhpcStartMcq"?"practice":"mock";
+   const actions=window.DHPNStudyActions;
+   const action=actions&&actions[mode];
+   if(typeof action!=="function")return;
+   event.preventDefault();event.stopImmediatePropagation();
+   try{action();}catch(error){console.error("Dental Hygiene action failed:",error);alert("Dental Hygiene सामग्री खोल्दा समस्या आयो। पेज refresh गरेर फेरि प्रयास गर्नुहोस्।");}
+   return;
+  }
+  const ha=el.closest("#haView button[data-ha]");
+  if(ha){
+   const action=window.HAStudyActions&&window.HAStudyActions[ha.dataset.ha];
+   if(typeof action!=="function")return;
+   event.preventDefault();event.stopImmediatePropagation();
+   try{action();}catch(error){console.error("HA action failed:",error);alert("HA सामग्री खोल्दा समस्या आयो। पेज refresh गरेर फेरि प्रयास गर्नुहोस्।");}
+  }
+ },true);
+})();
+</script>
+
 </body>
 </html>
