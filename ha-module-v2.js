@@ -483,7 +483,7 @@
  shell("Frequently Confused Concepts",'<p class="np">NHPC तयारीमा मिल्दोजुल्दो शब्दको फरक छुट्याउनुहोस्।</p>'+pairs.map((p,i)=>'<article class="ha-note"><b>'+(i+1)+'. '+esc(p[0])+'</b><p>'+esc(p[1])+'</p><p class="np">'+esc(p[2])+'</p></article>').join(''));
  }
  function topicPracticeMenu(){
-  shell("Topic-wise MCQ Practice",'<p class="np">आफ्नो syllabus विषय छानेर त्यसैका प्रश्न अभ्यास गर्नुहोस्। हालको HA प्रश्न बैंकमा 340 वटा MCQ छन्।</p><div class="ha-actions">'+topicDefs.map(x=>'<button data-ha2-topic="'+x.id+'">'+esc(x.name)+'<br><small>'+esc(x.ne)+'</small><br><small>Available MCQs: '+qs.filter(q=>topicForQuestion(q)===x.id).length+'</small></button>').join('')+'</div><p class="np">प्रत्येक प्रयासमा प्रश्नको क्रम फेरिन्छ। विषयगत संख्या हालको प्रश्न बैंकको हो, आधिकारिक NHPC प्रश्न संख्या होइन।</p>');
+  shell("Topic-wise MCQ Practice",'<p class="np">आफ्नो syllabus विषय छानेर त्यसैका प्रश्न अभ्यास गर्नुहोस्। हालको HA प्रश्न बैंकमा 380 वटा MCQ छन्।</p><div class="ha-actions">'+topicDefs.map(x=>'<button data-ha2-topic="'+x.id+'">'+esc(x.name)+'<br><small>'+esc(x.ne)+'</small><br><small>Available MCQs: '+qs.filter(q=>topicForQuestion(q)===x.id).length+'</small></button>').join('')+'</div><p class="np">प्रत्येक प्रयासमा प्रश्नको क्रम फेरिन्छ। विषयगत संख्या हालको प्रश्न बैंकको हो, आधिकारिक NHPC प्रश्न संख्या होइन।</p>');
  }
  const state={mode:"",set:1,index:0,items:[],bank:qs,score:0,answered:false,timer:null,seconds:0,examAnswers:[],marked:[],wrongItems:[]};
  const stop=()=>{if(state.timer)clearInterval(state.timer);state.timer=null;};
