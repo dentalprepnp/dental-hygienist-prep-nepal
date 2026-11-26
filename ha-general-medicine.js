@@ -1312,7 +1312,7 @@ const practiceQ=Q.filter((_,i)=>i%2===0);
  function showNotes(){
   panel('<div class="ha-study-toolbar" aria-label="HA study navigation"><button data-ha="notes">📚 Notes</button><button data-ha="practice">🧠 MCQ</button><button data-ha="timed">⏱️ Timed</button><button data-ha="mock">📝 Mock Test</button><button data-ha="menu">← मुख्य मेनु</button></div><h3>विस्तृत अध्ययन Notes</h3><p class="muted">English concept + नेपाली व्याख्या • Clinical safety focus</p><input id="haNotesSearch" type="search" placeholder="Notes खोज्नुहोस् — English वा नेपाली" aria-label="Search HA notes"><p id="haNotesCount" class="muted">कुल '+notes.length+' वटा Notes</p><div id="haNotesResults" class="ha-notes-results" aria-live="polite"></div>');
   const content=root.querySelector("#haContent");if(content){content.style.display="block";content.style.visibility="visible";}
-  renderHAGuide(notes);
+  renderHANotes(notes);
  }
  function start(mode,setNo=1){
   clearInterval(state.timer);state.mode=mode;state.setNo=setNo;state.index=0;state.answers={};
@@ -1365,7 +1365,7 @@ const practiceQ=Q.filter((_,i)=>i%2===0);
   mistakes:showMistakes,weak:showWeakAnalysis,readiness:showReadiness,audit:showSyllabusAudit
  };
 
- root.addEventListener("input",e=>{if(e.target.id==="haNotesSearch"){const term=e.target.value.trim().toLocaleLowerCase();const found=notes.filter(n=>n.join(" ").toLocaleLowerCase().includes(term));const count=root.querySelector("#haNotesCount");renderHAGuide(found);if(count)count.textContent=found.length+" / "+notes.length+" वटा Notes भेटिए";}});
+ root.addEventListener("input",e=>{if(e.target.id==="haNotesSearch"){const term=e.target.value.trim().toLocaleLowerCase();const found=notes.filter(n=>n.join(" ").toLocaleLowerCase().includes(term));const count=root.querySelector("#haNotesCount");renderHANotes(found);if(count)count.textContent=found.length+" / "+notes.length+" वटा Notes भेटिए";}});
  document.addEventListener("click",e=>{
   const b=e.target.closest("#haView button");if(!b)return;
   e.preventDefault();e.stopImmediatePropagation();
