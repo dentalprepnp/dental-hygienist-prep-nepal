@@ -157,7 +157,7 @@
   {id:"path",name:"Clinical Pathology",ne:"क्लिनिकल प्याथोलोजी"}
  ];
  function topicForQuestion(q){
-  // Manual review overrides for the current 160-question bank.
+  // Manual review overrides for the current 162-question bank.
   // Question number is stable within this version of the bank.
   const reviewedTopic={
    5:"medicine",8:"surgery",9:"medicine",10:"community",11:"medicine",14:"medicine",16:"surgery",17:"community",
@@ -181,7 +181,7 @@
   return "ap";
  }
  function topicPracticeMenu(){
-  shell("Topic-wise MCQ Practice",'<p class="np">आफ्नो syllabus विषय छानेर त्यसैका प्रश्न अभ्यास गर्नुहोस्।</p><div class="ha-actions">'+topicDefs.map(x=>'<button data-ha2-topic="'+x.id+'">'+esc(x.name)+'<br><small>'+esc(x.ne)+'</small></button>').join('')+'</div><p class="np">प्रत्येक प्रयासमा प्रश्नको क्रम फेरिन्छ।</p>');
+  shell("Topic-wise MCQ Practice",'<p class="np">आफ्नो syllabus विषय छानेर त्यसैका प्रश्न अभ्यास गर्नुहोस्। हालको HA प्रश्न बैंकमा 162 वटा MCQ छन्।</p><div class="ha-actions">'+topicDefs.map(x=>'<button data-ha2-topic="'+x.id+'">'+esc(x.name)+'<br><small>'+esc(x.ne)+'</small><br><small>Available MCQs: '+qs.filter(q=>topicForQuestion(q)===x.id).length+'</small></button>').join('')+'</div><p class="np">प्रत्येक प्रयासमा प्रश्नको क्रम फेरिन्छ। विषयगत संख्या हालको प्रश्न बैंकको हो, आधिकारिक NHPC प्रश्न संख्या होइन।</p>');
  }
  const state={mode:"",set:1,index:0,items:[],bank:qs,score:0,answered:false,timer:null,seconds:0,examAnswers:[],marked:[],wrongItems:[]};
  const stop=()=>{if(state.timer)clearInterval(state.timer);state.timer=null;};
