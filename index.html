@@ -635,7 +635,7 @@
 /* Load faculty modules only when a student opens that faculty or subject. */
 (function(){
  const byDestination={
-  ha:["ha-general-medicine.js?v=245"],
+  ha:[] /* HA and recovery scripts are already loaded at the end of index.html; avoid duplicate lazy fetch */,
   ophthalmic:["ophthalmic-science.js?v=154"],
   physiotherapy:["physiotherapy.js?v=167"],
   ott:["ott.js?v=23"],
