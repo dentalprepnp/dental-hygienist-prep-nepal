@@ -1464,3 +1464,17 @@ body[data-app-page="faculty"] #haView button{pointer-events:auto;touch-action:ma
 /* Keep the student feedback panel in Profile only; it must not cover Courses or faculty study screens. */
 body:not([data-app-page="profile"]) #studentFeedback{display:none!important}
 body[data-app-page="profile"] #studentFeedback:not(.hidden){display:block!important}
+
+/* NHPC-style HA full mock exam UI */
+#haView #haContent .ha-exam-head{display:flex;justify-content:space-between;gap:12px;align-items:center;position:sticky;top:4px;z-index:2;padding:10px 12px;border-radius:12px;background:var(--card-bg,#fff);border:1px solid var(--border-color,#dbe3ea);}
+#haView #haContent .ha-exam-head b:last-child{font-variant-numeric:tabular-nums;color:#b91c1c;}
+#haView #haContent .ha-exam-option{width:100%;text-align:left;white-space:normal;margin:5px 0;padding:13px 14px;border:1px solid var(--border-color,#dbe3ea);border-radius:12px;background:var(--card-bg,#fff);color:inherit;}
+#haView #haContent .ha-exam-option.selected{border:2px solid #0369a1;background:#e0f2fe;color:#075985;font-weight:700;}
+#haView #haContent .ha-exam-controls{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin:12px 0;}
+#haView #haContent .ha-exam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px;margin:12px 0;}
+#haView #haContent .ha-exam-nav{min-height:40px;padding:6px;border:1px solid var(--border-color,#cbd5e1);border-radius:8px;background:var(--card-bg,#fff);color:inherit;}
+#haView #haContent .ha-exam-nav.answered{background:#dcfce7;border-color:#16a34a;color:#166534;}
+#haView #haContent .ha-exam-nav.review{outline:2px solid #d97706;outline-offset:1px;}
+#haView #haContent .ha-exam-nav.current{border:2px solid #0369a1;font-weight:800;}
+#haView #haContent .ha-exam-question-map{margin:14px 0;padding:12px;border:1px solid var(--border-color,#dbe3ea);border-radius:12px;}
+@media(max-width:520px){#haView #haContent .ha-exam-head{font-size:14px}#haView #haContent .ha-exam-controls button{flex:1}}
