@@ -144,6 +144,10 @@
  ["A patient has sudden one-sided weakness 30 minutes ago. What should be recorded and done?",["Last-known-well time and urgent stroke referral","Wait until symptoms resolve","Give food and drink","Schedule routine visit"],0,"Stroke is time-critical; record last-known-well and urgently transfer."],
  ["A patient has fever, fast breathing, low BP and confusion after infection. Suspect:",["Sepsis; urgent escalation and protocol-based care","Simple allergy","Stable chronic disease","Minor viral illness only"],0,"Possible sepsis with organ dysfunction needs immediate assessment and escalation."]
  ];
+ qs.push(
+  ["A pregnant woman in late pregnancy develops convulsions with severe hypertension. What is the priority?",["Treat as possible eclampsia, call for emergency help and arrange urgent protocol-based care/referral","Give oral fluids and send home","Wait for the convulsions to stop without assessment","Advise routine follow-up next week"],0,"Convulsions with severe hypertension in pregnancy suggest eclampsia, a life-threatening obstetric emergency requiring immediate escalation and protocol-based care."],
+  ["A patient develops sudden severe eye pain, a red eye and blurred vision. What is the safest action?",["Urgent eye assessment and referral","Patch both eyes and wait several days","Use leftover steroid eye drops","Ignore it if there is no discharge"],0,"Sudden severe painful red eye with blurred vision can indicate acute angle-closure glaucoma or another sight-threatening condition and needs urgent assessment/referral."]
+ );
  const topicDefs=[
   {id:"ap",name:"Anatomy & Physiology",ne:"शरीर रचना तथा शरीर क्रिया विज्ञान"},
   {id:"community",name:"Community Health & Epidemiology",ne:"समुदाय स्वास्थ्य तथा महामारी विज्ञान"},
@@ -166,6 +170,7 @@
    145:"path",147:"medicine",152:"community",153:"medicine",154:"community",158:"path"
   };
   const questionNumber=qs.indexOf(q)+1;
+  if(questionNumber===162) return "surgery";
   if(reviewedTopic[questionNumber]) return reviewedTopic[questionNumber];
   const t=(q[0]+" "+q[3]).toLowerCase();
   if(/cbc|edta|blood group|blood pH|arterial blood|false positive|false negative|sensitivity|specificity|haemoglobin|hemoglobin|microscopy|diagnostic method|rbc|platelet|median|mode|screening test/.test(t))return "path";
@@ -191,12 +196,22 @@
  state.examAnswers=[];state.marked=[];state.wrongItems=[];state.lastAnswers=[];
  state.bank=mode==="case"?caseQs:qs;
  if(mode==="topic")state.bank=qs.filter(q=>topicForQuestion(q)===state.topic);
- // Shuffle each attempt so students practise recall, not a memorised question order.
+ // Shuffle each attempt; licensing mocks follow the official NHPC subject weightage.
  const order=state.bank.map((q,i)=>i);
  for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+ const weightedSelection=(quotas)=>{
+  const selected=[];
+  Object.entries(quotas).forEach(([topic,count])=>{
+   const pool=order.filter(i=>topicForQuestion(state.bank[i])===topic);
+   if(pool.length<count) throw new Error("Insufficient HA questions for "+topic+": need "+count+", have "+pool.length);
+   selected.push(...pool.slice(0,count));
+  });
+  for(let i=selected.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[selected[i],selected[j]]=[selected[j],selected[i]];}
+  return selected.map(i=>({q:state.bank[i],i}));
+ };
  state.items=order.map(i=>({q:state.bank[i],i}));
- if(mode==="mock")state.items=state.items.slice((setNo-1)*20,setNo*20);
- if(mode==="full"){state.items=state.items.slice(0,100);state.examAnswers=Array(100).fill(null);state.marked=Array(100).fill(false);}
+ if(mode==="mock")state.items=weightedSelection({ap:2,community:5,medicine:5,surgery:5,pharma:2,path:1});
+ if(mode==="full"){state.items=weightedSelection({ap:10,community:25,medicine:25,surgery:25,pharma:10,path:5});state.examAnswers=Array(100).fill(null);state.marked=Array(100).fill(false);}
  renderQ();
  if(mode==="timed"||mode==="full"){state.timer=setInterval(()=>{state.seconds--;const t=document.getElementById("ha2time");if(t)t.textContent=Math.floor(state.seconds/60)+":"+String(state.seconds%60).padStart(2,"0");if(state.seconds<=0){stop();if(state.mode==="full")submitExam(true);else finish();}},1000);}
  }
@@ -245,7 +260,7 @@
   const topicRows=topicDefs.map(topic=>{const list=state.items.filter(it=>topicForQuestion(state.bank[it.i])===topic.id);if(!list.length)return "";const attempted=list.filter(it=>state.lastAnswers[it.i]!==undefined);const correct=attempted.filter(it=>state.lastAnswers[it.i]===state.bank[it.i][2]).length;const pct=attempted.length?Math.round(correct/attempted.length*100):0;return '<p>'+esc(topic.name)+': '+correct+'/'+attempted.length+' सही ('+pct+'%)</p>';}).join('');
   shell("Practice Result",'<div class="ha-kpis"><div><b>'+state.score+'/'+state.items.length+'</b><small>Correct</small></div><div><b>'+Math.round(state.score/state.items.length*100)+'%</b><small>Score</small></div></div><h4>Subject-wise performance</h4>'+topicRows+'<p>गलत उत्तर: '+state.wrongItems.length+' • प्रत्येक गलत उत्तरको कारण पढेर पुनः अभ्यास गर्नुहोस्।</p>'+(state.wrongItems.length?'<button data-ha2="wrongReview">Review Wrong Answers</button>':'<p class="np">सबै प्रश्न सही! अब अर्को अभ्यास गर्नुहोस्।</p>')+'<button data-ha2="practice">Mixed Practice फेरि</button><button data-ha2="topicPractice">Topic-wise Practice</button><button data-ha2="mock">Mock Sets</button>');
  }
- function mocks(){shell("HA Mock Sets",'<p>5 वटा 20-question set र 100-question full license mock (120 min).</p><div class="ha-actions">'+[1,2,3,4,5].map(n=>'<button data-ha2-mock="'+n+'">Mock Set '+n+'</button>').join('')+'<button data-ha2="full">Full License Mock (100)</button></div><p class="np">NHPC syllabus-weighted practice bank; official past paper होइन।</p>');}
+ function mocks(){shell("HA Mock Sets",'<p>५ वटा 20-question set र 100-question Full License Mock (120 min)। प्रत्येक set र full mock NHPC syllabus weightage अनुसार।</p><div class="ha-actions">'+[1,2,3,4,5].map(n=>'<button data-ha2-mock="'+n+'">Mock Set '+n+'</button>').join('')+'<button data-ha2="full">Full License Mock (100)</button></div><p class="np">NHPC को प्रकाशित विषयगत weightage अनुसार: A&P 10%, Community 25%, Medicine 25%, Surgery 25%, Pharmacology 10%, Clinical Pathology 5%। यी अभ्यास प्रश्न हुन्, official past paper होइनन्।</p>');}
  function cases(){chooseMode("case");}
  const actions={menu,notes:showNotes,guide:studyGuide,highYield,wrongReview:reviewWrong,full:()=>chooseMode("full"),practice:()=>chooseMode("practice"),topicPractice:topicPracticeMenu,timed:()=>chooseMode("timed"),mock:mocks,case:cases,mock1:()=>chooseMode("mock",1),mock2:()=>chooseMode("mock",2),mock3:()=>chooseMode("mock",3),mock4:()=>chooseMode("mock",4),mock5:()=>chooseMode("mock",5)};
  host.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.dataset.ha2){e.preventDefault();const a=actions[b.dataset.ha2];if(a)a();}else if(b.dataset.ha2Mock){e.preventDefault();chooseMode("mock",Number(b.dataset.ha2Mock));}else if(b.dataset.ha2Topic){e.preventDefault();state.topic=b.dataset.ha2Topic;chooseMode("topic");}else if(b.dataset.examAnswer!==undefined){e.preventDefault();selectExamAnswer(Number(b.dataset.examAnswer));}else if(b.dataset.examGo!==undefined){e.preventDefault();state.index=Number(b.dataset.examGo);renderQ();}else if(b.dataset.examMark!==undefined){e.preventDefault();toggleExamMark();}else if(b.dataset.examClear!==undefined){e.preventDefault();state.examAnswers[state.index]=null;renderQ();}else if(b.dataset.examPrev!==undefined){e.preventDefault();if(state.index>0){state.index--;renderQ();}}else if(b.dataset.examNext!==undefined){e.preventDefault();next();}else if(b.dataset.examSubmit!==undefined){e.preventDefault();if(window.confirm("Submit the exam now? You cannot change answers after submission."))submitExam(false);}else if(b.dataset.ha2Answer!==undefined){e.preventDefault();answer(Number(b.dataset.ha2Answer));}else if(b.id==="ha2next"){e.preventDefault();next();}});
