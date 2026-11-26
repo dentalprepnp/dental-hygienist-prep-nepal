@@ -5,6 +5,16 @@
  const root=document.getElementById("haView");
  const host=root&&root.querySelector("#haContent");
  if(!root||!host)return;
+ /* Restore the ORIGINAL HA menu and its full study bank whenever the main
+    module has registered its actions. Never replace its content with fallback UI. */
+ if(window.HAStudyActions&&typeof window.HAStudyActions.menu==="function"){
+  window.ensureHAMenu=function(){
+   try{window.HAStudyActions.menu();return !!(host&&host.innerHTML.trim());}
+   catch(error){console.error("HA original menu restore failed:",error);return false;}
+  };
+  try{window.HAStudyActions.menu();}catch(error){console.error("HA original menu render failed:",error);}
+  return;
+ }
  if(typeof window.ensureHAMenu==="function")return;
  const notes=[
   ["Vital signs","Temperature, pulse, respiratory rate and blood pressure are core vital signs.","तापक्रम, नाडी, श्वासदर र रक्तचाप मुख्य vital signs हुन्।"],
