@@ -17,7 +17,7 @@
         <button class="feature-card" data-bmlt="mock"><span class="feature-icon">⏱️</span><b>Mock Test</b><small id="bmltMockCount">Timed test</small></button>
       </div>
       <div class="toolbar"><label for="bmltLanguage">Question language</label><select id="bmltLanguage"><option value="both">English + नेपाली</option><option value="en">English only</option><option value="ne">नेपाली मात्र</option></select></div>
-      <div id="bmltNotes" class="op-panel hidden"><h2>BMLT NHPC Licensing Notes</h2><div id="bmltNotesList" class="notes-list"></div><div id="bmltQuickNotes"></div><div id="bmltDetailedNotes"></div></div>
+      <div id="bmltNotes" class="op-panel hidden"><h2>BMLT NHPC Licensing Notes</h2><div id="bmltNotesList" class="notes-list"></div><div id="bmltStudyGuide" class="hidden" aria-hidden="true"></div><div id="bmltQuickNotes"></div><div id="bmltDetailedNotes"></div></div>
       <div id="bmltImportant" class="op-panel hidden"><h2>⭐ Important Points / महत्वपूर्ण बुँदा</h2><div id="bmltImportantPoints"></div></div>
       <div id="bmltTricks" class="op-panel hidden"><h2>⚡ Short Tricks / छिटो सम्झने तरिका</h2><div id="bmltShortTricks"></div></div>
       <div id="bmltDiagrams" class="op-panel hidden"><h2>🧩 Images & Diagrams / चित्र तथा रेखाचित्र</h2><div id="bmltDiagramGallery"></div></div>
