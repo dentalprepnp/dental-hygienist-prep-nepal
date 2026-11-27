@@ -136,6 +136,12 @@ const batchSql = fs.readFileSync(path.join(root, "supabase", "migrations", "2026
 if (!/create or replace function public\.hlp_admin_schedule_all_faculties[\s\S]*?hlp_is_live_exam_admin\(\)/i.test(batchSql)) fail("Batch live-exam scheduler is missing its admin check");
 else if (failures.length === 0) ok("Live exam scheduling, paper building, and publishing RPCs require admin authorization");
 
+const appSource = fs.readFileSync(path.join(root, "app.js"), "utf8");
+if (!/dataset\\.appPage!==\"faculty\"&&e\\.state&&\[\"home\",\"courses\",\"notes\",\"practice\",\"profile\"\]\\.includes\\(e\\.state\\.hlpTab\\)\\)return/.test(appSource)) {
+  fail("Bottom-navigation popstate entries are not isolated from faculty history routing");
+} else if (failures.length === 0) ok("Bottom-navigation and faculty Back routing are separated to avoid double-handling");
+
+
 
 // Parse-check every first-party root JavaScript file without executing browser code.
 const jsFiles = fs.readdirSync(root).filter(f => f.endsWith(".js"));
