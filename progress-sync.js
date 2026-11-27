@@ -41,7 +41,7 @@ async function syncNow() {
 }
 function scheduleSync(){if(!currentUser)return;clearTimeout(syncTimer);syncTimer=setTimeout(syncNow,900);}
 window.addEventListener("dhpn:data-changed",scheduleSync);
-window.addEventListener("dhpn:cloud-data-loaded",()=>{window.location.reload()});
+// Cloud restoration is handled by syncNow() and dhpn:progress-restored; never reload the active study screen.
 supabase.auth.onAuthStateChange((event,session)=>{currentUser=session?.user||null;if(currentUser&&(event==="SIGNED_IN"||event==="INITIAL_SESSION"||event==="TOKEN_REFRESHED"))setTimeout(syncNow,0);else if(!currentUser)status("");});
 const {data:sessionData}=await supabase.auth.getSession();currentUser=sessionData?.session?.user||null;if(currentUser)await syncNow();
 
