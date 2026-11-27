@@ -94,6 +94,12 @@ const precacheBlock = sw.match(/const ASSETS=\[([\s\S]*?)\];/);
 if (!precacheBlock || /ha-module-v2\.js/.test(precacheBlock[1])) fail("HA module is still precached during app installation");
 else ok("HA module is excluded from install precache and is fetched on demand");
 
+// Student Help must not disclose administrative or private platform information.
+const helpPath = path.join(root, "supabase", "functions", "student-help", "index.ts");
+const helpSource = fs.readFileSync(helpPath, "utf8");
+if (!/Never reveal, infer, enumerate, or provide access to admin dashboards/.test(helpSource) || !/student records, payment records, internal settings/.test(helpSource)) fail("Student Help privacy guard for admin-only and private information is missing");
+else ok("Student Help prompt blocks disclosure of admin-only and private information");
+
 // Parse-check every first-party root JavaScript file without executing browser code.
 const jsFiles = fs.readdirSync(root).filter(f => f.endsWith(".js"));
 for (const file of jsFiles) {
