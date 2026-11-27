@@ -82,6 +82,13 @@ if (!html.includes("Universal navigation recovery after lazy module loading")) {
   fail("universal faculty view recovery fallback missing from index.html");
 }
 
+// HA in-module navigation must offer a real step-back action and load the versioned module.
+const haModule = fs.readFileSync(path.join(root, "ha-module-v2.js"), "utf8");
+if (!haModule.includes("function backScreen()") || !haModule.includes("data-ha2=\\"back\\"")) {
+  fail("HA step-by-step Back navigation handler/button missing");
+} else ok("HA study screens include an in-module Back action");
+if (!html.includes("ha-module-v2.js?v=46")) fail("index.html does not load the current HA navigation module");
+
 // Parse-check every first-party root JavaScript file without executing browser code.
 const jsFiles = fs.readdirSync(root).filter(f => f.endsWith(".js"));
 for (const file of jsFiles) {
