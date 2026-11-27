@@ -25,7 +25,7 @@ async function loadDashboard(){
  $("dashboardStatus").textContent="तथ्याङ्क लोड हुँदैछ...";
  try{
   const [students,events,progress,feedback,payments]=await Promise.all([
-   supabase.from("admin_student_directory").select("user_id,email,display_name,phone,created_at").order("created_at",{ascending:false}).limit(500),
+   supabase.from("admin_student_directory").select("user_id,email,display_name,phone,created_at",{count:"exact"}).order("created_at",{ascending:false}).limit(500),
    supabase.from("app_events").select("session_id,user_id,event_type,faculty,details,created_at").order("created_at",{ascending:false}).limit(2000),
    supabase.from("user_progress").select("user_id,progress_key,progress_data,updated_at").order("updated_at",{ascending:false}).limit(3000),
    supabase.from("student_feedback").select("id,user_id,category,message,status,admin_reply,replied_at,created_at").order("created_at",{ascending:false}).limit(500),
@@ -34,7 +34,7 @@ async function loadDashboard(){
   const failure=students.error||events.error||progress.error||feedback.error||payments.error;if(failure)throw failure;
   const s=students.data||[],e=events.data||[],p=progress.data||[],byId=new Map(s.map(x=>[x.user_id,x]));
   const today=new Date();today.setHours(0,0,0,0);
-  $("totalStudents").textContent=s.length;
+  $("totalStudents").textContent=students.count??s.length;
   $("activeToday").textContent=new Set(e.filter(x=>new Date(x.created_at)>=today).map(x=>x.session_id)).size;
   $("activeAll").textContent=new Set(e.map(x=>x.session_id)).size;
   $("mockCount").textContent=e.filter(x=>x.event_type==="mock_completed").length;
