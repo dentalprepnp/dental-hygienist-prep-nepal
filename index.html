@@ -729,6 +729,23 @@
   }else{
    target.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true,view:window}));
   }
+  /* Universal navigation recovery after lazy module loading. */
+  const destinationViewId=key==="basicPeriodontology"?"nhpcView":key+"View";
+  const destinationView=document.getElementById(destinationViewId);
+  if(destinationView){
+   document.querySelectorAll(".view").forEach(view=>{
+    if(view!==destinationView){
+     view.classList.add("hidden");
+     view.setAttribute("aria-hidden","true");
+    }
+   });
+   destinationView.classList.remove("hidden");
+   destinationView.style.display="block";
+   destinationView.setAttribute("aria-hidden","false");
+   document.body.dataset.appPage=(["home","notes","practice","mock"].includes(key)?key:"faculty");
+   document.body.classList.toggle("study-screen-open",key!=="home");
+   window.scrollTo({top:0,left:0,behavior:"instant"});
+  }
   delete target.dataset.hlpLazyReady;
  },true);
 })();
