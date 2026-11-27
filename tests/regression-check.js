@@ -144,6 +144,22 @@ if (!appSource.includes(popstateGuard)) {
 
 
 
+// Subject cards must point to registered, authenticated lazy-load destinations.
+if (lazyBlock) {
+  const subjectKeys = [...html.matchAll(/class=["'][^"']*subject-card[^"']*["'][^>]*data-go=["']([^"']+)["']/g)].map(m => m[1]);
+  const lazyKeys = new Set([...lazyBlock[1].matchAll(/^\\s*([A-Za-z0-9_]+)\\s*:/gm)].map(m => m[1]));
+  for (const key of subjectKeys) if (!lazyKeys.has(key)) fail("study subject card has no lazy-loader destination: " + key);
+  if (!html.includes('if(!window.HLPAuthUser)')) fail("faculty lazy-loader login gate is missing");
+  if (failures.length === 0) ok("study subject cards retain lazy-load destinations and the login gate (" + subjectKeys.length + " cards)");
+}
+
+// Restoring cloud progress must not reload the page and interrupt an active study session.
+const progressSyncSource = fs.readFileSync(path.join(root, "progress-sync.js"), "utf8");
+const syncBlock = progressSyncSource.slice(progressSyncSource.indexOf("async function syncNow"), progressSyncSource.indexOf("function scheduleSync"));
+if (!syncBlock.includes('new CustomEvent("dhpn:progress-restored")') || syncBlock.includes("location.reload")) fail("cloud progress restoration still reloads the page instead of refreshing summaries");
+if (!app.includes('window.addEventListener("dhpn:progress-restored"') || !app.includes('"renderMCQDashboard","renderDailyStudyGoal","renderExamReadiness"')) fail("app progress summary refresh handler is missing");
+else if (failures.length === 0) ok("cloud progress restoration refreshes summaries without interrupting MCQ/Mock navigation");
+
 // Parse-check every first-party root JavaScript file without executing browser code.
 const jsFiles = fs.readdirSync(root).filter(f => f.endsWith(".js"));
 for (const file of jsFiles) {
