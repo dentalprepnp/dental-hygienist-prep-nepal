@@ -137,7 +137,8 @@ if (!/create or replace function public\.hlp_admin_schedule_all_faculties[\s\S]*
 else if (failures.length === 0) ok("Live exam scheduling, paper building, and publishing RPCs require admin authorization");
 
 const appSource = fs.readFileSync(path.join(root, "app.js"), "utf8");
-if (!/dataset\\.appPage!==\"faculty\"&&e\\.state&&\[\"home\",\"courses\",\"notes\",\"practice\",\"profile\"\]\\.includes\\(e\\.state\\.hlpTab\\)\\)return/.test(appSource)) {
+const popstateGuard = 'if(document.body.dataset.appPage!=="faculty"&&e.state&&["home","courses","notes","practice","profile"].includes(e.state.hlpTab))return;';
+if (!appSource.includes(popstateGuard)) {
   fail("Bottom-navigation popstate entries are not isolated from faculty history routing");
 } else if (failures.length === 0) ok("Bottom-navigation and faculty Back routing are separated to avoid double-handling");
 
