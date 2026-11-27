@@ -741,6 +741,9 @@ document.addEventListener("click",event=>{
   }
 },true);
 window.addEventListener("popstate",event=>{
+  // Faculty/study navigation is handled by the faculty popstate router above.
+  // Do not let this bottom-tab handler overwrite its Back destination.
+  if(document.body.dataset.appPage==="faculty")return;
   const page=event.state&&event.state.hlpTab;
   if(page&&["home","courses","notes","practice","profile"].includes(page))showAppPage(page,false);
 });
