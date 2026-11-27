@@ -147,7 +147,7 @@ if (!appSource.includes(popstateGuard)) {
 // Subject cards must point to registered, authenticated lazy-load destinations.
 if (lazyBlock) {
   const subjectKeys = [...html.matchAll(/class=["'][^"']*subject-card[^"']*["'][^>]*data-go=["']([^"']+)["']/g)].map(m => m[1]);
-  const lazyKeys = new Set([...lazyBlock[1].matchAll(/^\\s*([A-Za-z0-9_]+)\\s*:/gm)].map(m => m[1]));
+  const lazyKeys = new Set([...lazyBlock[1].matchAll(/^\s*([A-Za-z0-9_]+)\s*:/gm)].map(m => m[1]));
   for (const key of subjectKeys) if (!lazyKeys.has(key)) fail("study subject card has no lazy-loader destination: " + key);
   if (!html.includes('if(!window.HLPAuthUser)')) fail("faculty lazy-loader login gate is missing");
   if (failures.length === 0) ok("study subject cards retain lazy-load destinations and the login gate (" + subjectKeys.length + " cards)");
