@@ -781,7 +781,30 @@
  },true);
 })();
 </script>
-<script src="app.js?v=209"></script>
+<script>
+/* Faculty navigation safety net: keeps study views reachable if the main app handler fails. */
+(function(){
+ if(window.__hlpFacultyFallbackInstalled)return;
+ window.__hlpFacultyFallbackInstalled=true;
+ document.addEventListener("click",function(event){
+  var el=event.target&&event.target.closest&&event.target.closest(".track-card[data-tab],.subject-card[data-go],[data-go]");
+  if(!el)return;
+  var key=el.matches(".track-card[data-tab]")?el.dataset.tab:el.dataset.go;
+  if(!key)return;
+  if(el.matches(".subject-card")&&key==="basicPeriodontology")key="nhpc";
+  var view=document.getElementById(key+"View");
+  if(!view)return;
+  document.querySelectorAll(".view").forEach(function(v){
+   v.classList.add("hidden");v.style.removeProperty("display");v.setAttribute("aria-hidden","true");
+  });
+  view.classList.remove("hidden");view.style.display="block";view.setAttribute("aria-hidden","false");
+  document.body.dataset.appPage=(["home","notes","practice","mock"].indexOf(key)>=0?(key==="home"?"home":key==="notes"?"notes":"practice"):"faculty");
+  document.body.classList.toggle("study-screen-open",key!=="home");
+  window.scrollTo({top:0,left:0,behavior:"instant"});
+ },false);
+})();
+</script>
+<script src="app.js?v=210"></script>
 <script type="module" src="auth.js?v=12"></script>\n<script type="module" src="membership.js?v=2"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=6"></script>
