@@ -1511,3 +1511,6 @@ body[data-app-page="profile"] #studentFeedback:not(.hidden){display:block!import
   .trust-policy>div>article{padding:10px!important}
   .trust-policy h2{font-size:1.08rem!important}
 }
+
+/* Hide the floating top Back pill; keep native browser/Android Back handling intact. */
+#dhpnUniversalBack{display:none!important}
