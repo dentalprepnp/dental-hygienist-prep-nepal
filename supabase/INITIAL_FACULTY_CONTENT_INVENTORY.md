@@ -149,3 +149,23 @@ Continue source auditing and create a per-faculty manifest with the exact export
 | `oral-pathology.js` | 21 | 39 | 9 | 9 |
 
 The recurring structure appears to be 20 note records plus a trailing/source-format artifact and 38 question records plus a source-format artifact in these files; validate by evaluating the module's actual exported/loader arrays before finalizing counts. The safe import should use the same data structures the app currently displays, not simply count comma-separated source tokens.
+
+
+## Large-faculty loader spot check (2026-11-27)
+
+Reviewed the opening source sections of the following modules:
+
+| Module | Initial finding | Migration implication |
+|---|---|---|
+| `bmlt.js` | Already labels itself a secure Supabase content module and begins with an RPC-based loading flow. | Inspect its exact RPC name, expected content shape, and current access policy; preserve its UI and migrate its backend call to the strict membership RPC. |
+| `mlt.js` | Notes and topic/question data are embedded in the JavaScript module. | Move source arrays into protected content rows; replace local data fallback with membership-gated loading. |
+| `nhpc.js` | Contains a local `bank` array of bilingual questions. | Treat the bank as public source content until moved behind authorization; map each row to faculty/subject/content type. |
+| `physiotherapy.js` | Contains local topics and notes; module builds its content from embedded data. | Protected DB migration and loader conversion required. |
+| `bsc-anesthesia.js` | Contains local syllabus/coverage data and bilingual content. | Audit notes, questions and any mock data separately; migrate all study-bearing arrays. |
+| `ophthalmic-science.js` | Current opening section is a syllabus map and states detailed notes/MCQ/mock are to be added later. | No large question bank is confirmed from this opening; review complete file before marking it content-free. |
+
+### Secure loader example: BMLT
+
+BMLT is a useful migration template because it already has a status/loading UI and a `loadSecureContent` function. Before reuse, confirm the exact RPC and ensure it rejects both missing membership rows and expired trial/premium rows. Its existing “secure” label alone is not proof of strict authorization.
+
+**Important:** The large faculty files have not yet been fully parsed or item-counted. This is a loader/source audit, not a completed content migration. Keep all existing content in place until protected database import and access tests pass.
