@@ -8,7 +8,7 @@
   <title>HL Preparation | Health License Preparation Nepal</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=301">
+  <link rel="stylesheet" href="styles.css?v=304">
 </head>
 <body data-app-page="home">
 <header class="topbar">
@@ -635,7 +635,7 @@
 /* Load faculty modules only when a student opens that faculty or subject. */
 (function(){
  const byDestination={
-  ha:[] /* HA and recovery scripts are already loaded at the end of index.html; avoid duplicate lazy fetch */,
+  ha:["ha-module-v2.js?v=46"],
   ophthalmic:["ophthalmic-science.js?v=154"],
   physiotherapy:["physiotherapy.js?v=168"],
   ott:["ott.js?v=23"],
@@ -753,7 +753,7 @@
 
 
 <script src="study-guide.js?v=3"></script>
-<script src="ha-module-v2.js?v=46"></script>
+<!-- HA module loads on first authenticated HA entry via the faculty lazy-loader. -->
 <script>
 /* HA fail-safe: visible static menu remains actionable even if the module missed initialization. */
 (function(){
