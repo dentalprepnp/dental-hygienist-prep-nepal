@@ -55,7 +55,7 @@ Deno.serve(async (req) => {
     try {
       const response = await fetch("https://api.resend.com/emails", {
         method: "POST",
-        headers: { "Authorization": `Bearer ${resendKey}`, "Content-Type": "application/json" },
+        headers: { "Authorization": `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": job.id },
         body: JSON.stringify({ from: emailFrom, to: [job.email], subject: content.subject, html: content.html }),
       });
       if (!response.ok) throw new Error(`Resend HTTP ${response.status}`);
