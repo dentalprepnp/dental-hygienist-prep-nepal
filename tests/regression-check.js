@@ -172,6 +172,7 @@ else if (failures.length === 0) ok("cloud progress restoration refreshes summari
 const cssSource = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 if (!cssSource.includes("#dhpnUniversalBack{display:none!important}")) fail("floating top Back button is not hidden by CSS");
 if (!app.includes('window.addEventListener("popstate"')) fail("native browser/Android Back popstate handler is missing");
+if (!app.includes('if(document.body.dataset.appPage==="faculty")return;')) fail("bottom-tab popstate handler can overwrite faculty Back routing");
 else if (failures.length === 0) ok("floating top Back button is hidden while native Back navigation remains available");
 
 // Parse-check every first-party root JavaScript file without executing browser code.
