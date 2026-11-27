@@ -69,3 +69,13 @@ Do not rely on the SQL filename or presence of a seed file as proof that a facul
 
 ## Status
 Initial source inventory added for review. No production database or live website changes were made.
+
+
+## First source-file spot check (2026-11-27)
+
+- `app.js` contains hardcoded Periodontology `NOTES` and `QUESTIONS` arrays (approximately 10 note entries and 20 question entries in the current branch; exact item validation is required before import).
+- `SUPABASE_SETUP.md` explicitly documents that Notes, MCQs and Mock Tests are currently public without signing in. This must be corrected as part of the release, after all content loaders have moved to the protected membership RPC.
+- `supabase/secure-content.sql` currently defines a legacy `get_learning_content` RPC that can classify a missing membership row as `free`; it must not be used for the strict paid/trial-only rollout. The strict membership RPC from the rollout branch is the intended replacement.
+- `supabase/bmlt-content-loader-setup.sql` contains a legacy authenticated SELECT policy for `access_tier='free'` and a legacy RPC returning free content without checking membership. These legacy grants/policies/functions must be removed during the coordinated migration.
+
+**Safety note:** Do not execute the strict SQL in production yet. First migrate all source content, switch every faculty loader to the membership-checked RPC, remove public/local fallback content, and test missing/expired membership denial plus active trial/premium access.
