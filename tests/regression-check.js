@@ -170,7 +170,7 @@ else if (failures.length === 0) ok("cloud progress restoration refreshes summari
 
 // The floating top Back pill is hidden; native browser/Android Back remains routed by popstate.
 const cssSource = fs.readFileSync(path.join(root, "styles.css"), "utf8");
-if (!/#dhpnUniversalBack\\s*\\{\\s*display\\s*:\s*none\\s*!important\\s*\\}/.test(cssSource)) fail("floating top Back button is not hidden by CSS");
+if (!cssSource.includes("#dhpnUniversalBack{display:none!important}")) fail("floating top Back button is not hidden by CSS");
 if (!app.includes('window.addEventListener("popstate"')) fail("native browser/Android Back popstate handler is missing");
 else if (failures.length === 0) ok("floating top Back button is hidden while native Back navigation remains available");
 
