@@ -113,3 +113,8 @@ These files are candidates for protected-content migration; filenames alone do n
 | `study-guide.js` | 3713 |
 | `sw.js` | 2713 |
 | `weekly-live-exam.js` | 6590 |
+
+
+### Candidate list classification correction
+
+The filename/size listing above is intentionally broad and includes utility files that are **not** faculty content: `progress-sync.js`, `student-help.js`, `study-guide.js`, `sw.js`, and `weekly-live-exam.js` (these require separate review for whether they contain protected exam data). Therefore, the 26-file list is a source-candidate inventory, not a verified count of 26 faculty content modules. The confirmed faculty candidates include the faculty-named modules such as BMLT, BSc Anesthesia, Dental Pharmacy, DHA, MLT, NHPC, Ophthalmic Science, OTT, Physiotherapy, Radiography, Radiotherapy, and dental subject modules. Next audit should inspect each candidate's exports and any question/note arrays, then report exact item counts by faculty and content type.
