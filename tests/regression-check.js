@@ -58,7 +58,7 @@ else {
 // Faculty navigation integrity: every visible faculty card must have a real view
 // and a lazy-loader entry, and every lazy-loaded script must exist locally.
 const viewIds = new Set([...html.matchAll(/id=["']([^"']+View)["']/g)].map(m => m[1].replace(/View$/, "")));
-const tabKeys = new Set([...html.matchAll(/data-tab=["']([^"']+)["']/g)].map(m => m[1]));
+const tabKeys = new Set([...html.matchAll(/class=["\'][^"\']*track-card[^"\']*["\'][^>]*data-tab=["\']([^"\']+)["\']/g)].map(m => m[1]));
 const lazyBlock = html.match(/const byDestination\s*=\s*\{([\s\S]*?)\n \};/);
 if (!lazyBlock) fail("faculty lazy-loader registry not found in index.html");
 else {
