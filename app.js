@@ -358,6 +358,9 @@ document.addEventListener("click",e=>{
 document.addEventListener("click",e=>{const tabButton=e.target.closest(".track-card[data-tab]");if(!tabButton)return;e.preventDefault();showTab(tabButton.dataset.tab);},true);
 document.addEventListener("click",e=>{const back=e.target.closest("#facultyBackButton");if(!back)return;e.preventDefault();if(history.state&&history.state.hlpTab)history.back();else showTab("home");});
 if(!window.__hlpPopstateBound){window.__hlpPopstateBound=true;try{if(!history.state||!history.state.hlpTab)history.replaceState({hlpTab:"home"},"");}catch(e){}window.addEventListener("popstate",e=>{
+ // Bottom-navigation history belongs to showAppPage(); avoid routing the same event twice.
+ // Faculty history still passes through this handler so its first Back returns to the faculty menu.
+ if(document.body.dataset.appPage!=="faculty"&&e.state&&["home","courses","notes","practice","profile"].includes(e.state.hlpTab))return;
  // Close an open study panel before leaving its faculty or returning Home.
  const panel=["nhpcNotesArea","nhpcMcqArea","nhpcFullMock"].find(id=>{const el=document.getElementById(id);return el&&!el.classList.contains("hidden")&&el.offsetParent!==null;});
  if(panel){e.stopImmediatePropagation();try{history.pushState({...e.state,hlpTab:window.__hlpLastFacultyTab||"home",hlpSub:"study"},"");}catch(err){}const close=document.getElementById(panel==="nhpcNotesArea"?"nhpcCloseNotes":panel==="nhpcMcqArea"?"nhpcCloseMcq":"nhpcCloseMock");close?.click();return;}
