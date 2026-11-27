@@ -34,13 +34,14 @@ create policy "Students read own manual payment requests"
 revoke insert, update, delete on public.manual_payment_requests from anon, authenticated;
 grant select on public.manual_payment_requests to authenticated;
 
--- Set the agreed introductory prices: NPR 500 / 1,000 / 1,500 / 2,000.
+-- Set the approved Premium prices: NPR 700 / 1,500 / 2,500 / 4,000.
+-- Amounts are stored in paisa (100 paisa = NPR 1).
 update public.membership_plans set
   price_paisa = case plan_code
-    when 'premium_30' then 50000
-    when 'premium_90' then 100000
-    when 'premium_180' then 150000
-    when 'premium_365' then 200000
+    when 'premium_30' then 70000
+    when 'premium_90' then 150000
+    when 'premium_180' then 250000
+    when 'premium_365' then 400000
     else price_paisa
   end,
   is_available = case
