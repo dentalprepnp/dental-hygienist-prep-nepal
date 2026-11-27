@@ -355,7 +355,7 @@ document.addEventListener("click",e=>{
   const directory=document.querySelector(".nhpc-directory");
   if(directory)directory.scrollIntoView({behavior:"smooth",block:"start"});
 });
-document.addEventListener("click",e=>{const tabButton=e.target.closest(".track-card[data-tab]");if(!tabButton)return;e.preventDefault();showTab(tabButton.dataset.tab);},true);
+document.addEventListener("click",e=>{const tabButton=e.target.closest(".track-card[data-tab]");if(!tabButton||tabButton.dataset.hlpLazyReady!=="1")return;e.preventDefault();showTab(tabButton.dataset.tab);},true);
 document.addEventListener("click",e=>{const back=e.target.closest("#facultyBackButton");if(!back)return;e.preventDefault();if(history.state&&history.state.hlpTab)history.back();else showTab("home");});
 if(!window.__hlpPopstateBound){window.__hlpPopstateBound=true;try{if(!history.state||!history.state.hlpTab)history.replaceState({hlpTab:"home"},"");}catch(e){}window.addEventListener("popstate",e=>{
  // Bottom-navigation history belongs to showAppPage(); avoid routing the same event twice.
@@ -750,7 +750,9 @@ window.addEventListener("popstate",event=>{
    handlers or overlays can cancel the navigation. */
 window.addEventListener("click", function(event){
   const card = event.target && event.target.closest ? event.target.closest(".track-card[data-tab]") : null;
-  if(!card) return;
+  // Let index.html load the faculty module on the first click. The marked
+  // synthetic click is routed here only after the module has loaded.
+  if(!card || card.dataset.hlpLazyReady!=="1") return;
   const tab = card.getAttribute("data-tab");
   if(!tab || !document.getElementById(tab + "View")) return;
   event.preventDefault();
