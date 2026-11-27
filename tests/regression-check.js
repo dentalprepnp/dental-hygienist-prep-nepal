@@ -118,10 +118,10 @@ if (failures.length === 0) ok("Student profile, role, progress, mock, bookmark, 
 const membershipSql = fs.readFileSync(path.join(root, "supabase", "membership.sql"), "utf8");
 const planSql = fs.readFileSync(path.join(root, "supabase", "fixed-membership-plans.sql"), "utf8");
 const paymentSql = fs.readFileSync(path.join(root, "supabase", "manual-qr-payments.sql"), "utf8");
-if (!/create policy "Students read own membership"[\\s\\S]*?auth\\.uid\\(\\) = user_id/i.test(membershipSql)) fail("Membership rows are not restricted to the owning student");
-if (!/create policy "Students read own payment history"[\\s\\S]*?auth\\.uid\\(\\) = user_id/i.test(membershipSql)) fail("Payment history is not restricted to the owning student");
-if (!/revoke all on function public\\.complete_verified_membership_payment\\(text,text,jsonb\\) from public, anon, authenticated/i.test(planSql) || !/grant execute on function public\\.complete_verified_membership_payment\\(text,text,jsonb\\) to service_role/i.test(planSql)) fail("Verified payment activation RPC is not service-role-only");
-if (!/if v_admin_id is null or not exists[\\s\\S]*?public\\.admin_users where user_id = v_admin_id/i.test(paymentSql)) fail("Manual payment approval is missing its admin authorization check");
+if (!/create policy "Students read own membership"[\s\S]*?auth\.uid\(\) = user_id/i.test(membershipSql)) fail("Membership rows are not restricted to the owning student");
+if (!/create policy "Students read own payment history"[\s\S]*?auth\.uid\(\) = user_id/i.test(membershipSql)) fail("Payment history is not restricted to the owning student");
+if (!/revoke all on function public\.complete_verified_membership_payment\(text,text,jsonb\) from public, anon, authenticated/i.test(planSql) || !/grant execute on function public\.complete_verified_membership_payment\(text,text,jsonb\) to service_role/i.test(planSql)) fail("Verified payment activation RPC is not service-role-only");
+if (!/if v_admin_id is null or not exists[\s\S]*?public\.admin_users where user_id = v_admin_id/i.test(paymentSql)) fail("Manual payment approval is missing its admin authorization check");
 else if (failures.length === 0) ok("Membership, payment-history, verified-payment, and manual-payment admin guards are present");
 
 const liveAdminSql = fs.readFileSync(path.join(root, "supabase", "migrations", "202611230003_weekly_live_exam_admin_schedule_and_paper.sql"), "utf8");
@@ -133,7 +133,7 @@ for (const fn of ["hlp_admin_schedule_live_exam", "hlp_admin_build_live_exam_pap
   }
 }
 const batchSql = fs.readFileSync(path.join(root, "supabase", "migrations", "202611230004_weekly_live_exam_batch_all_faculties.sql"), "utf8");
-if (!/create or replace function public\\.hlp_admin_schedule_all_faculties[\\s\\S]*?hlp_is_live_exam_admin\\(\\)/i.test(batchSql)) fail("Batch live-exam scheduler is missing its admin check");
+if (!/create or replace function public\.hlp_admin_schedule_all_faculties[\s\S]*?hlp_is_live_exam_admin\(\)/i.test(batchSql)) fail("Batch live-exam scheduler is missing its admin check");
 else if (failures.length === 0) ok("Live exam scheduling, paper building, and publishing RPCs require admin authorization");
 
 
