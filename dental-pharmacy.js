@@ -128,7 +128,7 @@
         const btn=document.createElement("button");btn.className="primary";btn.textContent="Login / Create Account";btn.addEventListener("click",()=>document.getElementById("accountPanel")?.scrollIntoView({behavior:"smooth",block:"center"}));status.appendChild(btn);
         return;
       }
-      const {data,error}=await client.rpc("get_learning_content",{p_subject:"Dental Pharmacy",p_content_type:null});
+      const {data,error}=await client.rpc("get_learning_content_by_faculty",{p_faculty:"Dental Hygiene",p_subject:"Dental Pharmacy",p_content_type:null});
       if(error)throw error;
       if(!data?.length){statusMessage("अहिले तपाईंको Membership मा Dental Pharmacy सामग्री उपलब्ध छैन। Trial वा Premium Membership जाँच गर्नुहोस्।","warning");return;}
       convertRows(data);showApp();
