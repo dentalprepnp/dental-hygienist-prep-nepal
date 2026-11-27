@@ -757,3 +757,10 @@ window.addEventListener("click", function(event){
   event.stopImmediatePropagation();
   showTab(tab);
 }, true);
+
+// Refresh progress summaries after a cloud merge without interrupting an active study screen.
+window.addEventListener("dhpn:progress-restored",()=>{
+  ["updateStats","renderDashboard","renderExamTrackProgress","renderMCQDashboard","renderDailyStudyGoal","renderExamReadiness"].forEach(name=>{
+    if(typeof window[name]==="function")window[name]();
+  });
+});
