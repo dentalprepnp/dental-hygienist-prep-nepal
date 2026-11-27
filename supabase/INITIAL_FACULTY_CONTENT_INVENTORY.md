@@ -79,3 +79,37 @@ Initial source inventory added for review. No production database or live websit
 - `supabase/bmlt-content-loader-setup.sql` contains a legacy authenticated SELECT policy for `access_tier='free'` and a legacy RPC returning free content without checking membership. These legacy grants/policies/functions must be removed during the coordinated migration.
 
 **Safety note:** Do not execute the strict SQL in production yet. First migrate all source content, switch every faculty loader to the membership-checked RPC, remove public/local fallback content, and test missing/expired membership denial plus active trial/premium access.
+
+
+## Candidate content JavaScript files from branch tree
+
+These files are candidates for protected-content migration; filenames alone do not prove that every file contains study content. Each must be checked for its exports, questions/notes/mock data, and loader usage before migration.
+
+| File | Size (bytes) |
+|---|---:|
+| `bmlt.js` | 715898 |
+| `bsc-anesthesia.js` | 455545 |
+| `dental-ethics.js` | 43929 |
+| `dental-materials.js` | 39270 |
+| `dental-pharmacy.js` | 18055 |
+| `dental-public-health.js` | 41269 |
+| `dental-radiology.js` | 53681 |
+| `dha.js` | 81409 |
+| `epidemiology-community.js` | 50327 |
+| `food-nutrition.js` | 41845 |
+| `ha-module-v2.js` | 180243 |
+| `mlt.js` | 812905 |
+| `nhpc.js` | 414642 |
+| `ophthalmic-science.js` | 599296 |
+| `oral-anatomy.js` | 37255 |
+| `oral-pathology.js` | 46234 |
+| `ott.js` | 310187 |
+| `pharmacy-faculties.js` | 20446 |
+| `physiotherapy.js` | 490266 |
+| `progress-sync.js` | 5030 |
+| `radiography.js` | 360668 |
+| `radiotherapy.js` | 159293 |
+| `student-help.js` | 4898 |
+| `study-guide.js` | 3713 |
+| `sw.js` | 2713 |
+| `weekly-live-exam.js` | 6590 |
