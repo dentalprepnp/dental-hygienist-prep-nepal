@@ -153,10 +153,17 @@ if (lazyBlock) {
   if (failures.length === 0) ok("study subject cards retain lazy-load destinations and the login gate (" + subjectKeys.length + " cards)");
 }
 
+// Faculty cards must pass through lazy loading before either capture-phase router opens them.
+if (!app.includes('if(!card || card.dataset.hlpLazyReady!=="1") return;')) fail("window faculty router intercepts cards before lazy module loading");
+if (!app.includes('if(!tabButton||tabButton.dataset.hlpLazyReady!=="1")return;')) fail("document faculty router intercepts cards before lazy module loading");
+if (!html.includes('target.dataset.hlpLazyReady="1"') || !html.includes('target.dispatchEvent(new MouseEvent("click"')) fail("lazy-loader does not mark and re-dispatch a faculty card after loading");
+if (failures.length === 0) ok("faculty card click order preserves lazy loading before navigation");
+
 // Restoring cloud progress must not reload the page and interrupt an active study session.
 const progressSyncSource = fs.readFileSync(path.join(root, "progress-sync.js"), "utf8");
 const syncBlock = progressSyncSource.slice(progressSyncSource.indexOf("async function syncNow"), progressSyncSource.indexOf("function scheduleSync"));
 if (!syncBlock.includes('new CustomEvent("dhpn:progress-restored")') || syncBlock.includes("location.reload")) fail("cloud progress restoration still reloads the page instead of refreshing summaries");
+if (progressSyncSource.includes('dhpn:cloud-data-loaded') && progressSyncSource.includes('location.reload')) fail("stale cloud-data-loaded listener can still reload the active study page");
 if (!app.includes('window.addEventListener("dhpn:progress-restored"') || !app.includes('"renderMCQDashboard","renderDailyStudyGoal","renderExamReadiness"')) fail("app progress summary refresh handler is missing");
 else if (failures.length === 0) ok("cloud progress restoration refreshes summaries without interrupting MCQ/Mock navigation");
 
