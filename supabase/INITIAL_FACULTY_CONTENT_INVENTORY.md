@@ -169,3 +169,23 @@ Reviewed the opening source sections of the following modules:
 BMLT is a useful migration template because it already has a status/loading UI and a `loadSecureContent` function. Before reuse, confirm the exact RPC and ensure it rejects both missing membership rows and expired trial/premium rows. Its existing “secure” label alone is not proof of strict authorization.
 
 **Important:** The large faculty files have not yet been fully parsed or item-counted. This is a loader/source audit, not a completed content migration. Keep all existing content in place until protected database import and access tests pass.
+
+
+### Loader risk details from line-level spot check
+
+- `bmlt.js` normalizes DB question/note records, but also defines `builtInNotes` locally. This fallback must not render study material when the secure RPC denies access or returns no rows. The UI should instead show an access/renewal message.
+- `mlt.js` begins with a large local `topics` and `notes` data structure. Local embedded study data remains readable from the public JavaScript file even if a membership panel is shown.
+- `nhpc.js` begins with a local `bank` of bilingual question records. This question bank must move to protected storage, not merely be hidden by UI.
+- `physiotherapy.js` and `bsc-anesthesia.js` similarly embed topics/notes/coverage. Content-bearing arrays should be removed from public delivery after successful import.
+- `ophthalmic-science.js` currently starts as a syllabus map with no confirmed detailed question bank in the inspected section. The syllabus itself may be intentionally public, but any future notes/MCQ/mock must use the protected loader from the start.
+
+### Proposed migration template (not yet implemented)
+
+1. Keep faculty shell/navigation HTML and harmless syllabus overview public only if the product owner wants it public.
+2. Load all study-bearing notes, practice MCQs, mock questions, answers and explanations through one strict RPC requiring `auth.uid()`, a membership row, and an unexpired active trial or paid premium.
+3. Use content types `note`, `mcq`, and `mock`; include stable IDs, faculty, subject, ordering and JSON payload.
+4. Remove embedded question/notes arrays and local fallback content from shipped JS after import row counts match the source.
+5. On no membership / expired membership / RPC failure, render a supportive renewal notice and do not render cached or bundled study content.
+6. Verify service worker and browser cache behavior so old JS or content payloads cannot remain available after expiry; client-side cache must not be treated as secure storage.
+
+This template is planning only. No faculty data has been imported or removed in this commit.
