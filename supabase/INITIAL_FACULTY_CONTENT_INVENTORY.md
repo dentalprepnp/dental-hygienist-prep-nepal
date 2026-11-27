@@ -137,3 +137,15 @@ A static source scan of five smaller dental/health modules found these top-level
 ## Next migration-safe action
 
 Continue source auditing and create a per-faculty manifest with the exact exported arrays and loader entry points. Do not bulk-import from these preliminary counts, and do not delete or disable the existing source files until database row counts and app behavior are verified.
+
+
+### Additional source-array scan
+
+| Source file | Notes array | Base questions | Practice additions | Mock additions |
+|---|---:|---:|---:|---:|
+| `food-nutrition.js` | 21 | 39 | 9 | 9 |
+| `epidemiology-community.js` | 21 | 39 | 9 | 9 |
+| `oral-anatomy.js` | 21 | 39 | 9 | 9 |
+| `oral-pathology.js` | 21 | 39 | 9 | 9 |
+
+The recurring structure appears to be 20 note records plus a trailing/source-format artifact and 38 question records plus a source-format artifact in these files; validate by evaluating the module's actual exported/loader arrays before finalizing counts. The safe import should use the same data structures the app currently displays, not simply count comma-separated source tokens.
