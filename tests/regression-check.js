@@ -54,6 +54,34 @@ else {
   if (failures.length === 0) ok("subject hub registry targets are present (" + ids.length + ")");
 }
 
+
+// Faculty navigation integrity: every visible faculty card must have a real view
+// and a lazy-loader entry, and every lazy-loaded script must exist locally.
+const viewIds = new Set([...html.matchAll(/id=["']([^"']+View)["']/g)].map(m => m[1].replace(/View$/, "")));
+const tabKeys = new Set([...html.matchAll(/data-tab=["']([^"']+)["']/g)].map(m => m[1]));
+const lazyBlock = html.match(/const byDestination\s*=\s*\{([\s\S]*?)\n \};/);
+if (!lazyBlock) fail("faculty lazy-loader registry not found in index.html");
+else {
+  const lazyKeys = new Set([...lazyBlock[1].matchAll(/^\s*([A-Za-z0-9_]+)\s*:/gm)].map(m => m[1]));
+  for (const key of tabKeys) {
+    if (!viewIds.has(key)) fail("faculty card has no matching view: " + key + "View");
+    if (!lazyKeys.has(key)) fail("faculty card has no lazy-loader registry entry: " + key);
+  }
+  for (const key of lazyKeys) {
+    const target = key === "basicPeriodontology" ? "nhpc" : key;
+    if (!viewIds.has(target)) fail("lazy-loader destination view missing: " + target + "View");
+  }
+  const lazyScripts = [...lazyBlock[1].matchAll(/["']([^"']+\.js(?:\?[^"']*)?)["']/g)].map(m => m[1]);
+  for (const ref of lazyScripts) {
+    const local = decodeURIComponent(ref.split("?")[0].split("#")[0]);
+    if (!fs.existsSync(path.join(root, local))) fail("lazy-loader references missing faculty script: " + ref);
+  }
+  if (failures.length === 0) ok("faculty cards, destination views, and lazy-loaded scripts are connected (" + tabKeys.size + " cards)");
+}
+if (!html.includes("Universal navigation recovery after lazy module loading")) {
+  fail("universal faculty view recovery fallback missing from index.html");
+}
+
 // Parse-check every first-party root JavaScript file without executing browser code.
 const jsFiles = fs.readdirSync(root).filter(f => f.endsWith(".js"));
 for (const file of jsFiles) {
