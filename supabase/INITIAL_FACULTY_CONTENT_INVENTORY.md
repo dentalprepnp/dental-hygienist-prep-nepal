@@ -118,3 +118,22 @@ These files are candidates for protected-content migration; filenames alone do n
 ### Candidate list classification correction
 
 The filename/size listing above is intentionally broad and includes utility files that are **not** faculty content: `progress-sync.js`, `student-help.js`, `study-guide.js`, `sw.js`, and `weekly-live-exam.js` (these require separate review for whether they contain protected exam data). Therefore, the 26-file list is a source-candidate inventory, not a verified count of 26 faculty content modules. The confirmed faculty candidates include the faculty-named modules such as BMLT, BSc Anesthesia, Dental Pharmacy, DHA, MLT, NHPC, Ophthalmic Science, OTT, Physiotherapy, Radiography, Radiotherapy, and dental subject modules. Next audit should inspect each candidate's exports and any question/note arrays, then report exact item counts by faculty and content type.
+
+
+## Sample content-array counts (source audit)
+
+A static source scan of five smaller dental/health modules found these top-level source arrays. These are source-array counts only, not final imported/published counts; derived arrays, duplicate rows, and loader transformations still need reconciliation.
+
+| Source file | Notes array | Base questions / qs array | Practice additions | Mock additions |
+|---|---:|---:|---:|---:|
+| `dental-ethics.js` | 21 | 39 | — | — |
+| `dental-materials.js` | 21 | 39 | 9 | 9 |
+| `dental-public-health.js` | 21 | 39 | 9 | 9 |
+| `dental-radiology.js` | 21 | 39 | — | — |
+| `dha.js` | 25 | 39 (`qs`) | topic-based arrays also present | expanded topic arrays also present |
+
+**Interpretation:** these files include both English and Nepali text in the same source entries. Do not count translations as separate MCQs. For DHA, the `qs`, topic question sets, expanded topic questions, and competency data need careful deduplication before reporting a final count.
+
+## Next migration-safe action
+
+Continue source auditing and create a per-faculty manifest with the exact exported arrays and loader entry points. Do not bulk-import from these preliminary counts, and do not delete or disable the existing source files until database row counts and app behavior are verified.
