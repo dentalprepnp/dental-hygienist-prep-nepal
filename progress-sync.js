@@ -35,7 +35,7 @@ async function syncNow() {
     const cloud=new Map((rows||[]).map(row=>[row.progress_key,row.progress_data])),updates=[];let localChanged=false;
     for(const key of KEYS){const before=localStorage.getItem(key);const merged=mergeValue(key,parseLocal(key),cloud.has(key)?cloud.get(key):null);if(merged!==null){const encoded=JSON.stringify(merged);if(before!==encoded)localChanged=true;localStorage.setItem(key,encoded);updates.push({user_id:currentUser.id,progress_key:key,progress_data:merged,updated_at:new Date().toISOString()});}}
     if(updates.length){const {error:writeError}=await supabase.from("user_progress").upsert(updates,{onConflict:"user_id,progress_key"});if(writeError)throw writeError;}
-    if(localChanged)window.location.reload();status("✓ Progress सुरक्षित छ र Cloud सँग Sync भयो।");
+    if(localChanged)window.dispatchEvent(new CustomEvent("dhpn:progress-restored"));status("✓ Progress सुरक्षित छ र Cloud सँग Sync भयो।");
   } catch(error){console.error("Dental Prep cloud sync:",error);status("⚠️ Cloud Sync हुन सकेन। इन्टरनेट जाँचेर फेरि प्रयास गर्नुहोस्।");}
   finally{syncing=false;}
 }
