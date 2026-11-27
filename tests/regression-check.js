@@ -88,6 +88,11 @@ if (!haModule.includes("function backScreen()") || !haModule.includes('data-ha2=
   fail("HA step-by-step Back navigation handler/button missing");
 } else ok("HA study screens include an in-module Back action");
 if (!lazyBlock || !lazyBlock[1].includes('ha:["ha-module-v2.js?v=46"]')) fail("HA navigation module is not registered for on-demand loading");
+const swPath = path.join(root, "sw.js");
+const sw = fs.readFileSync(swPath, "utf8");
+const precacheBlock = sw.match(/const ASSETS=\\[([\\s\\S]*?)\\];/);
+if (!precacheBlock || /ha-module-v2\\.js/.test(precacheBlock[1])) fail("HA module is still precached during app installation");
+else ok("HA module is excluded from install precache and is fetched on demand");
 
 // Parse-check every first-party root JavaScript file without executing browser code.
 const jsFiles = fs.readdirSync(root).filter(f => f.endsWith(".js"));
