@@ -1,4 +1,5 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+import "./membership-notifications.js";
 
 const SUPABASE_URL = "https://jrivojhpdupxnpefevzm.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rj6oDSLkwQipLCXPfVoy9w_0r6vqR0u";
@@ -34,6 +35,7 @@ function formatDate(value) {
   return new Intl.DateTimeFormat("ne-NP", { dateStyle: "medium", timeZone: "Asia/Kathmandu" }).format(new Date(value));
 }
 function renderMembership(row) {
+  window.dispatchEvent(new CustomEvent("dhpn-membership-updated", { detail: { membership: row || null } }));
   if (!panel) return;
   panel.classList.remove("hidden");
   if (!row) {
