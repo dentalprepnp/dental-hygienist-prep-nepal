@@ -100,6 +100,43 @@ const helpSource = fs.readFileSync(helpPath, "utf8");
 if (!/Never reveal, infer, enumerate, or provide access to admin dashboards/.test(helpSource) || !/student records, payment records, internal settings/.test(helpSource)) fail("Student Help privacy guard for admin-only and private information is missing");
 else ok("Student Help prompt blocks disclosure of admin-only and private information");
 
+// Security regression checks for membership, payment, progress, and admin RPCs.
+const schemaSql = fs.readFileSync(path.join(root, "supabase", "schema.sql"), "utf8");
+for (const table of ["profiles", "user_roles", "user_progress", "mock_attempts", "bookmarks", "wrong_answers"]) {
+  if (!new RegExp("alter table public\\." + table + " enable row level security", "i").test(schemaSql)) {
+    fail("RLS is not enabled for private student table: " + table);
+  }
+}
+for (const table of ["user_progress", "mock_attempts", "bookmarks", "wrong_answers"]) {
+  if (!new RegExp("auth\\.uid\\(\\) = user_id", "i").test(schemaSql)) {
+    fail("Student-owned row policy is missing from schema.sql: " + table);
+    break;
+  }
+}
+if (failures.length === 0) ok("Student profile, role, progress, mock, bookmark, and wrong-answer tables have RLS enabled");
+
+const membershipSql = fs.readFileSync(path.join(root, "supabase", "membership.sql"), "utf8");
+const planSql = fs.readFileSync(path.join(root, "supabase", "fixed-membership-plans.sql"), "utf8");
+const paymentSql = fs.readFileSync(path.join(root, "supabase", "manual-qr-payments.sql"), "utf8");
+if (!/create policy "Students read own membership"[\\s\\S]*?auth\\.uid\\(\\) = user_id/i.test(membershipSql)) fail("Membership rows are not restricted to the owning student");
+if (!/create policy "Students read own payment history"[\\s\\S]*?auth\\.uid\\(\\) = user_id/i.test(membershipSql)) fail("Payment history is not restricted to the owning student");
+if (!/revoke all on function public\\.complete_verified_membership_payment\\(text,text,jsonb\\) from public, anon, authenticated/i.test(planSql) || !/grant execute on function public\\.complete_verified_membership_payment\\(text,text,jsonb\\) to service_role/i.test(planSql)) fail("Verified payment activation RPC is not service-role-only");
+if (!/if v_admin_id is null or not exists[\\s\\S]*?public\\.admin_users where user_id = v_admin_id/i.test(paymentSql)) fail("Manual payment approval is missing its admin authorization check");
+else if (failures.length === 0) ok("Membership, payment-history, verified-payment, and manual-payment admin guards are present");
+
+const liveAdminSql = fs.readFileSync(path.join(root, "supabase", "migrations", "202611230003_weekly_live_exam_admin_schedule_and_paper.sql"), "utf8");
+for (const fn of ["hlp_admin_schedule_live_exam", "hlp_admin_build_live_exam_paper", "hlp_admin_publish_live_exam_schedule"]) {
+  const start = liveAdminSql.indexOf("create or replace function public." + fn);
+  const end = liveAdminSql.indexOf("$;", start);
+  if (start < 0 || end < 0 || !liveAdminSql.slice(start, end).includes("hlp_is_live_exam_admin()")) {
+    fail("Live exam admin RPC lacks an explicit admin check: " + fn);
+  }
+}
+const batchSql = fs.readFileSync(path.join(root, "supabase", "migrations", "202611230004_weekly_live_exam_batch_all_faculties.sql"), "utf8");
+if (!/create or replace function public\\.hlp_admin_schedule_all_faculties[\\s\\S]*?hlp_is_live_exam_admin\\(\\)/i.test(batchSql)) fail("Batch live-exam scheduler is missing its admin check");
+else if (failures.length === 0) ok("Live exam scheduling, paper building, and publishing RPCs require admin authorization");
+
+
 // Parse-check every first-party root JavaScript file without executing browser code.
 const jsFiles = fs.readdirSync(root).filter(f => f.endsWith(".js"));
 for (const file of jsFiles) {
