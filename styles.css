@@ -1425,7 +1425,7 @@ body.study-screen-open main > section:not(.view){
 
 
 /* Focused app pages: Home, Courses, Notes, Practice and Profile */
-body[data-app-page="home"] main>section:not(.hero):not(#premiumDailyNotice):not(.exam-tracks){display:none!important}
+body[data-app-page="home"] main>section:not(.hero):not(#premiumDailyNotice):not(.exam-tracks):not(.trust-policy){display:none!important}
 body[data-app-page="courses"] main>section:not(.exam-tracks){display:none!important}
 body[data-app-page="notes"] main>section:not(#notesView){display:none!important}
 body[data-app-page="practice"] main>section:not(#practiceView):not(#mockView):not(#weeklyLiveExam){display:none!important}
