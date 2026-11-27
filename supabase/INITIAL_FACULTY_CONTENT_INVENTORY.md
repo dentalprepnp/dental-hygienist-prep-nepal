@@ -5,7 +5,7 @@ Generated from the repository's `main` Git tree. This is a path/size inventory, 
 ## Findings
 
 - Repository tree contains 166 tracked files.
-- It contains 24 likely faculty/content JavaScript modules listed below.
+- It contains 23 likely faculty/content JavaScript modules plus the service worker listed below.
 - The modules are static client-side files; any question/answer/notes embedded in them can be downloaded without membership enforcement.
 - `index.html` loads `app.js` directly. `app.js` contains hardcoded bilingual Periodontology Notes and MCQ arrays (confirmed by source inspection).
 - The repository also contains 86 SQL files whose names suggest content batches/imports. Their row coverage must be verified against source banks; filenames alone do not prove all content is protected.
@@ -40,7 +40,7 @@ Generated from the repository's `main` Git tree. This is a path/size inventory, 
 | `radiotherapy.js` | 156 KB |
 | `sw.js` | 3 KB |
 
-These names are only a first-pass inventory. Inspect each module for notes, MCQs, mock banks, answer keys, explanations, flashcards, and dynamically generated content. A file may include both public catalog metadata and protected study content.
+The `sw.js` entry is the service worker, not a faculty module; audit its cache rules separately. These names are only a first-pass inventory. Inspect each module for notes, MCQs, mock banks, answer keys, explanations, flashcards, and dynamically generated content. A file may include both public catalog metadata and protected study content.
 
 ## SQL content files requiring reconciliation
 
