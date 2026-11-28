@@ -2251,13 +2251,11 @@ function convertRows(rows) {
     document.getElementById("bmltAgain").addEventListener("click",()=>{document.getElementById("bmltMockIntro").classList.remove("hidden");area.innerHTML="";mock=[];});
   }
   function activateLocalFallback(message){
-    convertRows([]);
-    if(!practiceQuestions.length)practiceQuestions=[...medicalMicrobiologyQuestions,...bmltClinicalBiochemistryQuestions,...bmltHematologyBloodBankingQuestions,...bmltHistocytopathologyQuestions,...bmltAnatomyPhysiologyQuestions,...bmltHealthPolicyResearchPharmacologyEthicsQuestions].map(shuffledQuestion).filter(Boolean);
-    if(!mockBankQuestions.length)mockBankQuestions=practiceQuestions.map(q=>[q[0],q[1],[...q[2]],q[3],q[4],q[5]]);
-    showApp();
-    status.textContent=message;
-    status.dataset.kind="warning";
-    status.classList.remove("hidden");
+    // Fail closed: never render bundled/local question banks when secure cloud
+    // content is unavailable or membership/session validation cannot complete.
+    questions=[]; practiceQuestions=[]; mockBankQuestions=[]; notes=[];
+    contentLoaded=false;
+    statusMessage(message,"warning");
     addRetryButton("Cloud सामग्री फेरि Load गर्नुहोस्");
   }
   async function performSecureContentLoad(){
@@ -2273,7 +2271,7 @@ function convertRows(rows) {
       const {data:sessionData,error:sessionError}=await client.auth.getSession();
       if(sessionError)throw new Error("Session: "+sessionError.message);
       if(!sessionData?.session?.user){
-        activateLocalFallback("Login नभएकाले cloud प्रश्नहरू उपलब्ध छैनन्। तलका BMLT Notes र "+(medicalMicrobiologyQuestions.length+bmltClinicalBiochemistryQuestions.length+bmltHematologyBloodBankingQuestions.length+bmltHistocytopathologyQuestions.length+bmltAnatomyPhysiologyQuestions.length+bmltHealthPolicyResearchPharmacologyEthicsQuestions.length)+" वटा BMLT अभ्यास MCQ पढ्न सक्नुहुन्छ। Login गरेपछि cloud सामग्री पनि load गर्न सकिन्छ।");
+        activateLocalFallback("पढ्नका लागि पहिले Login गर्नुहोस्। Login गरेपछि Membership जाँचेर सुरक्षित cloud सामग्री लोड हुनेछ।");
         const btn=document.createElement("button");
         btn.className="secondary";btn.textContent="Login / Create Account";
         btn.addEventListener("click",()=>{
@@ -2296,7 +2294,7 @@ function convertRows(rows) {
         throw new Error("RPC ले list फर्काएन। Supabase function को return type जाँच्नुहोस्।");
       }
       if(!data.length){
-        activateLocalFallback("Cloud database बाट BMLT rows आएनन्। त्यसैले Notes र "+medicalMicrobiologyQuestions.length+" Medical Microbiology MCQ देखाइएको छ; cloud access/published rows छुट्टै जाँच्नुपर्छ।");
+        activateLocalFallback("Cloud database मा तपाईंको लागि प्रकाशित BMLT सामग्री उपलब्ध छैन। Membership र प्रकाशित सामग्री जाँच्नुहोस्।");
         return;
       }
       const valid=data.filter(row=>row&&normalizeType(contentTypeOf(row))&&contentDataOf(row));
@@ -2312,7 +2310,7 @@ function convertRows(rows) {
       contentLoaded=true;
     }catch(error){
       console.error("BMLT secure content load failed:",error);
-      activateLocalFallback("Cloud BMLT load हुन सकेन। स्थानीय Notes र "+medicalMicrobiologyQuestions.length+" Medical Microbiology अभ्यास MCQ देखाइएको छ। समस्या: "+(error.message||String(error)));
+      activateLocalFallback("सुरक्षित Cloud BMLT सामग्री लोड हुन सकेन। स्थानीय प्रश्नहरू खोलिएका छैनन्। समस्या: "+(error.message||String(error)));
     }
   }
   function loadSecureContent(){
