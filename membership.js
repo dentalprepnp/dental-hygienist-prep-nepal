@@ -121,6 +121,70 @@ function showTrialConsent(user) {
   }
   box.classList.remove("hidden");
 }
+
+/* Central fail-closed access check used before opening any faculty. */
+window.HLPCheckMembershipAccess = async function () {
+  try {
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError || !sessionData?.session?.user) {
+      return { allowed: false, reason: "login" };
+    }
+    const { data, error } = await supabase.rpc("refresh_membership_status");
+    if (error) {
+      console.error("Access check failed:", error);
+      return { allowed: false, reason: "check_failed" };
+    }
+    const row = Array.isArray(data) ? data[0] : data;
+    if (!row) return { allowed: false, reason: "no_membership" };
+    const now = Date.now();
+    const trialActive = row.status === "trial" &&
+      !!row.trial_ends_at && new Date(row.trial_ends_at).getTime() > now;
+    const premiumActive = row.membership_type === "premium" &&
+      row.status === "active" && !!row.paid_until &&
+      new Date(row.paid_until).getTime() > now;
+    return { allowed: trialActive || premiumActive, reason: trialActive ? "trial" : premiumActive ? "premium" : "expired", membership: row };
+  } catch (error) {
+    console.error("Access check exception:", error);
+    return { allowed: false, reason: "check_failed" };
+  }
+};
+
+/* If a trial expires while a faculty is already open, return to the membership gate. */
+async function enforceOpenFacultyAccess() {
+  if (document.body.dataset.appPage !== "faculty") return;
+  const check = window.HLPCheckMembershipAccess;
+  if (typeof check !== "function") return;
+  const result = await check();
+  if (result.allowed) return;
+  document.querySelectorAll(".view").forEach(view => {
+    view.classList.add("hidden");
+    view.style.removeProperty("display");
+    view.setAttribute("aria-hidden", "true");
+  });
+  const home = document.getElementById("homeView");
+  if (home) {
+    home.classList.remove("hidden");
+    home.style.removeProperty("display");
+    home.setAttribute("aria-hidden", "false");
+  }
+  document.body.dataset.appPage = "home";
+  document.body.classList.remove("study-screen-open");
+  const panel = document.getElementById("membershipPanel");
+  panel?.classList.remove("hidden");
+  if (statusEl) {
+    statusEl.textContent = result.reason === "check_failed"
+      ? "Membership जाँच हुन सकेन। Internet जाँचेर फेरि प्रयास गर्नुहोस्। सुरक्षा कारणले पढाइ बन्द गरिएको छ।"
+      : "तपाईंको Free Trial समाप्त भएको छ। पढाइ जारी राख्न Premium Membership लिनुहोस्।";
+    statusEl.dataset.kind = "warning";
+  }
+  panel?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+window.addEventListener("visibilitychange", () => {
+  if (!document.hidden) void enforceOpenFacultyAccess();
+});
+window.addEventListener("pageshow", () => void enforceOpenFacultyAccess());
+setInterval(() => void enforceOpenFacultyAccess(), 15000);
+
 async function loadMembership(user) {
   if (!user) {
     activeUserId = null;
