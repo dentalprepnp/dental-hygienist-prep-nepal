@@ -150,6 +150,51 @@ async function loadMembership(user) {
   document.getElementById("trialConsentBox")?.remove();
   renderMembership(data);
 }
+
+/* Fresh, fail-closed membership check used by faculty navigation. */
+window.DHPNCheckMembership = async function () {
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+  const user = sessionData?.session?.user;
+  if (sessionError || !user) return { allowed: false, reason: "login" };
+  const { data, error } = await supabase.rpc("refresh_membership_status");
+  if (error) {
+    console.error("Study access membership check:", error);
+    return { allowed: false, reason: "check-error" };
+  }
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row) return { allowed: false, reason: "no-membership" };
+  const now = Date.now();
+  if (row.membership_type === "premium" && row.status === "active" &&
+      row.paid_until && new Date(row.paid_until).getTime() > now) {
+    return { allowed: true, tier: "premium" };
+  }
+  if (row.status === "trial" && row.trial_ends_at &&
+      new Date(row.trial_ends_at).getTime() > now) {
+    return { allowed: true, tier: "trial" };
+  }
+  return { allowed: false, reason: "expired" };
+};
+
+window.DHPNShowPremiumNotice = function (reason) {
+  const panel = document.getElementById("membershipPanel");
+  const status = document.getElementById("membershipStatus");
+  const detail = document.getElementById("membershipDetail");
+  if (panel) {
+    panel.classList.remove("hidden");
+    panel.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  if (detail) detail.textContent = "Premium Membership";
+  if (status) {
+    status.textContent = reason === "login"
+      ? "आदरणीय विद्यार्थीहरू, नमस्कार! 🙏 पढाइ खोल्न पहिले Login गर्नुहोस्।"
+      : reason === "check-error"
+        ? "आदरणीय विद्यार्थीहरू, नमस्कार! 🙏 Membership जाँच हुन सकेन। कृपया इन्टरनेट जाँच गरी फेरि प्रयास गर्नुहोस्।"
+        : "आदरणीय विद्यार्थीहरू, नमस्कार! 🙏 तपाईंको ७ दिनको Trial समाप्त भएको छ। सबै Faculty पढ्न Premium Membership सक्रिय गर्नुहोस्।";
+    status.dataset.kind = "warning";
+    status.classList.remove("hidden");
+  }
+};
+
 supabase.auth.onAuthStateChange((event, session) => {
   const user = session?.user || null;
   if (user?.id !== activeUserId || event === "SIGNED_IN" || event === "INITIAL_SESSION" || event === "TOKEN_REFRESHED") {
