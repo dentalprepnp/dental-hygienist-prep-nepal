@@ -175,6 +175,20 @@ if (!app.includes('window.addEventListener("popstate"')) fail("native browser/An
 if (!app.includes('if(document.body.dataset.appPage==="faculty")return;')) fail("bottom-tab popstate handler can overwrite faculty Back routing");
 else if (failures.length === 0) ok("floating top Back button is hidden while native Back navigation remains available");
 
+// Trial expiry notifications must remain server-driven and safe from client-side secret leaks.
+const membershipNoticeSource = fs.readFileSync(path.join(root, "membership-notifications.js"), "utf8");
+const membershipSource = fs.readFileSync(path.join(root, "membership.js"), "utf8");
+const notificationSql = fs.readFileSync(path.join(root, "supabase", "trial-expiry-notifications.sql"), "utf8");
+const notificationEdge = fs.readFileSync(path.join(root, "supabase", "functions", "membership-notifications", "index.ts"), "utf8");
+if (!membershipSource.includes('import "./membership-notifications.js";') || !membershipSource.includes('dhpn-membership-updated')) fail("membership status is not connected to in-app expiry notifications");
+if (!membershipNoticeSource.includes("24 * 60 * 60 * 1000") || !membershipNoticeSource.includes("Membership नवीकरण")) fail("student-friendly trial/premium expiry notice or 24-hour reminder is missing");
+if (!notificationSql.includes("enable row level security") || !notificationSql.includes("revoke all on public.membership_notification_log from public, anon, authenticated")) fail("notification log is not protected from student/browser access");
+if (!notificationSql.includes("unique (user_id, notification_type, period_end)")) fail("notification queue does not prevent duplicate expiry emails");
+if (!notificationSql.includes("grant execute on function public.claim_membership_expiry_notifications() to service_role")) fail("notification queue claim RPC is not service-role restricted");
+if (!notificationEdge.includes("RESEND_API_KEY") || !notificationEdge.includes("SUPABASE_SERVICE_ROLE_KEY") || !notificationEdge.includes("api.resend.com")) fail("server-side Resend notification function is missing required secret-backed configuration");
+if (notificationEdge.includes("sb_publishable_") || notificationEdge.includes("service_role") && notificationEdge.includes("localStorage")) fail("notification function appears to expose privileged configuration to browser storage");
+if (failures.length === 0) ok("trial expiry notifications use protected queue, duplicate guard, and server-side email secrets");
+
 // Parse-check every first-party root JavaScript file without executing browser code.
 const jsFiles = fs.readdirSync(root).filter(f => f.endsWith(".js"));
 for (const file of jsFiles) {
