@@ -665,11 +665,14 @@
   const panel=document.getElementById("membershipPanel");
   panel?.classList.remove("hidden");
   const status=document.getElementById("membershipStatus");
-  const expired=reason!=="check_failed";
+  const expired=reason==="expired";
+  const noMembership=reason==="no_membership";
   if(status){
    status.textContent=expired
     ?"नमस्ते! तपाईंको ७ दिनको Free Trial समाप्त भएको छ। पढाइ जारी राख्न Premium Membership लिनुहोस्।"
-    :"नमस्ते! Membership जाँच हुन सकेन। Internet जाँचेर फेरि प्रयास गर्नुहोस्। सुरक्षा कारणले Faculty अहिले बन्द छ।";
+    :noMembership
+      ?"नमस्ते! Trial सुरु गर्न Membership panel मा सहमति दिएर Free Trial सुरु गर्नुहोस् वा Premium Membership लिनुहोस्।"
+      :"नमस्ते! Membership जाँच हुन सकेन। Internet जाँचेर फेरि प्रयास गर्नुहोस्। सुरक्षा कारणले Faculty अहिले बन्द छ।";
    status.dataset.kind="warning";
   }
   let notice=document.getElementById("facultyMembershipNotice");
@@ -680,20 +683,26 @@
    notice.setAttribute("aria-modal","true");
    notice.setAttribute("aria-labelledby","facultyMembershipNoticeTitle");
    notice.style.cssText="position:fixed;inset:0;z-index:99999;background:rgba(2,6,23,.72);display:flex;align-items:center;justify-content:center;padding:18px";
-   notice.innerHTML='<div style="width:min(100%,460px);background:var(--card,#fff);color:var(--text,#0f172a);border-radius:20px;padding:24px;box-shadow:0 20px 70px rgba(0,0,0,.35);text-align:center"><div style="font-size:38px" aria-hidden="true">👑</div><h2 id="facultyMembershipNoticeTitle" style="margin:8px 0 10px">Free Trial समाप्त भयो</h2><p id="facultyMembershipNoticeText" style="line-height:1.65;margin:0 0 18px">नमस्ते! तपाईंको ७ दिनको Free Trial समाप्त भएको छ। Faculty पढ्न Premium Membership आवश्यक छ।</p><button id="facultyMembershipPlansButton" type="button" class="primary" style="width:100%;margin-bottom:10px">Premium Plans हेर्नुहोस्</button><button id="facultyMembershipCloseButton" type="button" class="secondary" style="width:100%">पछि हेर्छु</button></div>';
+   notice.innerHTML='<div style="width:min(100%,460px);background:var(--card,#fff);color:var(--text,#0f172a);border-radius:20px;padding:24px;box-shadow:0 20px 70px rgba(0,0,0,.35);text-align:center"><div style="font-size:38px" aria-hidden="true">👑</div><h2 id="facultyMembershipNoticeTitle" style="margin:8px 0 10px">Free Trial समाप्त भयो</h2><p id="facultyMembershipNoticeText" style="line-height:1.65;margin:0 0 18px">नमस्ते! तपाईंको ७ दिनको Free Trial समाप्त भएको छ। Faculty पढ्न Premium Membership आवश्यक छ।</p><button id="facultyMembershipPlansButton" type="button" class="primary" style="width:100%;margin-bottom:10px">Premium Plans / Trial विकल्प</button><button id="facultyMembershipCloseButton" type="button" class="secondary" style="width:100%">पछि हेर्छु</button></div>';
    document.body.appendChild(notice);
    notice.querySelector("#facultyMembershipPlansButton").addEventListener("click",()=>{
     notice.remove();
     panel?.classList.remove("hidden");
     panel?.scrollIntoView({behavior:"smooth",block:"start"});
-    document.getElementById("membershipPlanGrid")?.scrollIntoView({behavior:"smooth",block:"center"});
+    if(reason==="no_membership"){
+     document.getElementById("trialConsentBox")?.scrollIntoView({behavior:"smooth",block:"center"});
+    }else{
+     document.getElementById("membershipPlanGrid")?.scrollIntoView({behavior:"smooth",block:"center"});
+    }
    });
    notice.querySelector("#facultyMembershipCloseButton").addEventListener("click",()=>notice.remove());
   }
-  notice.querySelector("#facultyMembershipNoticeTitle").textContent=expired?"Free Trial समाप्त भयो":"Membership जाँच आवश्यक";
+  notice.querySelector("#facultyMembershipNoticeTitle").textContent=expired?"Free Trial समाप्त भयो":noMembership?"Free Trial सुरु गर्नुहोस्":"Membership जाँच आवश्यक";
   notice.querySelector("#facultyMembershipNoticeText").textContent=expired
    ?"नमस्ते! तपाईंको ७ दिनको Free Trial समाप्त भएको छ। Faculty र अध्ययन सामग्री खोल्न Premium Membership लिनुहोस्।"
-   :"नमस्ते! Membership जाँच हुन सकेन। Internet जाँचेर फेरि प्रयास गर्नुहोस्। सुरक्षा कारणले Faculty अहिले बन्द छ।";
+   :noMembership
+    ?"नमस्ते! Trial सुरु गर्न सहमति दिएर ७ दिनको Free Trial सुरु गर्न सक्नुहुन्छ, वा Premium Plan छानेर Payment गर्नुहोस्।"
+    :"नमस्ते! Membership जाँच हुन सकेन। Internet जाँचेर फेरि प्रयास गर्नुहोस्। सुरक्षा कारणले Faculty अहिले बन्द छ।";
   notice.style.display="flex";
  }
  function loadOne(src){
