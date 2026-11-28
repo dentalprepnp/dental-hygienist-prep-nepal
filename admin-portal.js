@@ -24,15 +24,16 @@ async function verifyAdmin(user){
 async function loadDashboard(){
  $("dashboardStatus").textContent="तथ्याङ्क लोड हुँदैछ...";
  try{
-  const [students,events,progress,feedback,payments]=await Promise.all([
+  const [students,events,progress,feedback,payments,memberships]=await Promise.all([
    supabase.from("admin_student_directory").select("user_id,email,display_name,phone,created_at",{count:"exact"}).order("created_at",{ascending:false}).limit(500),
    supabase.from("app_events").select("session_id,user_id,event_type,faculty,details,created_at").order("created_at",{ascending:false}).limit(2000),
    supabase.from("user_progress").select("user_id,progress_key,progress_data,updated_at").order("updated_at",{ascending:false}).limit(3000),
    supabase.from("student_feedback").select("id,user_id,category,message,status,admin_reply,replied_at,created_at").order("created_at",{ascending:false}).limit(500),
-   supabase.from("manual_payment_requests").select("id,user_id,plan_code,amount_paisa,transaction_reference,payer_name,payer_phone,status,admin_note,created_at").order("created_at",{ascending:false}).limit(500)
+   supabase.from("manual_payment_requests").select("id,user_id,plan_code,amount_paisa,transaction_reference,payer_name,payer_phone,status,admin_note,created_at").order("created_at",{ascending:false}).limit(500),
+   supabase.from("memberships").select("user_id,membership_type,status,trial_started_at,trial_ends_at,paid_started_at,paid_until,created_at,updated_at").order("created_at",{ascending:false}).limit(1000)
   ]);
-  const failure=students.error||events.error||progress.error||feedback.error||payments.error;if(failure)throw failure;
-  const s=students.data||[],e=events.data||[],p=progress.data||[],byId=new Map(s.map(x=>[x.user_id,x]));
+  const failure=students.error||events.error||progress.error||feedback.error||payments.error||memberships.error;if(failure)throw failure;
+  const s=students.data||[],e=events.data||[],p=progress.data||[],m=memberships.data||[],byId=new Map(s.map(x=>[x.user_id,x]));
   const today=new Date();today.setHours(0,0,0,0);
   $("totalStudents").textContent=students.count??s.length;
   $("activeToday").textContent=new Set(e.filter(x=>new Date(x.created_at)>=today).map(x=>x.session_id)).size;
@@ -40,6 +41,22 @@ async function loadDashboard(){
   $("mockCount").textContent=e.filter(x=>x.event_type==="mock_completed").length;
   $("progressCount").textContent=p.length;
   $("studentRows").innerHTML=s.map(x=>'<tr><td>'+esc(x.display_name||"—")+'</td><td>'+esc(x.email)+'</td><td>'+esc(x.phone||"—")+'</td><td>'+date(x.created_at)+'</td></tr>').join("")||'<tr><td colspan="4">विद्यार्थी Account छैन।</td></tr>';
+  const now=Date.now();let trialActive=0,trialExpired=0,premiumActive=0;
+  const membershipRows=m.map(x=>{
+   const st=byId.get(x.user_id)||{};
+   const trialEnd=x.trial_ends_at?new Date(x.trial_ends_at).getTime():0;
+   const paidEnd=x.paid_until?new Date(x.paid_until).getTime():0;
+   const isTrial=x.membership_type==="trial"&&trialEnd>now;
+   const isTrialExpired=!!x.trial_ends_at&&trialEnd<=now&&x.membership_type!=="premium";
+   const isPremium=x.membership_type==="premium"&&x.status==="active"&&(!x.paid_until||paidEnd>now);
+   if(isTrial)trialActive++;if(isTrialExpired)trialExpired++;if(isPremium)premiumActive++;
+   const state=isPremium?"Premium सक्रिय":isTrial?"Trial सक्रिय":isTrialExpired?"Trial समाप्त":x.status==="cancelled"?"रद्द":"Expired / अन्य";
+   const type=x.membership_type==="premium"?"Premium":"Free Trial";
+   return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+type+'</td><td>'+date(x.trial_started_at)+'</td><td>'+date(x.trial_ends_at)+'</td><td>'+date(x.paid_until)+'</td><td>'+state+'</td></tr>';
+  }).join("");
+  $("trialActiveCount").textContent=trialActive;$("trialExpiredCount").textContent=trialExpired;$("premiumActiveCount").textContent=premiumActive;$("membershipRecordCount").textContent=m.length;
+  $("membershipRows").innerHTML=membershipRows||'<tr><td colspan="7">Membership रेकर्ड छैन।</td></tr>';
+  $("membershipAdminStatus").textContent="अन्तिम अपडेट: "+date(new Date())+" • "+m.length+" membership records देखाइयो (अधिकतम १,०००)";
   $("progressRows").innerHTML=p.map(x=>{const st=byId.get(x.user_id)||{};return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+esc(progressLabel(x.progress_key))+'</td><td>'+esc(progressSummary(x.progress_key,x.progress_data))+'</td><td>'+date(x.updated_at)+'</td></tr>';}).join("")||'<tr><td colspan="5">Cloud Progress Sync भएको छैन।</td></tr>';
   const counts={};e.forEach(x=>counts[x.faculty||"अन्य"]=(counts[x.faculty||"अन्य"]||0)+1);
   $("facultyStats").innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<p><b>'+esc(k)+'</b> — '+v+' गतिविधि</p>').join("")||"अहिलेसम्म गतिविधि छैन।";
