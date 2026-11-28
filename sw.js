@@ -1,10 +1,10 @@
 /* Lightweight PWA cache: precache the app shell; fetch scripts/styles fresh first,
    with cached copies as an offline fallback. */
-const CACHE="hl-preparation-v666-hide-top-back";
+const CACHE="hl-preparation-v667-membership-lock";
 const ASSETS=[
  "./","./index.html","./study-guide.js?v=3","./feedback.js?v=3",
  "./about.html","./privacy.html","./styles.css?v=304","./app.js?v=211","./auth.js?v=12",
- "./membership.js?v=2","./assets/qr-payment.png","./progress-sync.js?v=4","./admin-dashboard.js?v=6","./student-help.js?v=1","./weekly-live-exam.js?v=1","./admin-exams.js?v=5",
+ "./membership.js?v=3","./assets/qr-payment.png","./progress-sync.js?v=4","./admin-dashboard.js?v=6","./student-help.js?v=1","./weekly-live-exam.js?v=1","./admin-exams.js?v=5",
  "./manifest.webmanifest","./icon.svg"
 ];
 self.addEventListener("install",event=>event.waitUntil((async()=>{
