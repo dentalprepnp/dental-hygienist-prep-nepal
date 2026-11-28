@@ -68,3 +68,39 @@ Do not assume all current modules share one JSON schema. Each importer must map 
 ## Safety status
 
 This is an inventory and implementation plan, not an executable migration. It contains no guessed live database column names or blanket permission changes. No SQL from this document should be run.
+
+
+## First-faculty deep audit: Dental Hygiene / NHPC
+
+Reviewed `nhpc.js` and its lazy-loading path in `index.html` on the draft branch.
+
+### Confirmed source structure
+
+- `nhpc.js` is approximately 328 KB / 455 lines and is loaded lazily for the Dental Hygiene faculty.
+- The source contains 529 static question records identified by the `"q":[` record pattern. This is the source-record count before runtime deduplication, topic remapping, and MCQ/mock pool splitting; it is **not** a verified final student-visible question count.
+- Question records have a `topic` and a `q` tuple: English stem, Nepali translation, four options, correct-answer index, English explanation, Nepali explanation, and in some cases an optional clinical example.
+- The runtime transforms the original and expanded banks, removes duplicate stems, maps topics to the current NHPC syllabus blueprint, and divides the resulting bank into separate MCQ and mock pools. These transformations must be preserved by the exporter or reproduced deterministically.
+- The module also contains 14 static bilingual notes topic groups. Notes use four fields per note: heading, English explanation, Nepali explanation, and exam-focus point.
+- Mock tests include subject blueprint selection, 100-question sets, answer review, progress reporting, and a resume feature.
+- The resume feature currently stores the selected question objects (including answers and explanations) in browser `localStorage`. That must be redesigned or removed during migration; otherwise previously opened protected content can remain on the device after membership expiry.
+- The faculty module is lazy-loaded as `nhpc.js?v=225` from `index.html`; this public JavaScript currently contains the question bank and notes.
+
+### Security and migration blockers
+
+1. The client-side membership gate in `membership.js` / `index.html` checks whether a student may open a faculty, but does not prevent downloading the static content file itself.
+2. A protected-content endpoint must check the authenticated user's current trial/premium expiry on the server for every content request. A client-side `HLPCheckMembershipAccess` result must not be treated as authorization for a content query.
+3. The existing `learning_content` setup SQL currently allows authenticated users to select published rows with `access_tier = 'free'` directly, and its `get_learning_content` RPC filters only for free-tier content. This is not sufficient for a rule that requires an active trial or premium membership for all faculty content.
+4. Do not migrate or change policies until the live Supabase table definition, grants, RLS policies, membership function signatures, and existing NHPC-related rows have been inspected read-only.
+5. The export must preserve exact option ordering and correct-answer indices, English/Nepali explanations, topic mapping, optional clinical examples, notes ordering, and the MCQ/mock blueprint split.
+6. After server delivery is verified, remove the source bank and notes from the public JavaScript bundle, remove question payloads from local resume storage, and ensure service-worker/browser caches do not retain protected content.
+
+### Safe next implementation sequence
+
+1. Inspect live Supabase schema, policies, grants, membership RPCs, and any existing NHPC content rows using read-only queries.
+2. Build a deterministic NHPC export/validation script from the **final runtime bank after transformations**, not from a rough regex extraction. Record per-topic, total, MCQ, mock, and notes counts.
+3. Compare the export against the current browser module using representative questions from every topic and validate all answer indices and bilingual fields.
+4. Prepare an NHPC-only protected RPC and importer only after the actual live schema and authorization logic are confirmed.
+5. Switch only the NHPC loader to server-delivered content, test all membership states, then remove the static payload from `nhpc.js`.
+6. Keep all changes in the draft PR until the complete test matrix passes and the user explicitly approves release.
+
+No SQL was run, no Supabase data was changed, and no live app code was deployed during this audit.
