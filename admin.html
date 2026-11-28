@@ -31,6 +31,7 @@ body{background:#f1f5f9}.portal-wrap{max-width:1100px;margin:28px auto;padding:0
 <div class="portal-stat"><small>पूरा भएका Mock Test</small><strong id="mockCount">—</strong></div>
 <div class="portal-stat"><small>Cloud Progress Records</small><strong id="progressCount">—</strong></div>
 </div><p id="dashboardStatus" class="portal-muted">तथ्याङ्क लोड हुँदैछ...</p></div>
+<div class="portal-card"><h2>🟢 अहिले पढिरहेका विद्यार्थी (अनुमानित Live)</h2><p id="liveStudyStatus" class="portal-muted">Login भएका विद्यार्थीले App foreground मा राखेर Internet जोडिएको बेला पछिल्लो ६ मिनेटभित्र heartbeat पठाएका छन् भने यहाँ देखिन्छन्।</p><div class="portal-grid" style="margin-bottom:12px"><div class="portal-stat"><small>अहिले Active</small><strong id="liveStudyCount">—</strong></div></div><div class="portal-table-wrap"><table><thead><tr><th>विद्यार्थीको नाम</th><th>Gmail / Email</th><th>Contact Number</th><th>Faculty / Page</th><th>Last Heartbeat</th></tr></thead><tbody id="liveStudyRows"><tr><td colspan="5">Login गरेपछि लोड हुन्छ...</td></tr></tbody></table></div></div>
 <div class="portal-card"><h2>विद्यार्थी Accounts</h2><div class="portal-table-wrap"><table><thead><tr><th>नाम</th><th>Email</th><th>मोबाइल</th><th>दर्ता मिति</th></tr></thead><tbody id="studentRows"></tbody></table></div></div>
 <div class="portal-card"><h2>⏳ ७ दिनको Free Trial / Membership विवरण</h2><p class="portal-muted">Trial सुरु र समाप्त मिति, अहिलेको अवस्था, Premium म्याद र expired Trial भएका विद्यार्थीहरू। विवरण Refresh गर्दा अद्यावधिक हुन्छ।</p><div class="portal-grid" style="margin-bottom:12px"><div class="portal-stat"><small>Trial सक्रिय</small><strong id="trialActiveCount">—</strong></div><div class="portal-stat"><small>Trial समाप्त</small><strong id="trialExpiredCount">—</strong></div><div class="portal-stat"><small>Premium सक्रिय</small><strong id="premiumActiveCount">—</strong></div><div class="portal-stat"><small>Membership Records</small><strong id="membershipRecordCount">—</strong></div></div><p id="membershipAdminStatus" class="portal-muted">Membership विवरण लोड हुँदैछ...</p><div class="portal-table-wrap"><table><thead><tr><th>विद्यार्थी</th><th>Email</th><th>Membership</th><th>Trial सुरु</th><th>Trial समाप्त</th><th>Premium समाप्त</th><th>स्थिति</th></tr></thead><tbody id="membershipRows"><tr><td colspan="7">लोड हुँदैछ...</td></tr></tbody></table></div></div>
 <div class="portal-card"><h2>विद्यार्थीहरूको पढाइ Progress</h2><div class="portal-table-wrap"><table><thead><tr><th>विद्यार्थी</th><th>Email</th><th>Progress प्रकार</th><th>विवरण</th><th>अन्तिम Sync</th></tr></thead><tbody id="progressRows"></tbody></table></div></div>
@@ -59,6 +60,6 @@ body{background:#f1f5f9}.portal-wrap{max-width:1100px;margin:28px auto;padding:0
 </div>
 </section>
 </main>
-<script type="module" src="admin-portal.js?v=5"></script>
+<script type="module" src="admin-portal.js?v=6"></script>
 <script type="module" src="admin-exams.js?v=5"></script>
 </body></html>

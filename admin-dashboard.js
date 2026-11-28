@@ -22,6 +22,14 @@ function progressSummary(key,data){
 }
 function currentFaculty(){const v=[...document.querySelectorAll(".view:not(.hidden)")].find(x=>x.id!=="homeView");return v?.id?.replace(/View$/,"")||"home"}
 async function track(eventType,faculty=currentFaculty(),details={}){try{await supabase.from("app_events").insert({session_id:sessionId,user_id:user?.id||null,event_type:eventType,faculty,details})}catch(e){console.warn("Analytics event not saved",e.message)}}
+let lastHeartbeatAt=0;
+async function sendStudyHeartbeat(){
+ if(!user?.id||document.visibilityState!=="visible"||!navigator.onLine)return;
+ const now=Date.now();if(now-lastHeartbeatAt<60000)return;lastHeartbeatAt=now;
+ await track("study_heartbeat",currentFaculty(),{visible:true,section:document.querySelector(".view:not(.hidden)")?.id||"homeView"});
+}
+window.setInterval(sendStudyHeartbeat,90000);
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")sendStudyHeartbeat()});
 async function refreshAccess(){
  // Hide privileged UI first; reveal it only after the server confirms admin membership.
  isAdmin=false;user=null;
@@ -95,7 +103,7 @@ document.addEventListener("click",e=>{
  else if(b.matches("[data-topic],[data-mcq-topic]")&&b.closest(".view"))track("topic_activity",currentFaculty(),{topic:b.dataset.topic||b.dataset.mcqTopic||""});
 },true);
 window.addEventListener("dhpn:mock-history-updated",()=>{const rows=JSON.parse(localStorage.getItem("dhpn-mock-history")||"[]");const r=rows.at(-1);if(r)track("mock_completed",currentFaculty(),{module:r.module,score:r.score,total:r.total,percent:r.percent})});
-window.addEventListener("dhpn-auth-changed",refreshAccess);
-supabase.auth.onAuthStateChange(()=>setTimeout(refreshAccess,0));
-refreshAccess();
+window.addEventListener("dhpn-auth-changed",()=>{refreshAccess().then(sendStudyHeartbeat)});
+supabase.auth.onAuthStateChange(()=>setTimeout(()=>refreshAccess().then(sendStudyHeartbeat),0));
+refreshAccess().then(sendStudyHeartbeat);
 track("app_visit");

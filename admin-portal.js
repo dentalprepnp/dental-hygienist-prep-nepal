@@ -24,22 +24,28 @@ async function verifyAdmin(user){
 async function loadDashboard(){
  $("dashboardStatus").textContent="तथ्याङ्क लोड हुँदैछ...";
  try{
-  const [students,events,progress,feedback,payments,memberships]=await Promise.all([
+  const [students,events,progress,feedback,payments,memberships,heartbeats]=await Promise.all([
    supabase.from("admin_student_directory").select("user_id,email,display_name,phone,created_at",{count:"exact"}).order("created_at",{ascending:false}).limit(500),
    supabase.from("app_events").select("session_id,user_id,event_type,faculty,details,created_at").order("created_at",{ascending:false}).limit(2000),
    supabase.from("user_progress").select("user_id,progress_key,progress_data,updated_at").order("updated_at",{ascending:false}).limit(3000),
    supabase.from("student_feedback").select("id,user_id,category,message,status,admin_reply,replied_at,created_at").order("created_at",{ascending:false}).limit(500),
    supabase.from("manual_payment_requests").select("id,user_id,plan_code,amount_paisa,transaction_reference,payer_name,payer_phone,status,admin_note,created_at").order("created_at",{ascending:false}).limit(500),
-   supabase.from("memberships").select("user_id,membership_type,status,trial_started_at,trial_ends_at,paid_started_at,paid_until,created_at,updated_at").order("created_at",{ascending:false}).limit(1000)
+   supabase.from("memberships").select("user_id,membership_type,status,trial_started_at,trial_ends_at,paid_started_at,paid_until,created_at,updated_at").order("created_at",{ascending:false}).limit(1000),
+   supabase.from("app_events").select("user_id,faculty,details,created_at").eq("event_type","study_heartbeat").gte("created_at",new Date(Date.now()-6*60*1000).toISOString()).order("created_at",{ascending:false}).limit(500)
   ]);
   const failure=students.error||events.error||progress.error||feedback.error||payments.error;if(failure)throw failure;
-  const s=students.data||[],e=events.data||[],p=progress.data||[],m=memberships.data||[],byId=new Map(s.map(x=>[x.user_id,x]));
+  const s=students.data||[],e=events.data||[],p=progress.data||[],m=memberships.data||[],hb=heartbeats.data||[],byId=new Map(s.map(x=>[x.user_id,x]));
   const today=new Date();today.setHours(0,0,0,0);
   $("totalStudents").textContent=students.count??s.length;
   $("activeToday").textContent=new Set(e.filter(x=>new Date(x.created_at)>=today).map(x=>x.session_id)).size;
   $("activeAll").textContent=new Set(e.map(x=>x.session_id)).size;
   $("mockCount").textContent=e.filter(x=>x.event_type==="mock_completed").length;
   $("progressCount").textContent=p.length;
+  const onlineByUser=new Map();hb.filter(x=>x.user_id).forEach(x=>{const prev=onlineByUser.get(x.user_id);if(!prev||new Date(x.created_at)>new Date(prev.created_at))onlineByUser.set(x.user_id,x);});
+  const liveRows=[...onlineByUser.values()].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  $("liveStudyCount").textContent=liveRows.length;
+  $("liveStudyRows").innerHTML=liveRows.map(x=>{const st=byId.get(x.user_id)||{};const d=x.details&&typeof x.details==="object"?x.details:{};return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+esc(st.phone||"—")+'</td><td>'+esc(x.faculty||"—")+'</td><td>'+date(x.created_at)+'</td></tr>';}).join("")||'<tr><td colspan="5">अहिले पढिरहेको activity छैन। विद्यार्थीले App खुला राखेर Internet जोडिएको हुनुपर्छ।</td></tr>';
+  $("liveStudyStatus").textContent=heartbeats.error?"Live activity data पढ्न सकेन। App Events को admin read policy जाँच्नुहोस्।":"पछिल्लो ६ मिनेटमा heartbeat पठाएका Login विद्यार्थीहरू; App foreground मा हुँदा heartbeat करिब ९० सेकेन्डमा पठाइन्छ।";
   $("studentRows").innerHTML=s.map(x=>'<tr><td>'+esc(x.display_name||"—")+'</td><td>'+esc(x.email)+'</td><td>'+esc(x.phone||"—")+'</td><td>'+date(x.created_at)+'</td></tr>').join("")||'<tr><td colspan="4">विद्यार्थी Account छैन।</td></tr>';
   const now=Date.now();let trialActive=0,trialExpired=0,premiumActive=0;
   const membershipRows=m.map(x=>{
@@ -121,5 +127,6 @@ $("paymentRequestRows").addEventListener("click",async event=>{
 });
 $("feedbackRows").addEventListener("click",async event=>{const button=event.target.closest("[data-feedback-save]");if(!button)return;const id=button.dataset.feedbackSave;const row=button.closest("tr");const statusValue=row.querySelector("[data-feedback-status]").value;const reply=row.querySelector("[data-feedback-reply]").value.trim();button.disabled=true;button.textContent="सुरक्षित हुँदैछ...";try{const {error}=await supabase.from("student_feedback").update({status:statusValue,admin_reply:reply,replied_at:reply?new Date().toISOString():null}).eq("id",id);if(error)throw error;await loadDashboard();say("विद्यार्थीलाई जवाफ सुरक्षित भयो।");}catch(error){console.error(error);say("जवाफ सुरक्षित भएन: "+error.message);}finally{button.disabled=false;button.textContent="स्थिति र जवाफ सुरक्षित गर्नुहोस्";}});
 $("portalRefresh").addEventListener("click",loadDashboard);
+window.setInterval(()=>{if(adminUser&&!dashboard.classList.contains("hidden"))loadDashboard();},60000);
 $("portalLogout").addEventListener("click",async()=>{await supabase.auth.signOut();adminUser=null;dashboard.classList.add("hidden");loginCard.classList.remove("hidden");$("adminPassword").value="";say("Logout हुनुभयो।");});
 (async()=>{try{const {data,error}=await supabase.auth.getSession();if(error)throw error;if(data.session?.user)await verifyAdmin(data.session.user);}catch(error){console.warn("Existing portal session not authorized",error.message);await supabase.auth.signOut();say("Admin Login गर्नुहोस्।");}})();
