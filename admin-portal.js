@@ -41,6 +41,25 @@ async function loadDashboard(){
   $("mockCount").textContent=e.filter(x=>x.event_type==="mock_completed").length;
   $("progressCount").textContent=p.length;
   $("studentRows").innerHTML=s.map(x=>'<tr><td>'+esc(x.display_name||"—")+'</td><td>'+esc(x.email)+'</td><td>'+esc(x.phone||"—")+'</td><td>'+date(x.created_at)+'</td></tr>').join("")||'<tr><td colspan="4">विद्यार्थी Account छैन।</td></tr>';
+  // Show authenticated students with recent study activity (last 24 hours), deduplicated by account.
+  const activeCutoff=Date.now()-24*60*60*1000;
+  const activeByUser=new Map();
+  e.filter(x=>x.user_id&&new Date(x.created_at).getTime()>=activeCutoff).forEach(x=>{
+   const previous=activeByUser.get(x.user_id);
+   if(!previous||new Date(x.created_at)>new Date(previous.last))activeByUser.set(x.user_id,{user_id:x.user_id,last:x.created_at});
+  });
+  const activeMembershipById=new Map(m.map(x=>[x.user_id,x]));
+  const activeStudents=[...activeByUser.values()].sort((a,b)=>new Date(b.last)-new Date(a.last));
+  $("activeRecentCount").textContent=activeStudents.length;
+  $("activeStudentRows").innerHTML=activeStudents.map(x=>{
+   const st=byId.get(x.user_id)||{},mem=activeMembershipById.get(x.user_id);
+   const trialEnd=mem?.trial_ends_at?new Date(mem.trial_ends_at).getTime():0;
+   const paidEnd=mem?.paid_until?new Date(mem.paid_until).getTime():0;
+   const isPremium=mem?.membership_type==="premium"&&mem.status==="active"&&(!mem.paid_until||paidEnd>Date.now());
+   const isTrial=mem?.membership_type==="trial"&&trialEnd>Date.now();
+   const membershipState=isPremium?"Premium सक्रिय":isTrial?"Trial सक्रिय":mem?.trial_ends_at&&trialEnd<=Date.now()?"Trial समाप्त":mem?"Expired / अन्य":"Membership छैन";
+   return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"—")+'</td><td>'+esc(st.phone||"—")+'</td><td>'+membershipState+'</td><td>'+date(x.last)+'</td></tr>';
+  }).join("")||'<tr><td colspan="5">पछिल्लो २४ घण्टामा Login भएका विद्यार्थीको गतिविधि छैन।</td></tr>';
   const now=Date.now();let trialActive=0,trialExpired=0,premiumActive=0;
   const membershipRows=m.map(x=>{
    const st=byId.get(x.user_id)||{};
