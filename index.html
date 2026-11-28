@@ -693,6 +693,31 @@
    document.getElementById("accountEmail")?.focus({preventScroll:true});
    return;
   }
+  /* Require a fresh server-side membership check before any faculty/content opens. */
+  const membershipCheck=window.HLPCheckMembershipAccess;
+  if(typeof membershipCheck!=="function"){
+   const panel=document.getElementById("membershipPanel");
+   panel?.classList.remove("hidden");
+   const status=document.getElementById("membershipStatus");
+   if(status){status.textContent="नमस्ते! Membership जाँच लोड हुन सकेन। Internet जाँचेर फेरि प्रयास गर्नुहोस्। सुरक्षा कारणले पढाइ अहिले बन्द छ।";status.dataset.kind="warning";}
+   panel?.scrollIntoView({behavior:"smooth",block:"start"});
+   return;
+  }
+  let membershipResult;
+  try{membershipResult=await membershipCheck();}catch(error){membershipResult={allowed:false,reason:"check_failed"};}
+  if(!membershipResult?.allowed){
+   const panel=document.getElementById("membershipPanel");
+   panel?.classList.remove("hidden");
+   const status=document.getElementById("membershipStatus");
+   if(status){
+    status.textContent=membershipResult?.reason==="check_failed"
+      ?"नमस्ते! Membership जाँच हुन सकेन। Internet जाँचेर फेरि प्रयास गर्नुहोस्। सुरक्षा कारणले पढाइ बन्द छ।"
+      :"नमस्ते! तपाईंको Free Trial समाप्त भएको छ। Premium Membership लिएपछि मात्र सबै Faculty र सामग्री पढ्न सक्नुहुन्छ।";
+    status.dataset.kind="warning";
+   }
+   panel?.scrollIntoView({behavior:"smooth",block:"start"});
+   return;
+  }
   const ok=await loadDestination(key);
   if(!ok)return;
   target.dataset.hlpLazyReady="1";
@@ -822,7 +847,7 @@
 })();
 </script>
 <script src="app.js?v=211"></script>
-<script type="module" src="auth.js?v=12"></script>\n<script type="module" src="membership.js?v=2"></script>
+<script type="module" src="auth.js?v=12"></script>\n<script type="module" src="membership.js?v=3"></script>
 <script type="module" src="progress-sync.js?v=4"></script>
 <script type="module" src="admin-dashboard.js?v=6"></script>
 <script type="module" src="feedback.js?v=3"></script>
