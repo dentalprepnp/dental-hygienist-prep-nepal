@@ -30,3 +30,14 @@ Then explain the trial expiry and Premium requirement politely. Apply this greet
 ## Required validation
 
 Test at least: anonymous, active Trial, expired Trial, active Premium, expired Premium, cancelled, and no-membership accounts. Test every faculty, RPC errors, offline state, and direct table access. Confirm the expired Trial account cannot open content through any navigation route, direct URL, cached page, or bundled JavaScript path.
+
+
+## Faculty-click and payment gate — owner-confirmed
+
+- A student whose 7-day Trial has expired must not be able to enter any faculty or subject study screen.
+- Clicking a faculty/subject while membership is blocked must keep the student on the library/membership screen and show the Premium purchase notice; do not render notes, MCQs, mock questions, or bundled content behind the notice.
+- Premium access begins only after the payment is verified and the membership is activated by the trusted payment/admin workflow. A submitted payment request or screenshot alone must not unlock content.
+- After Premium activation, the student may open all entitled faculties and continue from the saved position. Do not reset or delete learning progress, bookmarks, mock results, or wrong-answer history.
+- Enforce this at the content/navigation layer and in the server RPC; hiding cards or showing a client-only banner is not sufficient.
+- Fail closed if membership status cannot be loaded. No local fallback to restricted content on RPC/network errors.
+- This behavior must be tested on the installed PWA/device and a fresh browser session after deployment; cached service-worker assets must not retain an unrestricted route.
