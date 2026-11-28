@@ -32,7 +32,7 @@ async function loadDashboard(){
    supabase.from("manual_payment_requests").select("id,user_id,plan_code,amount_paisa,transaction_reference,payer_name,payer_phone,status,admin_note,created_at").order("created_at",{ascending:false}).limit(500),
    supabase.from("memberships").select("user_id,membership_type,status,trial_started_at,trial_ends_at,paid_started_at,paid_until,created_at,updated_at").order("created_at",{ascending:false}).limit(1000)
   ]);
-  const failure=students.error||events.error||progress.error||feedback.error||payments.error||memberships.error;if(failure)throw failure;
+  const failure=students.error||events.error||progress.error||feedback.error||payments.error;if(failure)throw failure;
   const s=students.data||[],e=events.data||[],p=progress.data||[],m=memberships.data||[],byId=new Map(s.map(x=>[x.user_id,x]));
   const today=new Date();today.setHours(0,0,0,0);
   $("totalStudents").textContent=students.count??s.length;
@@ -56,7 +56,7 @@ async function loadDashboard(){
   }).join("");
   $("trialActiveCount").textContent=trialActive;$("trialExpiredCount").textContent=trialExpired;$("premiumActiveCount").textContent=premiumActive;$("membershipRecordCount").textContent=m.length;
   $("membershipRows").innerHTML=membershipRows||'<tr><td colspan="7">Membership रेकर्ड छैन।</td></tr>';
-  $("membershipAdminStatus").textContent="अन्तिम अपडेट: "+date(new Date())+" • "+m.length+" membership records देखाइयो (अधिकतम १,०००)";
+  $("membershipAdminStatus").textContent=memberships.error?"Membership सूचीका लागि admin read policy चाहिन्छ। supabase/admin-membership-read.sql SQL Editor मा चलाउनुहोस्।":"अन्तिम अपडेट: "+date(new Date())+" • "+m.length+" membership records देखाइयो (अधिकतम १,०००)";
   $("progressRows").innerHTML=p.map(x=>{const st=byId.get(x.user_id)||{};return '<tr><td>'+esc(st.display_name||"नाम उपलब्ध छैन")+'</td><td>'+esc(st.email||"")+'</td><td>'+esc(progressLabel(x.progress_key))+'</td><td>'+esc(progressSummary(x.progress_key,x.progress_data))+'</td><td>'+date(x.updated_at)+'</td></tr>';}).join("")||'<tr><td colspan="5">Cloud Progress Sync भएको छैन।</td></tr>';
   const counts={};e.forEach(x=>counts[x.faculty||"अन्य"]=(counts[x.faculty||"अन्य"]||0)+1);
   $("facultyStats").innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<p><b>'+esc(k)+'</b> — '+v+' गतिविधि</p>').join("")||"अहिलेसम्म गतिविधि छैन।";
