@@ -45,7 +45,7 @@
       </div>
       <small>सुरुमा ७ दिनको Free Trial पनि उपलब्ध छ। Trial सुरु गर्न Email Verify र आफ्नो सहमति आवश्यक हुन्छ।</small>
       <div class="premium-notice-actions">
-        <button type="button" id="premiumNoticeView" class="primary">View Premium Plans</button>
+        <button type="button" id="premiumNoticeView" class="primary">Payment System मा जानुहोस्</button>
         <button type="button" id="premiumNoticeDismiss" class="secondary">पछि हेर्छु</button>
       </div>
     </div>
@@ -1009,7 +1009,7 @@
  function key(){return "hlp_premium_notice_dismissed_"+(window.HLPAuthUser?.id||"this_device");}
  function refresh(){card.classList.toggle("hidden",localStorage.getItem(key())===today()||document.body.classList.contains("study-screen-open"));}
  document.getElementById("premiumNoticeDismiss")?.addEventListener("click",()=>{localStorage.setItem(key(),today());card.classList.add("hidden");});
- document.getElementById("premiumNoticeView")?.addEventListener("click",()=>document.getElementById("membershipPanel")?.scrollIntoView({behavior:"smooth",block:"start"}));
+ document.getElementById("premiumNoticeView")?.addEventListener("click",()=>{const panel=document.getElementById("membershipPanel");const plans=document.getElementById("membershipPlanGrid");if(panel)panel.scrollIntoView({behavior:"smooth",block:"start"});if(plans)setTimeout(()=>plans.scrollIntoView({behavior:"smooth",block:"center"}),350);});
  window.addEventListener("dhpn-auth-changed",refresh);window.addEventListener("pageshow",refresh);
  new MutationObserver(refresh).observe(document.body,{attributes:true,attributeFilter:["class"]});refresh();
 })();
